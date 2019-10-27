@@ -61,6 +61,7 @@ public class Search_Other_Users_Activity extends AppCompatActivity {
                 R.layout.search_other_users_list_layout,
                 UsersViewHolder.class,
                 mUserDatabase
+                //yeah
 
         ) {
             @Override
