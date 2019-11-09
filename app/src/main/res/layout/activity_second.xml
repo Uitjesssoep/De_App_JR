@@ -38,4 +38,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAccountInfo"
         app:layout_constraintVertical_bias="0.19999999" />
+
+    <Button
+        android:id="@+id/upload_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload page"
+        tools:layout_editor_absoluteX="146dp"
+        tools:layout_editor_absoluteY="521dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
