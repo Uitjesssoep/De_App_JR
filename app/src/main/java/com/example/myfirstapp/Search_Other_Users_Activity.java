@@ -26,7 +26,7 @@ public class Search_Other_Users_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+ /*       super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search__other__users);
 
         SetupUI();
@@ -89,8 +89,9 @@ public class Search_Other_Users_Activity extends AppCompatActivity {
             super(itemView);
 
             mView = itemView;
-        }
+        }*/
     }
 
 
 }
+

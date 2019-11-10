@@ -43,7 +43,15 @@
         android:id="@+id/upload_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="147dp"
+        android:layout_marginLeft="147dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="147dp"
+        android:layout_marginRight="147dp"
+        android:layout_marginBottom="34dp"
         android:text="Upload page"
-        tools:layout_editor_absoluteX="146dp"
-        tools:layout_editor_absoluteY="521dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSearchUsersSA" />
 </androidx.constraintlayout.widget.ConstraintLayout>

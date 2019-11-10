@@ -68,10 +68,10 @@ public class SecondActivity extends AppCompatActivity {
                 startActivity(new Intent(SecondActivity.this, Search_Other_Users_Activity.class));
             }
         });
-        UploadPageButton.setOnClickListener(new View.OnClickListener() {
+       UploadPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(SecondActivity.this, Upload.class));
             }
         });
     }
