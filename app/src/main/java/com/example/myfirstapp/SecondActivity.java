@@ -53,7 +53,7 @@ public class SecondActivity extends AppCompatActivity {
     private void Checked(){
         SearchUsersButton = (Button)findViewById(R.id.btnSearchUsersSA);
         AccountInfoButton = (Button)findViewById(R.id.btnAccountInfo);
-        UploadPageButton = (Button)findViewById(R.id.button_upload);
+        UploadPageButton = (Button)findViewById(R.id.upload_page);
 
         AccountInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
