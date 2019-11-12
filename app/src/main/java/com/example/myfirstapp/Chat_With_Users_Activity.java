@@ -1,6 +1,7 @@
 package com.example.myfirstapp;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -67,6 +68,8 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         ChatInputText = (EditText)findViewById(R.id.etChatInput);
         Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
 
+
+        Conversation_Content.setMovementMethod(new ScrollingMovementMethod());
 
 
         firebaseAuth = FirebaseAuth.getInstance();

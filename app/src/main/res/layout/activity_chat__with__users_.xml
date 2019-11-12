@@ -39,6 +39,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
         android:gravity="bottom"
+        android:scrollbars = "vertical"
         android:hint="Your chat will be shown here!"
         app:layout_constraintBottom_toTopOf="@+id/btnSendMessageChat"
         app:layout_constraintEnd_toEndOf="parent"
