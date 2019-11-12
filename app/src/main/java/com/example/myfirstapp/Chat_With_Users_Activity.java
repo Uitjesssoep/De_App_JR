@@ -50,7 +50,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
     private String room_name, user_name;
     private String temp_key;
-    private String message;
+    private String message, messageNummeroTwee;
 
     private String MyUid;
     private FirebaseAuth firebaseAuth;
@@ -96,7 +96,9 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(message.isEmpty()){
+                messageNummeroTwee = ChatInputText.getText().toString();
+
+                if(messageNummeroTwee.isEmpty()){
                     Toast.makeText(Chat_With_Users_Activity.this, "Can't send an empty message", Toast.LENGTH_LONG).show();
                 }
 
