@@ -65,7 +65,7 @@ public class SecondActivity extends AppCompatActivity {
         SearchUsersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SecondActivity.this, Search_Other_Users_Activity.class));
+                startActivity(new Intent(SecondActivity.this, Chat_Room_MakeOrSearch_Activity.class));
             }
         });
        UploadPageButton.setOnClickListener(new View.OnClickListener() {
