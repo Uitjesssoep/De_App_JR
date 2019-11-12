@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -95,14 +96,19 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                    Map<String,Object> map = new HashMap<String, Object>();
+                if(message.isEmpty()){
+                    Toast.makeText(Chat_With_Users_Activity.this, "Can't send an empty message", Toast.LENGTH_LONG).show();
+                }
+
+                else {
+                    Map<String, Object> map = new HashMap<String, Object>();
                     temp_key = myDatabase.push().getKey();
                     myDatabase.updateChildren(map);
 
                     DatabaseReference message_root = myDatabase.child(temp_key);
-                    Map<String,Object> map2 = new HashMap<String, Object>();
-                    map2.put("name",user_name);
-                    map2.put("message",ChatInputText.getText().toString());
+                    Map<String, Object> map2 = new HashMap<String, Object>();
+                    map2.put("name", user_name);
+                    map2.put("message", ChatInputText.getText().toString());
 
                     message_root.updateChildren(map2);
 
@@ -120,7 +126,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             UserProfileToDatabase userName = dataSnapshot.getValue(UserProfileToDatabase.class);
 
-                            if(notify){
+                            if (notify) {
                                 senNotification(userName.getUserName(), message);
                             }
                             notify = false;
@@ -131,7 +137,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
                         }
                     });
-
+                }
             }
         });
 
