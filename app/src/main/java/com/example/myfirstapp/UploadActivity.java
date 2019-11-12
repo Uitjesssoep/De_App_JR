@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import static com.squareup.picasso.Picasso.*;
 
-public class Upload extends AppCompatActivity {
+public class UploadActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST=1;
 

@@ -71,7 +71,7 @@ public class SecondActivity extends AppCompatActivity {
        UploadPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SecondActivity.this, Upload.class));
+                startActivity(new Intent(SecondActivity.this, UploadActivity.class));
             }
         });
     }
