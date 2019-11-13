@@ -99,7 +99,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                 messageNummeroTwee = ChatInputText.getText().toString();
 
                 if(messageNummeroTwee.isEmpty()){
-                    Toast.makeText(Chat_With_Users_Activity.this, "Can't send an empty message", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Chat_With_Users_Activity.this, "Can't send an empty message", Toast.LENGTH_SHORT).show();
                 }
 
                 else {
