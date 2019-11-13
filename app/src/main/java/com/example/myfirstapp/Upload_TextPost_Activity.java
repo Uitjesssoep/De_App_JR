@@ -57,23 +57,6 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         PersonalTextPosts = FirebaseDatabase.getInstance().getReference("Personal_Text_Posts").child(MyUID);
 
         user_name_gebruiker = findViewById(R.id.tvUserNameHiddenDing);
-
-        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-                user_name_gebruiker.setText(userProfile.getUserName());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Upload_TextPost_Activity.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
     }
 
 
@@ -130,6 +113,23 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
     private void VCheckedDNotChecked(){
 
+        //DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
+
+        //databaseReference.addValueEventListener(new ValueEventListener() {
+        //    @Override
+        //    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        //        UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
+        //        user_name_gebruiker.setText(userProfile.getUserName());
+        //    }
+
+        //    @Override
+        //    public void onCancelled(@NonNull DatabaseError databaseError) {
+        //        Toast.makeText(Upload_TextPost_Activity.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
+        //    }
+        //});
+
+
+
         Map<String, Object> map = new HashMap<String, Object>();
         temp_key = GeneralTextPosts.push().getKey();
         GeneralTextPosts.updateChildren(map);
@@ -138,12 +138,11 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         Map<String, Object> map2 = new HashMap<String, Object>();
         map2.put("Title", TitleContent);
         map2.put("Content", TextContent);
-        map2.put("User_name", user_name_gebruiker);
+       //map2.put("User_name", user_name_gebruiker);
 
         textpost_root.updateChildren(map2);
 
         startActivity(new Intent(Upload_TextPost_Activity.this, SecondActivity.class));
-
     }
 
     private void VNotCheckedDChecked(){
