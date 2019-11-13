@@ -81,6 +81,7 @@ public class General_Feed_Activity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Intent intent = new Intent(getApplicationContext(), Text_Post_Viewing_Activity.class);
+                intent.putExtra("Key", ((TextView)view).getText().toString() );
                 startActivity(intent);
 
             }
