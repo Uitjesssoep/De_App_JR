@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SecondActivity extends AppCompatActivity {
 
 
-    private Button AccountInfoButton, SearchUsersButton, UploadPageButton;
+    private Button AccountInfoButton, SearchUsersButton, PostButton;
 
     private FirebaseAuth firebaseAuth;
 
@@ -53,7 +53,7 @@ public class SecondActivity extends AppCompatActivity {
     private void Checked(){
         SearchUsersButton = (Button)findViewById(R.id.btnSearchUsersSA);
         AccountInfoButton = (Button)findViewById(R.id.btnAccountInfo);
-        UploadPageButton = (Button)findViewById(R.id.upload_page);
+        PostButton = (Button)findViewById(R.id.upload_page);
 
         AccountInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,10 +68,10 @@ public class SecondActivity extends AppCompatActivity {
                 startActivity(new Intent(SecondActivity.this, Chat_Room_MakeOrSearch_Activity.class));
             }
         });
-       UploadPageButton.setOnClickListener(new View.OnClickListener() {
+       PostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(SecondActivity.this, UploadActivity.class));
+                startActivity(new Intent(SecondActivity.this, Choose_PostType_Activity.class));
             }
         });
     }

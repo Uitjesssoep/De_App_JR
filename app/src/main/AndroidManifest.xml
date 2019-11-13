@@ -11,6 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Upload_TextPost_Activity"></activity>
+        <activity android:name=".Choose_PostType_Activity" />
         <activity android:name=".UploadActivity" />
         <activity android:name=".Chat_Room_MakeOrSearch_Activity" />
         <activity android:name=".Chat_With_Users_Activity" />
@@ -33,7 +35,7 @@
 
         <service android:name=".Notifications.FirebaseMessaging">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING _EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING _EVENT" />
             </intent-filter>
         </service>
     </application>
