@@ -1,19 +1,25 @@
 package com.example.myfirstapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +36,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference GeneralTextPosts, PersonalTextPosts;
     private String MyUID, temp_key;
+    private TextView user_name_gebruiker;
 
 
     private void SetupUI() {
@@ -48,6 +55,24 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
         GeneralTextPosts = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
         PersonalTextPosts = FirebaseDatabase.getInstance().getReference("Personal_Text_Posts").child(MyUID);
+
+        user_name_gebruiker = findViewById(R.id.tvUserNameHiddenDing);
+
+        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
+                user_name_gebruiker.setText(userProfile.getUserName());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(Upload_TextPost_Activity.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
@@ -113,8 +138,11 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         Map<String, Object> map2 = new HashMap<String, Object>();
         map2.put("Title", TitleContent);
         map2.put("Content", TextContent);
+        map2.put("User_name", user_name_gebruiker);
 
         textpost_root.updateChildren(map2);
+
+        startActivity(new Intent(Upload_TextPost_Activity.this, SecondActivity.class));
 
     }
 

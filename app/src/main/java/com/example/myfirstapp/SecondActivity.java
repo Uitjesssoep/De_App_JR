@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SecondActivity extends AppCompatActivity {
 
 
-    private Button AccountInfoButton, SearchUsersButton, PostButton;
+    private Button AccountInfoButton, SearchUsersButton, PostButton, GeneralFeedButton;
 
     private FirebaseAuth firebaseAuth;
 
@@ -54,6 +54,7 @@ public class SecondActivity extends AppCompatActivity {
         SearchUsersButton = (Button)findViewById(R.id.btnSearchUsersSA);
         AccountInfoButton = (Button)findViewById(R.id.btnAccountInfo);
         PostButton = (Button)findViewById(R.id.upload_page);
+        GeneralFeedButton = findViewById(R.id.btnGeneralFeed);
 
         AccountInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +75,13 @@ public class SecondActivity extends AppCompatActivity {
                 startActivity(new Intent(SecondActivity.this, Choose_PostType_Activity.class));
             }
         });
+
+       GeneralFeedButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               startActivity(new Intent(SecondActivity.this, General_Feed_Activity.class));
+           }
+       });
     }
 
 }
