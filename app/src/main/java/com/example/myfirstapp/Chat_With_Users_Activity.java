@@ -70,6 +70,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
 
 
+        //voor scrollen
         Conversation_Content.setMovementMethod(new ScrollingMovementMethod());
 
 
@@ -184,7 +185,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
 
 
-
+//allemaal voor notificaties, negeer dit maar
 
     private void senNotification(String userName, final String message) {
         DatabaseReference allTokens = FirebaseDatabase.getInstance().getReference("Tokens");

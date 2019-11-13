@@ -10,14 +10,26 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Upload_TextPost_Activity extends AppCompatActivity {
 
 
     private EditText Title, Content;
     private CheckBox DisableComments, VisibleForEveryone;
     private Button Post;
+    private String TitleContent, TextContent;
 
-    private String TitleContentOne, TitleContentTwo, TextContentOne, TextContentTwo;
+    private FirebaseDatabase firebaseDatabase;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference GeneralTextPosts, PersonalTextPosts;
+    private String MyUID, temp_key;
 
 
     private void SetupUI() {
@@ -27,6 +39,15 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         DisableComments = findViewById(R.id.cbDisableComments);
         VisibleForEveryone = findViewById(R.id.cbVisibleForEveryone);
         Post = findViewById(R.id.btnPostTextPost);
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        MyUID = user.getUid();
+
+        GeneralTextPosts = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+        PersonalTextPosts = FirebaseDatabase.getInstance().getReference("Personal_Text_Posts").child(MyUID);
 
     }
 
@@ -38,15 +59,35 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
         SetupUI();
 
-        TitleContentOne = Title.getText().toString();
-        TextContentOne = Content.getText().toString();
-
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(TitleContentOne.isEmpty() || TextContentOne.isEmpty()){
+                TitleContent = Title.getText().toString();
+                TextContent = Content.getText().toString();
+
+                if(TitleContent.isEmpty() || TextContent.isEmpty()){
                     Toast.makeText(Upload_TextPost_Activity.this, "Please fill in a title and the content", Toast.LENGTH_SHORT).show();
+                }
+
+                else{
+
+                    if(VisibleForEveryone.isChecked() && DisableComments.isChecked()){
+                        BothChecked();
+                    }
+
+                    if((VisibleForEveryone.isChecked()==false) && (DisableComments.isChecked()==false)){
+                        BothNotChecked();
+                    }
+
+                    if(VisibleForEveryone.isChecked() && (DisableComments.isChecked()==false)){
+                        VCheckedDNotChecked();
+                    }
+
+                    if((VisibleForEveryone.isChecked()==false) && DisableComments.isChecked()){
+                        VNotCheckedDChecked();
+                    }
+
                 }
 
             }
@@ -54,11 +95,31 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
     }
 
-    private void ClickPostButton() {
-
-
+    private void BothChecked() {
 
     }
 
+    private void BothNotChecked(){
+
+    }
+
+    private void VCheckedDNotChecked(){
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        temp_key = GeneralTextPosts.push().getKey();
+        GeneralTextPosts.updateChildren(map);
+
+        DatabaseReference textpost_root = GeneralTextPosts.child(temp_key);
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("Title", TitleContent);
+        map2.put("Content", TextContent);
+
+        textpost_root.updateChildren(map2);
+
+    }
+
+    private void VNotCheckedDChecked(){
+
+    }
 
 }
