@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".General_Feed_Activity"></activity>
+        <activity android:name=".Text_Post_Viewing_Activity"></activity>
+        <activity android:name=".General_Feed_Activity" />
         <activity android:name=".Upload_TextPost_Activity" />
         <activity android:name=".Choose_PostType_Activity" />
         <activity android:name=".UploadActivity" />
