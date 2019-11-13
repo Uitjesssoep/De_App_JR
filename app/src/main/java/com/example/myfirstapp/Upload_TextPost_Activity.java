@@ -30,7 +30,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     private EditText Title, Content;
     private CheckBox DisableComments, VisibleForEveryone;
     private Button Post;
-    private String TitleContent, TextContent;
+    private String TitleContent, TextContent, usernameString;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
@@ -104,29 +104,30 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     }
 
     private void BothChecked() {
-
+        VCheckedDNotChecked();
     }
 
     private void BothNotChecked(){
-
+        VCheckedDNotChecked();
     }
 
     private void VCheckedDNotChecked(){
 
-        //DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
+        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID).child("userName");
 
-        //databaseReference.addValueEventListener(new ValueEventListener() {
-        //    @Override
-        //    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        //        UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-        //        user_name_gebruiker.setText(userProfile.getUserName());
-        //    }
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user_name_gebruiker.setText(dataSnapshot.getValue(String.class));
 
-        //    @Override
-        //    public void onCancelled(@NonNull DatabaseError databaseError) {
-        //        Toast.makeText(Upload_TextPost_Activity.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
-        //    }
-        //});
+                usernameString = user_name_gebruiker.getText().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(Upload_TextPost_Activity.this, "Couldn't retrieve data from database", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
 
@@ -138,7 +139,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         Map<String, Object> map2 = new HashMap<String, Object>();
         map2.put("Title", TitleContent);
         map2.put("Content", TextContent);
-       //map2.put("User_name", user_name_gebruiker);
+        map2.put("User_name", usernameString);
 
         textpost_root.updateChildren(map2);
 
@@ -146,7 +147,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     }
 
     private void VNotCheckedDChecked(){
-
+        VCheckedDNotChecked();
     }
 
 }

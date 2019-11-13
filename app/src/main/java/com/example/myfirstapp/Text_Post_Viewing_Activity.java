@@ -18,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
 
-    private TextView Title, Content;
+    private TextView Title, Content, UserName;
     private FirebaseDatabase firebaseDatabase;
     private String key;
 
@@ -27,6 +27,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         Title = findViewById(R.id.tvTitleOfTextPost);
         Content = findViewById(R.id.tvContentOfTextPost);
+        UserName = findViewById(R.id.tvUsernameForTextPost);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -71,6 +72,19 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
+        DatabaseReference UserNameRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("User_name");
+
+        UserNameRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserName.setText(dataSnapshot.getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(Text_Post_Viewing_Activity.this, "Couldn't retrieve data from database", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
