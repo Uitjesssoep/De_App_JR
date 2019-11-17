@@ -61,7 +61,6 @@ public class Upload_Images_Activity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         MyUID = user.getUid();
         mStorageRef = FirebaseStorage.getInstance().getReference(MyUID).child("General_Image_Posts");
-       // mStorageRef = FirebaseStorage.getInstance().getReference("General_Image_Posts").child(MyUID);
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
