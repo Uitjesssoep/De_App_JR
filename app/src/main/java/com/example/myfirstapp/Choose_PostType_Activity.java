@@ -21,7 +21,7 @@ public class Choose_PostType_Activity extends AppCompatActivity {
         Media_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Choose_PostType_Activity.this, UploadActivity.class));
+                startActivity(new Intent(Choose_PostType_Activity.this, Upload_Images_Activity.class));
             }
         });
 

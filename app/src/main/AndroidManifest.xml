@@ -15,7 +15,7 @@
         <activity android:name=".General_Feed_Activity" />
         <activity android:name=".Upload_TextPost_Activity" />
         <activity android:name=".Choose_PostType_Activity" />
-        <activity android:name=".UploadActivity" />
+        <activity android:name=".Upload_Images_Activity" />
         <activity android:name=".Chat_Room_MakeOrSearch_Activity" />
         <activity android:name=".Chat_With_Users_Activity" />
         <activity android:name=".Search_Other_Users_Activity" />

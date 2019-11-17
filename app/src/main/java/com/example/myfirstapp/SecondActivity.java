@@ -53,7 +53,7 @@ public class SecondActivity extends AppCompatActivity {
     private void Checked(){
         SearchUsersButton = (Button)findViewById(R.id.btnSearchUsersSA);
         AccountInfoButton = (Button)findViewById(R.id.btnAccountInfo);
-        PostButton = (Button)findViewById(R.id.upload_page);
+        PostButton = (Button)findViewById(R.id.btnPost);
         GeneralFeedButton = findViewById(R.id.btnGeneralFeed);
 
         AccountInfoButton.setOnClickListener(new View.OnClickListener() {

@@ -5,22 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".UploadActivity">
+    tools:context=".Upload_Images_Activity">
 
     <Button
-        android:id="@+id/button_choose_image"
+        android:id="@+id/btnChooseImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="Choose file"
-        app:layout_constraintBottom_toTopOf="@+id/image_view"
-        app:layout_constraintEnd_toStartOf="@+id/edit_text_file_name"
+        app:layout_constraintBottom_toTopOf="@+id/ivUploadedImage"
+        app:layout_constraintEnd_toStartOf="@+id/etImageName"
         app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edit_text_file_name"
+        android:id="@+id/etImageName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="140dp"
@@ -32,33 +32,33 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/image_view"
+        android:id="@+id/ivUploadedImage"
         android:layout_width="375dp"
         android:layout_height="380dp"
-        android:layout_above="@+id/progress_bar"
-        android:layout_below="@+id/edit_text_file_name"
+        android:layout_above="@+id/pbUploadingImage"
+        android:layout_below="@+id/etImageName"
         android:layout_marginTop="35dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_file_name"
+        app:layout_constraintTop_toBottomOf="@+id/etImageName"
         app:layout_constraintVertical_bias="0.0" />
 
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/pbUploadingImage"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button_upload"
+        android:layout_above="@+id/btnUploadImage"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_view"
+        app:layout_constraintTop_toBottomOf="@+id/ivUploadedImage"
         app:layout_constraintVertical_bias="0.19999999"
         tools:layout_editor_absoluteX="32dp" />
 
     <Button
-        android:id="@+id/button_upload"
+        android:id="@+id/btnUploadImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -67,22 +67,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+        app:layout_constraintTop_toBottomOf="@+id/pbUploadingImage"
         app:layout_constraintVertical_bias="0.7" />
 
     <TextView
-        android:id="@+id/text_view_show_uploads"
+        android:id="@+id/tvShowUploads"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button_upload"
-        android:layout_alignBottom="@+id/button_upload"
+        android:layout_alignBaseline="@+id/btnUploadImage"
+        android:layout_alignBottom="@+id/btnUploadImage"
         android:layout_marginTop="22dp"
         android:gravity="center"
         android:text="Show Uploads"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button_upload"
-        app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
+        app:layout_constraintStart_toEndOf="@+id/btnUploadImage"
+        app:layout_constraintTop_toBottomOf="@+id/pbUploadingImage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
