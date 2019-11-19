@@ -28,6 +28,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
     private ImageButton Like, Dislike;
     private boolean Liked = false;
     private boolean Disliked = false;
+    private boolean LikedCheck = false, DislikedCheck = false;
 
     private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
     private FirebaseAuth firebaseAuth;
@@ -113,14 +114,17 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         key = getIntent().getExtras().get("Key").toString();
 
+        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
+        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+
         Like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Liked = true;
+                if(DislikedCheck){
+                    DatabaseDislike.child(MyUID).removeValue();
+                    Liked = true;
 
-
-                    DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
                     DatabaseLike.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -147,6 +151,38 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                         }
                     });
+                }
+                else{
+                    Liked = true;
+
+                    DatabaseLike.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            if(Liked) {
+
+                                if (dataSnapshot.hasChild(MyUID)) {
+
+                                    DatabaseLike.child(MyUID).removeValue();
+                                    Liked = false;
+
+                                } else {
+
+                                    DatabaseLike.child(MyUID).setValue("RandomLike");
+                                    Liked = false;
+
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
             }
         });
 
@@ -154,9 +190,11 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Disliked = true;
+                if(LikedCheck){
+                    DatabaseLike.child(MyUID).removeValue();
 
-                    DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+                    Disliked = true;
+
                     DatabaseDislike.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -183,6 +221,38 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                         }
                     });
+                }
+                else{
+                    Disliked = true;
+
+                    DatabaseDislike.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            if(Disliked) {
+
+                                if (dataSnapshot.hasChild(MyUID)) {
+
+                                    DatabaseDislike.child(MyUID).removeValue();
+                                    Disliked = false;
+
+                                } else {
+
+                                    DatabaseDislike.child(MyUID).setValue("RandomDislike");
+                                    Disliked = false;
+
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
             }
         });
 
@@ -195,12 +265,14 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                 if (dataSnapshot.hasChild(MyUID)) {
 
                     Like.setImageResource(R.drawable.pijl_omhoog_geklikt);
+                    LikedCheck = true;
 
                 }
 
                 else{
 
                     Like.setImageResource(R.drawable.pijl_omhoog_neutraal);
+                    LikedCheck = false;
 
                 }
             }
@@ -220,12 +292,14 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                 if (dataSnapshot.hasChild(MyUID)) {
 
                     Dislike.setImageResource(R.drawable.pijl_omlaag_geklikt);
+                    DislikedCheck = true;
 
                 }
 
                 else{
 
                     Dislike.setImageResource(R.drawable.pijl_omlaag_neutraal);
+                    DislikedCheck = false;
 
                 }
             }
