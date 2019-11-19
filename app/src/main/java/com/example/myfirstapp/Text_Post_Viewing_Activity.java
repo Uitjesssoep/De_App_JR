@@ -22,17 +22,17 @@ import com.google.firebase.database.ValueEventListener;
 public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
 
-    private TextView Title, Content, UserName, LikeCountDisplay;
+    private TextView Title, Content, UserName, LikeCountDisplay, DislikeCountDisplay;
     private FirebaseDatabase firebaseDatabase;
-    private String key, MyUID, LikeDislikeTotal, LikeTotal, DislikeTotal;
+    private String key, MyUID;
     private ImageButton Like, Dislike;
     private boolean Liked = false;
     private boolean Disliked = false;
 
-    private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount, Test;
+    private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
     private FirebaseAuth firebaseAuth;
 
-    private int LikeCount, DislikeCount, LikeDislikeSum;
+    private int LikeCount, DislikeCount;
     private static final String TAG = "Text_Post_Viewing";
 
 
@@ -42,6 +42,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         Content = findViewById(R.id.tvContentOfTextPost);
         UserName = findViewById(R.id.tvUsernameForTextPost);
         LikeCountDisplay = findViewById(R.id.tvLikeCounterForTextPostViewing);
+        DislikeCountDisplay = findViewById(R.id.tvDislikeCounterForTextPostViewing);
         Like = findViewById(R.id.ibLikeUpForTextPostViewing);
         Dislike = findViewById(R.id.ibLikeDownForTextPostViewing);
 
@@ -202,11 +203,6 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                     Like.setImageResource(R.drawable.pijl_omhoog_neutraal);
 
                 }
-
-                //voor aantal likes te tellen komt nu:
-
-                //LikeCount = (int) dataSnapshot.getChildrenCount();
-
             }
 
             @Override
@@ -232,9 +228,6 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                     Dislike.setImageResource(R.drawable.pijl_omlaag_neutraal);
 
                 }
-
-                //DislikeCount = (int) dataSnapshot.getChildrenCount();
-
             }
 
             @Override
@@ -249,9 +242,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     LikeCount = (int) dataSnapshot.getChildrenCount();
-
-                    LikeTotal = "LikeTotal" + LikeCount;
-                    Log.w(TAG, LikeTotal);
+                    LikeCountDisplay.setText("" + LikeCount);
             }
 
             @Override
@@ -265,6 +256,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DislikeCount = (int) dataSnapshot.getChildrenCount();
+                DislikeCountDisplay.setText("" + DislikeCount);
             }
 
             @Override
@@ -272,20 +264,6 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
             }
         });
-
-
-        //nu tellen hoeveel likes er in werkelijkheid zijn
-
-        LikeDislikeSum = LikeCount - DislikeCount;
-
-        LikeDislikeTotal = "LikeDislikeSum" + LikeDislikeSum;
-        Log.w(TAG, LikeDislikeTotal);
-
-        DislikeTotal = "DislikeTotal" + DislikeCount;
-        Log.w(TAG, DislikeTotal);
-
-        LikeCountDisplay.setText("" + LikeDislikeSum);
-
     }
 
 
