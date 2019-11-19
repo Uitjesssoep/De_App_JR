@@ -51,4 +51,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitleOfTextPost"
         app:layout_constraintVertical_bias="0.060000002" />
+
+    <ImageButton
+        android:id="@+id/ibLikeUpForTextPostViewing"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.094"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvContentOfTextPost"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/pijl_omhoog_neutraal" />
+
+    <ImageButton
+        android:id="@+id/ibLikeDownForTextPostViewing"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tvLikeCounterForTextPostViewing"
+        app:layout_constraintTop_toBottomOf="@+id/tvContentOfTextPost"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/pijl_omlaag_neutraal" />
+
+    <TextView
+        android:id="@+id/tvLikeCounterForTextPostViewing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:text="0"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ibLikeUpForTextPostViewing"
+        app:layout_constraintTop_toBottomOf="@+id/tvContentOfTextPost"
+        app:layout_constraintVertical_bias="0.024" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
