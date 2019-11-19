@@ -214,7 +214,13 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                 if (dataSnapshot.child(key).hasChild(MyUID)) {
 
+                    Dislike.setImageResource(R.drawable.pijl_omlaag_geklikt);
 
+                }
+
+                else{
+
+                    Dislike.setImageResource(R.drawable.pijl_omlaag_neutraal);
 
                 }
 
