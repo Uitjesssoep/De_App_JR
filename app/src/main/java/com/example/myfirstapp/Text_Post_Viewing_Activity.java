@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
 
-    private TextView Title, Content, UserName, LikeCount;
+    private TextView Title, Content, UserName, LikeCountDisplay;
     private FirebaseDatabase firebaseDatabase;
     private String key, MyUID;
     private ImageButton Like, Dislike;
@@ -31,7 +31,8 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
     private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked;
     private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
+
+    private int LikeCount = 0, DislikeCount = 0, LikeDislikeSum = 0;
 
 
     private void SetupUI() {
@@ -39,7 +40,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         Title = findViewById(R.id.tvTitleOfTextPost);
         Content = findViewById(R.id.tvContentOfTextPost);
         UserName = findViewById(R.id.tvUsernameForTextPost);
-        LikeCount = findViewById(R.id.tvLikeCounterForTextPostViewing);
+        LikeCountDisplay = findViewById(R.id.tvLikeCounterForTextPostViewing);
         Like = findViewById(R.id.ibLikeUpForTextPostViewing);
         Dislike = findViewById(R.id.ibLikeDownForTextPostViewing);
 
@@ -199,6 +200,10 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                 }
 
+                //voor aantal likes te tellen komt nu:
+
+                LikeCount = (int) dataSnapshot.getChildrenCount();
+
             }
 
             @Override
@@ -225,6 +230,8 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                 }
 
+                DislikeCount = (int) dataSnapshot.getChildrenCount();
+
             }
 
             @Override
@@ -232,6 +239,13 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
             }
         });
+
+
+
+        //nu tellen hoeveel likes er in werkelijkheid zijn
+
+        LikeDislikeSum = LikeCount - DislikeCount;
+        LikeCountDisplay.setText(LikeDislikeSum);
 
     }
 
