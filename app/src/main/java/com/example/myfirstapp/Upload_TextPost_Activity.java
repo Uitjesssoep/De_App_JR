@@ -120,7 +120,22 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
                 user_name_gebruiker.setText(userProfile.getUserName());
+
                 usernameString = user_name_gebruiker.getText().toString();
+
+                Map<String, Object> map = new HashMap<String, Object>();
+                temp_key = GeneralTextPosts.push().getKey();
+                GeneralTextPosts.updateChildren(map);
+
+                DatabaseReference textpost_root = GeneralTextPosts.child(temp_key);
+                Map<String, Object> map2 = new HashMap<String, Object>();
+                map2.put("Title", TitleContent);
+                map2.put("Content", TextContent);
+                map2.put("User_name", usernameString);
+
+                textpost_root.updateChildren(map2);
+
+                startActivity(new Intent(Upload_TextPost_Activity.this, SecondActivity.class));
             }
 
             @Override
@@ -129,21 +144,6 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
             }
         });
 
-
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        temp_key = GeneralTextPosts.push().getKey();
-        GeneralTextPosts.updateChildren(map);
-
-        DatabaseReference textpost_root = GeneralTextPosts.child(temp_key);
-        Map<String, Object> map2 = new HashMap<String, Object>();
-        map2.put("Title", TitleContent);
-        map2.put("Content", TextContent);
-        map2.put("User_name", usernameString);
-
-        textpost_root.updateChildren(map2);
-
-        startActivity(new Intent(Upload_TextPost_Activity.this, SecondActivity.class));
     }
 
     private void VNotCheckedDChecked(){
