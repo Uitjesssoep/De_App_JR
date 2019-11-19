@@ -24,15 +24,16 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
     private TextView Title, Content, UserName, LikeCountDisplay;
     private FirebaseDatabase firebaseDatabase;
-    private String key, MyUID;
+    private String key, MyUID, LikeDislikeTotal, LikeTotal, DislikeTotal;
     private ImageButton Like, Dislike;
     private boolean Liked = false;
     private boolean Disliked = false;
 
-    private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked;
+    private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount, Test;
     private FirebaseAuth firebaseAuth;
 
-    private int LikeCount = 0, DislikeCount = 0, LikeDislikeSum = 0;
+    private int LikeCount, DislikeCount, LikeDislikeSum;
+    private static final String TAG = "Text_Post_Viewing";
 
 
     private void SetupUI() {
@@ -109,6 +110,8 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
     private void LikeDislikeCount() {
 
+        key = getIntent().getExtras().get("Key").toString();
+
         Like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,21 +119,21 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                 Liked = true;
 
 
-                    DatabaseLike = FirebaseDatabase.getInstance().getReference().child("Likes");
+                    DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
                     DatabaseLike.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                             if(Liked) {
 
-                                if (dataSnapshot.child(key).hasChild(MyUID)) {
+                                if (dataSnapshot.hasChild(MyUID)) {
 
-                                    DatabaseLike.child(key).child(MyUID).removeValue();
+                                    DatabaseLike.child(MyUID).removeValue();
                                     Liked = false;
 
                                 } else {
 
-                                    DatabaseLike.child(key).child(MyUID).setValue("RandomLike");
+                                    DatabaseLike.child(MyUID).setValue("RandomLike");
                                     Liked = false;
 
                                 }
@@ -152,21 +155,21 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                 Disliked = true;
 
-                    DatabaseDislike = FirebaseDatabase.getInstance().getReference().child("Dislikes");
+                    DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
                     DatabaseDislike.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                             if(Disliked) {
 
-                                if (dataSnapshot.child(key).hasChild(MyUID)) {
+                                if (dataSnapshot.hasChild(MyUID)) {
 
-                                    DatabaseDislike.child(key).child(MyUID).removeValue();
+                                    DatabaseDislike.child(MyUID).removeValue();
                                     Disliked = false;
 
                                 } else {
 
-                                    DatabaseDislike.child(key).child(MyUID).setValue("RandomDislike");
+                                    DatabaseDislike.child(MyUID).setValue("RandomDislike");
                                     Disliked = false;
 
                                 }
@@ -182,13 +185,13 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseIsItLiked = FirebaseDatabase.getInstance().getReference().child("Likes");
+        DatabaseIsItLiked = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
         DatabaseIsItLiked.keepSynced(true);
         DatabaseIsItLiked.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.child(key).hasChild(MyUID)) {
+                if (dataSnapshot.hasChild(MyUID)) {
 
                     Like.setImageResource(R.drawable.pijl_omhoog_geklikt);
 
@@ -202,7 +205,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                 //voor aantal likes te tellen komt nu:
 
-                LikeCount = (int) dataSnapshot.getChildrenCount();
+                //LikeCount = (int) dataSnapshot.getChildrenCount();
 
             }
 
@@ -212,13 +215,13 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseIsItDisliked = FirebaseDatabase.getInstance().getReference().child("Dislikes");
+        DatabaseIsItDisliked = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
         DatabaseIsItDisliked.keepSynced(true);
         DatabaseIsItDisliked.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.child(key).hasChild(MyUID)) {
+                if (dataSnapshot.hasChild(MyUID)) {
 
                     Dislike.setImageResource(R.drawable.pijl_omlaag_geklikt);
 
@@ -230,7 +233,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                 }
 
-                DislikeCount = (int) dataSnapshot.getChildrenCount();
+                //DislikeCount = (int) dataSnapshot.getChildrenCount();
 
             }
 
@@ -241,11 +244,47 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         });
 
 
+        DatabaseLikeCount = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
+        DatabaseLikeCount.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    LikeCount = (int) dataSnapshot.getChildrenCount();
+
+                    LikeTotal = "LikeTotal" + LikeCount;
+                    Log.w(TAG, LikeTotal);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseDislikeCount = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+        DatabaseDislikeCount.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DislikeCount = (int) dataSnapshot.getChildrenCount();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         //nu tellen hoeveel likes er in werkelijkheid zijn
 
         LikeDislikeSum = LikeCount - DislikeCount;
-        LikeCountDisplay.setText(LikeDislikeSum);
+
+        LikeDislikeTotal = "LikeDislikeSum" + LikeDislikeSum;
+        Log.w(TAG, LikeDislikeTotal);
+
+        DislikeTotal = "DislikeTotal" + DislikeCount;
+        Log.w(TAG, DislikeTotal);
+
+        LikeCountDisplay.setText("" + LikeDislikeSum);
 
     }
 
