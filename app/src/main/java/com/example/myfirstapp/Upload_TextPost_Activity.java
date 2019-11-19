@@ -136,6 +136,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                 textpost_root.updateChildren(map2);
 
                 startActivity(new Intent(Upload_TextPost_Activity.this, SecondActivity.class));
+                finish();
             }
 
             @Override
