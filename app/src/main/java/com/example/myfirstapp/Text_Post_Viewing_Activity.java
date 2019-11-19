@@ -44,10 +44,10 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
     private boolean LikedCheck = false, DislikedCheck = false;
 
     private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
-    private DatabaseReference DatabaseCommentStuff;
+    private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
     private FirebaseAuth firebaseAuth;
 
-    private int LikeCount, DislikeCount;
+    private int LikeCount, DislikeCount, CommentCount;
     private static final String TAG = "Text_Post_Viewing";
 
 
@@ -73,7 +73,6 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
 
         CommentView.setMovementMethod(new ScrollingMovementMethod());
-        //CommentSubstance.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
 
 
     }
@@ -186,6 +185,22 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
             }
         });
+
+
+        DatabaseCommentCount = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Comments");
+        DatabaseCommentCount.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                CommentCount = (int) dataSnapshot.getChildrenCount();
+                NumberOfComments.setText("Number of comments: " + CommentCount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         DatabaseCommentStuff.addChildEventListener(new ChildEventListener() {
             @Override
