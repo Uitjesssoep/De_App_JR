@@ -1,9 +1,12 @@
 package com.example.myfirstapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Text_Post_Viewing_Activity extends AppCompatActivity {
@@ -68,6 +73,8 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
 
         CommentView.setMovementMethod(new ScrollingMovementMethod());
+        //CommentSubstance.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+
 
     }
 
@@ -180,7 +187,59 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
+        DatabaseCommentStuff.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                append_chat_conversation(dataSnapshot);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                append_chat_conversation(dataSnapshot);
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
+
+
+    private String chat_msg, chat_user_name;
+
+    private void append_chat_conversation (DataSnapshot dataSnapshot) {
+
+        Iterator i = dataSnapshot.getChildren().iterator();
+
+        while(i.hasNext()){
+
+            chat_msg = (String) ((DataSnapshot)i.next()).getValue();
+            chat_user_name = (String) ((DataSnapshot)i.next()).getValue();
+
+            CommentView.append(
+                    chat_user_name + " : "+ " \n" +chat_msg +" \n" + " \n"
+            );
+
+        }
+
+    }
+
 
     private void LikeDislikeCount() {
 
