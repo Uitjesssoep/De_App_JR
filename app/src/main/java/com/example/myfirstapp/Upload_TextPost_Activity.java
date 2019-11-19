@@ -113,13 +113,13 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
     private void VCheckedDNotChecked(){
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID).child("userName");
+        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                user_name_gebruiker.setText(dataSnapshot.getValue(String.class));
-
+                UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
+                user_name_gebruiker.setText(userProfile.getUserName());
                 usernameString = user_name_gebruiker.getText().toString();
             }
 
