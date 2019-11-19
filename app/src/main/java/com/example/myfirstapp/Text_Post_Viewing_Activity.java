@@ -45,6 +45,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
+        firebaseAuth = FirebaseAuth.getInstance();
         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
 
     }
