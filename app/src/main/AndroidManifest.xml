@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/flower_launcher_v2_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Splash_Screen_Activity"></activity>
+        <activity android:name=".ImagesFeed"></activity>
+        <activity android:name=".Splash_Screen_Activity" />
         <activity android:name=".Text_Post_Viewing_Activity" />
         <activity android:name=".General_Feed_Activity" />
         <activity android:name=".Upload_TextPost_Activity" />
