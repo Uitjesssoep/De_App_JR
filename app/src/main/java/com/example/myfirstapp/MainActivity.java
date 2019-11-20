@@ -21,10 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
         private EditText Name;
         private EditText Password;
-        private TextView Info;
         private Button Login;
         private TextView RegisterText;
-        private int counter = 3;
         private TextView PasswordResetText;
 
         private FirebaseAuth firebaseAuth;
@@ -44,12 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
         Name = (EditText)findViewById(R.id.etName);
         Password = (EditText)findViewById(R.id.etPassword);
-        Info = (TextView)findViewById(R.id.tvInfo);
         Login = (Button)findViewById(R.id.btnLogin);
         PasswordResetText = (TextView)findViewById(R.id.tvForgotPassword);
         RegisterText = (TextView)findViewById(R.id.tvRegister);
-
-        Info.setText("Number of attempts remaining: 3");
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -105,12 +100,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else{
                         Toast.makeText(MainActivity.this, "Login failed, please check your details", Toast.LENGTH_SHORT).show();
-                        counter--;
-                        Info.setText("Number of attempts remaining: " + String.valueOf(counter));
-                        if(counter == 0){
-                            Login.setEnabled(false);
-                            Toast.makeText(MainActivity.this, "You can no longer log in, please try again later", Toast.LENGTH_SHORT).show();
-                        }
                     }
                 }
             });
