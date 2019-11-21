@@ -104,7 +104,42 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     }
 
     private void BothChecked() {
-        VCheckedDNotChecked();
+
+        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
+                user_name_gebruiker.setText(userProfile.getUserName());
+
+                usernameString = user_name_gebruiker.getText().toString();
+
+                Map<String, Object> map = new HashMap<String, Object>();
+                temp_key = GeneralTextPosts.push().getKey();
+                GeneralTextPosts.updateChildren(map);
+
+                DatabaseReference textpost_root = GeneralTextPosts.child(temp_key);
+                Map<String, Object> map2 = new HashMap<String, Object>();
+                map2.put("Title", TitleContent);
+                map2.put("Content", TextContent);
+                map2.put("User_name", usernameString);
+                map2.put("UID", MyUID);
+                map2.put("DisabledComments", "Disabled");
+
+                textpost_root.updateChildren(map2);
+
+                Intent VD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
+                VD.putExtra("Post_Key", temp_key);
+                startActivity(VD);
+                finish();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(Upload_TextPost_Activity.this, "Couldn't retrieve data from database", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void BothNotChecked(){
@@ -133,10 +168,13 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                 map2.put("Content", TextContent);
                 map2.put("User_name", usernameString);
                 map2.put("UID", MyUID);
+                map2.put("EnabledComments", "Enabled");
 
                 textpost_root.updateChildren(map2);
 
-                startActivity(new Intent(Upload_TextPost_Activity.this, SecondActivity.class));
+                Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
+                VNoD.putExtra("Post_Key", temp_key);
+                startActivity(VNoD);
                 finish();
             }
 

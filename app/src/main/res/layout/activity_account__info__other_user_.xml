@@ -13,10 +13,10 @@
         android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.169"
+        app:layout_constraintVertical_bias="0.06999999"
         app:srcCompat="@drawable/neutral_profile_picture_nobackground"
         tools:srcCompat="@drawable/neutral_profile_picture_nobackground" />
 
@@ -28,9 +28,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfilePictureAccountInfoOtherUser"
-        app:layout_constraintVertical_bias="0.076" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ivProfilePictureAccountInfoOtherUser"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.100000024" />
 
     <TextView
         android:id="@+id/tvUsernameAccountInfoOtherUser"
@@ -39,7 +40,7 @@
         android:text="@username"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivProfilePictureAccountInfoOtherUser"
         app:layout_constraintTop_toBottomOf="@+id/tvRealNameAccountInfoOtherUser"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -50,9 +51,9 @@
         android:text="Email is not specified"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivProfilePictureAccountInfoOtherUser"
         app:layout_constraintTop_toBottomOf="@+id/tvBirthdayAccountInfoOtherUser"
-        app:layout_constraintVertical_bias="0.07999998" />
+        app:layout_constraintVertical_bias="0.05" />
 
     <TextView
         android:id="@+id/tvBirthdayAccountInfoOtherUser"
@@ -62,9 +63,9 @@
         android:text="Day of birth is not specified"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivProfilePictureAccountInfoOtherUser"
         app:layout_constraintTop_toBottomOf="@+id/tvUsernameAccountInfoOtherUser"
-        app:layout_constraintVertical_bias="0.07999998" />
+        app:layout_constraintVertical_bias="0.050000012" />
 
     <TextView
         android:id="@+id/tvHiddenOtherUserUIDPlaceholder"
