@@ -11,8 +11,8 @@
         android:roundIcon="@mipmap/flower_launcher_v2_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ImagesFeed"></activity>
-
+        <activity android:name=".Account_Info_OtherUser_Activity"></activity>
+        <activity android:name=".ImagesFeed" />
         <activity android:name=".Text_Post_Viewing_Activity" />
         <activity android:name=".General_Feed_Activity" />
         <activity android:name=".Upload_TextPost_Activity" />
@@ -29,7 +29,8 @@
         <activity android:name=".Account_Info_Activity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".SecondActivity" />
-        <activity android:name=".Splash_Screen_Activity"
+        <activity
+            android:name=".Splash_Screen_Activity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

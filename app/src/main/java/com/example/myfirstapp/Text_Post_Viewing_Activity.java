@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -90,6 +91,8 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         CommentOnPost();
 
+        LookAtPostersProfile();
+
         key = getIntent().getExtras().get("Key").toString();
 
         DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Title");
@@ -134,6 +137,24 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void LookAtPostersProfile() {
+
+        UserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                key = getIntent().getExtras().get("Key").toString();
+
+                Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
+                GoToProfile.putExtra("Key", key);
+                startActivity(GoToProfile);
+            }
+        });
+
+    }
+
 
     private void CommentOnPost() {
 

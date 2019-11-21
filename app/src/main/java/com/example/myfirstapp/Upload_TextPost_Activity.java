@@ -132,6 +132,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                 map2.put("Title", TitleContent);
                 map2.put("Content", TextContent);
                 map2.put("User_name", usernameString);
+                map2.put("UID", MyUID);
 
                 textpost_root.updateChildren(map2);
 
