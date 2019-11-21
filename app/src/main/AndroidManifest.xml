@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ImagesFeed"></activity>
-        <activity android:name=".Splash_Screen_Activity" />
+
         <activity android:name=".Text_Post_Viewing_Activity" />
         <activity android:name=".General_Feed_Activity" />
         <activity android:name=".Upload_TextPost_Activity" />
@@ -29,11 +29,19 @@
         <activity android:name=".Account_Info_Activity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".SecondActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Splash_Screen_Activity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 

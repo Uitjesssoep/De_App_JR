@@ -9,26 +9,13 @@ import android.widget.Toast;
 
 public class Splash_Screen_Activity extends AppCompatActivity {
 
-    private static int splash_time_out = 2000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_splash__screen);
 
-        new Handler().postDelayed(new Runnable(){
-            @Override
-                    public void run(){
-                Intent Terug = new Intent(Splash_Screen_Activity.this, MainActivity.class);
-                startActivity(Terug);
-                finish();
-            }
-        }, splash_time_out);
+        Intent intent = new Intent(Splash_Screen_Activity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
 
     }
-
-    public void OnBackPressed(){
-
-    }
-
 }
