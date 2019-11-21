@@ -119,7 +119,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         else{
                             if(!protoname.matches("[a-zA-Z._0-9]*")){
-                                Toast.makeText(this, "Please make sure your username only consists of letters (a-z, A-Z) and/or numbers (0-9) and/or an underscore (_) or a dot (.)", Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, "Please make sure your username only consists of letters (a-z, A-Z) and/or numbers (0-9) and/or an underscore (_) and/or a dot (.)", Toast.LENGTH_LONG).show();
                             }
                             else{
                                 result = true;

@@ -75,6 +75,24 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         CommentView.setMovementMethod(new ScrollingMovementMethod());
 
+        key = getIntent().getExtras().get("Key").toString();
+        DatabaseReference CheckIfCommentsDisabledDatabase = firebaseDatabase.getReference("General_Text_Posts").child(key);
+        CheckIfCommentsDisabledDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild("DisabledComments")){
+                    CommentView.setVisibility(View.GONE);
+                    NumberOfComments.setVisibility(View.GONE);
+                    PostComment.setVisibility(View.GONE);
+                    CommentSubstance.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

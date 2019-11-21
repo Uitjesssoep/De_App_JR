@@ -187,7 +187,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     }
 
     private void VNotCheckedDChecked(){
-        VCheckedDNotChecked();
+        BothChecked();
     }
 
 }
