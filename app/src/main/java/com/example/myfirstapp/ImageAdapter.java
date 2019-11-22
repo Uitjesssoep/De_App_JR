@@ -15,18 +15,17 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
-    private Context mContext;
     private List<Upload> mUploads;
 
     public ImageAdapter(Context context, List<Upload> uploads){
-        mContext=context;
+        ImageAdapter.class = context;
         mUploads=uploads;
     }
 
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
+        View v = LayoutInflater.from(ImageAdapter.class).inflate(R.layout.image_item, parent, false);
         return new ImageViewHolder(v);
     }
 
@@ -35,8 +34,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         Upload uploadCurrent = mUploads.get(position);
         holder.textViewName.setText(uploadCurrent.getName());
         Picasso.get()
-                .load(uploadCurrent.getmImageUrl())
-                .placeholder(R.mipmap.ic_launcher)
+                .load(uploadCurrent.getImageUrl())
+                .placeholder(R.drawable.app_logo_200)
                 .fit()
                 .centerCrop()
                 .into(holder.imageView);

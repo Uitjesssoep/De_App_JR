@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +26,7 @@ public class ImagesFeed extends AppCompatActivity {
     private ImageAdapter mAdapter;
 
     private ProgressBar mProgressCircle;
-
+    private String MyUID;
     private DatabaseReference mDatabaseRef;
     private List<Upload> mUploads;
 
@@ -38,10 +40,11 @@ public class ImagesFeed extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mProgressCircle = findViewById(R.id.progress_circle);
-
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        MyUID = user.getUid();
         mUploads = new ArrayList<>();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference(MyUID).child("General_Image_Posts");
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
