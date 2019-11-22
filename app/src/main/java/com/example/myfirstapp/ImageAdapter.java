@@ -19,13 +19,13 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     public ImageAdapter(Context context, List<Upload> uploads){
         ImageAdapter.class = context;
-        mUploads=uploads;
+        mUploads=uploads
     }
 
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(ImageAdapter.class).inflate(R.layout.image_item, parent, false);
+        View v = LayoutInflater.from(this).inflate(R.layout.image_item, parent, false);
         return new ImageViewHolder(v);
     }
 
