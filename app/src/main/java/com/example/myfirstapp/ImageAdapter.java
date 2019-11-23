@@ -16,16 +16,17 @@ import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     private List<Upload> mUploads;
+    private Context mContext;
 
     public ImageAdapter(Context context, List<Upload> uploads){
-        ImageAdapter.class = context;
-        mUploads=uploads
+        mContext = context;
+        mUploads=uploads;
     }
 
     @NonNull
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(this).inflate(R.layout.image_item, parent, false);
+        View v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
         return new ImageViewHolder(v);
     }
 

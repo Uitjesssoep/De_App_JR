@@ -1,8 +1,8 @@
 package com.example.myfirstapp;
 
 public class Upload {
-    private String Name;
-    private String ImageUrl;
+    private String mName;
+    private String mImageUrl;
 
     public Upload() {
 //empty constructor nodig
@@ -13,23 +13,23 @@ public class Upload {
             name = "No Name";
         }
 
-        Name= name;
-        ImageUrl=imageUrl;
+        mName= name;
+        mImageUrl=imageUrl;
     }
 
     public String getName() {
-        return Name;
+        return mName;
     }
 
     public void setName(String name){
-        Name=name;
+        mName=name;
     }
 
     public String getImageUrl(){
-        return ImageUrl;
+        return mImageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
-        ImageUrl=imageUrl;
+        mImageUrl=imageUrl;
     }
 }
