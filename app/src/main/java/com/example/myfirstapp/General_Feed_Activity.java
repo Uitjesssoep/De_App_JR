@@ -37,7 +37,7 @@ public class General_Feed_Activity extends AppCompatActivity {
 
     private void SetupUI() {
 
-        GeneralFeed = findViewById(R.id.lvGeneralFeed);
+    //    GeneralFeed = findViewById(R.id.lvGeneralFeed);
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_of_posts);
         GeneralFeed.setAdapter(arrayAdapter);
 

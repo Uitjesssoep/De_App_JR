@@ -30,6 +30,6 @@ public class Upload {
     }
 
     public void setImageUrl(String imageUrl) {
-        mImageUrl=imageUrl;
+        mImageUrl = imageUrl;
     }
 }
