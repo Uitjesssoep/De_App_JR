@@ -134,6 +134,8 @@ public class Upload_Images_Activity extends AppCompatActivity {
                                     mProgressbar.setProgress(0);
                                 }
                             },500);
+                            mImageView.setImageResource(0);
+                            mImageUri = null;
 
                             Toast.makeText(Upload_Images_Activity.this, "Upload succesful", Toast.LENGTH_SHORT).show();
                             Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
