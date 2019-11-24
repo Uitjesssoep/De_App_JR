@@ -38,8 +38,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
        // Picasso.Builder picassoBuilder = new Picasso.Builder(mContext);
       //  Picasso picasso = picassoBuilder.build();
         Picasso.get()
-                .load("https://firebasestorage.googleapis.com/v0/b/de-app-b0fb9.appspot.com/o/7yTA9yX4fiTGw5oHInp7rcPIDHF2%2FGeneral_Image_Posts%2F1574592477935.jpg?alt=media&token=4b3950d3-f9eb-4090-8589-c7e3c80b6a62")
-                //.load(uploadCurrent.getImageUrl())
+                .load(uploadCurrent.getImageUrl())
                 .placeholder(R.drawable.app_logo_200)
                 .fit()
                 .centerCrop()

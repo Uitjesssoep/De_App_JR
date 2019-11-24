@@ -8,7 +8,7 @@ public class Upload {
     private String mName;
     private String mImageUrl;
 
-    public Upload(String trim, Task<Uri> downloadUrl) {
+    public Upload() {
 //empty constructor nodig
     }
 
