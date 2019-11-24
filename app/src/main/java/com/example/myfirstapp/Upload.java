@@ -1,10 +1,14 @@
 package com.example.myfirstapp;
 
+import android.net.Uri;
+
+import com.google.android.gms.tasks.Task;
+
 public class Upload {
     private String mName;
     private String mImageUrl;
 
-    public Upload() {
+    public Upload(String trim, Task<Uri> downloadUrl) {
 //empty constructor nodig
     }
 

@@ -70,6 +70,7 @@
         app:layout_constraintTop_toBottomOf="@+id/pbUploadingImage"
         app:layout_constraintVertical_bias="0.7" />
 
+    <!--
     <TextView
         android:id="@+id/tvShowUploads"
         android:layout_width="wrap_content"
@@ -84,5 +85,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnUploadImage"
         app:layout_constraintTop_toBottomOf="@+id/pbUploadingImage" />
+      -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

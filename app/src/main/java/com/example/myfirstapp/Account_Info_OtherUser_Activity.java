@@ -79,7 +79,7 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
         storageReference.child(OtherUserUID).child("Images").child("ProfilePicture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-      //          Picasso.with(this).load(uri).fit().centerCrop().into(ProfilePicture);
+        Picasso.get().load(uri).fit().centerCrop().into(ProfilePicture);
             }
         });
 

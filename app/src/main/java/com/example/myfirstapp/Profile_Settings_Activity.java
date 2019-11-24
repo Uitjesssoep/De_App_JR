@@ -159,7 +159,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         myref2.child(firebaseAuth.getUid()).child("Images").child("ProfilePicture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-      //           Picasso.get().load(uri).fit().centerCrop().into(ChangeProfilePicture);
+        Picasso.get().load(uri).fit().centerCrop().into(ChangeProfilePicture);
             }
         });
 

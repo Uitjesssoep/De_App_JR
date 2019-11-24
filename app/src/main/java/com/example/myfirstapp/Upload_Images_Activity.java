@@ -43,7 +43,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
     private ImageView mImageView;
     private ProgressBar mProgressbar;
     private String MyUID;
-
+    private TextView tvImageUri;
     private Uri mImageUri;
 
     private StorageReference mStorageRef;
@@ -58,7 +58,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
         mButtonChooseImage = findViewById(R.id.btnChooseImage);
         mButtonUpload = findViewById(R.id.btnUploadImage);
-        mTextViewShowUploads = findViewById(R.id.tvShowUploads);
+       // mTextViewShowUploads = findViewById(R.id.tvShowUploads);
         mEditTextFileName = findViewById(R.id.etImageName);
         mImageView = findViewById(R.id.ivUploadedImage);
         mProgressbar = findViewById(R.id.pbUploadingImage);
@@ -66,7 +66,6 @@ public class Upload_Images_Activity extends AppCompatActivity {
         MyUID = user.getUid();
         mStorageRef = FirebaseStorage.getInstance().getReference(MyUID).child("General_Image_Posts");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(MyUID);
-
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,12 +83,12 @@ public class Upload_Images_Activity extends AppCompatActivity {
             }
         });
 
-        mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
+      /*  mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openImagesActivity();
             }
-        });
+        });*/
 
 
 
@@ -108,8 +107,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null &&data.getData() != null) {
             mImageUri = data.getData();
-
-            Picasso.with(this).load(mImageUri).fit().centerCrop().into(mImageView);
+            Picasso.get().load(mImageUri).fit().centerCrop().into(mImageView);
         }
     }
 
@@ -139,9 +137,10 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
                             Toast.makeText(Upload_Images_Activity.this, "Upload succesful", Toast.LENGTH_SHORT).show();
                             Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                                    taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
+                                    taskSnapshot.getUploadSessionUri().toString());
                             String uploadId = mDatabaseRef.push().getKey();
                             mDatabaseRef.child(uploadId).setValue(upload);
+                            mEditTextFileName.getText().clear();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -162,8 +161,8 @@ public class Upload_Images_Activity extends AppCompatActivity {
         }
     }
 
-    private void openImagesActivity(){
+ /*   private void openImagesActivity(){
         Intent intent = new Intent(this, ImagesFeed.class);
         startActivity(intent);
-    }
+    }*/
 }

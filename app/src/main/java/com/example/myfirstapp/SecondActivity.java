@@ -51,9 +51,9 @@ public class SecondActivity extends AppCompatActivity {
 
 
     private void Checked(){
-        SearchUsersButton = (Button)findViewById(R.id.btnSearchUsersSA);
-        AccountInfoButton = (Button)findViewById(R.id.btnAccountInfo);
-        PostButton = (Button)findViewById(R.id.btnPost);
+        SearchUsersButton = findViewById(R.id.btnSearchUsersSA);
+        AccountInfoButton = findViewById(R.id.btnAccountInfo);
+        PostButton = findViewById(R.id.btnPost);
         GeneralFeedButton = findViewById(R.id.btnGeneralFeed);
 
         AccountInfoButton.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +79,7 @@ public class SecondActivity extends AppCompatActivity {
        GeneralFeedButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               startActivity(new Intent(SecondActivity.this, General_Feed_Activity.class));
+               startActivity(new Intent(SecondActivity.this, Choose_FeedType_Activity.class));
            }
        });
     }
