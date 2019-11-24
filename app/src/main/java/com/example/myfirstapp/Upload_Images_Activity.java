@@ -43,12 +43,13 @@ public class Upload_Images_Activity extends AppCompatActivity {
     private ImageView mImageView;
     private ProgressBar mProgressbar;
     private String MyUID;
+
     private Uri mImageUri;
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
 
-    private StorageTask mUploadtTask;
+    private StorageTask mUploadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         MyUID = user.getUid();
         mStorageRef = FirebaseStorage.getInstance().getReference(MyUID).child("General_Image_Posts");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(MyUID);
 
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +77,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
         mButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mUploadtTask != null && mUploadtTask.isInProgress()){
+                if (mUploadTask != null && mUploadTask.isInProgress()){
                     Toast.makeText(Upload_Images_Activity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
                 }else
                 uploadFile();
@@ -108,7 +109,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null &&data.getData() != null) {
             mImageUri = data.getData();
 
-            Picasso.get().load(mImageUri).fit().centerCrop().into(mImageView);
+            Picasso.with(this).load(mImageUri).fit().centerCrop().into(mImageView);
         }
     }
 
@@ -122,7 +123,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
     private void uploadFile() {
         if (mImageUri != null) {
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()+ "." + getFileExtension(mImageUri));
-            mUploadtTask = fileReference.putFile(mImageUri)
+            mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

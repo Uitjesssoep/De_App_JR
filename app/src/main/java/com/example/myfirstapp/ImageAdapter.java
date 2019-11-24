@@ -34,7 +34,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         Upload uploadCurrent = mUploads.get(position);
         holder.textViewName.setText(uploadCurrent.getName());
-        Picasso.get()
+      //  Picasso picasso = Picasso.get();
+       // Picasso.Builder picassoBuilder = new Picasso.Builder(mContext);
+      //  Picasso picasso = picassoBuilder.build();
+        Picasso.with(mContext)
                 .load(uploadCurrent.getImageUrl())
                 .placeholder(R.drawable.app_logo_200)
                 .fit()
@@ -54,7 +57,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            textViewName = itemView.findViewById(R.id.tvname);
+            textViewName = itemView.findViewById(R.id.tvName);
             imageView = itemView.findViewById(R.id.ivUpload);
         }
     }

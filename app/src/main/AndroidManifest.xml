@@ -11,53 +11,73 @@
         android:roundIcon="@mipmap/flower_launcher_v2_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Account_Info_OtherUser_Activity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".ImagesFeed"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Text_Post_Viewing_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".General_Feed_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Upload_TextPost_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Choose_PostType_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Upload_Images_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Chat_Room_MakeOrSearch_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Chat_With_Users_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Search_Other_Users_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Loading_Screen_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Change_Password_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Profile_First_Setup"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Profile_Settings_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Forgot_Password_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Account_Info_Activity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".RegistrationActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SecondActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".NewImagesFeed"></activity>
+        <activity
+            android:name=".Account_Info_OtherUser_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ImagesFeed"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Text_Post_Viewing_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".General_Feed_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Upload_TextPost_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Choose_PostType_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Upload_Images_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Chat_Room_MakeOrSearch_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Chat_With_Users_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Search_Other_Users_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Loading_Screen_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Change_Password_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Profile_First_Setup"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Profile_Settings_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Forgot_Password_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Account_Info_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SecondActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Splash_Screen_Activity"
-            android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
