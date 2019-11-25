@@ -43,7 +43,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
     private EditText mEditTextFileName;
     private ImageView mImageView;
     private ProgressBar mProgressbar;
-    private String MyUID, photoStringLink;
+    private String MyUID, ImageUrl, ImageUrl2;
     private TextView tvImageUri;
     private Uri mImageUri;
 
@@ -121,7 +121,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
     private void uploadFile() {
         if (mImageUri != null) {
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()+ "." + getFileExtension(mImageUri));
+            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()+ "." + getFileExtension(mImageUri));
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -133,23 +133,23 @@ public class Upload_Images_Activity extends AppCompatActivity {
                                     mProgressbar.setProgress(0);
                                 }
                             },500);
-                            mImageView.setImageResource(0);
-                            mImageUri = null;
 
-
-                            Toast.makeText(Upload_Images_Activity.this, "Upload succesful", Toast.LENGTH_SHORT).show();
-                            Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                                    photoStringLink);
-                            Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
-                            result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    photoStringLink = uri.toString();
+                                    Toast.makeText(Upload_Images_Activity.this, "Upload succesful", Toast.LENGTH_SHORT).show();
+                                    Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                                            uri.toString());
+                                    String uploadId = mDatabaseRef.push().getKey();
+                                    mDatabaseRef.child(uploadId).setValue(upload);
+
                                 }
                             });
-                            String uploadId = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(uploadId).setValue(upload);
+
+
                             mEditTextFileName.getText().clear();
+                            mImageView.setImageResource(0);
+                            mImageUri = null;
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
