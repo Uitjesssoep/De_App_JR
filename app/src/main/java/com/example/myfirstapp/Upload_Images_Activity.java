@@ -150,6 +150,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
                             mEditTextFileName.getText().clear();
                             mImageView.setImageResource(0);
                             mImageUri = null;
+                            startActivity(new Intent(Upload_Images_Activity.this, ImagesFeed.class));
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
