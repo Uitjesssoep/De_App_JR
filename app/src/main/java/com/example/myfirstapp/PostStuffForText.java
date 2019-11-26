@@ -7,13 +7,15 @@ public class PostStuffForText {
     private String mContent;
     private String mUID;
     private String mKey;
+    private String mDate;
 
-    public PostStuffForText(String Title, String User_name, String Content, String UID, String Key) {
+    public PostStuffForText(String Title, String User_name, String Content, String UID, String Key, String Date) {
         mTitle = Title;
         mUser_name = User_name;
         mContent = Content;
         mUID = UID;
         mKey = Key;
+        mDate = Date;
     }
 
     public PostStuffForText() {
@@ -57,5 +59,13 @@ public class PostStuffForText {
 
     public void setKey(String Key) {
         this.mKey = Key;
+    }
+
+    public String getDate() {
+        return mDate;
+    }
+
+    public void setDate(String Date) {
+        this.mDate = Date;
     }
 }

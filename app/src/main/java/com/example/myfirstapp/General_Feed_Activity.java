@@ -63,8 +63,6 @@ public class General_Feed_Activity extends AppCompatActivity {
 
         SetupUI();
 
-        CheckLikesEnzo();
-
         posts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -78,8 +76,8 @@ public class General_Feed_Activity extends AppCompatActivity {
                 GeneralFeed.setAdapter(postStuffForTextAdapter);
 
 
-
                 postStuffForTextAdapter.setOnItemClickListener(new PostStuffForTextAdapter.OnItemClickListener() {
+
                     @Override
                     public void onItemClick(int position) {
                         key = postStuffForTextList.get(position).getKey().toString();
@@ -246,93 +244,4 @@ public class General_Feed_Activity extends AppCompatActivity {
             }
         });
     }
-
-    private void CheckLikesEnzo() {
-
-        DatabaseIsItLiked = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
-        DatabaseIsItLiked.keepSynced(true);
-        DatabaseIsItLiked.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.hasChild(MyUID)) {
-
-                    //Like.setImageResource(R.drawable.pijl_omhoog_geklikt);
-                    LikedCheck = true;
-
-                }
-
-                else{
-
-                    //Like.setImageResource(R.drawable.pijl_omhoog_neutraal);
-                    LikedCheck = false;
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        DatabaseIsItDisliked = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
-        DatabaseIsItDisliked.keepSynced(true);
-        DatabaseIsItDisliked.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.hasChild(MyUID)) {
-
-                    //Dislike.setImageResource(R.drawable.pijl_omlaag_geklikt);
-                    DislikedCheck = true;
-
-                }
-
-                else{
-
-                    //Dislike.setImageResource(R.drawable.pijl_omlaag_neutraal);
-                    DislikedCheck = false;
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-        DatabaseLikeCount = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
-        DatabaseLikeCount.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                LikeCount = (int) dataSnapshot.getChildrenCount();
-                //LikeCountDisplay.setText("" + LikeCount);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        DatabaseDislikeCount = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
-        DatabaseDislikeCount.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DislikeCount = (int) dataSnapshot.getChildrenCount();
-                //DislikeCountDisplay.setText("" + DislikeCount);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
-
 }

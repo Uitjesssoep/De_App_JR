@@ -21,6 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,8 +38,11 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference GeneralTextPosts, PersonalTextPosts;
-    private String MyUID, temp_key;
+    private String MyUID, temp_key, Date;
     private TextView user_name_gebruiker;
+
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
 
 
     private void SetupUI() {
@@ -57,6 +63,10 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         PersonalTextPosts = FirebaseDatabase.getInstance().getReference("Personal_Text_Posts").child(MyUID);
 
         user_name_gebruiker = findViewById(R.id.tvUserNameHiddenDing);
+
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        Date = dateFormat.format(calendar.getTime());
     }
 
 
@@ -125,7 +135,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
 
                 temp_key = GeneralTextPosts.push().getKey();
-                PostStuffForText postStuffForText = new PostStuffForText(TitleContent, usernameString, TextContent, MyUID, temp_key);
+                PostStuffForText postStuffForText = new PostStuffForText(TitleContent, usernameString, TextContent, MyUID, temp_key, Date);
                 GeneralTextPosts.child(temp_key).setValue(postStuffForText);
 
                 Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +59,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
+        holder.Date.setText(uploadCurrent.getDate());
     }
 
     @Override
@@ -66,7 +69,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, KeyHolder;
+        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, KeyHolder, Date;
         public ImageButton Upvote, Downvote;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
@@ -78,6 +81,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             CommentCount = itemView.findViewById (R.id.tvCommentCountTextPostItem);
             Title = itemView.findViewById (R.id.tvTitleTextPostItem);
             KeyHolder = itemView.findViewById(R.id.tvKeyHiddenTextPostItem);
+            Date = itemView.findViewById(R.id.tvPostDateTextPostItem);
             Upvote = itemView.findViewById(R.id.ibLikeUpTextPostItem);
             Downvote = itemView.findViewById(R.id.ibLikeDownTextPostItem);
 
