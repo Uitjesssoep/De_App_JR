@@ -58,6 +58,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         return new PostStuffForTextAdapter.ViewHolder(view, mListener);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         PostStuffForText uploadCurrent = mPost.get(position);

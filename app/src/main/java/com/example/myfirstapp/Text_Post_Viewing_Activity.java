@@ -3,6 +3,7 @@ package com.example.myfirstapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -28,6 +29,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +59,10 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
     private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
     private FirebaseAuth firebaseAuth;
 
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
+    private String Date;
+
     private int LikeCount, DislikeCount, CommentCount;
     private static final String TAG = "Text_Post_Viewing";
 
@@ -70,6 +78,9 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         Dislike = findViewById(R.id.ibLikeDownForTextPostViewing);
 
         CommentView = findViewById(R.id.rvCommentsTextPost);
+        CommentView.setLayoutManager(new LinearLayoutManager(this));
+        commentStuffForTextPostList = new ArrayList<>();
+
         NumberOfComments = findViewById(R.id.tvNumberOfCommentsForTextPosts);
         PostComment = findViewById(R.id.btnPostCommentOnTextPost);
         CommentSubstance = findViewById(R.id.etAddCommentForTextPost);
@@ -198,11 +209,16 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Comments");
 
+        ReloadComments();
+
         PostComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 CommentMessage = CommentSubstance.getText().toString();
+                calendar = Calendar.getInstance();
+                dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+                Date = dateFormat.format(calendar.getTime());
 
                 if(CommentMessage.isEmpty()){
                     Toast.makeText(Text_Post_Viewing_Activity.this, "Can't post an empty comment", Toast.LENGTH_SHORT).show();
@@ -210,19 +226,30 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                 else{
 
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    temp_key = DatabaseCommentStuff.push().getKey();
-                    DatabaseCommentStuff.updateChildren(map);
+                    DatabaseReference GetUserName = firebaseDatabase.getReference("users").child(MyUID);
+                    GetUserName.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
 
-                    DatabaseReference message_root = DatabaseCommentStuff.child(temp_key);
-                    Map<String, Object> map2 = new HashMap<String, Object>();
-                    map2.put("name", user_name_gebruiker.getText().toString());
-                    map2.put("message", CommentSubstance.getText().toString());
+                            String userName = userProfile.getUserName().toString();
 
-                    message_root.updateChildren(map2);
+                            temp_key = DatabaseCommentStuff.push().getKey();
+                            CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, temp_key, MyUID);
+                            DatabaseCommentStuff.child(temp_key).setValue(commentStuffForTextPost);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
 
                     CommentSubstance.setText("");
-
+                    finish();
+                    overridePendingTransition(0, 0);
+                    startActivity(getIntent());
+                    overridePendingTransition(0, 0);
                 }
 
             }
@@ -242,30 +269,34 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void ReloadComments() {
+
+        DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Comments");
 
 
-        DatabaseCommentStuff.addChildEventListener(new ChildEventListener() {
+        DatabaseCommentStuff.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                append_chat_conversation(dataSnapshot);
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    CommentStuffForTextPost commentStuffForTextPost = dataSnapshot1.getValue(CommentStuffForTextPost.class);
+                    commentStuffForTextPostList.add(commentStuffForTextPost);
+                }
 
-            }
+                commentStuffForTextPostAdapter = new CommentStuffForTextPostAdapter(Text_Post_Viewing_Activity.this, commentStuffForTextPostList);
+                CommentView.setAdapter(commentStuffForTextPostAdapter);
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                append_chat_conversation(dataSnapshot);
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                commentStuffForTextPostAdapter.setOnItemClickListener(new CommentStuffForTextPostAdapter.OnItemClickListener() {
+                    @Override
+                    public void onUserNameClick(int position) {
+                        key = commentStuffForTextPostList.get(position).getKey().toString();
+                        //Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
+                        //GoToProfile.putExtra("Key", key);
+                        //startActivity(GoToProfile);
+                    }
+                });
 
             }
 
@@ -277,25 +308,6 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
     }
 
-
-    private String chat_msg, chat_user_name;
-
-    private void append_chat_conversation (DataSnapshot dataSnapshot) {
-
-        Iterator i = dataSnapshot.getChildren().iterator();
-
-        while(i.hasNext()){
-
-            chat_msg = (String) ((DataSnapshot)i.next()).getValue();
-            chat_user_name = (String) ((DataSnapshot)i.next()).getValue();
-
-            CommentView.append(
-                    chat_user_name + " : "+ " \n" +chat_msg +" \n" + " \n"
-            );
-
-        }
-
-    }
 
 
     private void LikeDislikeCount() {
@@ -528,5 +540,10 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         });
     }
 
+    public void onBackPressed(){
+        Intent Back = new Intent(Text_Post_Viewing_Activity.this, General_Feed_Activity.class);
+        startActivity(Back);
+        finish();
+    }
 
 }

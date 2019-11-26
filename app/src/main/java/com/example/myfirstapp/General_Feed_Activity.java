@@ -84,6 +84,7 @@ public class General_Feed_Activity extends AppCompatActivity {
                         Intent Test2 = new Intent(getApplicationContext(), Text_Post_Viewing_Activity.class);
                         Test2.putExtra("Key", key);
                         startActivity(Test2);
+                        finish();
                     }
 
                     @Override
