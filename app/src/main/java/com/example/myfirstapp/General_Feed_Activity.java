@@ -35,9 +35,14 @@ public class General_Feed_Activity extends AppCompatActivity {
     private PostStuffForTextAdapter postStuffForTextAdapter;
 
     private FirebaseDatabase firebaseDatabase;
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
     private DatabaseReference posts = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+    private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
 
-    private String key;
+    private String key, MyUID;
+    private Boolean Liked = false, Disliked = false, LikedCheck = false, DislikedCheck = false;
+    private int LikeCount, DislikeCount, CommentCount;
 
     private void SetupUI() {
 
@@ -47,6 +52,7 @@ public class General_Feed_Activity extends AppCompatActivity {
         postStuffForTextList = new ArrayList<>();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -56,6 +62,8 @@ public class General_Feed_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_general__feed);
 
         SetupUI();
+
+        CheckLikesEnzo();
 
         posts.addValueEventListener(new ValueEventListener() {
             @Override
@@ -69,6 +77,8 @@ public class General_Feed_Activity extends AppCompatActivity {
                 postStuffForTextAdapter = new PostStuffForTextAdapter(General_Feed_Activity.this, postStuffForTextList);
                 GeneralFeed.setAdapter(postStuffForTextAdapter);
 
+
+
                 postStuffForTextAdapter.setOnItemClickListener(new PostStuffForTextAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
@@ -81,6 +91,150 @@ public class General_Feed_Activity extends AppCompatActivity {
                     @Override
                     public void onUserNameClick(int position) {
                         key = postStuffForTextList.get(position).getKey().toString();
+                        Intent GoToProfile = new Intent(General_Feed_Activity.this, Account_Info_OtherUser_Activity.class);
+                        GoToProfile.putExtra("Key", key);
+                        startActivity(GoToProfile);
+                    }
+
+                    @Override
+                    public void onUpvoteClick(int position) {
+                        key = postStuffForTextList.get(position).getKey().toString();
+                        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+
+                        if(DislikedCheck){
+                            DatabaseDislike.child(MyUID).removeValue();
+                            Liked = true;
+
+                            DatabaseLike.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    if(Liked) {
+
+                                        if (dataSnapshot.hasChild(MyUID)) {
+
+                                            DatabaseLike.child(MyUID).removeValue();
+                                            Liked = false;
+
+                                        } else {
+
+                                            DatabaseLike.child(MyUID).setValue("RandomLike");
+                                            Liked = false;
+
+                                        }
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                        else{
+                            Liked = true;
+
+                            DatabaseLike.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    if(Liked) {
+
+                                        if (dataSnapshot.hasChild(MyUID)) {
+
+                                            DatabaseLike.child(MyUID).removeValue();
+                                            Liked = false;
+
+                                        } else {
+
+                                            DatabaseLike.child(MyUID).setValue("RandomLike");
+                                            Liked = false;
+
+                                        }
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onDownvoteClick(int position) {
+                        key = postStuffForTextList.get(position).getKey().toString();
+                        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+
+                        if(LikedCheck){
+                            DatabaseLike.child(MyUID).removeValue();
+
+                            Disliked = true;
+
+                            DatabaseDislike.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    if(Disliked) {
+
+                                        if (dataSnapshot.hasChild(MyUID)) {
+
+                                            DatabaseDislike.child(MyUID).removeValue();
+                                            Disliked = false;
+
+                                        } else {
+
+                                            DatabaseDislike.child(MyUID).setValue("RandomDislike");
+                                            Disliked = false;
+
+                                        }
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                        else{
+                            Disliked = true;
+
+                            DatabaseDislike.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    if(Disliked) {
+
+                                        if (dataSnapshot.hasChild(MyUID)) {
+
+                                            DatabaseDislike.child(MyUID).removeValue();
+                                            Disliked = false;
+
+                                        } else {
+
+                                            DatabaseDislike.child(MyUID).setValue("RandomDislike");
+                                            Disliked = false;
+
+                                        }
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
                     }
                 });
 
@@ -91,6 +245,93 @@ public class General_Feed_Activity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void CheckLikesEnzo() {
+
+        DatabaseIsItLiked = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
+        DatabaseIsItLiked.keepSynced(true);
+        DatabaseIsItLiked.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChild(MyUID)) {
+
+                    //Like.setImageResource(R.drawable.pijl_omhoog_geklikt);
+                    LikedCheck = true;
+
+                }
+
+                else{
+
+                    //Like.setImageResource(R.drawable.pijl_omhoog_neutraal);
+                    LikedCheck = false;
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseIsItDisliked = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+        DatabaseIsItDisliked.keepSynced(true);
+        DatabaseIsItDisliked.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChild(MyUID)) {
+
+                    //Dislike.setImageResource(R.drawable.pijl_omlaag_geklikt);
+                    DislikedCheck = true;
+
+                }
+
+                else{
+
+                    //Dislike.setImageResource(R.drawable.pijl_omlaag_neutraal);
+                    DislikedCheck = false;
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        DatabaseLikeCount = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
+        DatabaseLikeCount.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                LikeCount = (int) dataSnapshot.getChildrenCount();
+                //LikeCountDisplay.setText("" + LikeCount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseDislikeCount = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+        DatabaseDislikeCount.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DislikeCount = (int) dataSnapshot.getChildrenCount();
+                //DislikeCountDisplay.setText("" + DislikeCount);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 
