@@ -69,6 +69,21 @@ public class General_Feed_Activity extends AppCompatActivity {
                 postStuffForTextAdapter = new PostStuffForTextAdapter(General_Feed_Activity.this, postStuffForTextList);
                 GeneralFeed.setAdapter(postStuffForTextAdapter);
 
+                postStuffForTextAdapter.setOnItemClickListener(new PostStuffForTextAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        key = postStuffForTextList.get(position).getKey().toString();
+                        Intent Test2 = new Intent(getApplicationContext(), Text_Post_Viewing_Activity.class);
+                        Test2.putExtra("Key", key);
+                        startActivity(Test2);
+                    }
+
+                    @Override
+                    public void onUserNameClick(int position) {
+                        key = postStuffForTextList.get(position).getKey().toString();
+                    }
+                });
+
             }
 
             @Override

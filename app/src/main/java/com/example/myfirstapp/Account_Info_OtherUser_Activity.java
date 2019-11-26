@@ -52,7 +52,7 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference("General_Text_Posts").child(key).child("UID");
+        DatabaseReference databaseReference = firebaseDatabase.getReference("General_Text_Posts").child(key).child("uid");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

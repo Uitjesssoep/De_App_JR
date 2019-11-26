@@ -101,7 +101,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text__post__viewing);
 
-        setTitle("Text Post");
+        //setTitle("Text Post");
 
         SetupUI();
 
@@ -113,7 +113,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         key = getIntent().getExtras().get("Key").toString();
 
-        DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Title");
+        DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("title");
 
         TitleRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -127,7 +127,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference ContentRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Content");
+        DatabaseReference ContentRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("content");
 
         ContentRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -141,7 +141,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference UserNameRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("User_name");
+        DatabaseReference UserNameRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("user_name");
 
         UserNameRef.addValueEventListener(new ValueEventListener() {
             @Override

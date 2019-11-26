@@ -23,6 +23,16 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
     public Context mContext;
     public List<PostStuffForText> mPost;
 
+    private OnItemClickListener mListener;
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+        void onUserNameClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
+    }
+
     private FirebaseUser firebaseUser;
 
     public PostStuffForTextAdapter(Context mContext, List<PostStuffForText> mPost) {
@@ -34,14 +44,14 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
-        return new PostStuffForTextAdapter.ViewHolder(view);
+        return new PostStuffForTextAdapter.ViewHolder(view, mListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PostStuffForText uploadCurrent = mPost.get(position);
         holder.Username.setText(uploadCurrent.getUser_name());
-        holder.Title.setText(uploadCurrent.getContent());
+        holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
     }
 
@@ -50,11 +60,11 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         return mPost.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView Username, LikeCount, DislikeCount, CommentCount, Title, KeyHolder;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             Username = itemView.findViewById (R.id.tvUsernameTextPostItem);
@@ -63,6 +73,31 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             CommentCount = itemView.findViewById (R.id.tvCommentCountTextPostItem);
             Title = itemView.findViewById (R.id.tvTitleTextPostItem);
             KeyHolder = itemView.findViewById(R.id.tvKeyHiddenTextPostItem);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            Username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onUserNameClick(position);
+                        }
+                    }
+                }
+            });
+
         }
     }
 }
