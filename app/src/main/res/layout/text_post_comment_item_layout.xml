@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvUsernameTextPostComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text="Username" />
+
+        <TextView
+            android:id="@+id/tvStreepjeCommentTextPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:layout_toRightOf="@id/tvUsernameTextPostComment"
+            android:text="  -  " />
+
+        <TextView
+            android:id="@+id/tvDatumCommentTextPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:layout_toRightOf="@id/tvStreepjeCommentTextPost"
+            android:text="Date" />
+
+        <TextView
+            android:id="@+id/tvContentCommentTextPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:layout_below="@id/tvUsernameTextPostComment"
+            android:text="Content" />
+
+        <ImageButton
+            android:id="@+id/ibUpvoteCommentTextPost"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_below="@id/tvContentCommentTextPost"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="#00FFFFFF"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/pijl_omhoog_neutraal" />
+
+        <TextView
+            android:id="@+id/tvUpvoteCountCommentTextPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_below="@id/tvContentCommentTextPost"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/ibUpvoteCommentTextPost"
+            android:text="0" />
+
+        <ImageButton
+            android:id="@+id/ibDownvoteCommentTextPost"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_below="@id/tvContentCommentTextPost"
+            android:layout_toRightOf="@id/tvUpvoteCountCommentTextPost"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="#00FFFFFF"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/pijl_omlaag_neutraal" />
+
+        <TextView
+            android:id="@+id/tvDownvoteCountCommentTextPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_below="@id/tvContentCommentTextPost"
+            android:layout_toRightOf="@id/ibDownvoteCommentTextPost"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="0" />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

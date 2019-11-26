@@ -3,6 +3,7 @@ package com.example.myfirstapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,12 +30,18 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
 
-    private TextView Title, Content, UserName, LikeCountDisplay, DislikeCountDisplay, CommentView, NumberOfComments, user_name_gebruiker;
+    private TextView Title, Content, UserName, LikeCountDisplay, DislikeCountDisplay, NumberOfComments, user_name_gebruiker;
+
+    private RecyclerView CommentView;
+    private List<CommentStuffForTextPost> commentStuffForTextPostList;
+    private CommentStuffForTextPostAdapter commentStuffForTextPostAdapter;
+
     private FirebaseDatabase firebaseDatabase;
     private String key, MyUID, CommentMessage, temp_key;
     private ImageButton Like, Dislike;
@@ -62,7 +69,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         Like = findViewById(R.id.ibLikeUpForTextPostViewing);
         Dislike = findViewById(R.id.ibLikeDownForTextPostViewing);
 
-        CommentView = findViewById(R.id.tvCommentWindowForTextPosts);
+        CommentView = findViewById(R.id.rvCommentsTextPost);
         NumberOfComments = findViewById(R.id.tvNumberOfCommentsForTextPosts);
         PostComment = findViewById(R.id.btnPostCommentOnTextPost);
         CommentSubstance = findViewById(R.id.etAddCommentForTextPost);
@@ -72,8 +79,6 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-
-        CommentView.setMovementMethod(new ScrollingMovementMethod());
 
         key = getIntent().getExtras().get("Key").toString();
         DatabaseReference CheckIfCommentsDisabledDatabase = firebaseDatabase.getReference("General_Text_Posts").child(key);
@@ -100,8 +105,6 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text__post__viewing);
-
-        //setTitle("Text Post");
 
         SetupUI();
 

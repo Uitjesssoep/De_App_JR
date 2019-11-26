@@ -162,24 +162,6 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/tvCommentWindowForTextPosts"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="bottom"
-        android:hint="Comments will be shown here"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/etAddCommentForTextPost"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNumberOfCommentsForTextPosts" />
-
-    <TextView
         android:id="@+id/tvUsernameGebruikerVerstoptInEenHoekjeOmdatIkGeenBetereManierWeet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -191,5 +173,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCommentsTextPost"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/etAddCommentForTextPost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNumberOfCommentsForTextPosts" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

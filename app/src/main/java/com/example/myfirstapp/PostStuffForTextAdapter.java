@@ -12,13 +12,17 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -26,6 +30,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
     public Context mContext;
     public List<PostStuffForText> mPost;
+    public int CommentCountAdapter, LikeCountAdapter, DislikeCountAdapter;
 
     private OnItemClickListener mListener;
     public interface OnItemClickListener {
@@ -54,12 +59,55 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         PostStuffForText uploadCurrent = mPost.get(position);
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
         holder.Date.setText(uploadCurrent.getDate());
+
+        String KeyYeah = uploadCurrent.getKey().toString();
+        final DatabaseReference CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Comments");
+        CommentCountInAdapter.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               CommentCountAdapter = (int) dataSnapshot.getChildrenCount();
+               holder.CommentCount.setText("Number of comments: " + CommentCountAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
+        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
+        LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+                holder.LikeCount.setText("" + LikeCountAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        DislikeCountInAdapter.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+                holder.DislikeCount.setText("" + DislikeCountAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
