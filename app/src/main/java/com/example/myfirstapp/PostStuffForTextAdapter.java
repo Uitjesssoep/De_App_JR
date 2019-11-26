@@ -1,6 +1,9 @@
 package com.example.myfirstapp;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -34,7 +39,10 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        PostStuffForText uploadCurrent = mPost.get(position);
+        holder.Username.setText(uploadCurrent.getUser_name());
+        holder.Title.setText(uploadCurrent.getContent());
+        holder.KeyHolder.setText(uploadCurrent.getKey());
     }
 
     @Override
@@ -44,7 +52,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView Username, LikeCount, DislikeCount, CommentCount, Title;
+        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, KeyHolder;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -54,11 +62,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             DislikeCount = itemView.findViewById (R.id.tvDislikeCounterTextPostItem);
             CommentCount = itemView.findViewById (R.id.tvCommentCountTextPostItem);
             Title = itemView.findViewById (R.id.tvTitleTextPostItem);
+            KeyHolder = itemView.findViewById(R.id.tvKeyHiddenTextPostItem);
         }
     }
-
-    private void publisherInfo(TextView Username, String userid){
-
-    }
-
 }

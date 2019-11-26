@@ -2,41 +2,60 @@ package com.example.myfirstapp;
 
 public class PostStuffForText {
 
-    private String postKey;
-    private String postTitle;
-    private String postUsername;
+    private String mTitle;
+    private String mUser_name;
+    private String mContent;
+    private String mUID;
+    private String mKey;
 
-
-    public PostStuffForText(String postKey, String postTitle, String postUsername) {
-        this.postKey = postKey;
-        this.postTitle = postTitle;
-        this.postUsername = postUsername;
+    public PostStuffForText(String Title, String User_name, String Content, String UID, String Key) {
+        mTitle = Title;
+        mUser_name = User_name;
+        mContent = Content;
+        mUID = UID;
+        mKey = Key;
     }
 
     public PostStuffForText() {
     }
 
-    public String getPostKey() {
-        return postKey;
+    public String getTitle() {
+        return mTitle;
     }
 
-    public void setPostKey(String postKey) {
-        this.postKey = postKey;
+    public void setTitle(String Title) {
+        mTitle = Title;
     }
 
-    public String getPostTitle() {
-        return postTitle;
+    public String getUser_name() {
+        return mUser_name;
     }
 
-    public void setPostTitle(String postTitle) {
-        this.postTitle = postTitle;
+    public void setUser_name(String User_name) {
+        mUser_name = User_name;
     }
 
-    public String getPostUsername() {
-        return postUsername;
+    public String getContent() {
+        return mContent;
     }
 
-    public void setPostUsername(String postUsername) {
-        this.postUsername = postUsername;
+    public void setContent(String Content) {
+        this.mContent = Content;
+    }
+
+    public String getUID() {
+        return mUID;
+    }
+
+    public void setUID(String UID) {
+        this.mUID = UID;
+    }
+
+    public String getKey() {
+        return mKey;
+    }
+
+    public void setKey(String Key) {
+        this.mKey = Key;
     }
 }

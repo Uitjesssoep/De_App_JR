@@ -2,6 +2,8 @@ package com.example.myfirstapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,24 +24,27 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class General_Feed_Activity extends AppCompatActivity {
 
 
-    private ListView GeneralFeed;
-    private ArrayAdapter<String> arrayAdapter;
-    private ArrayList<String> list_of_posts = new ArrayList<>();
+    private RecyclerView GeneralFeed;
+    private List<PostStuffForText> postStuffForTextList;
+    private PostStuffForTextAdapter postStuffForTextAdapter;
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference posts = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
 
+    private String key;
 
     private void SetupUI() {
 
-    //    GeneralFeed = findViewById(R.id.lvGeneralFeed);
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_of_posts);
-        GeneralFeed.setAdapter(arrayAdapter);
+        GeneralFeed = findViewById(R.id.rvFeedScreen);
+        GeneralFeed.setLayoutManager(new LinearLayoutManager(this));
+
+        postStuffForTextList = new ArrayList<>();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -52,21 +57,18 @@ public class General_Feed_Activity extends AppCompatActivity {
 
         SetupUI();
 
-
         posts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Set<String> set = new HashSet<String>();
-                Iterator i = dataSnapshot.getChildren().iterator();
-
-                while (i.hasNext()){
-                    set.add(((DataSnapshot)i.next()).getKey());
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
+                    postStuffForTextList.add(postStuffForText);
                 }
-                list_of_posts.clear();
-                list_of_posts.addAll(set);
 
-                arrayAdapter.notifyDataSetChanged();
+                postStuffForTextAdapter = new PostStuffForTextAdapter(General_Feed_Activity.this, postStuffForTextList);
+                GeneralFeed.setAdapter(postStuffForTextAdapter);
+
             }
 
             @Override
@@ -74,20 +76,6 @@ public class General_Feed_Activity extends AppCompatActivity {
 
             }
         });
-
-
-        GeneralFeed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Intent intent = new Intent(getApplicationContext(), Text_Post_Viewing_Activity.class);
-                intent.putExtra("Key", ((TextView)view).getText().toString() );
-                startActivity(intent);
-
-            }
-        });
-
-
     }
 
 
