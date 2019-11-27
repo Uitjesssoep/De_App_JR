@@ -296,6 +296,16 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                         //GoToProfile.putExtra("Key", key);
                         //startActivity(GoToProfile);
                     }
+
+                    @Override
+                    public void onLikeClick(int position) {
+                        
+                    }
+
+                    @Override
+                    public void onDislikeClick(int position) {
+
+                    }
                 });
 
             }

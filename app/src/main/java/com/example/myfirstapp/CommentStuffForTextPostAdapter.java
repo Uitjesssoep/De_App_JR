@@ -24,6 +24,8 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
     private OnItemClickListener mListener;
     public interface OnItemClickListener {
         void onUserNameClick(int position);
+        void onLikeClick(int position);
+        void onDislikeClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -79,6 +81,30 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             listener.onUserNameClick(position);
+                        }
+                    }
+                }
+            });
+
+            Upvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onLikeClick(position);
+                        }
+                    }
+                }
+            });
+
+            Downvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onDislikeClick(position);
                         }
                     }
                 }
