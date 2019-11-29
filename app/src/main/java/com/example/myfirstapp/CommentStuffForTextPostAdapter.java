@@ -74,17 +74,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             }
 
             private void DeleteComment() {
-                DeleteVisible.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        dataSnapshot.getChildren();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                })
+                DeleteVisible.removeValue();
             }
 
             @Override
