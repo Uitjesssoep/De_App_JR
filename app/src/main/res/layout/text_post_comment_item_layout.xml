@@ -96,6 +96,17 @@
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="5dp"
             android:text="0" />
+
+        <ImageButton
+            android:id="@+id/ibDeleteIconComments"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@id/tvDatumCommentTextPost"
+            android:layout_marginLeft="240dp"
+            android:layout_marginTop="10dp"
+            android:background="#00FFFFFF"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/delete_icon" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

@@ -10,8 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -50,7 +53,22 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         holder.Date.setText(uploadCurrent2.getDate());
         holder.Content.setText(uploadCurrent2.getContent());
 
-        String KeyHoera = uploadCurrent2.getKey().toString();
+        String KeyComments = uploadCurrent2.getKey().toString();
+        String KeyOGPosts = uploadCurrent2.getOldKey().toString();
+
+        DatabaseReference DeleteVisible = FirebaseDatabase.getInstance().getReference("General_Text_Post").child(KeyOGPosts).child("Comments").child(KeyComments);
+        DeleteVisible.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Test = dataSnapshot.child("uid").getValue().toString();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -61,7 +79,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView Username, Date, Content, LikeCount, DislikeCount;
-        private ImageButton Upvote, Downvote;
+        private ImageButton Upvote, Downvote, DeleteComment;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -73,6 +91,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             DislikeCount = itemView.findViewById(R.id.tvDownvoteCountCommentTextPost);
             Upvote = itemView.findViewById(R.id.ibUpvoteCommentTextPost);
             Downvote = itemView.findViewById(R.id.ibDownvoteCommentTextPost);
+            DeleteComment = itemView.findViewById(R.id.ibDeleteIconComments);
 
             Username.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -235,7 +235,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                             String userName = userProfile.getUserName().toString();
 
                             temp_key = DatabaseCommentStuff.push().getKey();
-                            CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, temp_key, MyUID);
+                            CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, temp_key, MyUID, key);
                             DatabaseCommentStuff.child(temp_key).setValue(commentStuffForTextPost);
                         }
 
@@ -299,7 +299,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                     @Override
                     public void onLikeClick(int position) {
-                        
+                        DatabaseReference CommentLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
                     }
 
                     @Override

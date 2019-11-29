@@ -7,16 +7,18 @@ public class CommentStuffForTextPost {
     private String User_name;
     private String Key;
     private String UID;
+    private String OldKey;
 
     public CommentStuffForTextPost() {
     }
 
-    public CommentStuffForTextPost(String content, String date, String user_name, String key, String uid) {
+    public CommentStuffForTextPost(String content, String date, String user_name, String key, String uid, String oldKey) {
         Content = content;
         Date = date;
         User_name = user_name;
         Key = key;
         UID = uid;
+        OldKey = oldKey;
     }
 
     public String getContent() {
@@ -57,5 +59,13 @@ public class CommentStuffForTextPost {
 
     public void setUID(String uid) {
         this.UID = uid;
+    }
+
+    public String getOldKey() {
+        return OldKey;
+    }
+
+    public void setOldKey(String oldKey) {
+        OldKey = oldKey;
     }
 }
