@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +23,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
     public Context mContext;
     public List<CommentStuffForTextPost> mComment;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
 
     private OnItemClickListener mListener;
@@ -47,7 +49,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CommentStuffForTextPostAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CommentStuffForTextPostAdapter.ViewHolder holder, int position) {
         CommentStuffForTextPost uploadCurrent2 = mComment.get(position);
         holder.Username.setText(uploadCurrent2.getUser_name());
         holder.Date.setText(uploadCurrent2.getDate());
@@ -55,13 +57,34 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
         String KeyComments = uploadCurrent2.getKey().toString();
         String KeyOGPosts = uploadCurrent2.getOldKey().toString();
+        final String MyUID = firebaseAuth.getCurrentUser().getUid();
 
-        DatabaseReference DeleteVisible = FirebaseDatabase.getInstance().getReference("General_Text_Post").child(KeyOGPosts).child("Comments").child(KeyComments);
+
+        final DatabaseReference DeleteVisible = FirebaseDatabase.getInstance().getReference("General_Text_Post").child(KeyOGPosts).child("Comments").child(KeyComments);
         DeleteVisible.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String Test = dataSnapshot.child("uid").getValue().toString();
+                if(Test == MyUID){
+                    DeleteComment();
+                }
+                else{
+                    holder.DeleteComment.setVisibility(View.GONE);
+                }
+            }
 
+            private void DeleteComment() {
+                DeleteVisible.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        dataSnapshot.getChildren();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                })
             }
 
             @Override
