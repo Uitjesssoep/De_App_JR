@@ -24,8 +24,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -36,37 +39,41 @@ import com.squareup.picasso.Picasso;
 public class Upload_Images_Activity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST=1;
-
+    private FirebaseAuth firebaseAuth;
     private Button mButtonChooseImage;
     private Button mButtonUpload;
     private TextView mTextViewShowUploads;
     private EditText mEditTextFileName;
     private ImageView mImageView;
     private ProgressBar mProgressbar;
-    private String MyUID, ImageUrl, ImageUrl2;
-    private TextView tvImageUri;
+    private String MyUID, usernameString, temp_key;
+    private TextView user_name_gebruiker;
     private Uri mImageUri;
-
+    private FirebaseDatabase firebaseDatabase;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
 
     private StorageTask mUploadTask;
 
+    private void SetupUI(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        MyUID = user.getUid();
+        mButtonChooseImage = findViewById(R.id.btnChooseImage);
+        mButtonUpload = findViewById(R.id.btnUploadImage);
+        // mTextViewShowUploads = findViewById(R.id.tvShowUploads);
+        mEditTextFileName = findViewById(R.id.etImageName);
+        mImageView = findViewById(R.id.ivUploadedImage);
+        mProgressbar = findViewById(R.id.pbUploadingImage);
+        mStorageRef = FirebaseStorage.getInstance().getReference(MyUID).child("General_Image_Posts");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_images);
+        SetupUI();
 
-        mButtonChooseImage = findViewById(R.id.btnChooseImage);
-        mButtonUpload = findViewById(R.id.btnUploadImage);
-       // mTextViewShowUploads = findViewById(R.id.tvShowUploads);
-        mEditTextFileName = findViewById(R.id.etImageName);
-        mImageView = findViewById(R.id.ivUploadedImage);
-        mProgressbar = findViewById(R.id.pbUploadingImage);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        MyUID = user.getUid();
-        mStorageRef = FirebaseStorage.getInstance().getReference(MyUID).child("General_Image_Posts");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(MyUID);
         mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,17 +90,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
                 uploadFile();
             }
         });
-
-      /*  mTextViewShowUploads.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openImagesActivity();
             }
-        });*/
-
-
-
-    }
 
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -119,6 +116,34 @@ public class Upload_Images_Activity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
+    private void setDatabase() {
+        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
+                user_name_gebruiker.setText(userProfile.getUserName());
+
+                usernameString = user_name_gebruiker.getText().toString();
+
+
+                temp_key = mDatabaseRef.push().getKey();
+                PostStuffForMedia postStuffForMedia = new PostStuffForMedia(TitleContent, usernameString, TextContent, MyUID, temp_key, Date);
+                mDatabaseRef.child(temp_key).setValue(postStuffForText);
+
+                Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
+                startActivity(VNoD);
+                finish();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(Upload_TextPost_Activity.this, "Couldn't retrieve data from database", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void uploadFile() {
         if (mImageUri != null) {
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()+ "." + getFileExtension(mImageUri));
@@ -134,12 +159,19 @@ public class Upload_Images_Activity extends AppCompatActivity {
                                 }
                             },500);
 
+                            UserProfileToDatabase userProfile = taskSnapshot.getValue(UserProfileToDatabase.class);
+                            user_name_gebruiker.setText(userProfile.getUserName());
+
+                            usernameString = user_name_gebruiker.getText().toString();
+
+
+
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     Toast.makeText(Upload_Images_Activity.this, "Upload succesful", Toast.LENGTH_SHORT).show();
                                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                                            uri.toString());
+                                            uri.toString(), MyUID, );
                                     String uploadId = mDatabaseRef.push().getKey();
                                     mDatabaseRef.child(uploadId).setValue(upload);
 
