@@ -129,17 +129,18 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
 
                 temp_key = mDatabaseRef.push().getKey();
-                PostStuffForMedia postStuffForMedia = new PostStuffForMedia(TitleContent, usernameString, TextContent, MyUID, temp_key, Date);
-                mDatabaseRef.child(temp_key).setValue(postStuffForText);
-
-                Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
+                Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                        uri.toString(), MyUID, usernameString, temp_key);
+                String uploadId = mDatabaseRef.push().getKey();
+                mDatabaseRef.child(uploadId).setValue(upload);
+                Intent VNoD = new Intent(Upload_Images_Activity.this, SecondActivity.class);
                 startActivity(VNoD);
                 finish();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Upload_TextPost_Activity.this, "Couldn't retrieve data from database", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Upload_Images_Activity.this, "Couldn't retrieve data from database", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -159,29 +160,19 @@ public class Upload_Images_Activity extends AppCompatActivity {
                                 }
                             },500);
 
-                            UserProfileToDatabase userProfile = taskSnapshot.getValue(UserProfileToDatabase.class);
-                            user_name_gebruiker.setText(userProfile.getUserName());
-
-                            usernameString = user_name_gebruiker.getText().toString();
-
-
 
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     Toast.makeText(Upload_Images_Activity.this, "Upload succesful", Toast.LENGTH_SHORT).show();
                                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                                            uri.toString(), MyUID, );
+                                            uri.toString(), MyUID, usernameString, temp_key);
                                     String uploadId = mDatabaseRef.push().getKey();
                                     mDatabaseRef.child(uploadId).setValue(upload);
 
                                 }
                             });
 
-
-                            //mEditTextFileName.getText().clear();
-                           // mImageView.setImageResource(0);
-                            //mImageUri = null;
                             startActivity(new Intent(Upload_Images_Activity.this, ImagesFeed.class));
                             finish();
                         }
