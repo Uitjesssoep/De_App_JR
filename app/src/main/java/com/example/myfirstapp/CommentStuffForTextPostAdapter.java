@@ -77,16 +77,13 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.child("uid").getValue().toString().equals(null)){
-
-                }
-                else{
-                    Log.e(TAG, dataSnapshot.child("uid").getValue().toString());
+                    Log.e(TAG, "UID uit database "+ dataSnapshot.child("uid").getValue().toString());
                     String Test = dataSnapshot.child("uid").getValue().toString();
 
                     final String MyUID2 = firebaseAuth.getCurrentUser().getUid();
+                    Log.e(TAG, "UID uit auth " + MyUID2);
 
-                    if(Test != MyUID2){
+                    if(Test.equals(MyUID2)){
                         DeleteComment();
                         Log.e(TAG, "deleting");
                     }
@@ -94,7 +91,6 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                         holder.DeleteComment.setVisibility(View.GONE);
                         Log.e(TAG, "niet deleten");
                     }
-                }
 
             }
 
