@@ -128,14 +128,14 @@ public class Upload_Images_Activity extends AppCompatActivity {
                 usernameString = user_name_gebruiker.getText().toString();
 
 
-                temp_key = mDatabaseRef.push().getKey();
+                /*temp_key = mDatabaseRef.push().getKey();
                 Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
                         uri.toString(), MyUID, usernameString, temp_key);
                 String uploadId = mDatabaseRef.push().getKey();
                 mDatabaseRef.child(uploadId).setValue(upload);
                 Intent VNoD = new Intent(Upload_Images_Activity.this, SecondActivity.class);
                 startActivity(VNoD);
-                finish();
+                finish();*/
             }
 
             @Override

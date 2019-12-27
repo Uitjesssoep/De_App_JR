@@ -1,6 +1,7 @@
 package com.example.myfirstapp;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,16 +56,40 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         holder.Date.setText(uploadCurrent2.getDate());
         holder.Content.setText(uploadCurrent2.getContent());
 
-        String KeyComments = uploadCurrent2.getKey().toString();
-        String KeyOGPosts = uploadCurrent2.getOldKey().toString();
+        String KeyComments = uploadCurrent2.getKey();
+        String KeyOGPosts = uploadCurrent2.getOldKey();
         final String MyUID = firebaseAuth.getCurrentUser().getUid();
 
+        final String TAG = "KeysCommentDelete";
+        Log.e(TAG, KeyComments + "    " + KeyOGPosts);
 
-        final DatabaseReference DeleteVisible = FirebaseDatabase.getInstance().getReference("General_Text_Post").child(KeyOGPosts).child("Comments").child(KeyComments);
+
+        final DatabaseReference DeleteVisible = FirebaseDatabase.getInstance()
+                .getReference("General_Text_Post")
+                .child(KeyOGPosts)
+                .child("Comments")
+                .child(KeyComments)
+                .child("uid");
+
         DeleteVisible.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String Test = dataSnapshot.child("uid").getValue().toString();
+                String ForLog = dataSnapshot.getValue().toString();
+                final String TAG = "KeysCommentDelete";
+                Log.e(TAG, ForLog);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        /*DeleteVisible.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.e(TAG, dataSnapshot.getValue().toString());
+                String Test = dataSnapshot.getValue().toString();
                 if(Test == MyUID){
                     DeleteComment();
                 }
@@ -81,7 +106,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
     }
 
     @Override
