@@ -76,16 +76,26 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         DeleteVisible.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.e(TAG, dataSnapshot.child("uid").getValue().toString());
-                String Test = dataSnapshot.child("uid").getValue().toString();
-                if(Test == MyUID){
-                    DeleteComment();
-                    Log.e(TAG, "deleting");
+
+                if(dataSnapshot.child("uid").getValue().toString().equals(null)){
+
                 }
                 else{
-                    holder.DeleteComment.setVisibility(View.GONE);
-                    Log.e(TAG, "niet deleten");
+                    Log.e(TAG, dataSnapshot.child("uid").getValue().toString());
+                    String Test = dataSnapshot.child("uid").getValue().toString();
+
+                    final String MyUID2 = firebaseAuth.getCurrentUser().getUid();
+
+                    if(Test != MyUID2){
+                        DeleteComment();
+                        Log.e(TAG, "deleting");
+                    }
+                    else{
+                        holder.DeleteComment.setVisibility(View.GONE);
+                        Log.e(TAG, "niet deleten");
+                    }
                 }
+
             }
 
             private void DeleteComment() {
