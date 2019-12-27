@@ -69,7 +69,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                 .child(KeyOGPosts)
                 .child("Comments")
                 .child(KeyComments)
-                .child("content");
+                .child("uid");
 
 
         DeleteVisible.addValueEventListener(new ValueEventListener() {
