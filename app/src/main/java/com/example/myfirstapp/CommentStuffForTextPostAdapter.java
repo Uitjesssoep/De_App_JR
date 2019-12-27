@@ -75,7 +75,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.e(TAG, dataSnapshot.child("uid").getValue().toString());
-                String Test = dataSnapshot.getValue().toString();
+                String Test = dataSnapshot.child("uid").getValue().toString();
                 if(Test == MyUID){
                     DeleteComment();
                 }
