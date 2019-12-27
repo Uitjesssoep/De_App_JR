@@ -71,19 +71,8 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                 .child(KeyComments)
                 .child("content");
 
+
         DeleteVisible.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.e(TAG, dataSnapshot.getValue().toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        /*DeleteVisible.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.e(TAG, dataSnapshot.getValue().toString());
@@ -104,7 +93,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });*/
+        });
     }
 
     @Override
