@@ -68,14 +68,13 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                 .getReference("General_Text_Posts")
                 .child(KeyOGPosts)
                 .child("Comments")
-                .child(KeyComments)
-                .child("uid");
+                .child(KeyComments);
 
 
         DeleteVisible.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.e(TAG, dataSnapshot.getValue().toString());
+                Log.e(TAG, dataSnapshot.child("uid").getValue().toString());
                 String Test = dataSnapshot.getValue().toString();
                 if(Test == MyUID){
                     DeleteComment();
