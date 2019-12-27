@@ -91,13 +91,10 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                         holder.DeleteComment.setVisibility(View.GONE);
                         Log.e(TAG, "niet deleten");
                     }
-
-                    //hey
-
             }
 
             private void DeleteComment() {
-                DeleteVisible.removeValue();
+                //DeleteVisible.removeValue();
             }
 
             @Override
