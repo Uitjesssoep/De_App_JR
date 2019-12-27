@@ -61,7 +61,9 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         final String MyUID = firebaseAuth.getCurrentUser().getUid();
 
         final String TAG = "KeysCommentDelete";
-        Log.e(TAG, KeyComments + "    " + KeyOGPosts);
+        Log.e(TAG, "Uid " + MyUID);
+
+        Log.e(TAG, "Keys "+ KeyComments + "    " + KeyOGPosts);
 
 
         final DatabaseReference DeleteVisible = FirebaseDatabase.getInstance()
