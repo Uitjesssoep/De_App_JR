@@ -92,6 +92,8 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                         Log.e(TAG, "niet deleten");
                     }
 
+                    //hey
+
             }
 
             private void DeleteComment() {
