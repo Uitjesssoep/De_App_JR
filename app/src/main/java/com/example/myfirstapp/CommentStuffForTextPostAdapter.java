@@ -80,9 +80,11 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                 String Test = dataSnapshot.child("uid").getValue().toString();
                 if(Test == MyUID){
                     DeleteComment();
+                    Log.e(TAG, "deleting");
                 }
                 else{
                     holder.DeleteComment.setVisibility(View.GONE);
+                    Log.e(TAG, "niet deleten");
                 }
             }
 
