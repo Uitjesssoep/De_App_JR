@@ -65,7 +65,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
 
         final DatabaseReference DeleteVisible = FirebaseDatabase.getInstance()
-                .getReference("General_Text_Post")
+                .getReference("General_Text_Posts")
                 .child(KeyOGPosts)
                 .child("Comments")
                 .child(KeyComments)
