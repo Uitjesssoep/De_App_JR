@@ -62,11 +62,13 @@ public class Upload_Images_Activity extends AppCompatActivity {
     private void SetupUI(){
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
+        firebaseDatabase = FirebaseDatabase.getInstance();
         MyUID = user.getUid();
         ChooseImage = findViewById(R.id.btnChooseImage);
         Post = findViewById(R.id.btPostImage);
         Title = findViewById(R.id.etImageName);
         mImageView = findViewById(R.id.ivUploadedImage);
+        user_name_gebruiker = findViewById(R.id.tvUserNameHiddenDing);
         mProgressbar = findViewById(R.id.pbUploadingImage);
         mStorageRef = FirebaseStorage.getInstance().getReference("General_Image_Posts");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
@@ -123,7 +125,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
     }
 
     private void setDatabase() {
-        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
+      DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
