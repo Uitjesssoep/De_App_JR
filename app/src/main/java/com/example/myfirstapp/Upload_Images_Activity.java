@@ -35,21 +35,27 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class Upload_Images_Activity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST=1;
     private FirebaseAuth firebaseAuth;
-    private Button mChooseImage, Post;
-    private TextView mTextViewShowUploads;
-    private EditText mEditTextFileName;
+    private Button ChooseImage, Post;
+    private EditText Title;
     private ImageView mImageView;
     private ProgressBar mProgressbar;
-    private String MyUID, usernameString, temp_key;
+    private String MyUID, usernameString, temp_key, UriImage, Date;
     private TextView user_name_gebruiker;
     private Uri mImageUri;
     private FirebaseDatabase firebaseDatabase;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
+
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
 
     private StorageTask mUploadTask;
 
@@ -57,14 +63,16 @@ public class Upload_Images_Activity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         MyUID = user.getUid();
-        mChooseImage = findViewById(R.id.btnChooseImage);
+        ChooseImage = findViewById(R.id.btnChooseImage);
         Post = findViewById(R.id.btPostImage);
-        // mTextViewShowUploads = findViewById(R.id.tvShowUploads);
-        mEditTextFileName = findViewById(R.id.etImageName);
+        Title = findViewById(R.id.etImageName);
         mImageView = findViewById(R.id.ivUploadedImage);
         mProgressbar = findViewById(R.id.pbUploadingImage);
-        mStorageRef = FirebaseStorage.getInstance().getReference(MyUID).child("General_Image_Posts");
+        mStorageRef = FirebaseStorage.getInstance().getReference("General_Image_Posts");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        Date = dateFormat.format(calendar.getTime());
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +80,14 @@ public class Upload_Images_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_upload_images);
         SetupUI();
 
-        mButtonChooseImage.setOnClickListener(new View.OnClickListener() {
+        ChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openFileChooser();
             }
         });
 
-        mButtonUpload.setOnClickListener(new View.OnClickListener() {
+        Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mUploadTask != null && mUploadTask.isInProgress()){
@@ -125,15 +133,13 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
                 usernameString = user_name_gebruiker.getText().toString();
 
-
-                /*temp_key = mDatabaseRef.push().getKey();
-                Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                        uri.toString(), MyUID, usernameString, temp_key);
-                String uploadId = mDatabaseRef.push().getKey();
-                mDatabaseRef.child(uploadId).setValue(upload);
+                temp_key = mDatabaseRef.push().getKey();
+                Upload upload = new Upload(Title.getText().toString().trim(),
+                       UriImage, MyUID, usernameString, temp_key, Date);
+                mDatabaseRef.child(temp_key).setValue(upload);
                 Intent VNoD = new Intent(Upload_Images_Activity.this, SecondActivity.class);
                 startActivity(VNoD);
-                finish();*/
+                finish();
             }
 
             @Override
@@ -162,17 +168,15 @@ public class Upload_Images_Activity extends AppCompatActivity {
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Toast.makeText(Upload_Images_Activity.this, "Upload succesful", Toast.LENGTH_SHORT).show();
-                                    Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                                    Toast.makeText(Upload_Images_Activity.this, "Post successful", Toast.LENGTH_SHORT).show();
+                                    UriImage = uri.toString();
+                                /*   Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
                                             uri.toString(), MyUID, usernameString, temp_key);
                                     String uploadId = mDatabaseRef.push().getKey();
-                                    mDatabaseRef.child(uploadId).setValue(upload);
-
+                                    mDatabaseRef.child(uploadId).setValue(upload);*/
+                                    setDatabase();
                                 }
                             });
-
-                            startActivity(new Intent(Upload_Images_Activity.this, ImagesFeed.class));
-                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
