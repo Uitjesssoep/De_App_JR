@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -40,8 +39,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST=1;
     private FirebaseAuth firebaseAuth;
-    private Button mButtonChooseImage;
-    private Button mButtonUpload;
+    private Button mChooseImage, Post;
     private TextView mTextViewShowUploads;
     private EditText mEditTextFileName;
     private ImageView mImageView;
@@ -59,8 +57,8 @@ public class Upload_Images_Activity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         MyUID = user.getUid();
-        mButtonChooseImage = findViewById(R.id.btnChooseImage);
-        mButtonUpload = findViewById(R.id.btnUploadImage);
+        mChooseImage = findViewById(R.id.btnChooseImage);
+        Post = findViewById(R.id.btPostImage);
         // mTextViewShowUploads = findViewById(R.id.tvShowUploads);
         mEditTextFileName = findViewById(R.id.etImageName);
         mImageView = findViewById(R.id.ivUploadedImage);

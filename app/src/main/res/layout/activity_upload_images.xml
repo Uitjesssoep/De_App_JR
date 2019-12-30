@@ -51,19 +51,19 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnUploadImage"
+        android:layout_above="@+id/btPostImage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivUploadedImage"
         app:layout_constraintVertical_bias="0.19999999"
         tools:layout_editor_absoluteX="32dp" />
 
     <Button
-        android:id="@+id/btnUploadImage"
+        android:id="@+id/btPostImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Upload"
+        android:text="Post"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
