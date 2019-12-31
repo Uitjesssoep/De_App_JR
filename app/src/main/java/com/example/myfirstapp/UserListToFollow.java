@@ -48,7 +48,7 @@ public class UserListToFollow extends AppCompatActivity {
     recyclerView = findViewById(R.id.recycler_viewUserList);
     recyclerView.setHasFixedSize(true);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    databaseReference = firebaseDatabase.getInstance().getReference("users");
+    databaseReference = firebaseDatabase.getInstance().getReference("users").child("userName");
     layoutManager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(layoutManager);
     list = new ArrayList<>();
@@ -67,7 +67,7 @@ public class UserListToFollow extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getValue()) {
                     Users users = postSnapshot.getValue(Users.class);
                     list.add(users);
                 }
