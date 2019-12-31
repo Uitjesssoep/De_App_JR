@@ -67,6 +67,7 @@ public class UserListToFollow extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Users users = dataSnapshot.getValue().toString();
                 for (DataSnapshot postSnapshot : dataSnapshot.getValue()) {
                     Users users = postSnapshot.getValue(Users.class);
                     list.add(users);
