@@ -44,7 +44,7 @@ public class ImagesFeed extends AppCompatActivity {
         MyUID = user.getUid();
         mUploads = new ArrayList<>();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(MyUID);
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
