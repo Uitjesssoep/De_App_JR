@@ -20,18 +20,18 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
-    private Context mcontext;
+    private Context mContext;
     private List<Users> list;
     public UserAdapter(Context context, List list){
         this.list = list;
-        mcontext = context;
+        mContext = context;
     }
 
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mcontext).inflate(R.layout.users_list, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.users_list, parent, false);
         UserViewHolder userViewHolder = new UserViewHolder(view);
         return userViewHolder;
     }

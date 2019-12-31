@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -50,8 +52,7 @@ public class UserListToFollow extends AppCompatActivity {
     layoutManager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(layoutManager);
     list = new ArrayList<>();
-    adapter = new UserAdapter(UserListToFollow.this, list);
-    recyclerView.setAdapter(adapter);
+
 
 
     }
@@ -61,18 +62,27 @@ public class UserListToFollow extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list_to_follow);
+        SetupUI();
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Users users = postSnapshot.getValue(Users.class);
+                    list.add(users);
+                }
 
+                adapter = new UserAdapter(UserListToFollow.this, list);
+                recyclerView.setAdapter(adapter);
+                ProgressCircle.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(UserListToFollow.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                ProgressCircle.setVisibility(View.INVISIBLE);
             }
-        })
+        });
     }
 }
 
