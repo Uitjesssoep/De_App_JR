@@ -20,6 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserListToFollow extends AppCompatActivity {
 
     private Button Follow;
@@ -32,6 +35,8 @@ public class UserListToFollow extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FirebaseAuth firebaseAuth;
     private RecyclerView.LayoutManager layoutManager;
+    private List<Users> list;
+    private UserAdapter adapter;
 
     private void SetupUI(){
     firebaseDatabase = FirebaseDatabase.getInstance();
@@ -44,6 +49,11 @@ public class UserListToFollow extends AppCompatActivity {
     databaseReference = firebaseDatabase.getInstance().getReference("users");
     layoutManager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(layoutManager);
+    list = new ArrayList<>();
+    adapter = new UserAdapter(UserListToFollow.this, list);
+    recyclerView.setAdapter(adapter);
+
+
     }
 
 
