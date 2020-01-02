@@ -42,6 +42,7 @@ public class UserListToFollow extends AppCompatActivity {
     private List<Users> list;
     private List<String> UIDlist;
     private UserAdapter adapter;
+    private String UIDlistString;
 
     private void SetupUI() {
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -51,7 +52,7 @@ public class UserListToFollow extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_viewUserList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        databaseReference = firebaseDatabase.getReference("users");
+        databaseReference = firebaseDatabase.getReference("users");//.child(UIDlistString);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         list = new ArrayList<>();
@@ -66,8 +67,10 @@ public class UserListToFollow extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsp : dataSnapshot.getChildren()){
                     UIDlist.add(String.valueOf(dsp.getKey()));
+                   // UIDlistString = UIDlist.toString();
+                    Log.d("UIDLIST", UIDlist.toString());
                 }
-                Log.d("UIDLIST", UIDlist.toString());
+
             }
 
             @Override
@@ -91,7 +94,7 @@ public class UserListToFollow extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Users users = postSnapshot.getValue(Users.class);
                     list.add(users);
-                    Log.d("list", UIDlist.toString());
+              //      Log.d("list", UIDlist.toString());
                     //   Log.d("list", list.toString());
 
                 }
