@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class UserListToFollow extends AppCompatActivity {
@@ -35,24 +37,23 @@ public class UserListToFollow extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private ProgressBar ProgressCircle;
     private RecyclerView recyclerView;
-    private FirebaseAuth firebaseAuth;
+   // private FirebaseAuth firebaseAuth;
     private RecyclerView.LayoutManager layoutManager;
     private List<Users> list;
     private UserAdapter adapter;
 
-    private void SetupUI(){
-    firebaseDatabase = FirebaseDatabase.getInstance();
-    firebaseAuth = FirebaseAuth.getInstance();
-    firebaseStorage = FirebaseStorage.getInstance();
-    ProgressCircle = findViewById(R.id.progress_circle3);
-    recyclerView = findViewById(R.id.recycler_viewUserList);
-    recyclerView.setHasFixedSize(true);
-    recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    databaseReference = firebaseDatabase.getInstance().getReference("users").child("userName");
-    layoutManager = new LinearLayoutManager(this);
-    recyclerView.setLayoutManager(layoutManager);
-    list = new ArrayList<>();
-
+    private void SetupUI() {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+      // firebaseAuth = FirebaseAuth.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
+        ProgressCircle = findViewById(R.id.progress_circle3);
+        recyclerView = findViewById(R.id.recycler_viewUserList);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        databaseReference = firebaseDatabase.getReference("users");
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        list = new ArrayList<>();
 
 
     }
@@ -67,10 +68,12 @@ public class UserListToFollow extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-           //     Users users = dataSnapshot.getValue().toString();
-                for (DataSnapshot postSnapshot : dataSnapshot.getValue()) {
+                //     Users users = dataSnapshot.getValue().toString();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Users users = postSnapshot.getValue(Users.class);
                     list.add(users);
+                    Log.d("list", list.toString());
+                 //   Log.d("list", list.toString());
                 }
 
                 adapter = new UserAdapter(UserListToFollow.this, list);
