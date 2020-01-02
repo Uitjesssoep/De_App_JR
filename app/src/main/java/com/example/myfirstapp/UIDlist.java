@@ -13,12 +13,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UIDlist {
-    private DatabaseReference databaseReference;
-    private FirebaseDatabase firebaseDatabase;
-    private List<String> UIDlist;
+/*public class UIDlist {
+    public static DatabaseReference databaseReference;
+    public static FirebaseDatabase firebaseDatabase;
+    public static List<String> UIDlist;
 
-    public void MakeUIDlist(){
+    public void static MakeUIDlist() {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
         UIDlist = new ArrayList<>();
@@ -35,6 +35,7 @@ public class UIDlist {
             }
         });
 
+
     }
 
-}
+}*/

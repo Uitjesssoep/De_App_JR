@@ -37,14 +37,15 @@ public class UserListToFollow extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private ProgressBar ProgressCircle;
     private RecyclerView recyclerView;
-   // private FirebaseAuth firebaseAuth;
+    // private FirebaseAuth firebaseAuth;
     private RecyclerView.LayoutManager layoutManager;
     private List<Users> list;
+    private List<String> UIDlist;
     private UserAdapter adapter;
 
     private void SetupUI() {
         firebaseDatabase = FirebaseDatabase.getInstance();
-      // firebaseAuth = FirebaseAuth.getInstance();
+        // firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         ProgressCircle = findViewById(R.id.progress_circle3);
         recyclerView = findViewById(R.id.recycler_viewUserList);
@@ -54,8 +55,25 @@ public class UserListToFollow extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         list = new ArrayList<>();
+        UIDlist = new ArrayList<>();
 
 
+    }
+
+    private void MakeUIDlist(){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dsp : dataSnapshot.getChildren()){
+                    UIDlist.add(String.valueOf(dsp.getKey()));
+                }
+                Log.d("UIDLIST", UIDlist.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
 
@@ -64,6 +82,7 @@ public class UserListToFollow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list_to_follow);
         SetupUI();
+        MakeUIDlist();
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -72,8 +91,9 @@ public class UserListToFollow extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Users users = postSnapshot.getValue(Users.class);
                     list.add(users);
-                    Log.d("list", list.toString());
-                 //   Log.d("list", list.toString());
+                    Log.d("list", UIDlist.toString());
+                    //   Log.d("list", list.toString());
+
                 }
 
                 adapter = new UserAdapter(UserListToFollow.this, list);
