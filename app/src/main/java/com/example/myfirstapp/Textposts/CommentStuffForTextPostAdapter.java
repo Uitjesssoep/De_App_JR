@@ -98,13 +98,13 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
             private void DeleteCommentIconVisible() {
                 Log.e(TAG, "deletecommentvisible is bereikt");
-                /*holder.DeleteComment.setOnClickListener(new View.OnClickListener() {
+                holder.DeleteComment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         DeleteVisible.removeValue();
                         Log.e(TAG, "delete value");
                     }
-                });*/
+                });
             }
 
             @Override
