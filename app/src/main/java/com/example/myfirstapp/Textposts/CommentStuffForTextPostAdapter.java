@@ -31,8 +31,6 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
     private OnItemClickListener mListener;
     public interface OnItemClickListener {
         void onUserNameClick(int position);
-        void onLikeClick(int position);
-        void onDislikeClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -112,8 +110,8 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView Username, Date, Content, LikeCount, DislikeCount;
-        private ImageButton Upvote, Downvote, DeleteComment;
+        public TextView Username, Date, Content;
+        private ImageButton DeleteComment;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -121,10 +119,6 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             Username = itemView.findViewById(R.id.tvUsernameTextPostComment);
             Date = itemView.findViewById(R.id.tvDatumCommentTextPost);
             Content = itemView.findViewById(R.id.tvContentCommentTextPost);
-            LikeCount = itemView.findViewById(R.id.tvUpvoteCountCommentTextPost);
-            DislikeCount = itemView.findViewById(R.id.tvDownvoteCountCommentTextPost);
-            Upvote = itemView.findViewById(R.id.ibUpvoteCommentTextPost);
-            Downvote = itemView.findViewById(R.id.ibDownvoteCommentTextPost);
             DeleteComment = itemView.findViewById(R.id.ibDeleteIconComments);
 
             Username.setOnClickListener(new View.OnClickListener() {
@@ -134,30 +128,6 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             listener.onUserNameClick(position);
-                        }
-                    }
-                }
-            });
-
-            Upvote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onLikeClick(position);
-                        }
-                    }
-                }
-            });
-
-            Downvote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onDislikeClick(position);
                         }
                     }
                 }

@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myfirstapp.Account_Info_OtherUserComments_Activity;
 import com.example.myfirstapp.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.General_Feed_Activity;
 import com.example.myfirstapp.R;
@@ -163,7 +164,6 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         });
     }
 
-
     private void LookAtPostersProfile() {
 
         UserName.setOnClickListener(new View.OnClickListener() {
@@ -284,20 +284,12 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                 commentStuffForTextPostAdapter.setOnItemClickListener(new CommentStuffForTextPostAdapter.OnItemClickListener() {
                     @Override
                     public void onUserNameClick(int position) {
-                        key = commentStuffForTextPostList.get(position).getKey().toString();
-                        //Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
-                        //GoToProfile.putExtra("Key", key);
-                        //startActivity(GoToProfile);
-                    }
-
-                    @Override
-                    public void onLikeClick(int position) {
-                        DatabaseReference CommentLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
-                    }
-
-                    @Override
-                    public void onDislikeClick(int position) {
-
+                        String CommentKey = commentStuffForTextPostList.get(position).getKey().toString();
+                        String PostKey = commentStuffForTextPostList.get(position).getOldKey().toString();
+                        Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUserComments_Activity.class);
+                        GoToProfile.putExtra("CommentKey", CommentKey);
+                        GoToProfile.putExtra("PostKey", PostKey);
+                        startActivity(GoToProfile);
                     }
                 });
 
