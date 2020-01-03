@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myfirstapp.Account_Info_Activity;
 import com.example.myfirstapp.Account_Info_OtherUserComments_Activity;
 import com.example.myfirstapp.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.General_Feed_Activity;
@@ -171,11 +172,38 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                key = getIntent().getExtras().get("Key").toString();
+                final String ThePostKey = getIntent().getExtras().get("Key").toString();
 
-                Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
-                GoToProfile.putExtra("Key", key);
-                startActivity(GoToProfile);
+                DatabaseReference CheckIfMyUIDCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(ThePostKey).child("uid");
+                CheckIfMyUIDCheck.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        String MyUIdForCheck = FirebaseAuth.getInstance().getUid().toString();
+                        String PostUIDForCheck = dataSnapshot.getValue().toString();
+
+                        if(MyUIdForCheck.equals(PostUIDForCheck)){
+
+                            Intent GoToMyProfileAfterCheck = new Intent(Text_Post_Viewing_Activity.this, Account_Info_Activity.class);
+                            startActivity(GoToMyProfileAfterCheck);
+
+                        }
+                        else {
+
+                            Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
+                            GoToProfile.putExtra("Key", ThePostKey);
+                            startActivity(GoToProfile);
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         });
 
@@ -285,12 +313,40 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                 commentStuffForTextPostAdapter.setOnItemClickListener(new CommentStuffForTextPostAdapter.OnItemClickListener() {
                     @Override
                     public void onUserNameClick(int position) {
-                        String CommentKey = commentStuffForTextPostList.get(position).getKey().toString();
-                        String PostKey = commentStuffForTextPostList.get(position).getOldKey().toString();
-                        Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUserComments_Activity.class);
-                        GoToProfile.putExtra("CommentKey", CommentKey);
-                        GoToProfile.putExtra("PostKey", PostKey);
-                        startActivity(GoToProfile);
+                        final String CommentKey = commentStuffForTextPostList.get(position).getKey().toString();
+                        final String PostKey = commentStuffForTextPostList.get(position).getOldKey().toString();
+
+                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey).child("Comments").child(CommentKey).child("uid");
+                        CheckIfMyUID.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
+                                String CommentUID = dataSnapshot.getValue().toString();
+
+                                if(MyUIDCheck.equals(CommentUID)){
+
+                                    Intent GoToMyProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_Activity.class);
+                                    startActivity(GoToMyProfile);
+
+                                }
+
+                                else{
+
+                                    Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUserComments_Activity.class);
+                                    GoToProfile.putExtra("CommentKey", CommentKey);
+                                    GoToProfile.putExtra("PostKey", PostKey);
+                                    startActivity(GoToProfile);
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                     }
 
                     @Override

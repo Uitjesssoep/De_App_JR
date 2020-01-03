@@ -83,10 +83,38 @@ public class General_Feed_Activity extends AppCompatActivity {
 
                     @Override
                     public void onUserNameClick(int position) {
-                        key = postStuffForTextList.get(position).getKey().toString();
-                        Intent GoToProfile = new Intent(General_Feed_Activity.this, Account_Info_OtherUser_Activity.class);
-                        GoToProfile.putExtra("Key", key);
-                        startActivity(GoToProfile);
+                        final String PostKey = postStuffForTextList.get(position).getKey().toString();
+
+                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey).child("uid");
+                        CheckIfMyUID.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
+                                String PostUID = dataSnapshot.getValue().toString();
+
+                                if(MyUIDCheck.equals(PostUID)){
+
+                                    Intent GoToMyProfile = new Intent(General_Feed_Activity.this, Account_Info_Activity.class);
+                                    startActivity(GoToMyProfile);
+
+                                }
+                                else{
+
+                                    Intent GoToProfile = new Intent(General_Feed_Activity.this, Account_Info_OtherUser_Activity.class);
+                                    GoToProfile.putExtra("Key", PostKey);
+                                    startActivity(GoToProfile);
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                     }
 
                     @Override
