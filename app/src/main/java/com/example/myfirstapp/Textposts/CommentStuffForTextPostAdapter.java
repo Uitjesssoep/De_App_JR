@@ -57,6 +57,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         holder.Username.setText(uploadCurrent2.getUser_name());
         holder.Date.setText(uploadCurrent2.getDate());
         holder.Content.setText(uploadCurrent2.getContent());
+        holder.DeleteComment.setImageResource(R.drawable.delete_icon);
 
         String KeyComments = uploadCurrent2.getKey();
         String KeyOGPosts = uploadCurrent2.getOldKey();
@@ -96,7 +97,14 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             }
 
             private void DeleteCommentIconVisible() {
-                holder.DeleteComment.setVisibility(View.VISIBLE);
+                Log.e(TAG, "deletecommentvisible is bereikt");
+                /*holder.DeleteComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DeleteVisible.removeValue();
+                        Log.e(TAG, "delete value");
+                    }
+                });*/
             }
 
             @Override
