@@ -20,13 +20,13 @@
             android:name=".ImagesFeed"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Text_Post_Viewing_Activity"
+            android:name=".Textposts.Text_Post_Viewing_Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".General_Feed_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Upload_TextPost_Activity"
+            android:name=".Textposts.Upload_TextPost_Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Choose_PostType_Activity"

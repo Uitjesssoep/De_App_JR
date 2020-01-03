@@ -42,7 +42,7 @@ public class UserListToFollow extends AppCompatActivity {
     private List<Users> list;
     private List<String> UIDlist;
     private UserAdapter adapter;
-    private String UIDlistString, test;
+    private String UIDlistString, test, UIDlistString2;
 
     private void SetupUI() {
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -65,8 +65,12 @@ public class UserListToFollow extends AppCompatActivity {
         databaseReferenceUIDlist.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    UIDlist.add(String.valueOf(dsp.getValue()));
+                for (DataSnapshot dsp2 : dataSnapshot.getChildren()){
+            //        UID MUID = dsp2.getValue(UID.class);
+                    UIDlistString2=dsp2.getKey();
+                    UIDlist.add(UIDlistString2);
+              //  for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+               //     UIDlist.add(String.valueOf(dsp.getValue()));
                     UIDlistString = UIDlist.toString();
                     Log.d("UIDLIST", UIDlistString);
                 }
@@ -85,11 +89,10 @@ public class UserListToFollow extends AppCompatActivity {
         setContentView(R.layout.activity_user_list_to_follow);
         SetupUI();
         MakeUIDlist();
-        databaseReference = firebaseDatabase.getReference("users").child(UIDlistString);
+        databaseReference = firebaseDatabase.getReference("users");
 
         // test = firebaseDatabase.getReference("users").child("7yTA9yX4fiTGw5oHInp7rcPIDHF2").child("userBrithdate").toString();
         //  Log.d("TESTT", test);
-        if (UIDlistString != null) {
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -99,7 +102,7 @@ public class UserListToFollow extends AppCompatActivity {
                         Users users = postSnapshot.getValue(Users.class);
                         list.add(users);
                         //      Log.d("list", UIDlist.toString());
-                        //   Log.d("list", list.toString());
+                        Log.d("list", list.toString());
 
                     }
 
@@ -114,7 +117,5 @@ public class UserListToFollow extends AppCompatActivity {
                     ProgressCircle.setVisibility(View.INVISIBLE);
                 }
             });
-        } else {
-        }
 
     }}

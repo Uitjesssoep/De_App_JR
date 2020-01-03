@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
+
 public class Choose_PostType_Activity extends AppCompatActivity {
 
     private Button Media_Button, Text_Button;
