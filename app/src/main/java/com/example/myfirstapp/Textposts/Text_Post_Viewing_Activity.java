@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -290,6 +291,12 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                         GoToProfile.putExtra("CommentKey", CommentKey);
                         GoToProfile.putExtra("PostKey", PostKey);
                         startActivity(GoToProfile);
+                    }
+
+                    @Override
+                    public void onDeleteCommentClick(int position) {
+                        String TAG5 = "CheckDeleteCommentClick";
+                        Log.e(TAG5, "er is geclickt");
                     }
                 });
 

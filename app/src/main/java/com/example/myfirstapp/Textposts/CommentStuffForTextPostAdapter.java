@@ -21,6 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+import javax.crypto.spec.DESKeySpec;
+
 public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<CommentStuffForTextPostAdapter.ViewHolder>{
 
     public Context mContext;
@@ -31,6 +33,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
     private OnItemClickListener mListener;
     public interface OnItemClickListener {
         void onUserNameClick(int position);
+        void onDeleteCommentClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -83,7 +86,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                     Log.e(TAG, "UID uit auth " + MyUID2);
 
                     if(Test.equals(MyUID2)){
-                        DeleteComment();
+                        DeleteCommentIconVisible();
                         Log.e(TAG, "deleting");
                     }
                     else{
@@ -92,8 +95,8 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                     }
             }
 
-            private void DeleteComment() {
-                //DeleteVisible.removeValue();
+            private void DeleteCommentIconVisible() {
+                holder.DeleteComment.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -132,6 +135,19 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                     }
                 }
             });
+
+            DeleteComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onDeleteCommentClick(position);
+                        }
+                    }
+                }
+            });
+
         }
     }
 
