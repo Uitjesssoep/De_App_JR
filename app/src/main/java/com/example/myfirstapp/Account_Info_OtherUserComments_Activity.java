@@ -25,13 +25,13 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
     private TextView RealName, UserName, BirthDate, Email, tvOtherUserUID;
     private ImageView ProfilePicture;
 
-    private String PostKey, CommentKey, OtherUserUID;
+    private String PostKey, CommentKey, OtherUserUIDComments;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage firebaseStorage;
 
-    private static final String TAG = "Account_Info_Other_User";
+    private static final String TAG = "AccountInfo_Other_UserC";
 
 
     private void SetupUI() {
@@ -55,9 +55,9 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvOtherUserUID.setText(dataSnapshot.getValue(String.class));
-                OtherUserUID = tvOtherUserUID.getText().toString();
-                Log.e(TAG, OtherUserUID);
+                Log.e(TAG, "Uit database: " + dataSnapshot.getValue().toString());
+                OtherUserUIDComments = dataSnapshot.getValue().toString();
+                Log.e(TAG, "In String: " + OtherUserUIDComments);
 
                 RetrieveData();
             }
@@ -71,11 +71,11 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
 
     private void RetrieveData() {
 
-        Log.e(TAG, OtherUserUID);
+        Log.e(TAG, OtherUserUIDComments);
 
         //voor profielfoto
         StorageReference storageReference = firebaseStorage.getReference();
-        storageReference.child(OtherUserUID).child("Images").child("ProfilePicture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child(OtherUserUIDComments).child("Images").child("ProfilePicture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).fit().centerCrop().into(ProfilePicture);
@@ -83,7 +83,7 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
         });
 
         //voor de rest
-        DatabaseReference OtherUserData = firebaseDatabase.getReference("users").child(OtherUserUID);
+        DatabaseReference OtherUserData = firebaseDatabase.getReference("users").child(OtherUserUIDComments);
         OtherUserData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -106,7 +106,7 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account__info__other_user_);
+        setContentView(R.layout.activity_account__info__other_user_comments_);
 
         SetupUI();
 
