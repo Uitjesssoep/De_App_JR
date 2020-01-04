@@ -85,23 +85,9 @@ public class Account_Info_Activity extends AppCompatActivity {
                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-                                    Toast.makeText(Account_Info_Activity.this, "Account deleted", Toast.LENGTH_LONG).show();
-                                    firebaseAuth.signOut();
-                                    deleteUser(userIDforDelete);
-
-                                    startActivity(new Intent(Account_Info_Activity.this, MainActivity.class));
-                                    finish();
-                                }
-
-                                else{
-                                    Toast.makeText(Account_Info_Activity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                        Intent intent = new Intent(Account_Info_Activity.this, Deleting_Account_Activity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
                 });
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -166,14 +152,4 @@ public class Account_Info_Activity extends AppCompatActivity {
 
 
     }
-
-    private void deleteUser(String userID){
-        DatabaseReference drUser = FirebaseDatabase.getInstance().getReference("users").child(userID);
-        StorageReference srUser = FirebaseStorage.getInstance().getReference(userID).child("Images").child("ProfilePicture");
-
-        drUser.removeValue();
-        srUser.delete();
-    }
-
-
 }

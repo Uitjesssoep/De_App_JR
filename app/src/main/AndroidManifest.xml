@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/flower_launcher_v2_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Account_Info_OtherUserComments_Activity"></activity>
+        <activity android:name=".Deleting_Account_Activity"></activity>
+        <activity android:name=".Account_Info_OtherUserComments_Activity" />
         <activity android:name=".UserListToFollow" />
         <activity android:name=".Choose_FeedType_Activity" />
         <activity
