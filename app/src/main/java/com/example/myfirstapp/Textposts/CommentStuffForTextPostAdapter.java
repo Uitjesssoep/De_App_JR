@@ -59,8 +59,8 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         holder.Content.setText(uploadCurrent2.getContent());
         holder.DeleteComment.setImageResource(R.drawable.delete_icon);
 
-        String KeyComments = uploadCurrent2.getKey();
-        String KeyOGPosts = uploadCurrent2.getOldKey();
+        final String KeyComments = uploadCurrent2.getKey();
+        final String KeyOGPosts = uploadCurrent2.getOldKey();
         final String MyUID = firebaseAuth.getCurrentUser().getUid();
 
         final String TAG = "KeysCommentDelete";
@@ -72,16 +72,16 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         final DatabaseReference DeleteVisible = FirebaseDatabase.getInstance()
                 .getReference("General_Text_Posts")
                 .child(KeyOGPosts)
-                .child("Comments")
-                .child(KeyComments);
-
+                .child("Comments");
 
         DeleteVisible.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    Log.e(TAG, "UID uit database "+ dataSnapshot.child("uid").getValue().toString());
-                    String Test = dataSnapshot.child("uid").getValue().toString();
+                if(dataSnapshot.hasChild(KeyComments)){
+
+                    Log.e(TAG, "UID uit database "+ dataSnapshot.child(KeyComments).child("uid").getValue().toString());
+                    String Test = dataSnapshot.child(KeyComments).child("uid").getValue().toString();
 
                     final String MyUID2 = firebaseAuth.getCurrentUser().getUid();
                     Log.e(TAG, "UID uit auth " + MyUID2);
@@ -94,6 +94,12 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                         holder.DeleteComment.setVisibility(View.GONE);
                         Log.e(TAG, "niet deleten");
                     }
+                }
+
+                else{
+                    //comment zou moeten zijn gedelete
+                }
+
             }
 
             private void DeleteCommentIconVisible() {
@@ -101,7 +107,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                 holder.DeleteComment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        DeleteVisible.removeValue();
+                        DeleteVisible.child(KeyComments).removeValue();
                         Log.e(TAG, "delete value");
                     }
                 });

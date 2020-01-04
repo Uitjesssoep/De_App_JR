@@ -107,21 +107,28 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         });
 
         //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
-        String KeyPost = uploadCurrent.getKey().toString();
-        final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyPost).child("uid");
+        final String KeyPost = uploadCurrent.getKey().toString();
+        final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
 
         DeleteIconCheck.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
-                final String PostUIDCheck = dataSnapshot.getValue().toString();
+                if(dataSnapshot.hasChild(KeyPost)){
 
-                if(MyUIDCheck.equals(PostUIDCheck)){
-                    //zou moeten werken gewoon??
+                    final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
+                    final String PostUIDCheck = dataSnapshot.child(KeyPost).child("uid").getValue().toString();
+
+                    if(MyUIDCheck.equals(PostUIDCheck)){
+                        //zou moeten werken gewoon??
+                    }
+                    else{
+                        holder.DeleteTextPost.setVisibility(View.GONE);
+                    }
+
                 }
                 else{
-                    holder.DeleteTextPost.setVisibility(View.GONE);
+                    //post is gedelete als het goed is
                 }
 
             }
