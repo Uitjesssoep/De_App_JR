@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.myfirstapp.Textposts.PostStuffForText;
 import com.example.myfirstapp.Textposts.PostStuffForTextAdapter;
@@ -80,6 +81,18 @@ public class General_Feed_Activity extends AppCompatActivity {
                         startActivity(Test2);
                         finish();
                     }
+
+
+                    @Override
+                    public void onDeleteIconClick(int position) {
+                        final String TAGCheck = "DeleteTextPost";
+                        Log.e(TAGCheck, "Deleting Text Post After Click");
+
+                        final String ThePostKey = postStuffForTextList.get(position).getKey().toString();
+                        final DatabaseReference DeleteTheComment = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(ThePostKey);
+                        DeleteTheComment.removeValue();
+                    }
+
 
                     @Override
                     public void onUserNameClick(int position) {
@@ -266,5 +279,6 @@ public class General_Feed_Activity extends AppCompatActivity {
 
             }
         });
+
     }
 }

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +33,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         void onUserNameClick(int position);
         void onUpvoteClick(int position);
         void onDownvoteClick(int position);
+        void onDeleteIconClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -60,6 +62,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
         holder.Date.setText(uploadCurrent.getDate());
+        holder.DeleteTextPost.setImageResource(R.drawable.delete_icon);
 
         String KeyYeah = uploadCurrent.getKey().toString();
         final DatabaseReference CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Comments");
@@ -103,6 +106,32 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             }
         });
 
+        //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
+        String KeyPost = uploadCurrent.getKey().toString();
+        final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyPost).child("uid");
+
+        DeleteIconCheck.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
+                final String PostUIDCheck = dataSnapshot.getValue().toString();
+
+                if(MyUIDCheck.equals(PostUIDCheck)){
+                    //zou moeten werken gewoon??
+                }
+                else{
+                    holder.DeleteTextPost.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
@@ -113,7 +142,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView Username, LikeCount, DislikeCount, CommentCount, Title, KeyHolder, Date;
-        public ImageButton Upvote, Downvote;
+        public ImageButton Upvote, Downvote, DeleteTextPost;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -127,6 +156,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             Date = itemView.findViewById(R.id.tvPostDateTextPostItem);
             Upvote = itemView.findViewById(R.id.ibLikeUpTextPostItem);
             Downvote = itemView.findViewById(R.id.ibLikeDownTextPostItem);
+            DeleteTextPost = itemView.findViewById(R.id.ibDeleteIconTextPostItem);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -171,6 +201,18 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             listener.onDownvoteClick(position);
+                        }
+                    }
+                }
+            });
+
+            DeleteTextPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onDeleteIconClick(position);
                         }
                     }
                 }
