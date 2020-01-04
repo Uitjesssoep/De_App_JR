@@ -45,7 +45,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
     private static final String TAG = "Profile_Settings_Act";
 
-    private EditText ChangeEmail;
     private EditText ChangeFullName;
     private TextView ChangeBirthdate;
     private ImageView ChangeProfilePicture;
@@ -96,7 +95,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         final StorageReference storageReference = firebaseStorage.getReference();
         StorageReference myRef1 = storageReference.child(firebaseAuth.getUid());
 
-        ChangeEmail = (EditText) findViewById(R.id.etEmailChange);
         ChangeFullName = (EditText)findViewById(R.id.etFullNameChange);
         ChangeBirthdate = (TextView) findViewById(R.id.tvBirthdateChange);
         ChangeProfilePicture = (ImageView) findViewById(R.id.ivProfilePictureChange);
@@ -170,7 +168,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
                 ChangeFullName.setText(userProfile.getUserFullName());
                 ChangeBirthdate.setText(userProfile.getUserBirthdate());
-                ChangeEmail.setText(userProfile.getUserEmail());
             }
 
             @Override
@@ -184,21 +181,8 @@ public class Profile_Settings_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                ChangeEmailString = ChangeEmail.getText().toString();
                 ChangeBirthdateString = ChangeBirthdate.getText().toString();
                 ChangeFullNameString = ChangeFullName.getText().toString();
-
-                if(ChangeEmailString.isEmpty()){
-                    Toast.makeText(Profile_Settings_Activity.this, "Please fill in all the required fields", Toast.LENGTH_SHORT).show();
-                }
-
-                else{
-
-                        if(!isEmailValid(ChangeEmailString)){
-                            Toast.makeText(Profile_Settings_Activity.this, "Please enter a valid email address", Toast.LENGTH_LONG).show();
-                        }
-
-                        else{
 
                                 if (ChangeFullNameString.isEmpty()) {
                                     Toast.makeText(Profile_Settings_Activity.this, "Please make sure you have filled in your full name", Toast.LENGTH_LONG).show();
@@ -228,70 +212,31 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                                                 }
                                             });
 
+                                        DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
+                                        GetName.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                                                ChangeNameString = dataSnapshot.child("userName").getValue().toString();
+                                                ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
 
-                                            firebaseUser.updateEmail(ChangeEmailString).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if(task.isSuccessful()){
+                                                UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
 
-                                                        DatabaseReference GetCurrentEmail = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-                                                        GetCurrentEmail.addValueEventListener(new ValueEventListener() {
-                                                            @Override
-                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                databaseReference.setValue(userProfileToDatabase);
 
-                                                                final String CurrentEmail = dataSnapshot.child("userEmail").getValue().toString();
+                                                startActivity(new Intent(Profile_Settings_Activity.this, Loading_Screen_Activity.class));
+                                                finish();
 
-                                                                if(ChangeEmailString.equals(CurrentEmail)){
-                                                                    startActivity(new Intent(Profile_Settings_Activity.this, Loading_Screen_Activity.class));
-                                                                    finish();
-                                                                }
-                                                                else{
-                                                                    sendEmailVerification();
-                                                                }
-                                                            }
+                                            }
 
-                                                            @Override
-                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                                            }
-                                                        });
+                                            }
+                                        });
 
-
-                                                        DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-                                                        GetName.addValueEventListener(new ValueEventListener() {
-                                                            @Override
-                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                                                ChangeNameString = dataSnapshot.child("userName").getValue().toString();
-
-                                                                UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
-
-                                                                databaseReference.setValue(userProfileToDatabase);
-
-                                                            }
-
-                                                            @Override
-                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                            }
-                                                        });
-
-                                                    }
-
-                                                    else{
-                                                        Toast.makeText(Profile_Settings_Activity.this, "Couldn't change email, please try again later", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            });
                                     }
                                 }
-
-
-
-                        }
-                }
-
             }
         });
 
@@ -305,38 +250,9 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
     }
 
-    boolean isEmailValid(CharSequence email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-
     public void onBackPressed(){
         startActivity(new Intent(Profile_Settings_Activity.this, Account_Info_Activity.class));
         finish();
     }
-
-
-    private void sendEmailVerification(){
-        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (firebaseUser != null){
-            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(Profile_Settings_Activity.this, "All changes saved successfully", Toast.LENGTH_SHORT).show();
-
-                        startActivity(new Intent(Profile_Settings_Activity.this, Loading_Screen_Activity.class));
-                        finish();
-                    }
-
-                    else{
-                        Toast.makeText(Profile_Settings_Activity.this, "Verification mail has not been send, please try again later", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-        }
-    }
-
-
 
 }
