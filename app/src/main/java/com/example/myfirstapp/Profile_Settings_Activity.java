@@ -45,7 +45,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
     private static final String TAG = "Profile_Settings_Act";
 
-    private EditText ChangeName;
     private EditText ChangeEmail;
     private EditText ChangeFullName;
     private TextView ChangeBirthdate;
@@ -97,7 +96,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         final StorageReference storageReference = firebaseStorage.getReference();
         StorageReference myRef1 = storageReference.child(firebaseAuth.getUid());
 
-        ChangeName = (EditText) findViewById(R.id.etUsernameChange);
         ChangeEmail = (EditText) findViewById(R.id.etEmailChange);
         ChangeFullName = (EditText)findViewById(R.id.etFullNameChange);
         ChangeBirthdate = (TextView) findViewById(R.id.tvBirthdateChange);
@@ -171,7 +169,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
                 ChangeFullName.setText(userProfile.getUserFullName());
-                ChangeName.setText(userProfile.getUserName().substring(1));
                 ChangeBirthdate.setText(userProfile.getUserBirthdate());
                 ChangeEmail.setText(userProfile.getUserEmail());
             }
@@ -187,33 +184,22 @@ public class Profile_Settings_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String ChangeNameStringProto = ChangeName.getText().toString();
-                ChangeNameString = "@" + ChangeNameStringProto;
                 ChangeEmailString = ChangeEmail.getText().toString();
                 ChangeBirthdateString = ChangeBirthdate.getText().toString();
                 ChangeFullNameString = ChangeFullName.getText().toString();
-                int changenamelength = ChangeNameString.length();
 
-                if(ChangeNameStringProto.isEmpty() || ChangeEmailString.isEmpty()){
+                if(ChangeEmailString.isEmpty()){
                     Toast.makeText(Profile_Settings_Activity.this, "Please fill in all the required fields", Toast.LENGTH_SHORT).show();
                 }
 
                 else{
-                    if(changenamelength > 31){
-                        Toast.makeText(Profile_Settings_Activity.this, "Please make sure your username is not more than 30 characters long", Toast.LENGTH_LONG).show();
-                    }
 
-                    else{
                         if(!isEmailValid(ChangeEmailString)){
                             Toast.makeText(Profile_Settings_Activity.this, "Please enter a valid email address", Toast.LENGTH_LONG).show();
                         }
 
                         else{
-                            if(changenamelength < 3){
-                                Toast.makeText(Profile_Settings_Activity.this, "Please make sure your username is at least 3 characters long", Toast.LENGTH_LONG).show();
-                            }
 
-                            else {
                                 if (ChangeFullNameString.isEmpty()) {
                                     Toast.makeText(Profile_Settings_Activity.this, "Please make sure you have filled in your full name", Toast.LENGTH_LONG).show();
                                 }
@@ -224,12 +210,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                                     }
 
                                     else{
-                                        if(!ChangeNameStringProto.matches("[a-zA-Z0-9._]*")){
-                                            Toast.makeText(Profile_Settings_Activity.this, "Please make sure your username only consists of letters (a-z, A-Z) and/or numbers (0-9) and/or an underscore (_) or a dot (.)", Toast.LENGTH_LONG).show();
-                                        }
-
-                                        else{
-
 
                                             StorageReference imageReference = storageReference.child(firebaseAuth.getUid()).child("Images").child("ProfilePicture");
                                             UploadTask uploadTask = imageReference.putFile(imagePath);
@@ -254,12 +234,48 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){
-                                                        sendEmailVerification();
 
-                                                        UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
+                                                        DatabaseReference GetCurrentEmail = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
+                                                        GetCurrentEmail.addValueEventListener(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                        databaseReference.setValue(userProfileToDatabase);
+                                                                final String CurrentEmail = dataSnapshot.child("userEmail").getValue().toString();
 
+                                                                if(ChangeEmailString.equals(CurrentEmail)){
+                                                                    startActivity(new Intent(Profile_Settings_Activity.this, Loading_Screen_Activity.class));
+                                                                    finish();
+                                                                }
+                                                                else{
+                                                                    sendEmailVerification();
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                            }
+                                                        });
+
+
+                                                        DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
+                                                        GetName.addValueEventListener(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                                ChangeNameString = dataSnapshot.child("userName").getValue().toString();
+
+                                                                UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
+
+                                                                databaseReference.setValue(userProfileToDatabase);
+
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                            }
+                                                        });
 
                                                     }
 
@@ -268,18 +284,12 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                                                     }
                                                 }
                                             });
-
-
-                                        }
-
                                     }
                                 }
-                            }
 
 
 
                         }
-                    }
                 }
 
             }
