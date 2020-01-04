@@ -3,7 +3,9 @@ package com.example.myfirstapp;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -239,7 +242,7 @@ public class Profile_First_Setup extends AppCompatActivity {
 
                 else{
 
-                    if(PickedImage = true){
+                    if(imagePath != null){
                         StorageReference imageReference = storageReference.child(firebaseAuth.getUid()).child("Images").child("ProfilePicture");
                         UploadTask uploadTask = imageReference.putFile(imagePath);
 
@@ -260,10 +263,33 @@ public class Profile_First_Setup extends AppCompatActivity {
 
                     else{
 
-                        //StorageReference imageReference2 = storageReference.child(firebaseAuth.getUid()).child("Images").child("ProfilePicture");
+                        String TAG = "ProfilePicEmpty";
+                        Log.e(TAG, "The profile pic is empty");
 
-                        //StorageReference storageReference2 = firebaseStorage.getReference();
-                        //storageReference2.child("Standard_Images").child("Profile_Picture").child("Neutral_Profile_Picture_NoBackground.png").getDownloadUrl();
+                        //Bitmap bm = BitmapFactory.decodeResource(ProfilePictureSetup.getResources(), R.drawable.neutral_profile_picture_nobackground);
+
+
+                        StorageReference imageReference2 = storageReference.child(firebaseAuth.getUid()).child("Images").child("ProfilePicture");
+
+                        ProfilePictureSetup.setDrawingCacheEnabled(true);
+                        ProfilePictureSetup.buildDrawingCache();
+                        Bitmap bitmap = ((BitmapDrawable) ProfilePictureSetup.getDrawable()).getBitmap();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] data = baos.toByteArray();
+
+                        UploadTask uploadTask = imageReference2.putBytes(data);
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            }
+                        });
 
                     }
 

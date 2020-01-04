@@ -195,6 +195,8 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
                                     else{
 
+                                        if(imagePath != null) {
+
                                             StorageReference imageReference = storageReference.child(firebaseAuth.getUid()).child("Images").child("ProfilePicture");
                                             UploadTask uploadTask = imageReference.putFile(imagePath);
 
@@ -212,28 +214,55 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                                                 }
                                             });
 
-                                        DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-                                        GetName.addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
+                                            GetName.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                ChangeNameString = dataSnapshot.child("userName").getValue().toString();
-                                                ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
+                                                    ChangeNameString = dataSnapshot.child("userName").getValue().toString();
+                                                    ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
 
-                                                UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
+                                                    UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
 
-                                                databaseReference.setValue(userProfileToDatabase);
+                                                    databaseReference.setValue(userProfileToDatabase);
 
-                                                startActivity(new Intent(Profile_Settings_Activity.this, Loading_Screen_Activity.class));
-                                                finish();
+                                                    startActivity(new Intent(Profile_Settings_Activity.this, Loading_Screen_Activity.class));
+                                                    finish();
 
-                                            }
+                                                }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                            }
-                                        });
+                                                }
+                                            });
+                                        }
+
+                                        else{
+
+                                            DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
+                                            GetName.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                    ChangeNameString = dataSnapshot.child("userName").getValue().toString();
+                                                    ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
+
+                                                    UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
+
+                                                    databaseReference.setValue(userProfileToDatabase);
+
+                                                    startActivity(new Intent(Profile_Settings_Activity.this, Loading_Screen_Activity.class));
+                                                    finish();
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                        }
 
                                     }
                                 }

@@ -129,9 +129,11 @@ public class Account_Info_Activity extends AppCompatActivity {
         LogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Intent intent = new Intent(Account_Info_Activity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                 firebaseAuth.signOut();
-                finish();
-                startActivity(new Intent(Account_Info_Activity.this, MainActivity.class));
+                startActivity(intent);
             }
         });
 

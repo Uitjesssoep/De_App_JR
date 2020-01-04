@@ -3,6 +3,7 @@ package com.example.myfirstapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,7 +30,11 @@ public class Loading_Screen_Activity extends AppCompatActivity {
             };
 
 
-            h.postDelayed(r, 5000); // will be delayed for 1.5 seconds
+            h.postDelayed(r, 5000); // is delayed voor 1,5 seconden
 
+    }
+
+    public void onBackPressed(){
+        Toast.makeText(Loading_Screen_Activity.this, "Can't return now, please wait...", Toast.LENGTH_SHORT).show();
     }
 }
