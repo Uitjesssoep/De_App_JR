@@ -138,7 +138,6 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
             }
         });
-
     }
 
     @Override

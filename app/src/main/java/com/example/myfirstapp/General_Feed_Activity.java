@@ -139,7 +139,53 @@ public class General_Feed_Activity extends AppCompatActivity {
                         DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
                         DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
 
-                        if(DislikedCheck){
+
+                        DatabaseDislike.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if(dataSnapshot.hasChild(MyUID)){
+
+                                    DatabaseDislike.child(MyUID).removeValue();
+                                    DatabaseLike.child(MyUID).setValue("RandomLike");
+
+                                }
+
+
+                                else{
+
+                                    DatabaseLike.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            if(dataSnapshot.hasChild(MyUID)){
+                                                DatabaseLike.child(MyUID).removeValue();
+                                            }
+
+                                            else{
+                                                DatabaseLike.child(MyUID).setValue("RandomLike");
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+                        /*if(DislikedCheck){
                             DatabaseDislike.child(MyUID).removeValue();
                             Liked = true;
 
@@ -199,7 +245,7 @@ public class General_Feed_Activity extends AppCompatActivity {
 
                                 }
                             });
-                        }
+                        }*/
                     }
 
                     @Override
@@ -209,7 +255,54 @@ public class General_Feed_Activity extends AppCompatActivity {
                         DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
                         DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
 
-                        if(LikedCheck){
+
+                        DatabaseLike.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if(dataSnapshot.hasChild(MyUID)){
+                                    DatabaseLike.child(MyUID).removeValue();
+                                    DatabaseDislike.child(MyUID).setValue("RandomDislike");
+                                }
+
+                                else{
+
+                                    DatabaseDislike.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            if(dataSnapshot.hasChild(MyUID)){
+
+                                                DatabaseDislike.child(MyUID).removeValue();
+
+                                            }
+
+                                            else{
+
+                                                DatabaseDislike.child(MyUID).setValue("RandomDislike");
+
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+
+                        /*if(LikedCheck){
                             DatabaseLike.child(MyUID).removeValue();
 
                             Disliked = true;
@@ -270,7 +363,7 @@ public class General_Feed_Activity extends AppCompatActivity {
 
                                 }
                             });
-                        }
+                        }*/
                     }
                 });
 
