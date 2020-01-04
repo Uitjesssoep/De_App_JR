@@ -186,9 +186,10 @@ public class Profile_First_Setup extends AppCompatActivity {
             public void onClick(View view) {
                 if(validateData()){
                     sendUserDataToDatabaseFirstSetup();
+                    Intent intent = new Intent(Profile_First_Setup.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
                     firebaseAuth.signOut();
-                    finish();
-                    startActivity(new Intent(Profile_First_Setup.this, MainActivity.class));
+                    startActivity(intent);
                     Toast.makeText(Profile_First_Setup.this, "Success! Please verify your email so you can login!", Toast.LENGTH_SHORT).show();
                 }
 

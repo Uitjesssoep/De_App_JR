@@ -42,10 +42,11 @@ public class Deleting_Account_Activity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(Deleting_Account_Activity.this, "Account deleted", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(Deleting_Account_Activity.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //Intent intent = new Intent(Deleting_Account_Activity.this, MainActivity.class);
+                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //finish();
+                    //startActivity(intent);
                     firebaseAuth.signOut();
-                    startActivity(intent);
                 }
 
                 else{
@@ -70,6 +71,10 @@ public class Deleting_Account_Activity extends AppCompatActivity {
 
         drUser.removeValue();
         srUser.delete();
+    }
+
+    public void onBackPressed(){
+        Toast.makeText(Deleting_Account_Activity.this, "Can't go back now, you fucked up mate", Toast.LENGTH_SHORT).show();
     }
 
 }
