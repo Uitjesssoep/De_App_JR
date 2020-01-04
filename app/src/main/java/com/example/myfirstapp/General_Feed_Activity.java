@@ -62,6 +62,8 @@ public class General_Feed_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                clear();
+
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
                     postStuffForTextList.add(postStuffForText);
@@ -279,6 +281,23 @@ public class General_Feed_Activity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    public void clear() {
+
+        int size = postStuffForTextList.size();
+        if(size > 0){
+            for (int i = 0; i < size; i++) {
+                postStuffForTextList.remove(0);
+
+                String TAGTest = "ListEmpty";
+                Log.e(TAGTest, "tot 'for' gekomen");
+            }
+
+            postStuffForTextAdapter.notifyItemRangeRemoved(0, size);
+        }
+
 
     }
 }

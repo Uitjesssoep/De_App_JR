@@ -302,6 +302,10 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+
+                clear();
+
+
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     CommentStuffForTextPost commentStuffForTextPost = dataSnapshot1.getValue(CommentStuffForTextPost.class);
                     commentStuffForTextPostList.add(commentStuffForTextPost);
@@ -366,6 +370,21 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
     }
 
+    private void clear() {
+
+        int size = commentStuffForTextPostList.size();
+        if(size > 0){
+            for (int i = 0; i < size; i++) {
+                commentStuffForTextPostList.remove(0);
+
+                String TAGTest = "ListEmpty";
+                Log.e(TAGTest, "tot 'for' gekomen");
+            }
+
+            commentStuffForTextPostAdapter.notifyItemRangeRemoved(0, size);
+        }
+
+    }
 
 
     private void LikeDislikeCount() {
