@@ -6,125 +6,98 @@
     android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
     android:layout_marginTop="10dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <ImageButton
             android:id="@+id/ibLikeUpTextPostItem"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_below="@id/tvTitleTextPostItem"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
             android:background="#00FFFFFF"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.018"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitleTextPostItem"
-            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/pijl_omhoog_neutraal" />
 
         <TextView
             android:id="@+id/tvDislikeCounterTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitleTextPostItem"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/ibLikeDownTextPostItem"
             android:text="0"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/ibLikeDownTextPostItem"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitleTextPostItem"
             app:layout_constraintVertical_bias="0.018" />
 
         <ImageButton
             android:id="@+id/ibLikeDownTextPostItem"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_below="@id/tvTitleTextPostItem"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/tvLikeCounterTextPostItem"
             android:background="#00FFFFFF"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tvLikeCounterTextPostItem"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitleTextPostItem"
-            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/pijl_omlaag_neutraal" />
 
         <TextView
             android:id="@+id/tvLikeCounterTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitleTextPostItem"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/ibLikeUpTextPostItem"
             android:text="0"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/ibLikeUpTextPostItem"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitleTextPostItem"
-            app:layout_constraintVertical_bias="0.02" />
 
         <TextView
             android:id="@+id/tvUsernameTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.02"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.02" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:text="Username" />
 
         <TextView
             android:id="@+id/tvStreepjeTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="  -  "
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tvUsernameTextPostItem"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.02" />
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/tvUsernameTextPostItem"
+            android:layout_weight="1"
+            android:text="  -  " />
 
         <TextView
             android:id="@+id/tvTitleTextPostItem"
-            android:layout_width="353dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Title"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.118"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUsernameTextPostItem"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_below="@id/tvUsernameTextPostItem"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:text="Content" />
 
         <TextView
             android:id="@+id/tvCommentCountTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitleTextPostItem"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="16dp"
-            android:text="Comments:"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvDislikeCounterTextPostItem"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitleTextPostItem"
-            app:layout_constraintVertical_bias="0.018" />
+            android:layout_toRightOf="@id/tvDislikeCounterTextPostItem"
+            android:text="Comments:" />
 
         <TextView
             android:id="@+id/tvKeyHiddenTextPostItem"
@@ -142,13 +115,27 @@
             android:id="@+id/tvPostDateTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="01/01/2000"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tvKeyHiddenTextPostItem"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tvStreepjeTextPostItem"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.02" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/tvStreepjeTextPostItem"
+            android:layout_weight="1"
+            android:text="Date" />
+
+        <ImageButton
+            android:id="@+id/ibDeleteIconTextPostItem"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="125dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="125dp"
+            android:layout_marginRight="20dp"
+            android:layout_toRightOf="@id/tvPostDateTextPostItem"
+            android:background="#00FFFFFF"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/delete_icon" />
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
