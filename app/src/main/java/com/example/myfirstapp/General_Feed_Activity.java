@@ -58,7 +58,7 @@ public class General_Feed_Activity extends AppCompatActivity {
 
         SetupUI();
 
-        posts.addValueEventListener(new ValueEventListener() {
+        posts.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
