@@ -10,7 +10,7 @@ public class Users {
     }
 
 
-    public Users(String theUID, String Profilepicture, String userBirthdate, String userEmail, String userFullName, String userName) {
+    public Users(String Profilepicture, String theUID, String userBirthdate, String userEmail, String userFullName, String userName) {
         this.theUID = theUID;
         username = userName;
         profilePictureUrl = Profilepicture;

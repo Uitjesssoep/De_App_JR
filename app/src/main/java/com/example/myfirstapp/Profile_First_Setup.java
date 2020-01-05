@@ -57,7 +57,8 @@ public class Profile_First_Setup extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     private static int PICK_IMAGE = 234;
-    Uri imagePath;
+    private Uri imagePath;
+    private StorageReference imageReference;
 
     private Boolean PickedImage = false;
 
@@ -93,6 +94,8 @@ public class Profile_First_Setup extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
+
+
         FullNameSetup = (EditText)findViewById(R.id.etFullNameSetup);
         ContinueSetup = (Button)findViewById(R.id.btnContinueSetupProfile);
         ProfilePictureSetup = (ImageView)findViewById(R.id.ivProfilePictureFirstSetup);
@@ -118,8 +121,6 @@ public class Profile_First_Setup extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select image"), PICK_IMAGE);
             }
         });
-
-
 
 
 
@@ -241,7 +242,7 @@ public class Profile_First_Setup extends AppCompatActivity {
                 else{
 
                     if(imagePath != null){
-                        StorageReference imageReference = storageReference.child(firebaseAuth.getUid()).child("Images").child("ProfilePicture");
+                        imageReference = storageReference.child("ProfilePictures").child(firebaseAuth.getUid());
                         UploadTask uploadTask = imageReference.putFile(imagePath);
 
 
@@ -303,12 +304,20 @@ public class Profile_First_Setup extends AppCompatActivity {
 
 
     //upload data naar database
+    private void FileToDatabase(){
+        imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Profilepicture = uri.toString();
+            }
+        });
+    }
 
     private void sendUserDataToDatabaseFirstSetup (){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef684 = firebaseDatabase.getReference("users").child(firebaseAuth.getUid()); //elke gebruiker heeft een unieke uid, deze hebben we natuurlijk nodig als we zijn gegevens op de database zetten
         this.UID=firebaseAuth.getUid();
-        Profilepicture =  "e";
+        FileToDatabase();
         UserProfileToDatabase userProfile = new UserProfileToDatabase(Profilepicture, UID, usernameToDatabase, useremailToDatabase, userfullnameToDatabase, userbirthdateToDatabase);
         myRef684.setValue(userProfile);
     }

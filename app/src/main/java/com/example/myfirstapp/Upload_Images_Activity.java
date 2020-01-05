@@ -41,7 +41,7 @@ import java.util.Date;
 
 public class Upload_Images_Activity extends AppCompatActivity {
 
-    private static final int PICK_IMAGE_REQUEST=1;
+    private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth firebaseAuth;
     private Button ChooseImage, Post;
     private EditText Title;
@@ -59,7 +59,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
     private StorageTask mUploadTask;
 
-    private void SetupUI(){
+    private void SetupUI() {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -76,6 +76,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
         dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
         Date = dateFormat.format(calendar.getTime());
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,13 +93,13 @@ public class Upload_Images_Activity extends AppCompatActivity {
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mUploadTask != null && mUploadTask.isInProgress()){
+                if (mUploadTask != null && mUploadTask.isInProgress()) {
                     Toast.makeText(Upload_Images_Activity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
-                }else
-                uploadFile();
+                } else
+                    uploadFile();
             }
         });
-            }
+    }
 
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -107,11 +108,11 @@ public class Upload_Images_Activity extends AppCompatActivity {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-   @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null &&data.getData() != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             mImageUri = data.getData();
             Picasso.get().load(mImageUri).fit().centerCrop().into(mImageView);
         }
@@ -125,7 +126,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
     }
 
     private void setDatabase() {
-      DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
+        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -153,7 +154,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
     private void uploadFile() {
         if (mImageUri != null) {
-            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()+ "." + getFileExtension(mImageUri));
+            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -164,7 +165,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
                                 public void run() {
                                     mProgressbar.setProgress(0);
                                 }
-                            },500);
+                            }, 500);
 
 
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -190,11 +191,11 @@ public class Upload_Images_Activity extends AppCompatActivity {
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0* taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
                             mProgressbar.setProgress((int) progress);
                         }
-                    });}
-        else {
+                    });
+        } else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_LONG).show();
         }
     }
