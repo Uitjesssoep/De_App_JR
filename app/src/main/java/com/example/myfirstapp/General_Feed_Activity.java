@@ -1,10 +1,12 @@
 package com.example.myfirstapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -92,8 +94,31 @@ public class General_Feed_Activity extends AppCompatActivity {
                         Log.e(TAGCheck, "Deleting Text Post After Click");
 
                         final String ThePostKey = postStuffForTextList.get(position).getKey().toString();
-                        final DatabaseReference DeleteTheComment = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(ThePostKey);
-                        DeleteTheComment.removeValue();
+
+                        final AlertDialog.Builder dialog = new AlertDialog.Builder(General_Feed_Activity.this);
+                        dialog.setTitle("Delete your post?");
+                        dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
+                        dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                final DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(ThePostKey);
+                                DeleteThePost.removeValue();
+
+                                Intent intent = getIntent();
+                                finish();
+                                startActivity(intent);
+                            }
+                        });
+                        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
+
                     }
 
 

@@ -58,6 +58,8 @@
             android:layout_marginRight="20dp"
             android:background="#00FFFFFF"
             android:scaleType="centerCrop"
+            android:clickable="true"
+            android:focusable="true"
             app:srcCompat="@drawable/delete_icon" />
     </RelativeLayout>
 

@@ -62,7 +62,6 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
         holder.Date.setText(uploadCurrent.getDate());
-        holder.DeleteTextPost.setImageResource(R.drawable.delete_icon);
 
         String KeyYeah = uploadCurrent.getKey().toString();
         final DatabaseReference CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Comments");

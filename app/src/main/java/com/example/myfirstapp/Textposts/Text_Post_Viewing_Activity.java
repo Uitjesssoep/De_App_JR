@@ -1,10 +1,12 @@
 package com.example.myfirstapp.Textposts;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.example.myfirstapp.Account_Info_Activity;
 import com.example.myfirstapp.Account_Info_OtherUserComments_Activity;
 import com.example.myfirstapp.Account_Info_OtherUser_Activity;
+import com.example.myfirstapp.Deleting_Account_Activity;
 import com.example.myfirstapp.General_Feed_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.UserProfileToDatabase;
@@ -27,6 +30,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -357,6 +362,36 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                     public void onDeleteCommentClick(int position) {
                         String TAG5 = "CheckDeleteCommentClick";
                         Log.e(TAG5, "er is geclickt");
+
+                        final String CommentKey = commentStuffForTextPostList.get(position).getKey().toString();
+
+                        final AlertDialog.Builder dialog = new AlertDialog.Builder(Text_Post_Viewing_Activity.this);
+                        dialog.setTitle("Delete your comment?");
+                        dialog.setMessage("Deleting this comment cannot be undone! Are you sure you want to delete it?");
+                        dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                final DatabaseReference DeleteVisible = FirebaseDatabase.getInstance()
+                                        .getReference("General_Text_Posts")
+                                        .child(key)
+                                        .child("Comments");
+                                DeleteVisible.child(CommentKey).removeValue();
+
+                                Intent intent = getIntent();
+                                finish();
+                                startActivity(intent);
+                            }
+                        });
+                        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
+
                     }
                 });
 
