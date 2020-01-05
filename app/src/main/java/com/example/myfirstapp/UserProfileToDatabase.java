@@ -8,7 +8,7 @@ public class UserProfileToDatabase {
     public String userFullName;
     public String userPassword;
     public String profilePicture;
-    public String UID;
+    public String theUID;
 
     public UserProfileToDatabase(){
         //een lege functie moet samenkomen met de getters and setters, vandaar dat deze functie er is
@@ -17,9 +17,9 @@ public class UserProfileToDatabase {
 
 
 
-    public UserProfileToDatabase(String profilePicture, String UID, String userName, String userEmail, String userFullName, String userBirthdate) {
+    public UserProfileToDatabase(String profilePicture, String theUID, String userName, String userEmail, String userFullName, String userBirthdate) {
         this.profilePicture = profilePicture;
-        this.UID = UID;
+        this.theUID = theUID;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userFullName = userFullName;
@@ -35,11 +35,12 @@ public class UserProfileToDatabase {
     public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
-    public String getUID() {
-        return UID;
+
+    public String getTheUID() {
+        return theUID;
     }
-    public void setUID(String UID) {
-        this.UID = UID;
+    public void setTheUID(String theUID) {
+        this.theUID = theUID;
     }
 
     public String getUserBirthdate() {
