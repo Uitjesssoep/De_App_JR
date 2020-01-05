@@ -42,7 +42,7 @@ public class UserListToFollow extends AppCompatActivity {
     private List<Users> list;
     private List<String> UIDlist;
     private UserAdapter adapter;
-    private String UIDlistString, test, UIDlistString2;
+    private String UIDlistString, test, UIDlistString2,UIDString;
 
     private void SetupUI() {
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -89,7 +89,7 @@ public class UserListToFollow extends AppCompatActivity {
         setContentView(R.layout.activity_user_list_to_follow);
         SetupUI();
       //  MakeUIDlist();
-        databaseReference = firebaseDatabase.getReference("users");
+        databaseReference = firebaseDatabase.getReference("users").child(UserAdapter.UIDString);
 
         // test = firebaseDatabase.getReference("users").child("7yTA9yX4fiTGw5oHInp7rcPIDHF2").child("userBrithdate").toString();
         //  Log.d("TESTT", test);

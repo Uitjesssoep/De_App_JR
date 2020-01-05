@@ -22,6 +22,7 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
     private Context mContext;
     private List<Users> list;
+    public String UIDString;
 
     public UserAdapter(Context context, List list) {
         this.list = list;
@@ -42,6 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         Users users = list.get(position);
         holder.Username.setText(users.getUsernameFollow());
         holder.UIDhidden.setText(users.getUID());
+        UIDString = users.getUID();
         Picasso.get()
                 //.load("https://firebasestorage.googleapis.com/v0/b/de-app-b0fb9.appspot.com/o/7yTA9yX4fiTGw5oHInp7rcPIDHF2%2FImages%2FProfilePicture?alt=media&token=e90ad8a4-4815-4543-b7f2-dc258dcdf4c9")
                 .load(users.getProfilePicture())
