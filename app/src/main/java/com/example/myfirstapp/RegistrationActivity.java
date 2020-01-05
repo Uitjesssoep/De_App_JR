@@ -27,10 +27,11 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button regButton;
     private TextView userLogin;
 
-    String protoname, name, password, emailget, Profilepicture, UID;
+    String protoname, name, password, emailget, UID;
 
-    String fullnameUndefined = "Full name not yet registerd";
-    String birthdateUndefined = "Date of birth not yet registerd";
+    String Profilepictureundefined = "Profilepicture hasn't been chosen yet";
+    String fullnameUndefined = "Full name not yet registered";
+    String birthdateUndefined = "Date of birth not yet registered";
 
     private FirebaseAuth firebaseAuth;
 
@@ -160,7 +161,7 @@ public class RegistrationActivity extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
         this.UID=firebaseAuth.getUid();
-        UserProfileToDatabase userProfile = new UserProfileToDatabase(Profilepicture, this.UID, name, emailget, fullnameUndefined, birthdateUndefined);
+        UserProfileToDatabase userProfile = new UserProfileToDatabase(Profilepictureundefined, this.UID, name, emailget, fullnameUndefined, birthdateUndefined);
         myRef.setValue(userProfile);
     }
 
