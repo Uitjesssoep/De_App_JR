@@ -41,6 +41,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         Users users = list.get(position);
         holder.Username.setText(users.getUsernameFollow());
+        holder.UIDhidden.setText(users.getUID());
         Picasso.get()
                 //.load("https://firebasestorage.googleapis.com/v0/b/de-app-b0fb9.appspot.com/o/7yTA9yX4fiTGw5oHInp7rcPIDHF2%2FImages%2FProfilePicture?alt=media&token=e90ad8a4-4815-4543-b7f2-dc258dcdf4c9")
                 .load(users.getProfilePicture())
@@ -57,13 +58,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView Username;
+        public TextView Username, UIDhidden;
         public ImageView ProfilePicture;
         public Button Follow;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             Username = itemView.findViewById(R.id.tvUser_name);
+            UIDhidden = itemView.findViewById(R.id.tvUID);
             ProfilePicture = itemView.findViewById(R.id.ivProfilePictureUserList);
             Follow = itemView.findViewById(R.id.btFollow);
 
