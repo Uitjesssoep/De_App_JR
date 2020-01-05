@@ -7,7 +7,7 @@ public class UserProfileToDatabase {
     public String userEmail;
     public String userFullName;
     public String userPassword;
-    public String Profilepicture;
+    public String profilePicture;
     public String UID;
 
     public UserProfileToDatabase(){
@@ -17,8 +17,8 @@ public class UserProfileToDatabase {
 
 
 
-    public UserProfileToDatabase(String Profilepicture, String UID, String userName, String userEmail, String userFullName, String userBirthdate) {
-        this.Profilepicture = Profilepicture;
+    public UserProfileToDatabase(String profilePicture, String UID, String userName, String userEmail, String userFullName, String userBirthdate) {
+        this.profilePicture = profilePicture;
         this.UID = UID;
         this.userName = userName;
         this.userEmail = userEmail;
@@ -29,11 +29,11 @@ public class UserProfileToDatabase {
 
     //getters and setters:
 
-    public String getProfilepicture() {
-        return Profilepicture;
+    public String getProfilePicture() {
+        return profilePicture;
     }
-    public void setProfilepicture(String Profilepicture) {
-        this.Profilepicture = Profilepicture;
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
     public String getUID() {
         return UID;
