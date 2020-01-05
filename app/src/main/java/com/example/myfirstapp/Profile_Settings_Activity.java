@@ -60,7 +60,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
     private static int PICK_IMAGE = 123; // geef altijd een unieke requestcode zodat het kan worden gecontroleerd en niks dubbel is dadelijk
     Uri imagePath;
 
-    String ChangeNameString, ChangeEmailString, ChangeBirthdateString, ChangeFullNameString;
+    String ChangeNameString, ChangeEmailString, ChangeBirthdateString, ChangeFullNameString, Profilepicture, UID;
 
 
 
@@ -180,7 +180,8 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         SaveChangesProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Profilepicture = "e";
+                UID = firebaseAuth.getUid();
                 ChangeBirthdateString = ChangeBirthdate.getText().toString();
                 ChangeFullNameString = ChangeFullName.getText().toString();
 
@@ -222,7 +223,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                                                     ChangeNameString = dataSnapshot.child("userName").getValue().toString();
                                                     ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
 
-                                                    UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
+                                                    UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
 
                                                     databaseReference.setValue(userProfileToDatabase);
 
@@ -248,7 +249,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                                                     ChangeNameString = dataSnapshot.child("userName").getValue().toString();
                                                     ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
 
-                                                    UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
+                                                    UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
 
                                                     databaseReference.setValue(userProfileToDatabase);
 
