@@ -32,8 +32,8 @@ public class UserProfileToDatabase {
     public String getProfilepicture() {
         return Profilepicture;
     }
-    public void setProfilepicture(String profilepicture) {
-        Profilepicture = profilepicture;
+    public void setProfilepicture(String Profilepicture) {
+        Profilepicture = Profilepicture;
     }
     public String getUID() {
         return UID;
