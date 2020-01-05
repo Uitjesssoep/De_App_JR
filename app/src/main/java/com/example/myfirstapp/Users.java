@@ -4,14 +4,14 @@ import android.widget.ImageView;
 
 public class Users {
 
-    public String username, profilePictureUrl, birthdate, email, fullName, UID;
+    public String username, profilePictureUrl, birthdate, email, fullName, theUID;
 
     public Users() {
     }
 
 
-    public Users(String UID, String Profilepicture, String userBirthdate, String userEmail, String userFullName, String userName) {
-        this.UID = UID;
+    public Users(String theUID, String Profilepicture, String userBirthdate, String userEmail, String userFullName, String userName) {
+        this.theUID = theUID;
         username = userName;
         profilePictureUrl = Profilepicture;
         birthdate = userBirthdate;
@@ -19,8 +19,8 @@ public class Users {
         fullName = userFullName;
     }
 
-    public String getUID() {
-        return UID;
+    public String getTheUID() {
+        return theUID;
     }
 
     public String getUsernameFollow() {

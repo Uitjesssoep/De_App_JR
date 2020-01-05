@@ -42,8 +42,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         Users users = list.get(position);
         holder.Username.setText(users.getUsernameFollow());
-        holder.UIDhidden.setText(users.getUID());
-        UIDString = users.getUID();
+        holder.UIDhidden.setText(users.getTheUID());
+        UIDString = users.getTheUID();
         Picasso.get()
                 //.load("https://firebasestorage.googleapis.com/v0/b/de-app-b0fb9.appspot.com/o/7yTA9yX4fiTGw5oHInp7rcPIDHF2%2FImages%2FProfilePicture?alt=media&token=e90ad8a4-4815-4543-b7f2-dc258dcdf4c9")
                 .load(users.getProfilePicture())
