@@ -42,10 +42,10 @@ public class Deleting_Account_Activity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(Deleting_Account_Activity.this, "Account deleted", Toast.LENGTH_LONG).show();
-                    //Intent intent = new Intent(Deleting_Account_Activity.this, MainActivity.class);
-                    //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                    //finish();
-                    //startActivity(intent);
+                    Intent intent = new Intent(Deleting_Account_Activity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    finish();
+                    startActivity(intent);
                     firebaseAuth.signOut();
                 }
 

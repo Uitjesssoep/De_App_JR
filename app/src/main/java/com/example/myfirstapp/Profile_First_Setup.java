@@ -157,18 +157,15 @@ public class Profile_First_Setup extends AppCompatActivity {
 
         //haal overige data van database zodat het later compleet kan worden geüpload
 
-        if(firebaseAuth.getUid() != null){
+
             DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
 
-            databaseReference.addValueEventListener(new ValueEventListener() {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot != null){
                         UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
                             PlaceHolderUNameSetup.setText(userProfile.getUserName());
                             PlaceHolderEmailSetup.setText(userProfile.getUserEmail());
-
-                    }
 
                 }
 
@@ -177,7 +174,6 @@ public class Profile_First_Setup extends AppCompatActivity {
                     Toast.makeText(Profile_First_Setup.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
                 }
             });
-        }
 
         //continue knop
 

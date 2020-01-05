@@ -134,7 +134,7 @@ public class Account_Info_Activity extends AppCompatActivity {
 
         DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
