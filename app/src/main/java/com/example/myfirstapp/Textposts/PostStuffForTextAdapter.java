@@ -138,6 +138,49 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
             }
         });
+
+
+        final String MyUID = FirebaseAuth.getInstance().getUid().toString();
+        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
+        CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild(MyUID)){
+                    holder.Upvote.setImageResource(R.drawable.pijl_omhoog_geklikt);
+                }
+                else{
+                    holder.Upvote.setImageResource(R.drawable.pijl_omhoog_neutraal);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
+        CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild(MyUID)){
+                    holder.Downvote.setImageResource(R.drawable.pijl_omlaag_geklikt);
+                }
+                else{
+                    holder.Downvote.setImageResource(R.drawable.pijl_omlaag_neutraal);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
