@@ -33,7 +33,7 @@ public class UserProfileToDatabase {
         return Profilepicture;
     }
     public void setProfilepicture(String Profilepicture) {
-        Profilepicture = Profilepicture;
+        this.Profilepicture = Profilepicture;
     }
     public String getUID() {
         return UID;
