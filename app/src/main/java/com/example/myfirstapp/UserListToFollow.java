@@ -89,7 +89,7 @@ public class UserListToFollow extends AppCompatActivity {
         setContentView(R.layout.activity_user_list_to_follow);
         SetupUI();
         MakeUIDlist();
-        databaseReference = firebaseDatabase.getReference("users").child();
+        databaseReference = firebaseDatabase.getReference("users");
 
         // test = firebaseDatabase.getReference("users").child("7yTA9yX4fiTGw5oHInp7rcPIDHF2").child("userBrithdate").toString();
         //  Log.d("TESTT", test);

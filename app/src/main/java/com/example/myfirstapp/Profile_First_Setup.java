@@ -165,8 +165,9 @@ public class Profile_First_Setup extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot != null){
                         UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-                        PlaceHolderUNameSetup.setText(userProfile.getUserName());
-                        PlaceHolderEmailSetup.setText(userProfile.getUserEmail());
+                            PlaceHolderUNameSetup.setText(userProfile.getUserName());
+                            PlaceHolderEmailSetup.setText(userProfile.getUserEmail());
+
                     }
 
                 }
