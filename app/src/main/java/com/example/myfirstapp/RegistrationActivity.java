@@ -2,6 +2,7 @@ package com.example.myfirstapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +27,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button regButton;
     private TextView userLogin;
 
-    String protoname, name, password, emailget;
+    String protoname, name, password, emailget, Profilepicture, UID;
 
     String fullnameUndefined = "Full name not yet registerd";
     String birthdateUndefined = "Date of birth not yet registerd";
@@ -158,7 +159,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private void sendUserDataToDatabase (){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-        UserProfileToDatabase userProfile = new UserProfileToDatabase(name, emailget, fullnameUndefined, birthdateUndefined);
+        this.UID=firebaseAuth.getUid();
+        Profilepicture =  "e";
+        UserProfileToDatabase userProfile = new UserProfileToDatabase(Profilepicture, this.UID, name, emailget, fullnameUndefined, birthdateUndefined);
         myRef.setValue(userProfile);
     }
 

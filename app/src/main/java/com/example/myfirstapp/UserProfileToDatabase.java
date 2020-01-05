@@ -7,12 +7,24 @@ public class UserProfileToDatabase {
     public String userEmail;
     public String userFullName;
     public String userPassword;
+    public String Profilepicture;
+    public String UID;
 
     public UserProfileToDatabase(){
         //een lege functie moet samenkomen met de getters and setters, vandaar dat deze functie er is
     }
 
-    public UserProfileToDatabase(String userName, String userEmail, String userFullName, String userBirthdate) {
+    public String getProfilepicture() {
+        return Profilepicture;
+    }
+
+    public String getUID() {
+        return UID;
+    }
+
+    public UserProfileToDatabase(String Profilepicture, String UID, String userName, String userEmail, String userFullName, String userBirthdate) {
+        this.Profilepicture = Profilepicture;
+        this.UID = UID;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userFullName = userFullName;
@@ -21,6 +33,7 @@ public class UserProfileToDatabase {
 
 
     //getters and setters:
+
 
     public String getUserBirthdate() {
         return userBirthdate;

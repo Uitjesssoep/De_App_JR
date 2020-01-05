@@ -50,7 +50,7 @@ public class Profile_First_Setup extends AppCompatActivity {
     private Button ContinueSetup;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
 
-    private String usernameToDatabase, useremailToDatabase, userfullnameToDatabase, userbirthdateToDatabase;
+    private String usernameToDatabase, useremailToDatabase, userfullnameToDatabase, userbirthdateToDatabase, Profilepicture, UID;
 
     private FirebaseStorage firebaseStorage;
     private FirebaseDatabase firebaseDatabase;
@@ -311,7 +311,9 @@ public class Profile_First_Setup extends AppCompatActivity {
     private void sendUserDataToDatabaseFirstSetup (){
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef684 = firebaseDatabase.getReference("users").child(firebaseAuth.getUid()); //elke gebruiker heeft een unieke uid, deze hebben we natuurlijk nodig als we zijn gegevens op de database zetten
-        UserProfileToDatabase userProfile = new UserProfileToDatabase(usernameToDatabase, useremailToDatabase, userfullnameToDatabase, userbirthdateToDatabase);
+        this.UID=firebaseAuth.getUid();
+        Profilepicture =  "e";
+        UserProfileToDatabase userProfile = new UserProfileToDatabase(Profilepicture, UID, usernameToDatabase, useremailToDatabase, userfullnameToDatabase, userbirthdateToDatabase);
         myRef684.setValue(userProfile);
     }
 
