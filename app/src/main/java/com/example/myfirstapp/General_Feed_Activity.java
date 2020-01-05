@@ -67,6 +67,7 @@ public class General_Feed_Activity extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
                     postStuffForTextList.add(postStuffForText);
+                    Log.d("tekstshit", postStuffForTextList.toString());
                 }
 
                 postStuffForTextAdapter = new PostStuffForTextAdapter(General_Feed_Activity.this, postStuffForTextList);
