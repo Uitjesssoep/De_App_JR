@@ -298,7 +298,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Comments");
 
 
-        DatabaseCommentStuff.addValueEventListener(new ValueEventListener() {
+        DatabaseCommentStuff.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
