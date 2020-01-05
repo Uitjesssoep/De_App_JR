@@ -157,27 +157,26 @@ public class Profile_First_Setup extends AppCompatActivity {
 
         //haal overige data van database zodat het later compleet kan worden geüpload
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
+        if(firebaseAuth.getUid() != null){
+            DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-                PlaceHolderUNameSetup.setText(userProfile.getUserName());
-                PlaceHolderEmailSetup.setText(userProfile.getUserEmail());
-            }
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(dataSnapshot != null){
+                        UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
+                        PlaceHolderUNameSetup.setText(userProfile.getUserName());
+                        PlaceHolderEmailSetup.setText(userProfile.getUserEmail());
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Profile_First_Setup.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
-            }
-        });
+                }
 
-
-
-
-
-
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(Profile_First_Setup.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         //continue knop
 
@@ -188,6 +187,7 @@ public class Profile_First_Setup extends AppCompatActivity {
                     sendUserDataToDatabaseFirstSetup();
                     Intent intent = new Intent(Profile_First_Setup.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    finish();
                     firebaseAuth.signOut();
                     startActivity(intent);
                     Toast.makeText(Profile_First_Setup.this, "Success! Please verify your email so you can login!", Toast.LENGTH_SHORT).show();
