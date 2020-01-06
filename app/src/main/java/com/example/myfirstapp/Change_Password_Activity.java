@@ -2,12 +2,16 @@ package com.example.myfirstapp;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,6 +24,7 @@ public class Change_Password_Activity extends AppCompatActivity {
     private EditText NewPasswordPasswordChange;
     private Button SaveNewPassword;
     private FirebaseUser firebaseUser;
+    private TextView PasswordError;
 
 
     @Override
@@ -27,9 +32,11 @@ public class Change_Password_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change__password);
 
+        PasswordError.setVisibility(View.INVISIBLE);
 
         NewPasswordPasswordChange = (EditText)findViewById(R.id.etNewPasswordPasswordChange);
         SaveNewPassword = (Button)findViewById(R.id.btnSaveNewPassword);
+        PasswordError = findViewById(R.id.tvPasswordErrorForgot);
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -39,12 +46,17 @@ public class Change_Password_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                NewPasswordPasswordChange.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+                PasswordError.setVisibility(View.INVISIBLE);
+
                 String NewPasswordString = NewPasswordPasswordChange.getText().toString().trim();
                 int NewPasswordLength = NewPasswordString.length();
 
 
                 if(NewPasswordLength < 6){
-                    Toast.makeText(Change_Password_Activity.this, "Please make sure your password is at least 6 characters long", Toast.LENGTH_LONG).show();
+                    PasswordError.setVisibility(View.VISIBLE);
+                    NewPasswordPasswordChange.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                    PasswordError.setText("Make sure your password is at least 6 characters long");
                 }
 
                 else{
