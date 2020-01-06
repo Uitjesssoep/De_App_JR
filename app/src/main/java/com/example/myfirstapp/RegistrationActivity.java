@@ -1,9 +1,12 @@
 package com.example.myfirstapp;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +29,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private EditText userName, userPassword, userEmail;
     private Button regButton;
-    private TextView userLogin;
+    private TextView userLogin, alreadyAccountText;
 
     String protoname, name, password, emailget, UID;
 
@@ -70,6 +74,15 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                finish();
+            }
+        });
+
+        alreadyAccountText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                finish();
             }
         });
 
@@ -81,6 +94,30 @@ public class RegistrationActivity extends AppCompatActivity {
         userEmail = (EditText)findViewById(R.id.etUserEmail);
         regButton = (Button)findViewById(R.id.btnRegister);
         userLogin = (TextView)findViewById(R.id.tvUserLogin);
+        alreadyAccountText = (TextView)findViewById(R.id.tvAlreadyAccountReg);
+
+        //voor het weghalen van de actionbar
+
+        getSupportActionBar().hide();
+
+
+        //voor het geven van kleur aan de status bar:
+
+        Window window = RegistrationActivity.this.getWindow();
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        window.setStatusBarColor(ContextCompat.getColor(RegistrationActivity.this, R.color.statusBarColorLogin));
+
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+
+        //underline
+
+        userLogin.setPaintFlags(userLogin.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
     }
 
     private Boolean validate(){
@@ -169,6 +206,5 @@ public class RegistrationActivity extends AppCompatActivity {
     boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
-
 
 }

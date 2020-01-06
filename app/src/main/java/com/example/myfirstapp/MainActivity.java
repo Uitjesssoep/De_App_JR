@@ -1,6 +1,7 @@
 package com.example.myfirstapp;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         private EditText Name;
         private EditText Password;
         private Button Login;
-        private TextView RegisterText;
+        private TextView RegisterText, AccountYetText;
         private TextView PasswordResetText;
 
         private FirebaseAuth firebaseAuth;
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         //voor het weghalen van de actionbar
 
@@ -69,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
         Login = (Button)findViewById(R.id.btnLogin);
         PasswordResetText = (TextView)findViewById(R.id.tvForgotPassword);
         RegisterText = (TextView)findViewById(R.id.tvRegister);
+        AccountYetText = findViewById(R.id.tvDontHaveAccountMain);
+
+        //underline sign up tekst
+
+        RegisterText.setPaintFlags(RegisterText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -87,6 +94,13 @@ public class MainActivity extends AppCompatActivity {
         }));
 
         RegisterText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+            }
+        });
+
+        AccountYetText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
