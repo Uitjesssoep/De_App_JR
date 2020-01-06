@@ -64,6 +64,8 @@ public class Profile_First_Setup extends AppCompatActivity {
 
     private Boolean PickedImage = false;
 
+    private String TAGTEST = "CheckmetJuultje";
+
 
     //afbeelding kiezen uit gallerij
 
@@ -175,6 +177,9 @@ public class Profile_First_Setup extends AppCompatActivity {
             public void onClick(View view) {
                 if (validateData()) {
                     sendUserDataToDatabaseFirstSetup();
+
+                    Log.e(TAGTEST, "Validate = true");
+
                     Intent intent = new Intent(Profile_First_Setup.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     finish();
@@ -267,7 +272,7 @@ public class Profile_First_Setup extends AppCompatActivity {
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                                Log.e(TAGTEST, "Upload pf success");
                             }
                         });
 
@@ -313,6 +318,7 @@ public class Profile_First_Setup extends AppCompatActivity {
         }
         UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, usernameToDatabase, useremailToDatabase, userfullnameToDatabase, userbirthdateToDatabase);
         myRef684.setValue(userProfile);
+        Log.e(TAGTEST, "usertodatabase bereikt!");
     }
 
 }
