@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -176,7 +177,13 @@ public class Profile_First_Setup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validateData()) {
-                    sendUserDataToDatabaseFirstSetup();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            sendUserDataToDatabaseFirstSetup();
+                        }
+                    }, 1000);
 
                     Log.e(TAGTEST, "Validate = true");
 
@@ -234,6 +241,7 @@ public class Profile_First_Setup extends AppCompatActivity {
                         UploadTask uploadTask = imageReference.putFile(imagePath);
 
 
+
                         uploadTask.addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
@@ -243,7 +251,13 @@ public class Profile_First_Setup extends AppCompatActivity {
                         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
+                                getDownloadURL();
+                              /*  imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        UriImage=uri.toString();
+                                    }
+                                });*/
                             }
                         });
                     } else {
@@ -289,14 +303,6 @@ public class Profile_First_Setup extends AppCompatActivity {
 
 
     //upload data naar database
-    private void FileToDatabase() {
-        imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                UriImage = uri.toString();
-            }
-        });
-    }
 
     private void getDownloadURL(){
         final StorageReference storageReference = firebaseStorage.getReference();
@@ -307,12 +313,10 @@ public class Profile_First_Setup extends AppCompatActivity {
 
             }
         });}
+
     private void sendUserDataToDatabaseFirstSetup() {
-        getDownloadURL();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef684 = firebaseDatabase.getReference("users").child(UID); //elke gebruiker heeft een unieke uid, deze hebben we natuurlijk nodig als we zijn gegevens op de database zetten
-        this.UID = firebaseAuth.getUid();
-//k
         if (UriImage == null) {
             UriImage = "no entry";
         }
