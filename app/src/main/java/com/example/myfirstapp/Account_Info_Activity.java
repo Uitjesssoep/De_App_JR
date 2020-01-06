@@ -81,7 +81,9 @@ public class Account_Info_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(Account_Info_Activity.this);
                 dialog.setTitle("Are you sure?");
-                dialog.setMessage("Deleting your account will permanently delete your account and all of its contents and cannot be reversed");
+                dialog.setMessage("Deleting your account will permanently delete your account and all of your data from the server. \n \n" +
+                        "All your account activity will remain (posts, comments, etc.) under the username: [deleted_user]. \n \n" +
+                        "Other users will not be able to visit your profile anymore.");
                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
