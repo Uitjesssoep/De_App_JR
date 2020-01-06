@@ -184,23 +184,49 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        String MyUIdForCheck = FirebaseAuth.getInstance().getUid().toString();
-                        String PostUIDForCheck = dataSnapshot.getValue().toString();
+                        final String MyUIdForCheck = FirebaseAuth.getInstance().getUid().toString();
+                        final String PostUIDForCheck = dataSnapshot.getValue().toString();
 
-                        if(MyUIdForCheck.equals(PostUIDForCheck)){
+                        DatabaseReference CheckIfDeleted = FirebaseDatabase.getInstance().getReference("users");
+                        CheckIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            Intent GoToMyProfileAfterCheck = new Intent(Text_Post_Viewing_Activity.this, Account_Info_Activity.class);
-                            startActivity(GoToMyProfileAfterCheck);
+                                if(dataSnapshot.hasChild(PostUIDForCheck)){
 
-                        }
-                        else {
+                                    if(MyUIdForCheck.equals(PostUIDForCheck)){
 
-                            Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
-                            GoToProfile.putExtra("Key", ThePostKey);
-                            startActivity(GoToProfile);
+                                        Intent GoToMyProfileAfterCheck = new Intent(Text_Post_Viewing_Activity.this, Account_Info_Activity.class);
+                                        startActivity(GoToMyProfileAfterCheck);
 
-                        }
+                                    }
+                                    else {
 
+                                        Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
+                                        GoToProfile.putExtra("Key", ThePostKey);
+                                        startActivity(GoToProfile);
+
+                                    }
+
+                                }
+
+                                else{
+
+                                    final AlertDialog.Builder dialog = new AlertDialog.Builder(Text_Post_Viewing_Activity.this);
+                                    dialog.setTitle("This user has been deleted");
+                                    dialog.setMessage("You can no longer view this user");
+                                    AlertDialog alertDialog = dialog.create();
+                                    alertDialog.show();
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
 
                     @Override
@@ -219,7 +245,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
@@ -329,24 +355,51 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                         CheckIfMyUID.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
-                                String CommentUID = dataSnapshot.getValue().toString();
+                                final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
+                                final String CommentUID = dataSnapshot.getValue().toString();
 
-                                if(MyUIDCheck.equals(CommentUID)){
+                                DatabaseReference UserIfDeleted = firebaseDatabase.getReference("users");
+                                UserIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                    Intent GoToMyProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_Activity.class);
-                                    startActivity(GoToMyProfile);
+                                        if(dataSnapshot.hasChild(CommentUID)){
 
-                                }
 
-                                else{
+                                            if(MyUIDCheck.equals(CommentUID)){
 
-                                    Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUserComments_Activity.class);
-                                    GoToProfile.putExtra("CommentKey", CommentKey);
-                                    GoToProfile.putExtra("PostKey", PostKey);
-                                    startActivity(GoToProfile);
+                                                Intent GoToMyProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_Activity.class);
+                                                startActivity(GoToMyProfile);
 
-                                }
+                                            }
+
+                                            else{
+
+                                                Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUserComments_Activity.class);
+                                                GoToProfile.putExtra("CommentKey", CommentKey);
+                                                GoToProfile.putExtra("PostKey", PostKey);
+                                                startActivity(GoToProfile);
+
+                                            }
+                                        }
+                                        else{
+
+                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(Text_Post_Viewing_Activity.this);
+                                            dialog.setTitle("This user has been deleted");
+                                            dialog.setMessage("You can no longer view this user");
+                                            AlertDialog alertDialog = dialog.create();
+                                            alertDialog.show();
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
 
                             }
 

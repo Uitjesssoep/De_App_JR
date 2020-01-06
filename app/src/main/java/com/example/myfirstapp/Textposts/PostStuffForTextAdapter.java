@@ -105,6 +105,37 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             }
         });
 
+
+        //kijken of de user deleted is
+        final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
+        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("user_name");
+        final String PostUID = uploadCurrent.getUID().toString();
+
+        UserUIDCheck.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild(PostUID)){
+
+                }
+
+                else{
+
+                    ChangeUsername.setValue("[deleted_user]");
+                    holder.Username.setText("[deleted_user]");
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
         //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
         final String KeyPost = uploadCurrent.getKey().toString();
         final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts");

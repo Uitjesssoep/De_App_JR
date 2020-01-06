@@ -127,27 +127,53 @@ public class General_Feed_Activity extends AppCompatActivity {
                         final String PostKey = postStuffForTextList.get(position).getKey().toString();
 
                         DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey).child("uid");
-                        CheckIfMyUID.addValueEventListener(new ValueEventListener() {
+                        CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
-                                String PostUID = dataSnapshot.getValue().toString();
+                                final String MyUIDCheck2 = FirebaseAuth.getInstance().getUid().toString();
+                                final String PostUID2 = dataSnapshot.getValue().toString();
 
-                                if(MyUIDCheck.equals(PostUID)){
+                                DatabaseReference CheckIfDeleted = FirebaseDatabase.getInstance().getReference("users");
+                                CheckIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                    Intent GoToMyProfile = new Intent(General_Feed_Activity.this, Account_Info_Activity.class);
-                                    startActivity(GoToMyProfile);
+                                        if(dataSnapshot.hasChild(PostUID2)){
 
-                                }
-                                else{
+                                            if(MyUIDCheck2.equals(PostUID2)){
 
-                                    Intent GoToProfile = new Intent(General_Feed_Activity.this, Account_Info_OtherUser_Activity.class);
-                                    GoToProfile.putExtra("Key", PostKey);
-                                    startActivity(GoToProfile);
+                                                Intent GoToMyProfile = new Intent(General_Feed_Activity.this, Account_Info_Activity.class);
+                                                startActivity(GoToMyProfile);
 
-                                }
+                                            }
+                                            else{
 
+                                                Intent GoToProfile = new Intent(General_Feed_Activity.this, Account_Info_OtherUser_Activity.class);
+                                                GoToProfile.putExtra("Key", PostKey);
+                                                startActivity(GoToProfile);
+
+                                            }
+
+                                        }
+
+                                        else{
+
+                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(General_Feed_Activity.this);
+                                            dialog.setTitle("This user has been deleted");
+                                            dialog.setMessage("You can no longer view this user");
+                                            AlertDialog alertDialog = dialog.create();
+                                            alertDialog.show();
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
 
                             @Override

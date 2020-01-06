@@ -19,6 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Comment;
+
 import java.util.List;
 
 import javax.crypto.spec.DESKeySpec;
@@ -57,6 +59,41 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         holder.Username.setText(uploadCurrent2.getUser_name());
         holder.Date.setText(uploadCurrent2.getDate());
         holder.Content.setText(uploadCurrent2.getContent());
+
+
+        //kijken of de user deleted is
+        final String KeyComments2 = uploadCurrent2.getKey();
+        final String KeyOGPosts2 = uploadCurrent2.getOldKey();
+        final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
+        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("user_name");
+        final String CommentUID = uploadCurrent2.getUID().toString();
+
+        UserUIDCheck.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild(CommentUID)){
+
+                }
+
+                else{
+
+                    ChangeUsername.setValue("[deleted_user]");
+                    holder.Username.setText("[deleted_user]");
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        //voor t deleten enzo van comments
 
         final String KeyComments = uploadCurrent2.getKey();
         final String KeyOGPosts = uploadCurrent2.getOldKey();

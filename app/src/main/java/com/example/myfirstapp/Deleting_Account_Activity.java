@@ -74,7 +74,7 @@ public class Deleting_Account_Activity extends AppCompatActivity {
     }
 
     public void onBackPressed(){
-        Toast.makeText(Deleting_Account_Activity.this, "Can't go back now, you fucked up mate", Toast.LENGTH_SHORT).show();
+        Toast.makeText(Deleting_Account_Activity.this, "Too late to go back now", Toast.LENGTH_SHORT).show();
     }
 
 }
