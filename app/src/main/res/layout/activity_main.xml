@@ -22,9 +22,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:scrollHorizontally="false"
-        android:textColorHighlight="#994CAF50"
-        android:textColorLink="#8BC34A"
-        android:textCursorDrawable="@drawable/cursor4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,9 +42,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:scrollHorizontally="false"
-        android:textColorHighlight="#994CAF50"
-        android:textColorLink="#8BC34A"
-        android:textCursorDrawable="@drawable/cursor4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -140,5 +134,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword"
         app:layout_constraintVertical_bias="0.78" />
+
+    <TextView
+        android:id="@+id/tvIncorrectDetail1Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Incorrect details! please try again"
+        android:textColor="#D32F2F"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.22"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etName"
+        app:layout_constraintVertical_bias="0.005" />
+
+    <TextView
+        android:id="@+id/tvIncorrectDetail2Main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Incorrect details! please try again"
+        android:textColor="#D32F2F"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.22"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword"
+        app:layout_constraintVertical_bias="0.005" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

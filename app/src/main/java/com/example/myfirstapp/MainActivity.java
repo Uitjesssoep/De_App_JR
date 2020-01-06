@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         private EditText Password;
         private Button Login;
         private TextView RegisterText, AccountYetText;
-        private TextView PasswordResetText;
+        private TextView PasswordResetText, IncorrectDetail1, IncorrectDetail2;
 
         private FirebaseAuth firebaseAuth;
 
@@ -70,11 +70,16 @@ public class MainActivity extends AppCompatActivity {
         PasswordResetText = (TextView)findViewById(R.id.tvForgotPassword);
         RegisterText = (TextView)findViewById(R.id.tvRegister);
         AccountYetText = findViewById(R.id.tvDontHaveAccountMain);
+        IncorrectDetail1 = findViewById(R.id.tvIncorrectDetail1Main);
+        IncorrectDetail2 = findViewById(R.id.tvIncorrectDetail2Main);
 
         //underline sign up tekst
 
         RegisterText.setPaintFlags(RegisterText.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+
+        IncorrectDetail1.setVisibility(View.INVISIBLE);
+        IncorrectDetail2.setVisibility(View.INVISIBLE);
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -97,6 +102,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+                IncorrectDetail1.setVisibility(View.INVISIBLE);
+                IncorrectDetail2.setVisibility(View.INVISIBLE);
+                Name.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+                Password.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
             }
         });
 
@@ -104,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+                IncorrectDetail1.setVisibility(View.INVISIBLE);
+                IncorrectDetail2.setVisibility(View.INVISIBLE);
+                Name.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+                Password.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
             }
         });
 
@@ -111,6 +124,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, Forgot_Password_Activity.class));
+                IncorrectDetail1.setVisibility(View.INVISIBLE);
+                IncorrectDetail2.setVisibility(View.INVISIBLE);
+                Name.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+                Password.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
             }
         });
 
@@ -125,7 +142,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         if(username.isEmpty() || password.isEmpty()){
-            Toast.makeText(MainActivity.this, "Please enter all the details", Toast.LENGTH_LONG).show();
+            Name.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+            IncorrectDetail1.setVisibility(View.VISIBLE);
+            Password.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+            IncorrectDetail2.setVisibility(View.VISIBLE);
         }
 
         else{
@@ -137,7 +157,10 @@ public class MainActivity extends AppCompatActivity {
                         checkEmailVerification();
                     }
                     else{
-                        Toast.makeText(MainActivity.this, "Login failed, please check your details", Toast.LENGTH_SHORT).show();
+                        Name.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                        IncorrectDetail1.setVisibility(View.VISIBLE);
+                        Password.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                        IncorrectDetail2.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -157,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         else{
-            Toast.makeText(MainActivity.this, "Please verify your email before logging in", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Please verify your email", Toast.LENGTH_LONG).show();
             firebaseAuth.signOut();
         }
 

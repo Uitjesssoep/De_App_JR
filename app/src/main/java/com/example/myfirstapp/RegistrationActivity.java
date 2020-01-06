@@ -29,7 +29,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private EditText userName, userPassword, userEmail;
     private Button regButton;
-    private TextView userLogin, alreadyAccountText;
+    private TextView userLogin, alreadyAccountText, ErrorUsername, ErrorEmail, ErrorPassword;
 
     String protoname, name, password, emailget, UID;
 
@@ -51,6 +51,15 @@ public class RegistrationActivity extends AppCompatActivity {
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                ErrorUsername.setVisibility(View.INVISIBLE);
+                ErrorEmail.setVisibility(View.INVISIBLE);
+                ErrorPassword.setVisibility(View.INVISIBLE);
+
+                userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+                userPassword.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+                userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+
                 if(validate()){
                     String user_email = userEmail.getText().toString().trim();
                     String user_password = userPassword.getText().toString().trim();
@@ -95,6 +104,9 @@ public class RegistrationActivity extends AppCompatActivity {
         regButton = (Button)findViewById(R.id.btnRegister);
         userLogin = (TextView)findViewById(R.id.tvUserLogin);
         alreadyAccountText = (TextView)findViewById(R.id.tvAlreadyAccountReg);
+        ErrorUsername = findViewById(R.id.tvUsernameErrorReg);
+        ErrorEmail = findViewById(R.id.tvEmailErrorReg);
+        ErrorPassword = findViewById(R.id.tvPasswordErrorReg);
 
         //voor het weghalen van de actionbar
 
@@ -118,6 +130,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
         userLogin.setPaintFlags(userLogin.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+        //verberg error messages
+
+        ErrorUsername.setVisibility(View.INVISIBLE);
+        ErrorEmail.setVisibility(View.INVISIBLE);
+        ErrorPassword.setVisibility(View.INVISIBLE);
+
     }
 
     private Boolean validate(){
@@ -130,35 +148,55 @@ public class RegistrationActivity extends AppCompatActivity {
         emailget = userEmail.getText().toString().trim();
 
         int passwordlength = password.length();
-        int usernamelength = name.length();
+        int usernamelength = protoname.length();
 
         if(name.isEmpty() || password.isEmpty() || emailget.isEmpty()){
-            Toast.makeText(RegistrationActivity.this, "Please enter all the details", Toast.LENGTH_LONG).show();
+            userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+            userPassword.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+            userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+
+            ErrorUsername.setVisibility(View.VISIBLE);
+            ErrorEmail.setVisibility(View.VISIBLE);
+            ErrorPassword.setVisibility(View.VISIBLE);
+
+            ErrorUsername.setText("Please fill in all the details");
+            ErrorEmail.setText("Please fill in all the details");
+            ErrorPassword.setText("Please fill in all the details");
         }
 
         else{
             if(!isEmailValid(emailget)){
-                Toast.makeText(RegistrationActivity.this, "Please enter a valid email address", Toast.LENGTH_LONG).show();
+                userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                ErrorEmail.setVisibility(View.VISIBLE);
+                ErrorEmail.setText("Please enter a valid email adress");
             }
 
             else{
                 if(passwordlength < 6 ){
-                    Toast.makeText(this, "Please make sure your password is at least 6 characters long", Toast.LENGTH_LONG).show();
+                    ErrorPassword.setVisibility(View.VISIBLE);
+                    userPassword.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                    ErrorPassword.setText("Make sure your password is at least 6 characters long");
                 }
 
                 else{
                     if(usernamelength < 3 ){
-                        Toast.makeText(this, "Please make sure your username is at least 3 characters long", Toast.LENGTH_LONG).show();
+                        ErrorUsername.setText("Make sure your username is at least 3 characters long");
+                        ErrorUsername.setVisibility(View.VISIBLE);
+                        userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                     }
 
                     else{
                         if(usernamelength > 31 ){
-                            Toast.makeText(this, "Please make sure your username is not more than 30 characters long", Toast.LENGTH_LONG).show();
+                            ErrorUsername.setText("Make sure your username does not exceed the 30 character limit");
+                            ErrorUsername.setVisibility(View.VISIBLE);
+                            userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                         }
 
                         else{
                             if(!protoname.matches("[a-zA-Z._0-9]*")){
-                                Toast.makeText(this, "Please make sure your username only consists of letters (a-z, A-Z) and/or numbers (0-9) and/or an underscore (_) and/or a dot (.)", Toast.LENGTH_LONG).show();
+                                ErrorUsername.setText("Make sure your username does not contain weird symbols");
+                                ErrorUsername.setVisibility(View.VISIBLE);
+                                userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                             }
                             else{
                                 result = true;
