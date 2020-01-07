@@ -94,9 +94,12 @@ public class Forgot_Password_Activity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
+                                String useremailreset2 = EmailResetPassword.getText().toString().trim();
                                 Toast.makeText(Forgot_Password_Activity.this, "The email has been sent, please check your inbox", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(Forgot_Password_Activity.this, ForgotPassword_Sucess_Activity.class);
+                                intent.putExtra("entered_email", useremailreset2);
+                                startActivity(intent);
                                 finish();
-                                startActivity(new Intent(Forgot_Password_Activity.this, MainActivity.class));
                             }
 
                             else{
