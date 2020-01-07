@@ -67,7 +67,7 @@ public class Deleting_Account_Activity extends AppCompatActivity {
 
     private void deleteUser(String userID){
         DatabaseReference drUser = firebaseDatabase.getReference("users").child(userID);
-        StorageReference srUser = firebaseStorage.getReference(userID).child("Images").child("ProfilePicture");
+        StorageReference srUser = firebaseStorage.getReference("ProfilePictures").child(firebaseAuth.getUid());
 
         drUser.removeValue();
         srUser.delete();

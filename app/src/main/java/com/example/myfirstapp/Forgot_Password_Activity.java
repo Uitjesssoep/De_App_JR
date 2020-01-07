@@ -1,7 +1,9 @@
 package com.example.myfirstapp;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -24,7 +26,7 @@ public class Forgot_Password_Activity extends AppCompatActivity {
     private EditText EmailResetPassword;
     private Button ResetPasswordEmailSend;
     private FirebaseAuth firebaseAuth;
-    private TextView ErrorEmail;
+    private TextView ErrorEmail, BackLogin;
 
 
     @Override
@@ -55,10 +57,21 @@ public class Forgot_Password_Activity extends AppCompatActivity {
         ResetPasswordEmailSend = (Button)findViewById(R.id.btnResetPassword);
         firebaseAuth = FirebaseAuth.getInstance();
         ErrorEmail = findViewById(R.id.tvPasswordErrorForgot2);
+        BackLogin = findViewById(R.id.tvBackToLoginForgot);
 
         EmailResetPassword.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
         ErrorEmail.setVisibility(View.INVISIBLE);
         ErrorEmail.setText("Please fill in all the details");
+
+        BackLogin.setPaintFlags(BackLogin.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        BackLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent Login = new Intent(Forgot_Password_Activity.this, MainActivity.class);
+                startActivity(Login);
+                finish();
+            }
+        });
 
 
         ResetPasswordEmailSend.setOnClickListener(new View.OnClickListener() {
