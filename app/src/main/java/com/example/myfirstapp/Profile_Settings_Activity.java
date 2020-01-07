@@ -163,7 +163,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
         final DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
@@ -216,7 +216,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                                             });
 
                                             DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-                                            GetName.addValueEventListener(new ValueEventListener() {
+                                            GetName.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -242,7 +242,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                                         else{
 
                                             DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-                                            GetName.addValueEventListener(new ValueEventListener() {
+                                            GetName.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
