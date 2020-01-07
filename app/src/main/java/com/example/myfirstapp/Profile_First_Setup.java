@@ -276,7 +276,6 @@ public class Profile_First_Setup extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     sendEmailVerification();
-                    sendUserDataToDatabaseFirstSetup();
                 } else {
                     Toast.makeText(Profile_First_Setup.this, "Registration failed, please try again later", Toast.LENGTH_SHORT).show();
                 }
@@ -309,6 +308,14 @@ public class Profile_First_Setup extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     getDownloadURL();
+
+
+                    Intent intent = new Intent(Profile_First_Setup.this, SignUp_Success_Activity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    finish();
+                    firebaseAuth.signOut();
+                    startActivity(intent);
+
                               /*  imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(Uri uri) {
@@ -377,17 +384,9 @@ public class Profile_First_Setup extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()){
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(Profile_First_Setup.this, SignUp_Success_Activity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                finish();
-                                firebaseAuth.signOut();
-                                startActivity(intent);
-                            }
-                        }, 5000);
+
+                        sendUserDataToDatabaseFirstSetup();
+
                     }
 
                     else{
