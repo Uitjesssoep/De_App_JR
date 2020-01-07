@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.example.myfirstapp.Chatroom;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
+import com.example.myfirstapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

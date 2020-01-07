@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.example.myfirstapp.Chatroom;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -19,9 +19,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Notifications.Data;
 import com.example.myfirstapp.Notifications.Sender;
 import com.example.myfirstapp.Notifications.Token;
+import com.example.myfirstapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;

@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.example.myfirstapp.AccountActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+
+import com.example.myfirstapp.R;
 
 public class SignUp_Success_Activity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.example.myfirstapp.AccountActivities;
 
 import android.content.Intent;
 import android.graphics.Paint;
@@ -10,12 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.myfirstapp.R;
+import com.example.myfirstapp.SecondActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

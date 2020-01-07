@@ -11,17 +11,18 @@
         android:roundIcon="@mipmap/flower_launcher_v2_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgotPassword_Sucess_Activity"></activity>
-        <activity android:name=".SignUp_Success_Activity" />
-        <activity android:name=".Deleting_Account_Activity" />
-        <activity android:name=".Account_Info_OtherUserComments_Activity" />
-        <activity android:name=".UserListToFollow" />
+        <activity android:name=".Imageposts.Image_Post_Viewing_Activity"></activity>
+        <activity android:name=".AccountActivities.ForgotPassword_Sucess_Activity" />
+        <activity android:name=".AccountActivities.SignUp_Success_Activity" />
+        <activity android:name=".AccountActivities.Deleting_Account_Activity" />
+        <activity android:name=".AccountActivities.Account_Info_OtherUserComments_Activity" />
+        <activity android:name=".Users.UserListToFollow" />
         <activity android:name=".Choose_FeedType_Activity" />
         <activity
-            android:name=".Account_Info_OtherUser_Activity"
+            android:name=".AccountActivities.Account_Info_OtherUser_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ImagesFeed"
+            android:name=".Imageposts.ImagesFeed"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Textposts.Text_Post_Viewing_Activity"
@@ -36,37 +37,37 @@
             android:name=".Choose_PostType_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Upload_Images_Activity"
+            android:name=".Imageposts.Upload_Images_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Chat_Room_MakeOrSearch_Activity"
+            android:name=".Chatroom.Chat_Room_MakeOrSearch_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Chat_With_Users_Activity"
+            android:name=".Chatroom.Chat_With_Users_Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Search_Other_Users_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Loading_Screen_Activity"
+            android:name=".AccountActivities.Loading_Screen_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Change_Password_Activity"
+            android:name=".AccountActivities.Change_Password_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Profile_First_Setup"
+            android:name=".AccountActivities.Profile_First_Setup"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Profile_Settings_Activity"
+            android:name=".AccountActivities.Profile_Settings_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Forgot_Password_Activity"
+            android:name=".AccountActivities.Forgot_Password_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Account_Info_Activity"
+            android:name=".AccountActivities.Account_Info_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".AccountActivities.RegistrationActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SecondActivity"
@@ -82,7 +83,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".AccountActivities.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>

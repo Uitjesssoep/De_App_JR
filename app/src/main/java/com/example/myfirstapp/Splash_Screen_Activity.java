@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.widget.Toast;
+
+import com.example.myfirstapp.AccountActivities.MainActivity;
 
 public class Splash_Screen_Activity extends AppCompatActivity {
 

@@ -1,15 +1,13 @@
-package com.example.myfirstapp;
+package com.example.myfirstapp.AccountActivities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,16 +33,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -274,7 +268,7 @@ public class Profile_First_Setup extends AppCompatActivity {
 
         //dingen uit intent halen
 
-        final String username = getIntent().getExtras().get("username").toString();
+        String username = getIntent().getExtras().get("username").toString();
         String password = getIntent().getExtras().get("password").toString();
         String email = getIntent().getExtras().get("email").toString();
 
@@ -283,22 +277,7 @@ public class Profile_First_Setup extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     sendUserDataToDatabaseFirstSetup();
-
-                    userfullnameToDatabase = FullNameSetup.getText().toString().trim();
-
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(userfullnameToDatabase).build();
-                    user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                //yay displayname is gezet
-                            }
-                        }
-                    });
-
-                }
-                else {
+                } else {
                     Toast.makeText(Profile_First_Setup.this, "Registration failed, please try again later", Toast.LENGTH_SHORT).show();
                 }
             }

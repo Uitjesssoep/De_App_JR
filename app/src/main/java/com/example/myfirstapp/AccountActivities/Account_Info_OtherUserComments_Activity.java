@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.example.myfirstapp.AccountActivities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,44 +22,43 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class Account_Info_OtherUser_Activity extends AppCompatActivity {
-
-
+public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
     private TextView RealName, UserName, BirthDate, Email, tvOtherUserUID;
     private ImageView ProfilePicture;
 
-    private String key, OtherUserUID;
+    private String PostKey, CommentKey, OtherUserUIDComments;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage firebaseStorage;
 
-    private static final String TAG = "Account_Info_Other_User";
+    private static final String TAG = "AccountInfo_Other_UserC";
 
 
     private void SetupUI() {
 
-        RealName = findViewById(R.id.tvRealNameAccountInfoOtherUser);
-        UserName = findViewById(R.id.tvUsernameAccountInfoOtherUser);
-        BirthDate = findViewById(R.id.tvBirthdayAccountInfoOtherUser);
-        Email = findViewById(R.id.tvEmailAccountInfoOtherUser);
-        ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoOtherUser);
+        RealName = findViewById(R.id.tvRealNameAccountInfoOtherUserComments);
+        UserName = findViewById(R.id.tvUsernameAccountInfoOtherUserComments);
+        BirthDate = findViewById(R.id.tvBirthdayAccountInfoOtherUserComments);
+        Email = findViewById(R.id.tvEmailAccountInfoOtherUserComments);
+        ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoOtherUserComments);
 
-        tvOtherUserUID = findViewById(R.id.tvHiddenOtherUserUIDPlaceholder);
+        tvOtherUserUID = findViewById(R.id.tvHiddenOtherUserCommentsUIDPlaceholder);
 
-        key = getIntent().getExtras().get("Key").toString();
+        PostKey = getIntent().getExtras().get("PostKey").toString();
+        CommentKey = getIntent().getExtras().get("CommentKey").toString();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference("General_Text_Posts").child(key).child("uid");
+        DatabaseReference databaseReference = firebaseDatabase.getReference("General_Text_Posts").child(PostKey).child("Comments").child(CommentKey).child("uid");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvOtherUserUID.setText(dataSnapshot.getValue(String.class));
-                OtherUserUID = tvOtherUserUID.getText().toString();
-                Log.e(TAG, OtherUserUID);
+                Log.e(TAG, "Uit database: " + dataSnapshot.getValue().toString());
+                OtherUserUIDComments = dataSnapshot.getValue().toString();
+                Log.e(TAG, "In String: " + OtherUserUIDComments);
 
                 RetrieveData();
             }
@@ -72,19 +72,19 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
 
     private void RetrieveData() {
 
-        Log.e(TAG, OtherUserUID);
+        Log.e(TAG, OtherUserUIDComments);
 
         //voor profielfoto
         StorageReference storageReference = firebaseStorage.getReference();
-        storageReference.child(OtherUserUID).child("Images").child("ProfilePicture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child(OtherUserUIDComments).child("Images").child("ProfilePicture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-        Picasso.get().load(uri).fit().centerCrop().into(ProfilePicture);
+                Picasso.get().load(uri).fit().centerCrop().into(ProfilePicture);
             }
         });
 
         //voor de rest
-        DatabaseReference OtherUserData = firebaseDatabase.getReference("users").child(OtherUserUID);
+        DatabaseReference OtherUserData = firebaseDatabase.getReference("users").child(OtherUserUIDComments);
         OtherUserData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -97,7 +97,7 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Account_Info_OtherUser_Activity.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Account_Info_OtherUserComments_Activity.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -107,11 +107,9 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account__info__other_user_);
+        setContentView(R.layout.activity_account__info__other_user_comments_);
 
         SetupUI();
 
     }
-
-
 }

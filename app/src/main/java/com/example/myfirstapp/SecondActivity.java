@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
+import com.example.myfirstapp.AccountActivities.MainActivity;
+import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
+import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

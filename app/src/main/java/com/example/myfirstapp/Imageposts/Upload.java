@@ -1,10 +1,7 @@
-package com.example.myfirstapp;
-
-import android.net.Uri;
-
-import com.google.android.gms.tasks.Task;
+package com.example.myfirstapp.Imageposts;
 
 public class Upload {
+
     private String mTitle;
     private String mUser_name;
     private String mImageUrl;
@@ -12,14 +9,9 @@ public class Upload {
     private String mKey;
     private String mDate;
 
-
-    public Upload() {
-//empty constructor nodig
-    }
-
     public Upload(String Title, String User_name, String imageUrl, String UID, String Key, String Date) {
         if (Title.trim().equals("")) {
-            Title = "No Name";
+            Title = " ";
         }
         mTitle = Title;
         mUser_name = User_name;
@@ -27,6 +19,10 @@ public class Upload {
         mKey = Key;
         mDate = Date;
         mImageUrl = imageUrl;
+    }
+
+    public Upload() {
+//empty constructor nodig
     }
 
     public String getTitle() {

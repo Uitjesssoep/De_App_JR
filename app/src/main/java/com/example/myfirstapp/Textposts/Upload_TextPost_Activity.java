@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
-import com.example.myfirstapp.UserProfileToDatabase;
+import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

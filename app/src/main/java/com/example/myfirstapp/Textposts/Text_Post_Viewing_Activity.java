@@ -17,21 +17,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myfirstapp.Account_Info_Activity;
-import com.example.myfirstapp.Account_Info_OtherUserComments_Activity;
-import com.example.myfirstapp.Account_Info_OtherUser_Activity;
-import com.example.myfirstapp.Deleting_Account_Activity;
+import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUserComments_Activity;
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.General_Feed_Activity;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.UserProfileToDatabase;
+import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

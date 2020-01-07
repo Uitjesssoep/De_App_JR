@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.myfirstapp.Imageposts.ImagesFeed;
+
 public class Choose_FeedType_Activity extends AppCompatActivity {
 
     private Button Media_Button, Text_Button;
