@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -36,8 +37,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     String protoname, password, emailget, UID;
 
-    private Boolean AllGood = false;
-
     String Profilepictureundefined = "Profilepicture hasn't been chosen yet";
     String fullnameUndefined = "Full name not yet registered";
     String birthdateUndefined = "Date of birth not yet registered";
@@ -65,31 +64,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 userPassword.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
                 userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
-                if(AllGood){
-                    String user_email = userEmail.getText().toString().trim();
-                    String user_password = userPassword.getText().toString().trim();
+                validate();
 
-                    protoname = userName.getText().toString().trim();
-                    String name = "@" + protoname;
-
-                    Intent intent = new Intent(RegistrationActivity.this, Profile_First_Setup.class);
-                    intent.putExtra("username", name);
-                    intent.putExtra("password", user_password);
-                    intent.putExtra("email", user_email);
-                    startActivity(intent);
-
-                    /*firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                sendEmailVerification();
-                            }
-                            else{
-                                Toast.makeText(RegistrationActivity.this, "Registration failed, please try again later", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });*/
-                }
             }
         });
 
@@ -153,8 +129,6 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void validate(){
-
-        AllGood = false;
 
         protoname = userName.getText().toString().trim();
         final String name = "@" + protoname;
@@ -250,7 +224,17 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void AllGood() {
 
-        AllGood = true;
+            String user_email = userEmail.getText().toString().trim();
+            String user_password = userPassword.getText().toString().trim();
+
+            protoname = userName.getText().toString().trim();
+            String name = "@" + protoname;
+
+            Intent intent = new Intent(RegistrationActivity.this, Profile_First_Setup.class);
+            intent.putExtra("username", name);
+            intent.putExtra("password", user_password);
+            intent.putExtra("email", user_email);
+            startActivity(intent);
 
     }
 
