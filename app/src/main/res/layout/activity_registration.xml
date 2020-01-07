@@ -75,7 +75,7 @@
         android:scrollbarSize="0dp"
         android:shadowColor="#00FFFFFF"
         android:shadowDy="0"
-        android:text="Sign up"
+        android:text="Continue"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

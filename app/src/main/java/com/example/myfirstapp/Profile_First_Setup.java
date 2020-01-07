@@ -24,8 +24,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -96,10 +99,6 @@ public class Profile_First_Setup extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        UID=firebaseAuth.getUid();
-        Log.d("LOG", firebaseAuth.getUid());
-
-        Log.d("Testertje", firebaseAuth.getUid());
 
         FullNameSetup = (EditText) findViewById(R.id.etFullNameSetup);
         ContinueSetup = (Button) findViewById(R.id.btnContinueSetupProfile);
@@ -107,7 +106,6 @@ public class Profile_First_Setup extends AppCompatActivity {
         BirthdatePickSetup = (TextView) findViewById(R.id.tvSelectBirthdateSetup);
         PlaceHolderEmailSetup = (TextView) findViewById(R.id.tvPlaceHolderEmailSetup);
         PlaceHolderUNameSetup = (TextView) findViewById(R.id.tvPlaceHolderUserNameSetup);
-
 
         //profielfoto gebeuren
 
@@ -154,7 +152,7 @@ public class Profile_First_Setup extends AppCompatActivity {
         //haal overige data van database zodat het later compleet kan worden geüpload
 
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(UID);
+        /*DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(UID);
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -169,7 +167,7 @@ public class Profile_First_Setup extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(Profile_First_Setup.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         //continue knop
 
@@ -177,40 +175,20 @@ public class Profile_First_Setup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validateData()) {
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(Profile_First_Setup.this, MainActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            finish();
-                            firebaseAuth.signOut();
-                            startActivity(intent);
-                            Toast.makeText(Profile_First_Setup.this, "Success! Please verify your email so you can login!", Toast.LENGTH_SHORT).show();
-                        }
-                    }, 10000);
 
                     Log.e(TAGTEST, "Validate = true");
 
-                    sendUserDataToDatabaseFirstSetup();
+                    MakeProfileAuth();
 
 
                 } else {
-                    Toast.makeText(Profile_First_Setup.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Profile_First_Setup.this, "Something went wrong, please try again later", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
     }
-
-
-    //zorg dat je niet terug kunt met de 'back' knop
-
-    public void onBackPressed() {
-        Toast.makeText(Profile_First_Setup.this, "Can't go back now, please finish the registration first", Toast.LENGTH_SHORT).show();
-    }
-
 
     // kijkt of alles klopt
 
@@ -223,8 +201,6 @@ public class Profile_First_Setup extends AppCompatActivity {
         userfullnameToDatabase = FullNameSetup.getText().toString().trim();
         userbirthdateToDatabase = BirthdatePickSetup.getText().toString();
 
-
-        StorageReference storageReference = firebaseStorage.getReference();
         //  StorageReference myRef6 = storageReference.child(firebaseAuth.getUid());
 
 
@@ -238,64 +214,8 @@ public class Profile_First_Setup extends AppCompatActivity {
                     Toast.makeText(Profile_First_Setup.this, "Please make sure your full name contains only letters (a-z, A-Z) and/or spaces ( )", Toast.LENGTH_LONG).show();
                 } else {
 
-                    if (imagePath != null) {
-                        imageReference = storageReference.child("ProfilePictures").child(firebaseAuth.getUid());
-                        UploadTask uploadTask = imageReference.putFile(imagePath);
-
-
-
-                        uploadTask.addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Profile_First_Setup.this, "Couldn't upload image to database", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                getDownloadURL();
-                              /*  imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        UriImage=uri.toString();
-                                    }
-                                });*/
-                            }
-                        });
-                    } else {
-
-                        String TAG = "ProfilePicEmpty";
-                        Log.e(TAG, "The profile pic is empty");
-
-                        //Bitmap bm = BitmapFactory.decodeResource(ProfilePictureSetup.getResources(), R.drawable.neutral_profile_picture_nobackground);
-
-
-                        StorageReference imageReference2 = storageReference.child("ProfilePictures").child(firebaseAuth.getUid());
-
-                        ProfilePictureSetup.setDrawingCacheEnabled(true);
-                        ProfilePictureSetup.buildDrawingCache();
-                        Bitmap bitmap = ((BitmapDrawable) ProfilePictureSetup.getDrawable()).getBitmap();
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                        byte[] data = baos.toByteArray();
-
-                        UploadTask uploadTask = imageReference2.putBytes(data);
-                        uploadTask.addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-
-                            }
-                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                Log.e(TAGTEST, "Upload pf success");
-                            }
-                        });
-
-                    }
-
-
                     result = true;
+
                 }
             }
         }
@@ -316,15 +236,140 @@ public class Profile_First_Setup extends AppCompatActivity {
             }
         });}
 
+
+    private void MakeProfileAuth() {
+
+        //dingen uit intent halen
+
+        String username = getIntent().getExtras().get("username").toString();
+        String password = getIntent().getExtras().get("password").toString();
+        String email = getIntent().getExtras().get("email").toString();
+
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    sendEmailVerification();
+                    sendUserDataToDatabaseFirstSetup();
+                } else {
+                    Toast.makeText(Profile_First_Setup.this, "Registration failed, please try again later", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private void sendUserDataToDatabaseFirstSetup() {
+
+        UID = firebaseAuth.getUid();
+
+
+        //profielfoto shit
+
+        StorageReference storageReference = firebaseStorage.getReference();
+
+        if (imagePath != null) {
+            imageReference = storageReference.child("ProfilePictures").child(firebaseAuth.getUid());
+            UploadTask uploadTask = imageReference.putFile(imagePath);
+
+
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(Profile_First_Setup.this, "Couldn't upload image to database", Toast.LENGTH_LONG).show();
+                }
+            });
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    getDownloadURL();
+                              /*  imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        UriImage=uri.toString();
+                                    }
+                                });*/
+                }
+            });
+        } else {
+
+            String TAG = "ProfilePicEmpty";
+            Log.e(TAG, "The profile pic is empty");
+
+            //Bitmap bm = BitmapFactory.decodeResource(ProfilePictureSetup.getResources(), R.drawable.neutral_profile_picture_nobackground);
+
+
+            StorageReference imageReference2 = storageReference.child("ProfilePictures").child(firebaseAuth.getUid());
+
+            ProfilePictureSetup.setDrawingCacheEnabled(true);
+            ProfilePictureSetup.buildDrawingCache();
+            Bitmap bitmap = ((BitmapDrawable) ProfilePictureSetup.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+            UploadTask uploadTask = imageReference2.putBytes(data);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.e(TAGTEST, "Upload pf success");
+                }
+            });
+
+        }
+
+
+
+
+        //andere database shit
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef684 = firebaseDatabase.getReference("users").child(UID); //elke gebruiker heeft een unieke uid, deze hebben we natuurlijk nodig als we zijn gegevens op de database zetten
         if (UriImage == null) {
             UriImage = "no entry";
         }
-        UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, usernameToDatabase, useremailToDatabase, userfullnameToDatabase, userbirthdateToDatabase);
+
+        String username = getIntent().getExtras().get("username").toString();
+        String password = getIntent().getExtras().get("password").toString();
+        String email = getIntent().getExtras().get("email").toString();
+
+        UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, userbirthdateToDatabase);
         myRef684.setValue(userProfile);
         Log.e(TAGTEST, "usertodatabase bereikt!");
+    }
+
+
+    private void sendEmailVerification(){
+        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null){
+            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(Profile_First_Setup.this, SignUp_Success_Activity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                finish();
+                                firebaseAuth.signOut();
+                                startActivity(intent);
+                            }
+                        }, 5000);
+                    }
+
+                    else{
+                        Toast.makeText(Profile_First_Setup.this, "Verification mail has not been send, please try again later", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
     }
 
 }

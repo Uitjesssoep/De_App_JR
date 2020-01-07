@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/flower_launcher_v2_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Deleting_Account_Activity"></activity>
+        <activity android:name=".SignUp_Success_Activity"></activity>
+        <activity android:name=".Deleting_Account_Activity" />
         <activity android:name=".Account_Info_OtherUserComments_Activity" />
         <activity android:name=".UserListToFollow" />
         <activity android:name=".Choose_FeedType_Activity" />
@@ -81,8 +82,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

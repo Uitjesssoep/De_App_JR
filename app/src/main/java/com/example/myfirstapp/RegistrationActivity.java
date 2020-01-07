@@ -60,15 +60,17 @@ public class RegistrationActivity extends AppCompatActivity {
                 userPassword.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
                 userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
-
-                //intent
-
-
                 if(validate()){
                     String user_email = userEmail.getText().toString().trim();
                     String user_password = userPassword.getText().toString().trim();
 
-                    firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    Intent intent = new Intent(RegistrationActivity.this, Profile_First_Setup.class);
+                    intent.putExtra("username", name);
+                    intent.putExtra("password", user_password);
+                    intent.putExtra("email", user_email);
+                    startActivity(intent);
+
+                    /*firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
@@ -78,7 +80,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 Toast.makeText(RegistrationActivity.this, "Registration failed, please try again later", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    });
+                    });*/
                 }
             }
         });
@@ -215,7 +217,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
 
-    private void sendEmailVerification(){
+    /*private void sendEmailVerification(){
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null){
             firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -243,7 +245,7 @@ public class RegistrationActivity extends AppCompatActivity {
         this.UID=firebaseAuth.getUid();
         UserProfileToDatabase userProfile = new UserProfileToDatabase(Profilepictureundefined, this.UID, name, emailget, fullnameUndefined, birthdateUndefined);
         myRef.setValue(userProfile);
-    }
+    }*/
 
 
     boolean isEmailValid(CharSequence email) {
