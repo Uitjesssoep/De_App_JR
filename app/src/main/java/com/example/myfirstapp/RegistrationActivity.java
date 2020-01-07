@@ -21,8 +21,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -31,7 +34,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button regButton;
     private TextView userLogin, alreadyAccountText, ErrorUsername, ErrorEmail, ErrorPassword;
 
-    String protoname, name, password, emailget, UID;
+    String protoname, password, emailget, UID;
+
+    private Boolean AllGood = false;
 
     String Profilepictureundefined = "Profilepicture hasn't been chosen yet";
     String fullnameUndefined = "Full name not yet registered";
@@ -60,9 +65,12 @@ public class RegistrationActivity extends AppCompatActivity {
                 userPassword.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
                 userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
-                if(validate()){
+                if(AllGood){
                     String user_email = userEmail.getText().toString().trim();
                     String user_password = userPassword.getText().toString().trim();
+
+                    protoname = userName.getText().toString().trim();
+                    String name = "@" + protoname;
 
                     Intent intent = new Intent(RegistrationActivity.this, Profile_First_Setup.class);
                     intent.putExtra("username", name);
@@ -144,12 +152,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    private Boolean validate(){
-        Boolean result = false;
+    private void validate(){
 
+        AllGood = false;
 
         protoname = userName.getText().toString().trim();
-        name = "@" + protoname;
+        final String name = "@" + protoname;
         password = userPassword.getText().toString().trim();
         emailget = userEmail.getText().toString().trim();
 
@@ -205,15 +213,45 @@ public class RegistrationActivity extends AppCompatActivity {
                                 userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                             }
                             else{
-                                result = true;
+
+                                DatabaseReference CheckIfUsernameExists = FirebaseDatabase.getInstance().getReference("Usernames");
+
+                                CheckIfUsernameExists.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        if(dataSnapshot.hasChild(name)){
+                                            ErrorUsername.setText("This username is already in use");
+                                            ErrorUsername.setVisibility(View.VISIBLE);
+                                            userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                                        }
+                                        else{
+
+                                            AllGood();
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        Toast.makeText(RegistrationActivity.this, "Couldn't collect data from database, please try again later", Toast.LENGTH_LONG).show();
+
+                                    }
+                                });
                             }
                         }
                     }
                 }
             }
         }
+    }
 
-        return result;
+    private void AllGood() {
+
+        AllGood = true;
+
     }
 
 

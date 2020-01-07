@@ -372,6 +372,10 @@ public class Profile_First_Setup extends AppCompatActivity {
         String password = getIntent().getExtras().get("password").toString();
         String email = getIntent().getExtras().get("email").toString();
 
+        //username apart in database zetten om te controleren of die al bestaat
+        DatabaseReference UploadUsername = firebaseDatabase.getReference("Usernames").child(username);
+        UploadUsername.setValue("exists");
+
         UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, userbirthdateToDatabase);
         myRef684.setValue(userProfile);
         Log.e(TAGTEST, "usertodatabase bereikt!");
