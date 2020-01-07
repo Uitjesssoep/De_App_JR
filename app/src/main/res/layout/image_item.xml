@@ -28,15 +28,13 @@
             android:id="@+id/tvDislikeCounterImageItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="252dp"
+            android:layout_marginEnd="32dp"
             android:layout_marginBottom="52dp"
             android:text="0"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/ibLikeDownImageItem"
             app:layout_constraintTop_toBottomOf="@+id/tvTitleTextPostItem"
             app:layout_constraintVertical_bias="0.018" />
 
@@ -44,17 +42,14 @@
             android:id="@+id/tvLikeCounterImageItem2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="324dp"
+            android:layout_marginEnd="64dp"
             android:layout_marginBottom="52dp"
             android:text="0"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/ibLikeUpImageItem"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitleTextPostItem"
-            app:layout_constraintVertical_bias="0.72" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitleTextPostItem" />
 
         <ImageView
             android:id="@+id/ivUpload"
@@ -90,27 +85,23 @@
             android:id="@+id/tvTitleImageItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="160dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="40dp"
             android:text="Name"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ibLikeUpImageItem" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <TextView
             android:id="@+id/tvUsernameImageItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="255dp"
-            android:layout_marginRight="255dp"
             android:text="Username"
             android:textColor="#000000"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvTitleImageItem"
             app:layout_constraintTop_toBottomOf="@+id/ibLikeDownImageItem" />
 
         <TextView
