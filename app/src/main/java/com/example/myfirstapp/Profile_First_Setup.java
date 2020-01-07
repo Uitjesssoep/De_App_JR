@@ -181,18 +181,20 @@ public class Profile_First_Setup extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            sendUserDataToDatabaseFirstSetup();
+                            Intent intent = new Intent(Profile_First_Setup.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            finish();
+                            firebaseAuth.signOut();
+                            startActivity(intent);
+                            Toast.makeText(Profile_First_Setup.this, "Success! Please verify your email so you can login!", Toast.LENGTH_SHORT).show();
                         }
-                    }, 1000);
+                    }, 10000);
 
                     Log.e(TAGTEST, "Validate = true");
 
-                    Intent intent = new Intent(Profile_First_Setup.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    finish();
-                    firebaseAuth.signOut();
-                    startActivity(intent);
-                    Toast.makeText(Profile_First_Setup.this, "Success! Please verify your email so you can login!", Toast.LENGTH_SHORT).show();
+                    sendUserDataToDatabaseFirstSetup();
+
+
                 } else {
                     Toast.makeText(Profile_First_Setup.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
