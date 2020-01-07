@@ -152,10 +152,11 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
 
         StorageReference myref2 = firebaseStorage.getReference();
-        myref2.child(firebaseAuth.getUid()).child("Images").child("ProfilePicture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        myref2.child("ProfilePictures").child(firebaseAuth.getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
         Picasso.get().load(uri).fit().centerCrop().into(ChangeProfilePicture);
+        Profilepicture=uri.toString();
             }
         });
 
@@ -180,7 +181,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         SaveChangesProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Profilepicture = "e";
                 UID = firebaseAuth.getUid();
                 ChangeBirthdateString = ChangeBirthdate.getText().toString();
                 ChangeFullNameString = ChangeFullName.getText().toString();
@@ -198,7 +198,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
                                         if(imagePath != null) {
 
-                                            StorageReference imageReference = storageReference.child(firebaseAuth.getUid()).child("Images").child("ProfilePicture");
+                                            StorageReference imageReference = storageReference.child("ProfilePictures").child(firebaseAuth.getUid());
                                             UploadTask uploadTask = imageReference.putFile(imagePath);
 
 
