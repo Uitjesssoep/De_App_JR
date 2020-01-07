@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.example.myfirstapp.Imageposts;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,12 +13,16 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.myfirstapp.R;
+import com.example.myfirstapp.SecondActivity;
+import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,7 +41,6 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Upload_Images_Activity extends AppCompatActivity {
 
@@ -47,12 +50,23 @@ public class Upload_Images_Activity extends AppCompatActivity {
     private EditText Title;
     private ImageView mImageView;
     private ProgressBar mProgressbar;
-    private String MyUID, usernameString, temp_key, UriImage, Date;
+    private String MyUID, usernameString, temp_key, UriImage, Date, key;
     private TextView user_name_gebruiker;
     private Uri mImageUri;
     private FirebaseDatabase firebaseDatabase;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
+    private ImageButton Like, Dislike;
+
+    private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
+    private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
+    private TextView LikeCountDisplay, DislikeCountDisplay;
+
+    private int LikeCount, DislikeCount, CommentCount;
+
+    private boolean Liked = false;
+    private boolean Disliked = false;
+    private boolean LikedCheck = false, DislikedCheck = false;
 
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
@@ -75,12 +89,17 @@ public class Upload_Images_Activity extends AppCompatActivity {
         calendar = Calendar.getInstance();
         dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
         Date = dateFormat.format(calendar.getTime());
+        LikeCountDisplay = findViewById(R.id.tvLikeCounterImageItem2);
+        DislikeCountDisplay = findViewById(R.id.tvDislikeCounterImageItem);
+        Like = findViewById(R.id.ibLikeUpImageItem);
+        Dislike = findViewById(R.id.ibLikeDownImageItem);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_images);
+
         SetupUI();
 
         ChooseImage.setOnClickListener(new View.OnClickListener() {
@@ -173,10 +192,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     Toast.makeText(Upload_Images_Activity.this, "Post successful", Toast.LENGTH_SHORT).show();
                                     UriImage = uri.toString();
-                                /*   Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                                            uri.toString(), MyUID, usernameString, temp_key);
-                                    String uploadId = mDatabaseRef.push().getKey();
-                                    mDatabaseRef.child(uploadId).setValue(upload);*/
+
                                     setDatabase();
                                 }
                             });
@@ -200,8 +216,5 @@ public class Upload_Images_Activity extends AppCompatActivity {
         }
     }
 
- /*   private void openImagesActivity(){
-        Intent intent = new Intent(this, ImagesFeed.class);
-        startActivity(intent);
-    }*/
+
 }

@@ -5,7 +5,7 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Chat_With_Users_Activity">
+    tools:context=".Chatroom.Chat_With_Users_Activity">
 
     <Button
         android:id="@+id/btnSendMessageChat"

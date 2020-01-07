@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Loading_Screen_Activity">
+    tools:context=".AccountActivities.Loading_Screen_Activity">
 
     <TextView
         android:id="@+id/tvLoadingPleaseWait2"
