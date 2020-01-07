@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.example.myfirstapp.Textposts;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -13,9 +13,7 @@ import android.util.Log;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
-import com.example.myfirstapp.Textposts.PostStuffForText;
-import com.example.myfirstapp.Textposts.PostStuffForTextAdapter;
-import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
+import com.example.myfirstapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

@@ -2,15 +2,23 @@ package com.example.myfirstapp.Imageposts;
 
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.Textposts.General_Feed_Activity;
+import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,9 +35,12 @@ public class ImagesFeed extends AppCompatActivity {
     private ImageAdapter mAdapter;
 
     private ProgressBar mProgressCircle;
-    private String MyUID;
+    private String MyUID, key;
+    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference mDatabaseRef;
+    private DatabaseReference DatabaseLike, DatabaseDislike;
     private List<Upload> mUploads;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +55,17 @@ public class ImagesFeed extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         MyUID = user.getUid();
         mUploads = new ArrayList<>();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
+        mDatabaseRef = firebaseDatabase.getReference("General_Image_Posts");
 
-        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+        mDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                clear();
+
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Upload upload = postSnapshot.getValue(Upload.class);
                     mUploads.add(upload);
@@ -59,6 +75,193 @@ public class ImagesFeed extends AppCompatActivity {
 
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressCircle.setVisibility(View.INVISIBLE);
+
+                mAdapter.setOnItemClickListenerImage(new ImageAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        key = mUploads.get(position).getKey().toString();
+                        Intent Test2 = new Intent(getApplicationContext(), Image_Post_Viewing_Activity.class);
+                        Test2.putExtra("Key", key);
+                        startActivity(Test2);
+                        finish();
+                    }
+
+                    @Override
+                    public void onUserNameClick(int position) {
+                        final String PostKey = mUploads.get(position).getKey().toString();
+
+                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(PostKey).child("uid");
+                        CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                final String MyUIDCheck2 = FirebaseAuth.getInstance().getUid().toString();
+                                final String PostUID2 = dataSnapshot.getValue().toString();
+
+                                DatabaseReference CheckIfDeleted = FirebaseDatabase.getInstance().getReference("users");
+                                CheckIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        if(dataSnapshot.hasChild(PostUID2)){
+
+                                            if(MyUIDCheck2.equals(PostUID2)){
+
+                                                Intent GoToMyProfile = new Intent(ImagesFeed.this, Account_Info_Activity.class);
+                                                startActivity(GoToMyProfile);
+
+                                            }
+                                            else{
+
+                                                Intent GoToProfile = new Intent(ImagesFeed.this, Account_Info_OtherUser_Activity.class);
+                                                GoToProfile.putExtra("Key", PostKey);
+                                                startActivity(GoToProfile);
+
+                                            }
+
+                                        }
+
+                                        else{
+
+                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(ImagesFeed.this);
+                                            dialog.setTitle("This user has been deleted");
+                                            dialog.setMessage("You can no longer view this user");
+                                            AlertDialog alertDialog = dialog.create();
+                                            alertDialog.show();
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onUpvoteClick(int position) {
+                        key = mUploads.get(position).getKey().toString();
+                        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
+                        final String TAGDownvote = "VoteCheck";
+
+
+                        DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if(dataSnapshot.hasChild(MyUID)){
+
+                                    DatabaseDislike.child(MyUID).removeValue();
+                                    DatabaseLike.child(MyUID).setValue("RandomLike");
+
+                                }
+
+
+                                else{
+
+                                    DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            if(dataSnapshot.hasChild(MyUID)){
+                                                DatabaseLike.child(MyUID).removeValue();
+                                            }
+
+                                            else{
+                                                DatabaseLike.child(MyUID).setValue("RandomLike");
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onDownvoteClick(int position) {
+                        key = mUploads.get(position).getKey().toString();
+                        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
+                        final String TAGDownvote = "VoteCheck";
+
+
+                        DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if(dataSnapshot.hasChild(MyUID)){
+                                    DatabaseLike.child(MyUID).removeValue();
+                                    DatabaseDislike.child(MyUID).setValue("RandomDislike");
+                                }
+
+                                else{
+
+                                    DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            if(dataSnapshot.hasChild(MyUID)){
+
+                                                DatabaseDislike.child(MyUID).removeValue();
+
+                                            }
+
+                                            else{
+
+                                                DatabaseDislike.child(MyUID).setValue("RandomDislike");
+
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onDeleteIconClick(int position) {
+
+                    }
+                });
             }
 
             @Override
@@ -68,4 +271,22 @@ public class ImagesFeed extends AppCompatActivity {
             }
         });
     }
+
+    public void clear() {
+
+        int size = mUploads.size();
+        if(size > 0){
+            for (int i = 0; i < size; i++) {
+                mUploads.remove(0);
+
+                String TAGTest = "ListEmpty";
+                Log.e(TAGTest, "tot 'for' gekomen");
+            }
+
+            mAdapter.notifyItemRangeRemoved(0, size);
+        }
+
+
+    }
+
 }

@@ -28,7 +28,7 @@
             android:name=".Textposts.Text_Post_Viewing_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".General_Feed_Activity"
+            android:name=".Textposts.General_Feed_Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Textposts.Upload_TextPost_Activity"

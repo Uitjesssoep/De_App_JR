@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.myfirstapp.Imageposts.ImagesFeed;
+import com.example.myfirstapp.Textposts.General_Feed_Activity;
 
 public class Choose_FeedType_Activity extends AppCompatActivity {
 
