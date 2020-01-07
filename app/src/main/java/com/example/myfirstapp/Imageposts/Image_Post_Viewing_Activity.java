@@ -78,7 +78,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_image__post__viewing_);
 
         SetupUI();
-
+//PROBLEEM
         LikeDislikeCount();
 
         FillVariables();
@@ -135,7 +135,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
         DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
         DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
-
+//PROBLEEM
         Like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

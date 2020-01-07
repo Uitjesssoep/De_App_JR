@@ -46,7 +46,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
-        return new ImageViewHolder(v);
+        return new ImageAdapter.ImageViewHolder(v, mListener);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         public ImageView imageView;
         public ImageButton UpvoteImage, DownvoteImage;
 
-        public ImageViewHolder(@NonNull View itemView) {
+        public ImageViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             TitleImage = itemView.findViewById(R.id.tvTitleImageItem);
@@ -119,6 +119,53 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             UpvoteImage = itemView.findViewById(R.id.ibLikeUpImageItem);
             DownvoteImage = itemView.findViewById(R.id.ibLikeDownImageItem);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            UsernameImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onUserNameClick(position);
+                        }
+                    }
+                }
+            });
+
+            UpvoteImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onUpvoteClick(position);
+                        }
+                    }
+                }
+            });
+
+            DownvoteImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onDownvoteClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
