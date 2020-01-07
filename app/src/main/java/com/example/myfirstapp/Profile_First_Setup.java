@@ -366,9 +366,7 @@ public class Profile_First_Setup extends AppCompatActivity {
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef684 = firebaseDatabase.getReference("users").child(UID); //elke gebruiker heeft een unieke uid, deze hebben we natuurlijk nodig als we zijn gegevens op de database zetten
-        if (UriImage == null) {
-            UriImage = "no entry";
-        }
+
 
         String username = getIntent().getExtras().get("username").toString();
         String password = getIntent().getExtras().get("password").toString();
