@@ -351,6 +351,7 @@ public class Profile_First_Setup extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Log.e(TAGTEST, "Upload pf success");
+                    getDownloadURL();
                 }
             });
 
