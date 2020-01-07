@@ -233,38 +233,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-
-    /*private void sendEmailVerification(){
-        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (firebaseUser != null){
-            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        sendUserDataToDatabase(); // upload de data pas naar de database als de email is gestuurd
-                        finish();
-                        Intent intent = new Intent(RegistrationActivity.this, Profile_First_Setup.class);
-                        startActivity(intent);
-                    }
-
-                    else{
-                        Toast.makeText(RegistrationActivity.this, "Verification mail has not been send, please try again later", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-        }
-    }
-
-
-    private void sendUserDataToDatabase (){
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-        this.UID=firebaseAuth.getUid();
-        UserProfileToDatabase userProfile = new UserProfileToDatabase(Profilepictureundefined, this.UID, name, emailget, fullnameUndefined, birthdateUndefined);
-        myRef.setValue(userProfile);
-    }*/
-
-
     boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
