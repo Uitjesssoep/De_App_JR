@@ -259,6 +259,12 @@ public class Profile_First_Setup extends AppCompatActivity {
             public void onSuccess(Uri uri) {
                 UriImage = uri.toString();
 
+
+                DatabaseShit();
+
+                sendEmailVerification();
+
+
             }
         });}
 
@@ -297,7 +303,6 @@ public class Profile_First_Setup extends AppCompatActivity {
             UploadTask uploadTask = imageReference.putFile(imagePath);
 
 
-
             uploadTask.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
@@ -307,9 +312,9 @@ public class Profile_First_Setup extends AppCompatActivity {
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                     getDownloadURL();
 
-                    sendEmailVerification();
 
                               /*  imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
@@ -350,9 +355,11 @@ public class Profile_First_Setup extends AppCompatActivity {
             });
 
         }
+    }
 
 
 
+    private void DatabaseShit(){
 
         //andere database shit
 
