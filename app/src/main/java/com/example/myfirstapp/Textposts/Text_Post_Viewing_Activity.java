@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUserComments_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
-import com.example.myfirstapp.General_Feed_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.google.firebase.auth.FirebaseAuth;

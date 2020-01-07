@@ -1,9 +1,11 @@
 package com.example.myfirstapp.Imageposts;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.Textposts.PostStuffForTextAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,6 +28,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     private List<Upload> mUploads;
     private Context mContext;
     public int CommentCountAdapter, LikeCountAdapter, DislikeCountAdapter;
+
+    private OnItemClickListener mListener;
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+        void onUserNameClick(int position);
+        void onUpvoteClick(int position);
+        void onDownvoteClick(int position);
+        void onDeleteIconClick(int position);}
 
     public ImageAdapter(Context context, List<Upload> uploads){
         mContext = context;
@@ -47,13 +63,25 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                 .into(holder.imageView);
 
         String KeyYeah = uploadCurrent.getKey().toString();
+        final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
+        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("user_name");
+        final String PostUID = uploadCurrent.getUID().toString();
 
-       /* final DatabaseReference CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Comments");
-        CommentCountInAdapter.addValueEventListener(new ValueEventListener() {
+        UserUIDCheck.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                CommentCountAdapter = (int) dataSnapshot.getChildrenCount();
-                holder.CommentCount.setText("Number of comments: " + CommentCountAdapter);
+
+                if(dataSnapshot.hasChild(PostUID)){
+
+                }
+
+                else{
+
+                    ChangeUsername.setValue("[deleted_user]");
+                    holder.UsernameImage.setText("[deleted_user]");
+
+                }
+
             }
 
             @Override
@@ -62,38 +90,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             }
         });
 
-        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
-        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
-        LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
-                holder.LikeCount.setText("" + LikeCountAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        DislikeCountInAdapter.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
-                holder.DislikeCount.setText("" + DislikeCountAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
-
-    }
+        }
 
     @Override
     public int getItemCount() {
         return mUploads.size();
+    }
+
+    public void setOnItemClickListenerImage(OnItemClickListener listener){
+        mListener = listener;
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder{
@@ -116,4 +121,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         }
     }
+
+
+
 }
