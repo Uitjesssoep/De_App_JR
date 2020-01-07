@@ -60,6 +60,10 @@ public class RegistrationActivity extends AppCompatActivity {
                 userPassword.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
                 userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
+
+                //intent
+
+
                 if(validate()){
                     String user_email = userEmail.getText().toString().trim();
                     String user_password = userPassword.getText().toString().trim();
@@ -220,7 +224,8 @@ public class RegistrationActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         sendUserDataToDatabase(); // upload de data pas naar de database als de email is gestuurd
                         finish();
-                        startActivity(new Intent(RegistrationActivity.this, Profile_First_Setup.class));
+                        Intent intent = new Intent(RegistrationActivity.this, Profile_First_Setup.class);
+                        startActivity(intent);
                     }
 
                     else{
