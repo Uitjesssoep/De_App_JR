@@ -19,15 +19,6 @@ android {
     }
 }
 
-debug {
-    FirebasePerformance {
-        // Set this flag to 'false' to disable @AddTrace annotation processing and
-        // automatic HTTP/S network request monitoring
-        // for a specific build variant at compile time.
-        instrumentationEnabled false
-    }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -40,7 +31,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-database:19.2.0'
-    implementation 'com.google.firebase:firebase-storage:19.0.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -49,7 +40,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation 'com.google.firebase:firebase-perf:19.0.4'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.firebase-perf'
+
