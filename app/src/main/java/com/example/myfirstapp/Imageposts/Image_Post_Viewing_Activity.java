@@ -1,9 +1,11 @@
 package com.example.myfirstapp.Imageposts;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,6 +87,8 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
      //   LikeDislikeCount();
 
         FillVariables();
+
+        LookAtPostersProfile();
     }
 
 
@@ -133,7 +139,80 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         });
     }
 
-/*   private void LikeDislikeCount() {
+
+    private void LookAtPostersProfile() {
+
+        UserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final String ThePostKey = getIntent().getExtras().get("Key").toString();
+
+                DatabaseReference CheckIfMyUIDCheck = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(ThePostKey).child("uid");
+                CheckIfMyUIDCheck.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        final String MyUIdForCheck = FirebaseAuth.getInstance().getUid().toString();
+                        final String PostUIDForCheck = dataSnapshot.getValue().toString();
+
+                        DatabaseReference CheckIfDeleted = FirebaseDatabase.getInstance().getReference("users");
+                        CheckIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if(dataSnapshot.hasChild(PostUIDForCheck)){
+
+                                    if(MyUIdForCheck.equals(PostUIDForCheck)){
+
+                                        Intent GoToMyProfileAfterCheck = new Intent(Image_Post_Viewing_Activity.this, Account_Info_Activity.class);
+                                        startActivity(GoToMyProfileAfterCheck);
+
+                                    }
+                                    else {
+
+                                        Intent GoToProfile = new Intent(Image_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
+                                        GoToProfile.putExtra("Key", ThePostKey);
+                                        startActivity(GoToProfile);
+
+                                    }
+
+                                }
+
+                                else{
+
+                                    final AlertDialog.Builder dialog = new AlertDialog.Builder(Image_Post_Viewing_Activity.this);
+                                    dialog.setTitle("This user has been deleted");
+                                    dialog.setMessage("You can no longer view this user");
+                                    AlertDialog alertDialog = dialog.create();
+                                    alertDialog.show();
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
+
+    }
+
+
+
+
+   private void LikeDislikeCount() {
 
         DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
         DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
@@ -353,5 +432,5 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
             }
         });
-    }*/
+    }
 }
