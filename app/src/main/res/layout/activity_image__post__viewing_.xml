@@ -185,8 +185,8 @@
 
         <ImageView
             android:id="@+id/ivImagePost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp"
             tools:srcCompat="@tools:sample/avatars" />

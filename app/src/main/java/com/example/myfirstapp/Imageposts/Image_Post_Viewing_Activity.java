@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -79,7 +80,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
         SetupUI();
 //PROBLEEM
-        LikeDislikeCount();
+     //   LikeDislikeCount();
 
         FillVariables();
     }
@@ -107,7 +108,8 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         ImagePostRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Picasso.get().load(dataSnapshot.toString()).fit().centerCrop().into(ImagePost);
+                Picasso.get().load(dataSnapshot.toString()).into(ImagePost);
+                Log.e("Test imageurl", dataSnapshot.toString());
             }
 
             @Override
@@ -131,7 +133,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         });
     }
 
-    private void LikeDislikeCount() {
+/*   private void LikeDislikeCount() {
 
         DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
         DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
@@ -351,5 +353,5 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 }

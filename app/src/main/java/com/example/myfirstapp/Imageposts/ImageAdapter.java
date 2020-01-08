@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Textposts.PostStuffForTextAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +36,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         void onUserNameClick(int position);
         void onUpvoteClick(int position);
         void onDownvoteClick(int position);
-        void onDeleteIconClick(int position);}
+      //  void onDeleteIconClick(int position);
+    }
 
     public ImageAdapter(Context context, List<Upload> uploads){
         mContext = context;
@@ -66,6 +68,73 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
         final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("user_name");
         final String PostUID = uploadCurrent.getUID().toString();
+        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
+        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
+        LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+                holder.LikeCountImage.setText("" + LikeCountAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        DislikeCountInAdapter.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+                holder.DislikeCountImage.setText("" + DislikeCountAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        final String MyUID = FirebaseAuth.getInstance().getUid().toString();
+        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
+        CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild(MyUID)){
+                    holder.UpvoteImage.setImageResource(R.drawable.pijl_omhoog_geklikt);
+                }
+                else{
+                    holder.UpvoteImage.setImageResource(R.drawable.pijl_omhoog_neutraal);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
+        CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild(MyUID)){
+                    holder.DownvoteImage.setImageResource(R.drawable.pijl_omlaag_geklikt);
+                }
+                else{
+                    holder.DownvoteImage.setImageResource(R.drawable.pijl_omlaag_neutraal);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         UserUIDCheck.addValueEventListener(new ValueEventListener() {
             @Override

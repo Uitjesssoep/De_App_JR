@@ -256,11 +256,6 @@ public class ImagesFeed extends AppCompatActivity {
                             }
                         });
                     }
-
-                    @Override
-                    public void onDeleteIconClick(int position) {
-
-                    }
                 });
             }
 
