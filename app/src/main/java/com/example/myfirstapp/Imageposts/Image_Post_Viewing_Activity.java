@@ -108,7 +108,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         ImagePostRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Picasso.get().load(dataSnapshot.toString()).into(ImagePost);
+                Picasso.get().load(dataSnapshot.toString()).fit().centerCrop().into(ImagePost);
                 Log.e("Test imageurl", dataSnapshot.toString());
             }
 
