@@ -30,11 +30,11 @@ public class Change_Password_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change__password);
 
-        PasswordError.setVisibility(View.INVISIBLE);
-
         NewPasswordPasswordChange = (EditText)findViewById(R.id.etNewPasswordPasswordChange);
         SaveNewPassword = (Button)findViewById(R.id.btnSaveNewPassword);
         PasswordError = findViewById(R.id.tvPasswordErrorForgot);
+
+        PasswordError.setVisibility(View.INVISIBLE);
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();

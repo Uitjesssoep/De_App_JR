@@ -50,7 +50,7 @@ public class Profile_First_Setup extends AppCompatActivity {
 
     private EditText FullNameSetup;
     private ImageView ProfilePictureSetup;
-    private TextView BirthdatePickSetup, PlaceHolderUNameSetup, PlaceHolderEmailSetup;
+    private TextView BirthdatePickSetup, PlaceHolderUNameSetup, PlaceHolderEmailSetup, ErrorFullName, ErrorBirthDate;
     private Button ContinueSetup;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
 
@@ -106,6 +106,13 @@ public class Profile_First_Setup extends AppCompatActivity {
         BirthdatePickSetup = (TextView) findViewById(R.id.tvSelectBirthdateSetup);
         PlaceHolderEmailSetup = (TextView) findViewById(R.id.tvPlaceHolderEmailSetup);
         PlaceHolderUNameSetup = (TextView) findViewById(R.id.tvPlaceHolderUserNameSetup);
+        ErrorFullName = findViewById(R.id.tvFullNameErrorFirstSetup);
+        ErrorBirthDate = findViewById(R.id.tvBirthdayErrorFirstSetup);
+
+        ErrorFullName.setVisibility(View.INVISIBLE);
+        ErrorBirthDate.setVisibility(View.INVISIBLE);
+
+        FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
         //profielfoto gebeuren
 
@@ -182,7 +189,7 @@ public class Profile_First_Setup extends AppCompatActivity {
 
 
                 } else {
-                    Toast.makeText(Profile_First_Setup.this, "Something went wrong, please try again later", Toast.LENGTH_SHORT).show();
+
                 }
 
             }
@@ -222,21 +229,53 @@ public class Profile_First_Setup extends AppCompatActivity {
         userfullnameToDatabase = FullNameSetup.getText().toString().trim();
         userbirthdateToDatabase = BirthdatePickSetup.getText().toString();
 
-        //  StorageReference myRef6 = storageReference.child(firebaseAuth.getUid());
+        int FullnameLength = userfullnameToDatabase.length();
 
+        Calendar cal2 = Calendar.getInstance();
+        int yearCheck = cal2.get(Calendar.YEAR);
+        int monthCheck = cal2.get(Calendar.MONTH);
+        int dayCheck = cal2.get(Calendar.DAY_OF_MONTH);
+
+        ErrorFullName.setVisibility(View.INVISIBLE);
+        ErrorBirthDate.setVisibility(View.INVISIBLE);
+
+        FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
         if (userfullnameToDatabase.isEmpty()) {
-            Toast.makeText(Profile_First_Setup.this, "Please enter your name", Toast.LENGTH_LONG).show();
-        } else {
+            ErrorFullName.setText("Please enter your name");
+            ErrorFullName.setVisibility(View.VISIBLE);
+            FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+        }
+        else {
+
             if (userbirthdateToDatabase.equals("Select day of birth")) {
-                Toast.makeText(Profile_First_Setup.this, "Please enter your date of birth", Toast.LENGTH_LONG).show();
-            } else {
+                ErrorBirthDate.setText("Please enter your birthday");
+                ErrorBirthDate.setVisibility(View.VISIBLE);
+            }
+            else {
+
                 if (!userfullnameToDatabase.matches("[a-zA-Z ]*")) {
-                    Toast.makeText(Profile_First_Setup.this, "Please make sure your full name contains only letters (a-z, A-Z) and/or spaces ( )", Toast.LENGTH_LONG).show();
-                } else {
+                    ErrorFullName.setText("Make sure your name contains only alphabetic characters and spaces");
+                    ErrorFullName.setVisibility(View.VISIBLE);
+                    FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                }
+                else {
 
-                    result = true;
+                    if(FullnameLength > 31){
+                        ErrorFullName.setText("Make sure your entered name is not longer than 30 characters");
+                        ErrorFullName.setVisibility(View.VISIBLE);
+                        FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                    }
+                    else{
 
+                        if(userbirthdateToDatabase.contains("2021")){
+                            ErrorBirthDate.setText("Please enter a possible birthday");
+                            ErrorBirthDate.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            result = true;
+                        }
+                    }
                 }
             }
         }
