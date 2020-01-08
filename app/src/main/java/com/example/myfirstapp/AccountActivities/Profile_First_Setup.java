@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -50,7 +51,7 @@ public class Profile_First_Setup extends AppCompatActivity {
 
     private EditText FullNameSetup;
     private ImageView ProfilePictureSetup;
-    private TextView BirthdatePickSetup, PlaceHolderUNameSetup, PlaceHolderEmailSetup, ErrorFullName, ErrorBirthDate;
+    private TextView BirthdatePickSetup, PlaceHolderUNameSetup, PlaceHolderEmailSetup, ErrorFullName, ErrorBirthDate, TermsAndDataPolicy,TermsAndDataPolicy2;
     private Button ContinueSetup;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
 
@@ -108,6 +109,24 @@ public class Profile_First_Setup extends AppCompatActivity {
         PlaceHolderUNameSetup = (TextView) findViewById(R.id.tvPlaceHolderUserNameSetup);
         ErrorFullName = findViewById(R.id.tvFullNameErrorFirstSetup);
         ErrorBirthDate = findViewById(R.id.tvBirthdayErrorFirstSetup);
+        TermsAndDataPolicy = findViewById(R.id.tvTermsAndDataPolicy);
+        TermsAndDataPolicy2 = findViewById(R.id.tvBySigningUpYouAgree);
+
+        TermsAndDataPolicy.setPaintFlags(TermsAndDataPolicy.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        TermsAndDataPolicy2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        TermsAndDataPolicy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         ErrorFullName.setVisibility(View.INVISIBLE);
         ErrorBirthDate.setVisibility(View.INVISIBLE);
@@ -154,27 +173,6 @@ public class Profile_First_Setup extends AppCompatActivity {
                 BirthdatePickSetup.setText(date);
             }
         };
-
-
-        //haal overige data van database zodat het later compleet kan worden geüpload
-
-
-        /*DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(UID);
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-                PlaceHolderUNameSetup.setText(userProfile.getUserName());
-                PlaceHolderEmailSetup.setText(userProfile.getUserEmail());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Profile_First_Setup.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
         //continue knop
 
@@ -349,22 +347,12 @@ public class Profile_First_Setup extends AppCompatActivity {
 
                     getDownloadURL();
 
-
-                              /*  imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        UriImage=uri.toString();
-                                    }
-                                });*/
                 }
             });
         } else {
 
             String TAG = "ProfilePicEmpty";
             Log.e(TAG, "The profile pic is empty");
-
-            //Bitmap bm = BitmapFactory.decodeResource(ProfilePictureSetup.getResources(), R.drawable.neutral_profile_picture_nobackground);
-
 
             StorageReference imageReference2 = storageReference.child("ProfilePictures").child(firebaseAuth.getUid());
 
@@ -396,11 +384,9 @@ public class Profile_First_Setup extends AppCompatActivity {
 
     private void DatabaseShit(){
 
-        //andere database shit
-
+        //krijg database shit
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference myRef684 = firebaseDatabase.getReference("users").child(UID); //elke gebruiker heeft een unieke uid, deze hebben we natuurlijk nodig als we zijn gegevens op de database zetten
-
 
         String username = getIntent().getExtras().get("username").toString();
         String password = getIntent().getExtras().get("password").toString();
@@ -410,6 +396,7 @@ public class Profile_First_Setup extends AppCompatActivity {
         DatabaseReference UploadUsername = firebaseDatabase.getReference("Usernames").child(username);
         UploadUsername.setValue("exists");
 
+        //uploaden naar database
         UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, userbirthdateToDatabase);
         myRef684.setValue(userProfile);
         Log.e(TAGTEST, "usertodatabase bereikt!");

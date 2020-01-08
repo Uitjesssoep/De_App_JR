@@ -16,7 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -196,8 +199,21 @@ public class RegistrationActivity extends AppCompatActivity {
                                         }
                                         else{
 
-                                            AllGood();
+                                            firebaseAuth.fetchSignInMethodsForEmail(emailget).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                                                    if(task.getResult().getSignInMethods().size() == 0){
 
+                                                        AllGood();
+
+                                                    }
+                                                    else{
+                                                        userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                                                        ErrorEmail.setVisibility(View.VISIBLE);
+                                                        ErrorEmail.setText("This email has already been used to register an account");
+                                                    }
+                                                }
+                                            });
                                         }
 
                                     }
