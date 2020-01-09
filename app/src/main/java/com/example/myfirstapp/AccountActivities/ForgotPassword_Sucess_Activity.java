@@ -25,11 +25,6 @@ public class ForgotPassword_Sucess_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password__sucess_);
 
-        //voor het weghalen van de actionbar
-
-        getSupportActionBar().hide();
-
-
         //voor het geven van kleur aan de status bar:
 
         Window window = ForgotPassword_Sucess_Activity.this.getWindow();

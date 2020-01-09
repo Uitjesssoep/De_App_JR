@@ -40,11 +40,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //voor het weghalen van de actionbar
-
-        getSupportActionBar().hide();
-
-
         //voor het geven van kleur aan de status bar:
 
         Window window = MainActivity.this.getWindow();

@@ -21,11 +21,6 @@ public class SignUp_Success_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up__success_);
 
-        //voor het weghalen van de actionbar
-
-        getSupportActionBar().hide();
-
-
         //voor het geven van kleur aan de status bar:
 
         Window window = SignUp_Success_Activity.this.getWindow();

@@ -197,11 +197,6 @@ public class Profile_First_Setup extends AppCompatActivity {
 
     private void SetupDesign() {
 
-        //voor het weghalen van de actionbar
-
-        getSupportActionBar().hide();
-
-
         //voor het geven van kleur aan de status bar:
 
         Window window = Profile_First_Setup.this.getWindow();

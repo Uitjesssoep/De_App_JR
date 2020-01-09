@@ -96,11 +96,6 @@ public class RegistrationActivity extends AppCompatActivity {
         ErrorEmail = findViewById(R.id.tvEmailErrorReg);
         ErrorPassword = findViewById(R.id.tvPasswordErrorReg);
 
-        //voor het weghalen van de actionbar
-
-        getSupportActionBar().hide();
-
-
         //voor het geven van kleur aan de status bar:
 
         Window window = RegistrationActivity.this.getWindow();
