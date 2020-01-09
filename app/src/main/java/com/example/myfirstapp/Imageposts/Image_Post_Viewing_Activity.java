@@ -64,8 +64,8 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         UserName = findViewById(R.id.tvUsernameForImagePost);
         LikeCountDisplay = findViewById(R.id.tvLikeCounterImageItem2);
         DislikeCountDisplay = findViewById(R.id.tvDislikeCounterImageItem);
-        Like = findViewById(R.id.ibLikeUpImageItem);
-        Dislike = findViewById(R.id.ibLikeDownImageItem);
+        Like = findViewById(R.id.ibLikeUpForImagePostViewing);
+        Dislike = findViewById(R.id.ibLikeDownForImagePostViewing);
         NumberOfComments = findViewById(R.id.tvNumberOfCommentsForImagePosts);
         user_name_gebruiker = findViewById(R.id.tvUsernameGebruikerVerstoptInEenHoekjeOmdatIkGeenBetereManierWeetImage);
         PostComment = findViewById(R.id.btnPostCommentOnImagePost);
