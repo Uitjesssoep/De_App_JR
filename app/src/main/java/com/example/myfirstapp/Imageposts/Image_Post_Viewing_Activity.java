@@ -84,7 +84,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
         SetupUI();
 //PROBLEEM
-     //   LikeDislikeCount();
+        LikeDislikeCount();
 
         FillVariables();
 
