@@ -62,10 +62,10 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         Title = findViewById(R.id.tvTitleOfImagePost);
         Content = findViewById(R.id.tvContentOfImagePost);
         UserName = findViewById(R.id.tvUsernameForImagePost);
-        LikeCountDisplay = findViewById(R.id.tvLikeCounterImageItem2);
-        DislikeCountDisplay = findViewById(R.id.tvDislikeCounterImageItem);
-        Like = findViewById(R.id.ibLikeUpImageItem);
-        Dislike = findViewById(R.id.ibLikeDownImageItem);
+        LikeCountDisplay = findViewById(R.id.tvLikeCounterForImagePostViewing);
+        DislikeCountDisplay = findViewById(R.id.tvDislikeCounterForImagePostViewing);
+        Like = findViewById(R.id.ibLikeUpForImagePostViewing);
+        Dislike = findViewById(R.id.ibLikeDownForImagePostViewing);
         NumberOfComments = findViewById(R.id.tvNumberOfCommentsForImagePosts);
         user_name_gebruiker = findViewById(R.id.tvUsernameGebruikerVerstoptInEenHoekjeOmdatIkGeenBetereManierWeetImage);
         PostComment = findViewById(R.id.btnPostCommentOnImagePost);
@@ -84,7 +84,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
         SetupUI();
 //PROBLEEM
-     //   LikeDislikeCount();
+        LikeDislikeCount();
 
         FillVariables();
 
