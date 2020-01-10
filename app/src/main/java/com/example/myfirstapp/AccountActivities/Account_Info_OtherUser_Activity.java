@@ -77,7 +77,7 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
 
         //voor profielfoto
         StorageReference storageReference = firebaseStorage.getReference();
-        storageReference.child(OtherUserUID).child("Images").child("ProfilePicture").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("ProfilePictures").child(OtherUserUID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
         Picasso.get().load(uri).fit().centerCrop().into(ProfilePicture);
