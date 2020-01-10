@@ -59,7 +59,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         holder.DateImage.setText(uploadCurrent.getDate());
         Picasso.get()
                 .load(uploadCurrent.getImageUrl())
-                .placeholder(R.drawable.app_logo_200)
                 .fit()
                 .centerCrop()
                 .into(holder.imageView);

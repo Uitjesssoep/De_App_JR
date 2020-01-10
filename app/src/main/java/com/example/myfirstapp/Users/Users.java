@@ -10,10 +10,10 @@ public class Users {
     }
 
 
-    public Users(String Profilepicture, String theUID, String userBirthdate, String userEmail, String userFullName, String userName) {
+    public Users(String ProfilePicture, String theUID, String userBirthdate, String userEmail, String userFullName, String UserName) {
         this.theUID = theUID;
-        username = userName;
-        profilePictureUrl = Profilepicture;
+        username = UserName;
+        profilePictureUrl = ProfilePicture;
         birthdate = userBirthdate;
         email = userEmail;
         fullName = userFullName;
@@ -23,7 +23,7 @@ public class Users {
         return theUID;
     }
 
-    public String getUsernameFollow() {
+    public String getUserName() {
 
 
         return username;
@@ -34,12 +34,12 @@ public class Users {
         return profilePictureUrl;
     }
 
-    public String getBrithdateFollow() {
+    public String getBrithdate() {
 
         return birthdate;
     }
 
-    public String getEmailFollow() {
+    public String getEmail() {
 
         return email;
     }

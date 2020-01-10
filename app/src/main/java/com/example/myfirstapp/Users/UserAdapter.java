@@ -1,6 +1,7 @@
 package com.example.myfirstapp.Users;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,13 +39,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         Users users = list.get(position);
-        holder.Username.setText(users.getEmailFollow());
-        holder.UIDhidden.setText(users.getTheUID());
-        UIDString = users.getTheUID();
+        holder.Username.setText(users.getUserName());
+       // holder.UIDhidden.setText(users.getTheUID());
+      //  UIDString = users.getTheUID();
         Picasso.get()
-                //.load("https://firebasestorage.googleapis.com/v0/b/de-app-b0fb9.appspot.com/o/7yTA9yX4fiTGw5oHInp7rcPIDHF2%2FImages%2FProfilePicture?alt=media&token=e90ad8a4-4815-4543-b7f2-dc258dcdf4c9")
                 .load(users.getProfilePicture())
-                .placeholder(R.drawable.app_logo_200)
                 .fit()
                 .centerCrop()
                 .into(holder.ProfilePicture);
