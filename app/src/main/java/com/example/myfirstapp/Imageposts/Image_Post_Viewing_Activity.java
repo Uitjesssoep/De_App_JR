@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_ActivityImagePostsTemporary;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -171,7 +172,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
                                     }
                                     else {
 
-                                        Intent GoToProfile = new Intent(Image_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
+                                        Intent GoToProfile = new Intent(Image_Post_Viewing_Activity.this, Account_Info_OtherUser_ActivityImagePostsTemporary.class);
                                         GoToProfile.putExtra("Key", ThePostKey);
                                         startActivity(GoToProfile);
 
