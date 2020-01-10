@@ -10,6 +10,10 @@ public class Users {
     }
 
 
+    public String getUsername() {
+        return username;
+    }
+
     public Users(String ProfilePicture, String theUID, String userBirthdate, String userEmail, String userFullName, String UserName) {
         this.theUID = theUID;
         username = UserName;
@@ -23,11 +27,7 @@ public class Users {
         return theUID;
     }
 
-    public String getUserName() {
 
-
-        return username;
-    }
 
     public String getProfilePicture() {
 

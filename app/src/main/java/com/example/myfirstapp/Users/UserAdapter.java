@@ -39,7 +39,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         Users users = list.get(position);
-        holder.Username.setText(users.getUserName());
+        holder.Username.setText(users.getUsername());
        // holder.UIDhidden.setText(users.getTheUID());
       //  UIDString = users.getTheUID();
         Picasso.get()
