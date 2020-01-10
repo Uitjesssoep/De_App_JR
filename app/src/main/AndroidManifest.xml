@@ -11,11 +11,12 @@
         android:roundIcon="@mipmap/flower_launcher_v2_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Imageposts.Image_Post_Viewing_Activity"></activity>
+        <activity android:name=".Chatroom.Chatrooms_Post_Activity"></activity>
+        <activity android:name=".Imageposts.Image_Post_Viewing_Activity" />
         <activity android:name=".AccountActivities.ForgotPassword_Sucess_Activity" />
         <activity android:name=".AccountActivities.SignUp_Success_Activity" />
         <activity android:name=".AccountActivities.Deleting_Account_Activity" />
-        <activity android:name=".AccountActivities.Account_Info_OtherUser_ActivityImagePostsTemporary"/>
+        <activity android:name=".AccountActivities.Account_Info_OtherUser_ActivityImagePostsTemporary" />
         <activity android:name=".AccountActivities.Account_Info_OtherUserComments_Activity" />
         <activity android:name=".Users.UserListToFollow" />
         <activity android:name=".Choose_FeedType_Activity" />

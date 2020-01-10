@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity;
 import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
 
 public class Choose_PostType_Activity extends AppCompatActivity {
 
-    private Button Media_Button, Text_Button;
+    private Button Media_Button, Text_Button, Chat_Button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +36,20 @@ public class Choose_PostType_Activity extends AppCompatActivity {
             }
         });
 
+        Chat_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Choose_PostType_Activity.this, Chatrooms_Post_Activity.class));
+            }
+        });
+
     }
 
     private void SetupUI() {
 
         Media_Button = (Button)findViewById(R.id.btnMediaPost);
         Text_Button = (Button)findViewById(R.id.btnTextPost);
+        Chat_Button = findViewById(R.id.btnPostChatRoom);
 
     }
 }

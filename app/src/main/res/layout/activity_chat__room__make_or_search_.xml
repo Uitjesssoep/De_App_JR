@@ -6,40 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Chatroom.Chat_Room_MakeOrSearch_Activity">
 
-    <EditText
-        android:id="@+id/etRoomCreate"
-        android:layout_width="273dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginRight="13dp"
-        android:layout_marginBottom="5dp"
-        android:layout_toStartOf="@+id/btnCreateRoomChat"
-        android:layout_toLeftOf="@+id/btnCreateRoomChat"
-        android:ems="10"
-        android:inputType="textCapSentences"
-        />
-
-    <Button
-        android:id="@+id/btnCreateRoomChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_toEndOf="@+id/etChatInput"
-        android:layout_toRightOf="@+id/etChatInput"
-        android:text="Create Room" />
-
     <ListView
         android:id="@+id/lvRoomsForChat"
         android:layout_width="378dp"

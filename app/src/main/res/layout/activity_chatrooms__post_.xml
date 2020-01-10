@@ -4,48 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Choose_PostType_Activity">
+    tools:context=".Chatroom.Chatrooms_Post_Activity">
 
-    <Button
-        android:id="@+id/btnMediaPost"
+    <TextView
+        android:id="@+id/tvMakeATextPost2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Media"
+        android:text="Make a chatroom"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.39" />
+        app:layout_constraintVertical_bias="0.07999998" />
 
-    <Button
-        android:id="@+id/btnTextPost"
+    <EditText
+        android:id="@+id/etTitleTextPost2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text"
+        android:ems="10"
+        android:hint="Title"
+        android:inputType="textCapSentences"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnMediaPost"
-        app:layout_constraintVertical_bias="0.23000002" />
-
-    <TextView
-        android:id="@+id/tvWhatTypeOfPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="What type of post do you want to make?"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/btnMediaPost"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tvMakeATextPost2"
+        app:layout_constraintVertical_bias="0.060000002" />
 
     <Button
-        android:id="@+id/btnPostChatRoom"
+        android:id="@+id/btnPostTextPost2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chat"
+        android:text="Post"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnTextPost" />
+        app:layout_constraintTop_toBottomOf="@+id/etTitleTextPost2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

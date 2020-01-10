@@ -32,10 +32,6 @@ import java.util.Set;
 
 public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
 
-
-    private Button add_room;
-    private EditText room_name;
-
     private ListView listView;
     private ArrayAdapter<String> arrayAdapter;
     private ArrayList<String> list_of_rooms = new ArrayList<>();
@@ -59,8 +55,6 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
-        add_room = (Button)findViewById(R.id.btnCreateRoomChat);
-        room_name = (EditText)findViewById(R.id.etRoomCreate);
         listView = (ListView)findViewById(R.id.lvRoomsForChat);
 
 
@@ -68,18 +62,6 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
 
         listView.setAdapter(arrayAdapter);
 
-
-        add_room.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Map<String,Object> map = new HashMap<String, Object>();
-                map.put(room_name.getText().toString(), "");
-                rooms.updateChildren(map);
-                room_name.setText("");
-
-            }
-        });
 
         rooms.addValueEventListener(new ValueEventListener() {
             @Override
