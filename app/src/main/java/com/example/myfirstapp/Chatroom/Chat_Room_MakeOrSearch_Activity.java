@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.R;
@@ -32,16 +34,16 @@ import java.util.Set;
 
 public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
 
-    private ListView listView;
-    private ArrayAdapter<String> arrayAdapter;
-    private ArrayList<String> list_of_rooms = new ArrayList<>();
+    private RecyclerView RoomList;
+    private ArrayAdapter<PostStuffForChat> postStuffForChatList;
+    private PostStuffForChatAdapter postStuffForChatAdapter;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
 
-    private TextView user_name_gebruiker;
+    private DatabaseReference rooms = FirebaseDatabase.getInstance().getReference("Chatrooms");
 
-    private DatabaseReference rooms = FirebaseDatabase.getInstance().getReference("Rooms");
+    private String MyUID, key;
 
 
 
@@ -50,69 +52,19 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat__room__make_or_search_);
 
-        user_name_gebruiker = (TextView)findViewById(R.id.tvUserNameStorage);
+        SetupUI();
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
+    }
+
+    private void SetupUI() {
+
+        RoomList = findViewById(R.id.rvChatroomFeed);
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
 
-        listView = (ListView)findViewById(R.id.lvRoomsForChat);
+        RoomList.setLayoutManager(new LinearLayoutManager(this));
 
-
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list_of_rooms);
-
-        listView.setAdapter(arrayAdapter);
-
-
-        rooms.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                Set<String> set = new HashSet<String>();
-                Iterator i = dataSnapshot.getChildren().iterator();
-
-                while (i.hasNext()){
-                    set.add(((DataSnapshot)i.next()).getKey());
-                }
-                list_of_rooms.clear();
-                list_of_rooms.addAll(set);
-
-                arrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-                user_name_gebruiker.setText(userProfile.getUserName());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Chat_Room_MakeOrSearch_Activity.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Intent intent = new Intent(getApplicationContext(), Chat_With_Users_Activity.class);
-                intent.putExtra("room_name",((TextView)view).getText().toString() );
-                intent.putExtra("user_name", user_name_gebruiker.getText().toString());
-                startActivity(intent);
-
-            }
-        });
+        //postStuffForChatList = new ArrayList<>();
 
     }
 }

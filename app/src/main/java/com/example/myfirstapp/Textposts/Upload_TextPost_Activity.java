@@ -80,8 +80,8 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                TitleContent = Title.getText().toString();
-                TextContent = Content.getText().toString();
+                TitleContent = Title.getText().toString().trim();
+                TextContent = Content.getText().toString().trim();
 
                 if(TitleContent.isEmpty() || TextContent.isEmpty()){
                     Toast.makeText(Upload_TextPost_Activity.this, "Please fill in a title and the content", Toast.LENGTH_SHORT).show();

@@ -48,7 +48,7 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String TitleString = Title.getText().toString();
+                String TitleString = Title.getText().toString().trim();
 
                 if(TitleString.isEmpty()){
                     Toast.makeText(Chatrooms_Post_Activity.this, "You must have a title", Toast.LENGTH_LONG);
@@ -73,7 +73,7 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
 
                 String User_name = userProfileToDatabase.getUserName().toString();
                 String temp_key = ChatroomDatabase.push().getKey();
-                String TitleDatabase = Title.getText().toString();
+                String TitleDatabase = Title.getText().toString().trim();
 
                 PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, Date);
                 ChatroomDatabase.child(temp_key).setValue(postStuffForChat);

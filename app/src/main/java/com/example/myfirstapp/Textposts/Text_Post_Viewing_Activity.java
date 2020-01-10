@@ -266,7 +266,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                CommentMessage = CommentSubstance.getText().toString();
+                CommentMessage = CommentSubstance.getText().toString().trim();
                 calendar = Calendar.getInstance();
                 dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
                 Date = dateFormat.format(calendar.getTime());

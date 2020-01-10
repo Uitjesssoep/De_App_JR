@@ -61,8 +61,8 @@ public class PostStuffForChatAdapter {
 
         String KeyYeah = uploadCurrent.getKey().toString();
 
-        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
-        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
+        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Likes");
+        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Dislikes");
         LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -91,7 +91,7 @@ public class PostStuffForChatAdapter {
 
         //kijken of de user deleted is
         final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
-        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("user_name");
+        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("user_name");
         final String PostUID = uploadCurrent.getUID().toString();
 
         UserUIDCheck.addValueEventListener(new ValueEventListener() {
@@ -118,7 +118,7 @@ public class PostStuffForChatAdapter {
 
         //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
         final String KeyPost = uploadCurrent.getKey().toString();
-        final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+        final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("Chatrooms");
 
         DeleteIconCheck.addValueEventListener(new ValueEventListener() {
             @Override
@@ -149,7 +149,7 @@ public class PostStuffForChatAdapter {
 
 
         final String MyUID = FirebaseAuth.getInstance().getUid().toString();
-        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
+        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Likes");
         CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -168,7 +168,7 @@ public class PostStuffForChatAdapter {
             }
         });
 
-        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
+        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Dislikes");
         CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
