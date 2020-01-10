@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class PostStuffForChatAdapter {
+public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForChatAdapter.ViewHolder>{
 
     public Context mContext;
     public List<PostStuffForChat> mPost;
@@ -31,6 +31,11 @@ public class PostStuffForChatAdapter {
 
     private PostStuffForChatAdapter.OnItemClickListener mListener;
     public interface OnItemClickListener {
+        void onItemClick(int position);
+        void onDeleteIconClick(int position);
+        void onUserNameClick (int position);
+        void onUpvoteClick (int position);
+        void onDownvoteClick (int position);
     }
 
     public void setOnItemClickListener(PostStuffForChatAdapter.OnItemClickListener listener){
@@ -45,19 +50,20 @@ public class PostStuffForChatAdapter {
     }
 
     @NonNull
-    //@Override
+    @Override
     public PostStuffForChatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
         return new PostStuffForChatAdapter.ViewHolder(view, mListener);
     }
 
-    //@Override
+    @Override
     public void onBindViewHolder(@NonNull final PostStuffForChatAdapter.ViewHolder holder, int position) {
         PostStuffForChat uploadCurrent = mPost.get(position);
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
         holder.Date.setText(uploadCurrent.getDate());
+        holder.CommentCount.setVisibility(View.GONE);
 
         String KeyYeah = uploadCurrent.getKey().toString();
 
@@ -188,7 +194,7 @@ public class PostStuffForChatAdapter {
         });
     }
 
-    //@Override
+    @Override
     public int getItemCount() {
         return mPost.size();
     }
@@ -211,6 +217,67 @@ public class PostStuffForChatAdapter {
             Upvote = itemView.findViewById(R.id.ibLikeUpTextPostItem);
             Downvote = itemView.findViewById(R.id.ibLikeDownTextPostItem);
             DeleteTextPost = itemView.findViewById(R.id.ibDeleteIconTextPostItem);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            Username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onUserNameClick(position);
+                        }
+                    }
+                }
+            });
+
+            Upvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onUpvoteClick(position);
+                        }
+                    }
+                }
+            });
+
+            Downvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onDownvoteClick(position);
+                        }
+                    }
+                }
+            });
+
+            DeleteTextPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onDeleteIconClick(position);
+                        }
+                    }
+                }
+            });
+
         }
     }
 }
