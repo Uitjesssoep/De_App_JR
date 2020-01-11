@@ -17,11 +17,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.MainActivity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
+import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.example.myfirstapp.Users.UserListToFollow;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -80,6 +83,9 @@ public class SecondActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+
+        //kijken of persoon wel all good is
+
         checkEmailVerification();
 
 
@@ -90,7 +96,53 @@ public class SecondActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+
+        //bottom navigation view dingen
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
     }
+
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                    Fragment selectedFragment = null;
+
+                    switch (menuItem.getItemId()){
+                        case R.id.navigation_home:
+
+                            Intent intent = new Intent(SecondActivity.this, General_Feed_Activity.class);
+                            startActivity(intent);
+
+                            break;
+
+                        case R.id.navigation_chat:
+
+                            break;
+
+                        case R.id.navigation_make:
+
+                            break;
+
+                        case R.id.navigation_search:
+
+                            break;
+
+                        case R.id.navigation_account:
+
+                            break;
+
+                    }
+
+                    return true;
+                }
+            };
+
+
 
     private void checkEmailVerification(){
 
