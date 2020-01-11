@@ -143,13 +143,15 @@ public class General_Feed_Activity extends AppCompatActivity {
                     public void onUserNameClick(int position) {
                         final String PostKey = postStuffForTextList.get(position).getKey().toString();
 
-                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey).child("uid");
+                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey);
                         CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                 final String MyUIDCheck2 = FirebaseAuth.getInstance().getUid().toString();
-                                final String PostUID2 = dataSnapshot.getValue().toString();
+                                final String PostUID2 = dataSnapshot.child("uid").getValue().toString();
+                                final String AnonToCheck = dataSnapshot.child("user_name").getValue().toString();
+                                final String AnonCheck = "[anonymous]";
 
                                 DatabaseReference CheckIfDeleted = FirebaseDatabase.getInstance().getReference("users");
                                 CheckIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -166,10 +168,23 @@ public class General_Feed_Activity extends AppCompatActivity {
                                             }
                                             else{
 
-                                                Intent GoToProfile = new Intent(General_Feed_Activity.this, Account_Info_OtherUser_Activity.class);
-                                                GoToProfile.putExtra("Key", PostKey);
-                                                startActivity(GoToProfile);
+                                                if(AnonCheck.equals(AnonToCheck)){
 
+                                                    final AlertDialog.Builder dialog = new AlertDialog.Builder(General_Feed_Activity.this);
+                                                    dialog.setTitle("This user has posted anonymously");
+                                                    dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
+                                                    AlertDialog alertDialog = dialog.create();
+                                                    alertDialog.show();
+
+                                                }
+
+                                                else{
+
+                                                    Intent GoToProfile = new Intent(General_Feed_Activity.this, Account_Info_OtherUser_Activity.class);
+                                                    GoToProfile.putExtra("Key", PostKey);
+                                                    startActivity(GoToProfile);
+
+                                                }
                                             }
 
                                         }

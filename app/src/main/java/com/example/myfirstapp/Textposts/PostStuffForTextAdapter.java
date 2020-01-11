@@ -134,9 +134,38 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             }
         });
 
+        //kijken als user anonymous is dat de username voor de anon zelf wel zichtbaar is
+
+        String MyUID2 = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+        String PostUID2 = uploadCurrent.getUID().toString();
+
+        if(MyUID2.equals(PostUID2)){
+
+            DatabaseReference GetUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID2).child("userName");
+            GetUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    final String MyUserName = dataSnapshot.getValue().toString();
+
+                    holder.Username.setText(MyUserName);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+        else{
+
+        }
 
 
         //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
+
         final String KeyPost = uploadCurrent.getKey().toString();
         final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
 

@@ -7,8 +7,8 @@
     tools:context=".Textposts.General_Feed_Activity">
 
     <include
-        layout="@layout/action_bar_main"
-        android:id="@+id/action_bar"/>
+        android:id="@+id/action_bar"
+        layout="@layout/action_bar_main" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFeedScreen"
@@ -23,14 +23,15 @@
         android:id="@+id/bottom_nav_second"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="?android:windowBackground"
+        app:itemIconTint="@color/colorAccent"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:menu="@menu/bottom_navigation"
-        android:background="?android:windowBackground"
-        app:itemIconTint="@color/colorAccent"
-        app:labelVisibilityMode="unlabeled"/>
+        app:menu="@menu/bottom_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
