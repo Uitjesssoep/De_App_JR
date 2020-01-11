@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".AccountActivities.Account_Info_Activity">
 
+    <include
+        layout="@layout/action_bar_main"
+        android:id="@+id/action_bar"/>
+
     <Button
         android:id="@+id/btnLogOut"
         android:layout_width="wrap_content"
@@ -28,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvBirthdayAccountInfo"
-        app:layout_constraintVertical_bias="0.321" />
+        app:layout_constraintVertical_bias="0.06999999" />
 
     <ImageView
         android:id="@+id/ivProfilePictureAccountInfo"
@@ -93,14 +97,27 @@
         android:id="@+id/tvDeleteAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:text="Delete account"
         android:textAllCaps="false"
         android:textColor="#FF0000"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_second"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogOut"
-        app:layout_constraintVertical_bias="0.69" />
+        app:layout_constraintVertical_bias="0.57" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav_second"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/bottom_navigation"
+        android:background="?android:windowBackground"
+        app:itemIconTint="@color/colorAccent"
+        app:labelVisibilityMode="unlabeled"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,19 +2,34 @@ package com.example.myfirstapp.Users;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
+import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
+import com.example.myfirstapp.Choose_PostType_Activity;
+import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.Textposts.General_Feed_Activity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -67,6 +82,9 @@ public class UserListToFollow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list_to_follow);
         SetupUI();;
+
+        SetupDesign();
+
         databaseReference = firebaseDatabase.getReference("users");
 
             databaseReference.addValueEventListener(new ValueEventListener() {
@@ -92,4 +110,112 @@ public class UserListToFollow extends AppCompatActivity {
                 }
             });
 
-    }}
+    }
+
+    private void SetupDesign() {
+
+        //voor het geven van kleur aan de status bar:
+
+        Window window = UserListToFollow.this.getWindow();
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        window.setStatusBarColor(ContextCompat.getColor(UserListToFollow.this, R.color.slighly_darker_mainGreen));
+
+
+        //action bar ding
+
+        Toolbar toolbar = findViewById(R.id.action_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+        //bottom navigation view dingen
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
+
+    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                    Fragment selectedFragment = null;
+
+                    switch (menuItem.getItemId()){
+                        case R.id.navigation_home:
+
+                            Intent home = new Intent(UserListToFollow.this, General_Feed_Activity.class);
+                            home.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(home);
+
+                            break;
+
+                        case R.id.navigation_chat:
+
+                            Intent chat = new Intent(UserListToFollow.this, Chat_Room_MakeOrSearch_Activity.class);
+                            chat.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(chat);
+
+                            break;
+
+                        case R.id.navigation_make:
+
+                            Intent make = new Intent(UserListToFollow.this, Choose_PostType_Activity.class);
+                            make.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(make);
+
+                            break;
+
+                        case R.id.navigation_search:
+
+                            Intent search = new Intent(UserListToFollow.this, UserListToFollow.class);
+                            search.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(search);
+
+                            break;
+
+                        case R.id.navigation_account:
+
+                            Intent account = new Intent(UserListToFollow.this, Account_Info_Activity.class);
+                            account.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(account);
+
+                            break;
+
+                    }
+
+                    return true;
+                }
+            };
+
+    //voor menu in de action bar
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_actionbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_settings:
+
+                Intent intent = new Intent(UserListToFollow.this, ImagesFeed.class);
+                startActivity(intent);
+
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+}

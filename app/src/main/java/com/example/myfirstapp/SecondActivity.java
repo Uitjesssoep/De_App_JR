@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.MainActivity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
+import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -54,7 +55,7 @@ public class SecondActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_settings:
 
-                Intent intent = new Intent(SecondActivity.this, App_Settings_Activity.class);
+                Intent intent = new Intent(SecondActivity.this, ImagesFeed.class);
                 startActivity(intent);
 
                 break;
@@ -81,6 +82,8 @@ public class SecondActivity extends AppCompatActivity {
 
         window.setStatusBarColor(ContextCompat.getColor(SecondActivity.this, R.color.slighly_darker_mainGreen));
 
+
+
         firebaseAuth = FirebaseAuth.getInstance();
 
 
@@ -89,7 +92,7 @@ public class SecondActivity extends AppCompatActivity {
         checkEmailVerification();
 
 
-        //action bar shit
+        //action bar ding
 
         Toolbar toolbar = findViewById(R.id.action_bar);
         setSupportActionBar(toolbar);
@@ -101,6 +104,10 @@ public class SecondActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
+        Intent home = new Intent(SecondActivity.this, General_Feed_Activity.class);
+        startActivity(home);
+        finish();
 
     }
 
@@ -115,24 +122,36 @@ public class SecondActivity extends AppCompatActivity {
                     switch (menuItem.getItemId()){
                         case R.id.navigation_home:
 
-                            Intent intent = new Intent(SecondActivity.this, General_Feed_Activity.class);
-                            startActivity(intent);
+                            Intent home = new Intent(SecondActivity.this, General_Feed_Activity.class);
+                            startActivity(home);
 
                             break;
 
                         case R.id.navigation_chat:
 
+                            Intent chat = new Intent(SecondActivity.this, Chat_Room_MakeOrSearch_Activity.class);
+                            startActivity(chat);
+
                             break;
 
                         case R.id.navigation_make:
+
+                            Intent make = new Intent(SecondActivity.this, Choose_PostType_Activity.class);
+                            startActivity(make);
 
                             break;
 
                         case R.id.navigation_search:
 
+                            Intent search = new Intent(SecondActivity.this, UserListToFollow.class);
+                            startActivity(search);
+
                             break;
 
                         case R.id.navigation_account:
+
+                            Intent account = new Intent(SecondActivity.this, Account_Info_Activity.class);
+                            startActivity(account);
 
                             break;
 
