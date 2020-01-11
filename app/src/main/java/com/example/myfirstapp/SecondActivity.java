@@ -3,15 +3,19 @@ package com.example.myfirstapp;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
@@ -29,6 +33,34 @@ public class SecondActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     public static boolean firstSetup;
+
+
+
+    //voor menu in de action bar
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_actionbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_settings:
+
+                Intent intent = new Intent(SecondActivity.this, App_Settings_Activity.class);
+                startActivity(intent);
+
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 
     @Override
@@ -49,6 +81,14 @@ public class SecondActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         checkEmailVerification();
+
+
+        //action bar shit
+
+        Toolbar toolbar = findViewById(R.id.action_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
     }
 

@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/launcher_s_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Chatroom.Chatrooms_Post_Activity"></activity>
+        <activity android:name=".App_Settings_Activity"></activity>
+        <activity android:name=".Chatroom.Chatrooms_Post_Activity" />
         <activity android:name=".Imageposts.Image_Post_Viewing_Activity" />
         <activity android:name=".AccountActivities.ForgotPassword_Sucess_Activity" />
         <activity android:name=".AccountActivities.SignUp_Success_Activity" />
