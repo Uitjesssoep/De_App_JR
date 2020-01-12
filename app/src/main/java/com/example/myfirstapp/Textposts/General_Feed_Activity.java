@@ -1,6 +1,8 @@
 package com.example.myfirstapp.Textposts;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,9 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,6 +61,9 @@ public class General_Feed_Activity extends AppCompatActivity {
     private Boolean Liked = false, Disliked = false, LikedCheck = false, DislikedCheck = false;
     private int LikeCount, DislikeCount, CommentCount;
 
+
+
+
     private void SetupUI() {
 
         GeneralFeed = findViewById(R.id.rvFeedScreen);
@@ -67,6 +75,7 @@ public class General_Feed_Activity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +89,7 @@ public class General_Feed_Activity extends AppCompatActivity {
         posts.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
 
                 clear();
 
@@ -98,10 +108,10 @@ public class General_Feed_Activity extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                         key = postStuffForTextList.get(position).getKey().toString();
+
                         Intent Test2 = new Intent(getApplicationContext(), Text_Post_Viewing_Activity.class);
                         Test2.putExtra("Key", key);
                         startActivity(Test2);
-                        finish();
                     }
 
 
@@ -376,6 +386,7 @@ public class General_Feed_Activity extends AppCompatActivity {
 
                             Intent home = new Intent(General_Feed_Activity.this, General_Feed_Activity.class);
                             home.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
                             startActivity(home);
 
                             break;
@@ -460,4 +471,5 @@ public class General_Feed_Activity extends AppCompatActivity {
 
 
     }
+
 }

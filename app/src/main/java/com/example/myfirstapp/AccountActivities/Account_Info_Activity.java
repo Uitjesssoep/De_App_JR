@@ -196,6 +196,8 @@ public class Account_Info_Activity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_account);
+
 
     }
 
@@ -241,9 +243,9 @@ public class Account_Info_Activity extends AppCompatActivity {
 
                         case R.id.navigation_account:
 
-                            Intent account = new Intent(Account_Info_Activity.this, Account_Info_Activity.class);
-                            account.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            startActivity(account);
+                            //Intent account = new Intent(Account_Info_Activity.this, Account_Info_Activity.class);
+                            //account.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            //startActivity(account);
 
                             break;
 

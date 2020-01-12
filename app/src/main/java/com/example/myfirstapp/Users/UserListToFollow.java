@@ -137,6 +137,7 @@ public class UserListToFollow extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_search);
 
 
     }
@@ -175,9 +176,9 @@ public class UserListToFollow extends AppCompatActivity {
 
                         case R.id.navigation_search:
 
-                            Intent search = new Intent(UserListToFollow.this, UserListToFollow.class);
-                            search.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            startActivity(search);
+                            //Intent search = new Intent(UserListToFollow.this, UserListToFollow.class);
+                            //search.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            //startActivity(search);
 
                             break;
 

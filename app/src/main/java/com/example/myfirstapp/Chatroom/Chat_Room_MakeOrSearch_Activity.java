@@ -343,6 +343,7 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_chat);
 
     }
 
@@ -364,9 +365,9 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
 
                         case R.id.navigation_chat:
 
-                            Intent chat = new Intent(Chat_Room_MakeOrSearch_Activity.this, Chat_Room_MakeOrSearch_Activity.class);
-                            chat.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            startActivity(chat);
+                            //Intent chat = new Intent(Chat_Room_MakeOrSearch_Activity.this, Chat_Room_MakeOrSearch_Activity.class);
+                            //chat.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            //startActivity(chat);
 
                             break;
 

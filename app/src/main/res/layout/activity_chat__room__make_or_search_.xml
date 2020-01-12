@@ -31,7 +31,7 @@
         app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/bottom_navigation"
         android:background="?android:windowBackground"
-        app:itemIconTint="@color/colorAccent"
-        app:labelVisibilityMode="unlabeled"/>
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconTint="@drawable/bottom_nav_icon_color_selector"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
