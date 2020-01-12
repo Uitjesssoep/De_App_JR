@@ -1,6 +1,7 @@
 package com.example.myfirstapp.Users;
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.R;
 import com.squareup.picasso.Picasso;
 
@@ -19,8 +21,9 @@ import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
     private Context mContext;
-    private List<Users> list;
+    private List<UserProfileToDatabase> list;
     public String UIDString;
+    private String TAGTEST = "Check";
 
     public UserAdapter(Context context, List list) {
         this.list = list;
@@ -38,10 +41,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        Users users = list.get(position);
-        holder.Username.setText(users.getUsername());
-       // holder.UIDhidden.setText(users.getTheUID());
+        UserProfileToDatabase users = list.get(position);
+        holder.Username.setText(users.getUserName());
+        //holder.UIDhidden.setText(users.getTheUID());
       //  UIDString = users.getTheUID();
+        Log.e(TAGTEST, users.getUserName());
+        Log.e(TAGTEST, users.getProfilePicture());
         Picasso.get()
                 .load(users.getProfilePicture())
                 .fit()

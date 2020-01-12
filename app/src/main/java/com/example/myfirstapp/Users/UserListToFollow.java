@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
+import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
@@ -53,7 +54,7 @@ public class UserListToFollow extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FirebaseAuth firebaseAuth;
     private RecyclerView.LayoutManager layoutManager;
-    private List<Users> list;
+    private List<UserProfileToDatabase> list;
     private List<String> UIDlist;
     private UserAdapter adapter;
     private String UIDlistString, test, UIDlistString2;
@@ -92,7 +93,7 @@ public class UserListToFollow extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        Users users = postSnapshot.getValue(Users.class);
+                        UserProfileToDatabase users = postSnapshot.getValue(UserProfileToDatabase.class);
                         list.add(users);
                         Log.d("list", list.toString());
 
