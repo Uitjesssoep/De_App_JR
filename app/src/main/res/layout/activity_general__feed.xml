@@ -25,6 +25,33 @@
         app:menu="@menu/bottom_navigation"
         app:itemIconTint="@drawable/bottom_nav_icon_color_selector"/>
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_general_feed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/action_bar"
+        app:layout_constraintVertical_bias="0.0"
+        app:tabTextColor="@color/white"
+        app:tabIndicatorColor="@color/white">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tab_layout_allFeed"
+            android:text="All"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tab_layout_followingFeed"
+            android:text="Following"/>
+
+    </com.google.android.material.tabs.TabLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -32,7 +59,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav_second"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar">
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout_general_feed">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvFeedScreen"
