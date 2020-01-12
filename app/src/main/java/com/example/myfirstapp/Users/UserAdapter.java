@@ -29,12 +29,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private Context mContext;
     private List<UserProfileToDatabase> list;
     public String UIDString;
-    private boolean Checkje=true;
-    private String UsernameToFollow, UIDToFollow, userNameFollower, UIDFollower;
+    private boolean Checkje = true;
+    private String UsernameToFollow, UIDToFollow, userNameFollower, UIDFollower, UsernameToFollow2, UIDToFollow2;
     private String TAGTEST = "Check";
-    private FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();;
-    private String MyUID=firebaseAuth.getUid();
-    private DatabaseReference datarefFollower = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    ;
+    private String MyUID = firebaseAuth.getUid();
+    private DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
+    private DatabaseReference datarefFollower = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("userName");
     private DatabaseReference datarefFollowing = FirebaseDatabase.getInstance().getReference().child("users");
 
 
@@ -76,59 +78,67 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 .fit()
                 .centerCrop()
                 .into(holder.ProfilePicture);
-        UIDToFollow = holder.UIDhidden.getText().toString();
-        UsernameToFollow = holder.Username.getText().toString();
 
-        datarefFollower.addValueEventListener(new ValueEventListener() {
+
+        dataref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild(UsernameToFollow)){
-                    holder.Follow.setBackgroundColor(Color.DKGRAY);
+                UIDToFollow2 = holder.UIDhidden.getText().toString();
+                UsernameToFollow2 = holder.Username.getText().toString();
+
+                if (dataSnapshot.hasChild(UsernameToFollow2)) {
+                    Log.e(TAGTEST, "TRUE");
+                    holder.Follow.setBackgroundColor(Color.rgb(151, 189, 240));
                     holder.Follow.setText("FOLLOWING");
+                    holder.Follow.setTextSize(12);
                 }
+                else Log.e(TAGTEST, "FALSE" );
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-            });
+        });
 
 
-            holder.Follow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    datarefFollower.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.hasChild(UsernameToFollow)){
-                                holder.Follow.setEnabled(false);
-                            }
+        holder.Follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UIDToFollow = holder.UIDhidden.getText().toString();
+                UsernameToFollow = holder.Username.getText().toString();
 
-                            else{
+                datarefFollower.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.hasChild(UsernameToFollow)) {
+                            Log.e(TAGTEST, "TRUEE" );
+                           holder.Follow.setEnabled(false);
+                        } else {
                             userNameFollower = dataSnapshot.getValue().toString();
                             FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
 
                             Log.e(TAGTEST, UIDToFollow);
                             Log.e(TAGTEST, userNameFollower);
                             FollowersList followingList = new FollowersList(UsernameToFollow, UIDToFollow);
-                            datarefFollowing.child(MyUID).child ("following").child(UsernameToFollow).setValue(followingList);
+                            datarefFollowing.child(MyUID).child("following").child(UsernameToFollow).setValue(followingList);
                             datarefFollowing
                                     .child(UIDToFollow)
                                     .child("followers")
                                     .child(userNameFollower)
                                     .setValue(followerslist);
-                            Log.e(TAGTEST, userNameFollower );}
+                            Log.e(TAGTEST, userNameFollower);
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        }
-                    });
-                }
-            });
-       // }
+                    }
+                });
+            }
+        });
+        // }
     }
 
     @Override
@@ -151,5 +161,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             Follow = itemView.findViewById(R.id.btFollow);
         }
     }
+
+
 
 }

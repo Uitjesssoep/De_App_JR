@@ -93,6 +93,8 @@ public class UserListToFollow extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                    clear();
+
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         UserProfileToDatabase users = postSnapshot.getValue(UserProfileToDatabase.class);
                         list.add(users);
@@ -226,5 +228,19 @@ public class UserListToFollow extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void clear() {
+
+        int size = list.size();
+        if(size > 0){
+            for (int i = 0; i < size; i++) {
+                list.remove(0);
+
+                String TAGTest = "ListEmpty";
+                Log.e(TAGTest, "tot 'for' gekomen");
+            }
+            adapter.notifyItemRangeRemoved(0, size);
+        }
     }
 }
