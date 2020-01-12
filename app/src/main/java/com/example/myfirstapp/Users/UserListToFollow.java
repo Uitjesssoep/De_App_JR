@@ -89,7 +89,7 @@ public class UserListToFollow extends AppCompatActivity {
 
         databaseReference = firebaseDatabase.getReference("users");
 
-            databaseReference.addValueEventListener(new ValueEventListener() {
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
