@@ -96,9 +96,13 @@ public class UserListToFollow extends AppCompatActivity {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         UserProfileToDatabase users = postSnapshot.getValue(UserProfileToDatabase.class);
                         list.add(users);
-                        int index = list.indexOf(MyUID);
-                            list.remove(index);
-                        Log.d("list", list.toString());
+                        int position;
+                        for (int i = 0; i < list.size(); i++) {
+                            if (list.get(i).getTheUID().equals(MyUID)) {
+                                position = i;
+                            list.remove(position);
+                        Log.d("list", list.toString());}
+                        }
 
                     }
 
