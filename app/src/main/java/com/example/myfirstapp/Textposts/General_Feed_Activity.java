@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.ClipData;
 import android.content.DialogInterface;
@@ -34,6 +36,8 @@ import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
 import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -60,9 +64,6 @@ public class General_Feed_Activity extends AppCompatActivity {
     private String key, MyUID;
     private Boolean Liked = false, Disliked = false, LikedCheck = false, DislikedCheck = false;
     private int LikeCount, DislikeCount, CommentCount;
-
-
-
 
     private void SetupUI() {
 
@@ -468,8 +469,6 @@ public class General_Feed_Activity extends AppCompatActivity {
 
             postStuffForTextAdapter.notifyItemRangeRemoved(0, size);
         }
-
-
     }
 
 }
