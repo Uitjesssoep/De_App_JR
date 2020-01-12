@@ -80,7 +80,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 .into(holder.ProfilePicture);
 
 
-        dataref.addValueEventListener(new ValueEventListener() {
+        dataref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UIDToFollow2 = holder.UIDhidden.getText().toString();
@@ -108,7 +108,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 UIDToFollow = holder.UIDhidden.getText().toString();
                 UsernameToFollow = holder.Username.getText().toString();
 
-                datarefFollower.addValueEventListener(new ValueEventListener() {
+                datarefFollower.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild(UsernameToFollow)) {
