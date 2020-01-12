@@ -1,7 +1,6 @@
 package com.example.myfirstapp.Users;
 
 import android.content.Context;
-import android.nfc.Tag;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,11 +23,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private Context mContext;
     private List<UserProfileToDatabase> list;
     public String UIDString;
+    private boolean Checkje=true;
     private String TAGTEST = "Check";
+    private FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();;
+    private String MyUID=firebaseAuth.getUid();
+
 
     public UserAdapter(Context context, List list) {
         this.list = list;
         mContext = context;
+
+    }
+
+    public void delete(int position) {
+        list.remove(position);
+        notifyItemRemoved(position);
     }
 
     @NonNull
@@ -42,16 +52,22 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         UserProfileToDatabase users = list.get(position);
-        holder.Username.setText(users.getUserName());
-        //holder.UIDhidden.setText(users.getTheUID());
-      //  UIDString = users.getTheUID();
-        Log.e(TAGTEST, users.getUserName());
-        Log.e(TAGTEST, users.getProfilePicture());
-        Picasso.get()
-                .load(users.getProfilePicture())
-                .fit()
-                .centerCrop()
-                .into(holder.ProfilePicture);
+     /*   if (users.getTheUID().equals(MyUID)){
+            delete(holder.getAdapterPosition());
+        }
+        else {*/
+            holder.Username.setText(users.getUserName());
+            holder.UIDhidden.setText(users.getTheUID());
+            //UIDString = users.getTheUID();
+            Log.e(TAGTEST, users.getUserName());
+            Log.e(TAGTEST, users.getProfilePicture());
+            Picasso.get()
+                    .load(users.getProfilePicture())
+                    .placeholder(R.drawable.app_logo_200)
+                    .fit()
+                    .centerCrop()
+                    .into(holder.ProfilePicture);
+       // }
     }
 
     @Override
@@ -65,12 +81,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         public ImageView ProfilePicture;
         public Button Follow;
 
+
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             Username = itemView.findViewById(R.id.tvUser_name);
             UIDhidden = itemView.findViewById(R.id.tvUID);
             ProfilePicture = itemView.findViewById(R.id.ivProfilePictureUserList);
             Follow = itemView.findViewById(R.id.btFollow);
+
+            Follow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
 
         }
     }
