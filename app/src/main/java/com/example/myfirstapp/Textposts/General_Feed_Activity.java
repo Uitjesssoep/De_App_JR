@@ -14,8 +14,11 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -28,6 +31,7 @@ import android.view.WindowManager;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
+import com.example.myfirstapp.AccountActivities.Deleting_Account_Activity;
 import com.example.myfirstapp.App_Settings_Activity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
@@ -65,6 +69,8 @@ public class General_Feed_Activity extends AppCompatActivity {
     private Boolean Liked = false, Disliked = false, LikedCheck = false, DislikedCheck = false;
     private int LikeCount, DislikeCount, CommentCount;
 
+    private BottomNavigationView bottomNavigationView;
+
     private void SetupUI() {
 
         GeneralFeed = findViewById(R.id.rvFeedScreen);
@@ -75,6 +81,8 @@ public class General_Feed_Activity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
 
+        bottomNavigationView = findViewById(R.id.bottom_nav_second);
+
     }
 
 
@@ -82,6 +90,8 @@ public class General_Feed_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general__feed);
+
+        CheckInternet();
 
         SetupUI();
 
@@ -347,6 +357,40 @@ public class General_Feed_Activity extends AppCompatActivity {
 
     }
 
+    private void CheckInternet() {
+
+        boolean connected = false;
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            connected = true;
+        }
+        else {
+            connected = false;
+        }
+
+        if(connected){
+
+        }
+        else{
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(General_Feed_Activity.this);
+            dialog.setTitle("No internet connection");
+            dialog.setMessage("Please connect to the internet and try again");
+            dialog.setPositiveButton("Try again", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                    startActivity(getIntent());
+                }
+            });
+
+            AlertDialog alertDialog = dialog.create();
+            alertDialog.show();
+        }
+
+    }
+
     private void SetupDesign() {
 
         //voor het geven van kleur aan de status bar:
@@ -370,7 +414,6 @@ public class General_Feed_Activity extends AppCompatActivity {
 
         //bottom navigation view dingen
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
     }
@@ -469,6 +512,24 @@ public class General_Feed_Activity extends AppCompatActivity {
 
             postStuffForTextAdapter.notifyItemRangeRemoved(0, size);
         }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        Log.e("Testjeyeah", "onResume bereikt");
+
+        //bottomNavigationView.setSelectedItemId(R.id.navigation_home);
+
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+
+        Log.e("Testjeyeah", "onPause bereikt");
+
     }
 
 }

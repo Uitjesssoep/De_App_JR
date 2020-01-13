@@ -243,4 +243,16 @@ public class UserListToFollow extends AppCompatActivity {
             adapter.notifyItemRangeRemoved(0, size);
         }
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
+        Log.e("Testjeyeah", "onResume bereikt");
+        bottomNavigationView.setSelectedItemId(R.id.navigation_search);
+
+    }
 }

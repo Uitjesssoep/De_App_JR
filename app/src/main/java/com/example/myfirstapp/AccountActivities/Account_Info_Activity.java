@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -277,6 +278,18 @@ public class Account_Info_Activity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        //BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
+        //bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
+        Log.e("Testjeyeah", "onResume bereikt");
+        //bottomNavigationView.setSelectedItemId(R.id.navigation_account);
+
     }
 
 }

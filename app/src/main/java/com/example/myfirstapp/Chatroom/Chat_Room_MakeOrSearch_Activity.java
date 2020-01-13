@@ -438,4 +438,16 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        //BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
+        //bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
+        Log.e("Testjeyeah", "onResume bereikt");
+        //bottomNavigationView.setSelectedItemId(R.id.navigation_chat);
+
+    }
+
 }
