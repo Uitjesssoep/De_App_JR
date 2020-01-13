@@ -13,16 +13,16 @@
 
         <ImageButton
             android:id="@+id/ibLikeUpTextPostItem"
-            android:layout_width="40dp"
+            android:layout_width="20dp"
             android:layout_height="40dp"
             android:layout_below="@id/tvTitleTextPostItem"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:background="#00FFFFFF"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/pijl_omhoog_neutraal" />
+            app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
 
         <TextView
             android:id="@+id/tvDislikeCounterTextPostItem"
@@ -34,11 +34,12 @@
             android:layout_marginTop="16dp"
             android:layout_toRightOf="@id/ibLikeDownTextPostItem"
             android:text="0"
+            android:textColor="#858585"
             app:layout_constraintVertical_bias="0.018" />
 
         <ImageButton
             android:id="@+id/ibLikeDownTextPostItem"
-            android:layout_width="40dp"
+            android:layout_width="20dp"
             android:layout_height="40dp"
             android:layout_below="@id/tvTitleTextPostItem"
             android:layout_marginStart="16dp"
@@ -47,7 +48,7 @@
             android:layout_toRightOf="@id/tvLikeCounterTextPostItem"
             android:background="#00FFFFFF"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/pijl_omlaag_neutraal" />
+            app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
 
         <TextView
             android:id="@+id/tvLikeCounterTextPostItem"
@@ -58,47 +59,55 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:layout_toRightOf="@id/ibLikeUpTextPostItem"
-            android:text="0" />
+            android:text="0"
+            android:textColor="#858585" />
 
         <TextView
             android:id="@+id/tvUsernameTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:text="Username" />
+            android:text="Username"
+            android:textColor="#858585"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvStreepjeTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:layout_toRightOf="@id/tvUsernameTextPostItem"
             android:layout_weight="1"
-            android:text="  -  " />
+            android:text="  -  "
+            android:textColor="#858585"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvTitleTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvUsernameTextPostItem"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
-            android:text="Content" />
+            android:text="Content"
+            android:textColor="#161616"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvCommentCountTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTitleTextPostItem"
-            android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginStart="13dp"
             android:layout_marginTop="16dp"
-            android:layout_toRightOf="@id/tvDislikeCounterTextPostItem"
-            android:text="Comments:" />
+            android:layout_toRightOf="@id/ivCommentImageTextPostItem"
+            android:text="Comments:"
+            android:textColor="#858585" />
 
         <TextView
             android:id="@+id/tvKeyHiddenTextPostItem"
@@ -116,24 +125,36 @@
             android:id="@+id/tvPostDateTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:layout_toRightOf="@id/tvStreepjeTextPostItem"
             android:layout_weight="1"
-            android:text="Date" />
+            android:text="Date"
+            android:textColor="#858585"
+            android:textSize="13sp" />
 
         <ImageButton
             android:id="@+id/ibDeleteIconTextPostItem"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="15dp"
+            android:layout_height="17dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="12dp"
             android:background="#00FFFFFF"
             android:clickable="true"
             android:focusable="true"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/delete_icon" />
+            app:srcCompat="@drawable/ic_more_vert_grey_24dp" />
+
+        <ImageView
+            android:id="@+id/ivCommentImageTextPostItem"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitleTextPostItem"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/tvDislikeCounterTextPostItem"
+            app:srcCompat="@drawable/ic_mode_comment_black_24dp" />
 
     </RelativeLayout>
 

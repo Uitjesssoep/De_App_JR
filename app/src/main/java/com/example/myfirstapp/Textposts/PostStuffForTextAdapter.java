@@ -69,7 +69,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                CommentCountAdapter = (int) dataSnapshot.getChildrenCount();
-               holder.CommentCount.setText("Number of comments: " + CommentCountAdapter);
+               holder.CommentCount.setText("" + CommentCountAdapter);
             }
 
             @Override
@@ -182,7 +182,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                         //zou moeten werken gewoon??
                     }
                     else{
-                        holder.DeleteTextPost.setVisibility(View.GONE);
+                        //holder.DeleteTextPost.setVisibility(View.GONE);
                     }
 
                 }
@@ -206,10 +206,10 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.hasChild(MyUID)){
-                    holder.Upvote.setImageResource(R.drawable.pijl_omhoog_geklikt);
+                    holder.Upvote.setImageResource(R.drawable.ic_keyboard_arrow_up_green_24dp);
                 }
                 else{
-                    holder.Upvote.setImageResource(R.drawable.pijl_omhoog_neutraal);
+                    holder.Upvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                 }
 
             }
@@ -226,10 +226,10 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.hasChild(MyUID)){
-                    holder.Downvote.setImageResource(R.drawable.pijl_omlaag_geklikt);
+                    holder.Downvote.setImageResource(R.drawable.ic_keyboard_arrow_down_green_24dp);
                 }
                 else{
-                    holder.Downvote.setImageResource(R.drawable.pijl_omlaag_neutraal);
+                    holder.Downvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                 }
 
             }

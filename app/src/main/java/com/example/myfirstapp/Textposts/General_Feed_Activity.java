@@ -85,6 +85,7 @@ public class General_Feed_Activity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         bottomNavigationView = findViewById(R.id.bottom_nav_second);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
         swipeRefreshLayout = findViewById(R.id.swipe_container);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -532,23 +533,4 @@ public class General_Feed_Activity extends AppCompatActivity {
             postStuffForTextAdapter.notifyItemRangeRemoved(0, size);
         }
     }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-
-        Log.e("Testjeyeah", "onResume bereikt");
-
-        //bottomNavigationView.setSelectedItemId(R.id.navigation_home);
-
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-
-        Log.e("Testjeyeah", "onPause bereikt");
-
-    }
-
 }
