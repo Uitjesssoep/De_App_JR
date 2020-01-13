@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -71,6 +72,8 @@ public class General_Feed_Activity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private void SetupUI() {
 
         GeneralFeed = findViewById(R.id.rvFeedScreen);
@@ -82,6 +85,17 @@ public class General_Feed_Activity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         bottomNavigationView = findViewById(R.id.bottom_nav_second);
+
+        swipeRefreshLayout = findViewById(R.id.swipe_container);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                StartOrReload();
+                swipeRefreshLayout.setRefreshing(false);
+
+            }
+        });
 
     }
 
@@ -96,6 +110,12 @@ public class General_Feed_Activity extends AppCompatActivity {
         SetupUI();
 
         SetupDesign();
+
+        StartOrReload();
+
+    }
+
+    private void StartOrReload() {
 
         posts.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -354,7 +374,6 @@ public class General_Feed_Activity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void CheckInternet() {
