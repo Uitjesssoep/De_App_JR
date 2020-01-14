@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,6 +65,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
         holder.KeyHolder.setText(uploadCurrent.getKey());
         holder.Date.setText(uploadCurrent.getDate());
         holder.CommentCount.setVisibility(View.GONE);
+        holder.CommentLogo.setVisibility(View.GONE);
 
         String KeyYeah = uploadCurrent.getKey().toString();
 
@@ -161,9 +163,9 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.hasChild(MyUID)) {
-                    holder.Upvote.setImageResource(R.drawable.pijl_omhoog_geklikt);
+                    holder.Upvote.setImageResource(R.drawable.ic_keyboard_arrow_up_green_24dp);
                 } else {
-                    holder.Upvote.setImageResource(R.drawable.pijl_omhoog_neutraal);
+                    holder.Upvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                 }
 
             }
@@ -180,9 +182,9 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.hasChild(MyUID)) {
-                    holder.Downvote.setImageResource(R.drawable.pijl_omlaag_geklikt);
+                    holder.Downvote.setImageResource(R.drawable.ic_keyboard_arrow_down_green_24dp);
                 } else {
-                    holder.Downvote.setImageResource(R.drawable.pijl_omlaag_neutraal);
+                    holder.Downvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                 }
 
             }
@@ -203,6 +205,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
 
         public TextView Username, LikeCount, DislikeCount, CommentCount, Title, KeyHolder, Date;
         public ImageButton Upvote, Downvote, DeleteTextPost;
+        public ImageView CommentLogo;
 
         public ViewHolder(@NonNull View itemView, final PostStuffForChatAdapter.OnItemClickListener listener) {
             super(itemView);
@@ -217,6 +220,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             Upvote = itemView.findViewById(R.id.ibLikeUpTextPostItem);
             Downvote = itemView.findViewById(R.id.ibLikeDownTextPostItem);
             DeleteTextPost = itemView.findViewById(R.id.ibDeleteIconTextPostItem);
+            CommentLogo = itemView.findViewById(R.id.ivCommentImageTextPostItem);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

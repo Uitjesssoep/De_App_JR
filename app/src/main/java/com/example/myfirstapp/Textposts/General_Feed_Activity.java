@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -22,11 +23,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -53,7 +56,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class General_Feed_Activity extends AppCompatActivity {
+public class General_Feed_Activity extends AppCompatActivity
+        //implements PopupMenu.OnMenuItemClickListener
+{
 
 
     private RecyclerView GeneralFeed;
@@ -73,6 +78,8 @@ public class General_Feed_Activity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
 
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private Boolean test = false;
 
     private void SetupUI() {
 
@@ -97,6 +104,8 @@ public class General_Feed_Activity extends AppCompatActivity {
 
             }
         });
+
+        registerForContextMenu(GeneralFeed);
 
     }
 
@@ -147,7 +156,7 @@ public class General_Feed_Activity extends AppCompatActivity {
                     }
 
 
-                    @Override
+                    /*@Override
                     public void onDeleteIconClick(int position) {
                         final String TAGCheck = "DeleteTextPost";
                         Log.e(TAGCheck, "Deleting Text Post After Click");
@@ -163,9 +172,7 @@ public class General_Feed_Activity extends AppCompatActivity {
                                 final DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(ThePostKey);
                                 DeleteThePost.removeValue();
 
-                                Intent intent = getIntent();
-                                finish();
-                                startActivity(intent);
+                                StartOrReload();
                             }
                         });
                         dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -178,7 +185,7 @@ public class General_Feed_Activity extends AppCompatActivity {
                         AlertDialog alertDialog = dialog.create();
                         alertDialog.show();
 
-                    }
+                    }*/
 
 
                     @Override
@@ -512,6 +519,12 @@ public class General_Feed_Activity extends AppCompatActivity {
                 startActivity(intent);
 
                 break;
+
+            case R.id.action_refresh_feed:
+
+                StartOrReload();
+
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -522,7 +535,7 @@ public class General_Feed_Activity extends AppCompatActivity {
     public void clear() {
 
         int size = postStuffForTextList.size();
-        if(size > 0){
+        if (size > 0) {
             for (int i = 0; i < size; i++) {
                 postStuffForTextList.remove(0);
 
@@ -533,4 +546,5 @@ public class General_Feed_Activity extends AppCompatActivity {
             postStuffForTextAdapter.notifyItemRangeRemoved(0, size);
         }
     }
+
 }

@@ -106,7 +106,7 @@
             android:layout_marginStart="13dp"
             android:layout_marginTop="16dp"
             android:layout_toRightOf="@id/ivCommentImageTextPostItem"
-            android:text="Comments:"
+            android:text="0"
             android:textColor="#858585" />
 
         <TextView
@@ -134,15 +134,15 @@
 
         <ImageButton
             android:id="@+id/ibDeleteIconTextPostItem"
-            android:layout_width="15dp"
-            android:layout_height="17dp"
+            android:layout_width="30dp"
+            android:layout_height="34dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="8dp"
             android:layout_marginRight="12dp"
             android:background="#00FFFFFF"
-            android:clickable="true"
-            android:focusable="true"
+            android:paddingLeft="15dp"
+            android:paddingBottom="17dp"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_more_vert_grey_24dp" />
 

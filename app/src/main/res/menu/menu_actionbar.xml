@@ -7,4 +7,10 @@
         app:showAsAction = "never">
     </item>
 
+    <item
+        android:id="@+id/action_refresh_feed"
+        android:title="Refresh"
+        app:showAsAction = "never">
+    </item>
+
 </menu>

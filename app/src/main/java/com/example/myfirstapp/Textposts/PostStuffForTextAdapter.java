@@ -1,16 +1,25 @@
 package com.example.myfirstapp.Textposts;
 
+import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.Report_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +42,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         void onUserNameClick(int position);
         void onUpvoteClick(int position);
         void onDownvoteClick(int position);
-        void onDeleteIconClick(int position);
+        //void onDeleteIconClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -57,11 +66,144 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        PostStuffForText uploadCurrent = mPost.get(position);
+        final PostStuffForText uploadCurrent = mPost.get(position);
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
         holder.Date.setText(uploadCurrent.getDate());
+
+        holder.DeleteTextPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
+
+                final String KeyPost = uploadCurrent.getKey().toString();
+                final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+
+                DeleteIconCheck.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.hasChild(KeyPost)){
+
+                            final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
+                            final String PostUIDCheck = dataSnapshot.child(KeyPost).child("uid").getValue().toString();
+
+                            if(MyUIDCheck.equals(PostUIDCheck)){
+
+                                PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
+                                popupMenu.inflate(R.menu.popup_menu_textposts);
+                                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                        switch (menuItem.getItemId()){
+
+                                            case R.id.delete_option_textposts:
+
+                                                final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                                                dialog.setTitle("Delete your post?");
+                                                dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
+
+                                                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                        final DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyPost);
+                                                        DeleteThePost.removeValue();
+
+                                                        Intent intent = new Intent(mContext, General_Feed_Activity.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        mContext.startActivity(intent);
+
+                                                    }
+                                                });
+
+                                                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                        dialogInterface.dismiss();
+
+                                                    }
+                                                });
+
+                                                AlertDialog alertDialog = dialog.create();
+                                                alertDialog.show();
+
+                                                break;
+
+
+                                            case R.id.savepost_option_textposts:
+
+                                                final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                SaveThePost.child("SavedPosts").child(KeyPost).setValue("added");
+
+                                                break;
+
+                                            default:
+                                                break;
+
+                                        }
+
+                                        return false;
+                                    }
+                                });
+                                popupMenu.show();
+
+                            }
+                            else{
+
+                                PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
+                                popupMenu.inflate(R.menu.popup_menu_textposts_without_delete);
+                                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                        switch (menuItem.getItemId()){
+
+                                            case R.id.reportpost_option_textposts:
+
+                                                Intent intent= new Intent(mContext, Report_TextPost_Activity.class);
+                                                mContext.startActivity(intent);
+
+                                                break;
+
+                                            case R.id.savepost_option_textposts:
+
+                                                final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                SaveThePost.child("SavedPosts").child(KeyPost).setValue("added");
+
+                                                break;
+
+                                            default:
+                                                break;
+
+                                        }
+
+                                        return false;
+                                    }
+                                });
+                                popupMenu.show();
+
+                            }
+
+                        }
+                        else{
+                            //post is gedelete als het goed is
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
 
         String KeyYeah = uploadCurrent.getKey().toString();
         final DatabaseReference CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Comments");
@@ -162,41 +304,6 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         else{
 
         }
-
-
-        //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
-
-        final String KeyPost = uploadCurrent.getKey().toString();
-        final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
-
-        DeleteIconCheck.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if(dataSnapshot.hasChild(KeyPost)){
-
-                    final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
-                    final String PostUIDCheck = dataSnapshot.child(KeyPost).child("uid").getValue().toString();
-
-                    if(MyUIDCheck.equals(PostUIDCheck)){
-                        //zou moeten werken gewoon??
-                    }
-                    else{
-                        //holder.DeleteTextPost.setVisibility(View.GONE);
-                    }
-
-                }
-                else{
-                    //post is gedelete als het goed is
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
         final String MyUID = FirebaseAuth.getInstance().getUid().toString();
@@ -314,7 +421,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                 }
             });
 
-            DeleteTextPost.setOnClickListener(new View.OnClickListener() {
+            /*DeleteTextPost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(listener != null){
@@ -324,8 +431,10 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                         }
                     }
                 }
-            });
+            });*/
 
         }
+
     }
+
 }

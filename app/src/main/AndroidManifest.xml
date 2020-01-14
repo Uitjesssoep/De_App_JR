@@ -12,37 +12,38 @@
         android:roundIcon="@mipmap/launcher_s_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".Report_TextPost_Activity"></activity>
         <activity
             android:name=".App_Settings_Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Chatroom.Chatrooms_Post_Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Imageposts.Image_Post_Viewing_Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivities.ForgotPassword_Sucess_Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivities.SignUp_Success_Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivities.Deleting_Account_Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivities.Account_Info_OtherUser_ActivityImagePostsTemporary"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivities.Account_Info_OtherUserComments_Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Users.UserListToFollow"
             android:launchMode="singleTask"
-            android:theme="@style/noAnimationTheme"/>
+            android:theme="@style/noAnimationTheme" />
         <activity
             android:name=".Choose_FeedType_Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivities.Account_Info_OtherUser_Activity"
             android:screenOrientation="portrait" />
@@ -56,7 +57,7 @@
             android:name=".Textposts.General_Feed_Activity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/noAnimationTheme"/>
+            android:theme="@style/noAnimationTheme" />
         <activity
             android:name=".Textposts.Upload_TextPost_Activity"
             android:screenOrientation="portrait" />
@@ -70,7 +71,7 @@
             android:name=".Chatroom.Chat_Room_MakeOrSearch_Activity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/noAnimationTheme"/>
+            android:theme="@style/noAnimationTheme" />
         <activity
             android:name=".Chatroom.Chat_With_Users_Activity"
             android:screenOrientation="portrait" />
@@ -96,7 +97,7 @@
             android:name=".AccountActivities.Account_Info_Activity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/noAnimationTheme"/>
+            android:theme="@style/noAnimationTheme" />
         <activity
             android:name=".AccountActivities.RegistrationActivity"
             android:screenOrientation="portrait" />
