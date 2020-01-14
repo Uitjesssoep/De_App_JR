@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
@@ -113,7 +112,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         });
 
 
-        holder.Follow.setOnClickListener(new View.OnClickListener() {
+     /*   holder.Follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UIDToFollow = holder.UIDhidden.getText().toString();
@@ -153,7 +152,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                     }
                 });
             }
-        });
+        });*/
         // }
     }
 
