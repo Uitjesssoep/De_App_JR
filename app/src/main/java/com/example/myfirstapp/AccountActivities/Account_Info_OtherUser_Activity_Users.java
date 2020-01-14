@@ -112,8 +112,8 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account__info__other_user_);
-        RetrieveData();
         SetupUI();
+        RetrieveData();
 
     }
 
