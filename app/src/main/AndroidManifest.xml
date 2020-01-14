@@ -33,6 +33,8 @@
         <activity
             android:name=".AccountActivities.Account_Info_OtherUser_ActivityImagePostsTemporary"
             android:screenOrientation="portrait"/>
+        <activity android:name=".AccountActivities.Account_Info_OtherUser_Activity_Users"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AccountActivities.Account_Info_OtherUserComments_Activity"
             android:screenOrientation="portrait"/>

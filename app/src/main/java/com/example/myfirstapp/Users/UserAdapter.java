@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
@@ -39,7 +40,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private DatabaseReference datarefFollower = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("userName");
     private DatabaseReference datarefFollowing = FirebaseDatabase.getInstance().getReference().child("users");
 
+    private UserAdapter.OnItemClickListener mListener;
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+        void onUserNameClick(int position);
+        void onProfilePictureClick(int position);
+        void onFollowClick(int position);
+    }
 
+    public void setOnItemClickListener(UserAdapter.OnItemClickListener listener){
+        mListener = listener;
+    }
     public UserAdapter(Context context, List list) {
         this.list = list;
         mContext = context;
@@ -56,7 +67,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.users_list, parent, false);
-        UserViewHolder userViewHolder = new UserViewHolder(view);
+        UserViewHolder userViewHolder = new UserViewHolder(view, mListener);
         return userViewHolder;
     }
 
@@ -113,7 +124,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild(UsernameToFollow)) {
                             Log.e(TAGTEST, "TRUEE" );
-                           holder.Follow.setEnabled(false);
+                            final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                            dialog.setTitle("Do you want to unfollow this user?");
+                           // dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
+                            AlertDialog alertDialog = dialog.create();
+                            alertDialog.show();
+                        //   holder.Follow.setEnabled(false);
                         } else {
                             userNameFollower = dataSnapshot.getValue().toString();
                             FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
@@ -153,12 +169,57 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         public Button Follow;
 
 
-        public UserViewHolder(@NonNull View itemView) {
+        public UserViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             Username = itemView.findViewById(R.id.tvUser_name);
             UIDhidden = itemView.findViewById(R.id.tvUID);
             ProfilePicture = itemView.findViewById(R.id.ivProfilePictureUserList);
             Follow = itemView.findViewById(R.id.btFollow);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+            Username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onUserNameClick(position);
+                        }
+                    }
+                }
+            });
+            ProfilePicture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onProfilePictureClick(position);
+                        }
+                    }
+                }
+            });
+            Follow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onFollowClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 

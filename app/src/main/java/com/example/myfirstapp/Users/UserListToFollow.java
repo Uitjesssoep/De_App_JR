@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity_Users;
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
@@ -57,7 +58,7 @@ public class UserListToFollow extends AppCompatActivity {
     private List<UserProfileToDatabase> list;
     private List<String> UIDlist;
     private UserAdapter adapter;
-    private String UIDlistString, test, UIDlistString2, MyUID;
+    private String UIDlistString, test, UIDlistString2, MyUID, UIDOtherUser;
 
     private void SetupUI() {
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -73,6 +74,7 @@ public class UserListToFollow extends AppCompatActivity {
         list = new ArrayList<>();
         UIDlist = new ArrayList<>();
         MyUID=firebaseAuth.getUid();
+
 
 
     }
@@ -111,6 +113,37 @@ public class UserListToFollow extends AppCompatActivity {
                     adapter = new UserAdapter(UserListToFollow.this, list);
                     recyclerView.setAdapter(adapter);
                     ProgressCircle.setVisibility(View.INVISIBLE);
+
+                    adapter.setOnItemClickListener(new UserAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            UIDOtherUser=list.get(position).getTheUID();
+                            Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
+                            intent.putExtra("UID", UIDOtherUser);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onUserNameClick(int position) {
+
+                        }
+
+                        @Override
+                        public void onProfilePictureClick(int position) {
+
+                        }
+
+                        @Override
+                        public void onFollowClick(int position) {
+
+                        }
+                    });
+
+
+
+
+
+
                 }
 
                 @Override
