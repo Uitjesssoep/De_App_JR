@@ -2,7 +2,6 @@ package com.example.myfirstapp.AccountActivities;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,19 +46,39 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
         tvOtherUserUID = findViewById(R.id.tvHiddenOtherUserUIDPlaceholder);
 
-        OtherUserUID = getIntent().getExtras().get("UID").toString();
+        key = getIntent().getExtras().get("Key").toString();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
+      /*  DatabaseReference databaseReference = firebaseDatabase.getReference("General_Text_Posts").child(key).child("uid");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                tvOtherUserUID.setText(dataSnapshot.getValue(String.class));
+                OtherUserUID = tvOtherUserUID.getText().toString();
+                Log.e(TAG, OtherUserUID);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
     }
 
     private void RetrieveData() {
 
-        Log.e(TAG, OtherUserUID);
+//        Log.e(TAG, OtherUserUID);
+
 
         //voor profielfoto
+        tvOtherUserUID.setText(key);
+        OtherUserUID = tvOtherUserUID.getText().toString();
+
+
         StorageReference storageReference = firebaseStorage.getReference();
         storageReference.child("ProfilePictures").child(OtherUserUID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

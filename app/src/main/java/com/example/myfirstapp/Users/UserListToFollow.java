@@ -1,5 +1,6 @@
 package com.example.myfirstapp.Users;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +26,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
-import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity_Users;
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
@@ -60,7 +60,7 @@ public class UserListToFollow extends AppCompatActivity {
     private List<String> UIDlist;
     private UserAdapter adapter;
     private String MyUID, UIDOtherUser, UsernameOtherUser, userNameFollower;
-    private DatabaseReference datarefFollower, datarefFollowing;
+    private DatabaseReference datarefFollower, datarefFollowing,datarefUID, datarefOtherUID;
 
     private void SetupUI() {
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -77,6 +77,7 @@ public class UserListToFollow extends AppCompatActivity {
         UIDlist = new ArrayList<>();
         MyUID=firebaseAuth.getUid();
         datarefFollower = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("userName");
+        datarefUID= FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
         datarefFollowing = FirebaseDatabase.getInstance().getReference().child("users");
 
 
@@ -121,54 +122,86 @@ public class UserListToFollow extends AppCompatActivity {
                     adapter.setOnItemClickListener(new UserAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(int position) {
-                            UIDOtherUser=list.get(position).getTheUID();
+                          /*  UIDOtherUser =list.get(position).getUserName();
                             Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
-                            intent.putExtra("UID", UIDOtherUser);
-                            startActivity(intent);
+                            intent.putExtra("Key", UIDOtherUser);
+                            Log.e("Checkj", UIDOtherUser);
+                            startActivity(intent);*/
                         }
 
                         @Override
                         public void onUserNameClick(int position) {
-                            UIDOtherUser=list.get(position).getTheUID();
+                          /*  UIDOtherUser=list.get(position).getTheUID();
                             Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
                             intent.putExtra("UID", UIDOtherUser);
-                            startActivity(intent);
+                            startActivity(intent);*/
                         }
 
                         @Override
                         public void onProfilePictureClick(int position) {
-                            UIDOtherUser=list.get(position).getTheUID();
+                           /* UIDOtherUser=list.get(position).getTheUID();
                             Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
                             intent.putExtra("UID", UIDOtherUser);
-                            startActivity(intent);
+                            startActivity(intent);*/
                         }
 
                         @Override
                         public void onFollowClick(int position) {
                             UIDOtherUser=list.get(position).getTheUID();
                             UsernameOtherUser=list.get(position).getUserName();
-                            datarefFollower.addValueEventListener(new ValueEventListener() {
+                            datarefOtherUID=FirebaseDatabase.getInstance().getReference().child("users").child(UIDOtherUser).child("followers");
+                            datarefOtherUID.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.hasChild(UsernameOtherUser)) {
-                                       // Log.e(TAGTEST, "TRUEE" );
+                                       Log.e("Check", "TRUEE" );
                                         final AlertDialog.Builder dialog = new AlertDialog.Builder(UserListToFollow.this);
                                         dialog.setTitle("Do you want to unfollow this user?");
-                                        // dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
+                                      //  dialog.setMessage("You can no longer view this user");
+                                        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                datarefUID.child(UsernameOtherUser).removeValue();
+                                                datarefOtherUID.child(userNameFollower).removeValue();
+                                                dialogInterface.dismiss();
+
+                                            }
+                                        });
+                                        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        });
                                         AlertDialog alertDialog = dialog.create();
                                         alertDialog.show();
+                                        // dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
+                                       // AlertDialog alertDialog = dialog.create();
+                                       // alertDialog.show();
                                         //   holder.Follow.setEnabled(false);
                                     } else {
-                                        userNameFollower = dataSnapshot.getValue().toString();
-                                        FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
 
-                                      //  Log.e(TAGTEST, UIDToFollow);
-                                     //   Log.e(TAGTEST, userNameFollower);
-                                        FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
-                                        datarefFollowing.child(MyUID).child("following").child(UsernameOtherUser).setValue(followingList);
-                                        datarefFollowing.child(UIDOtherUser).child("followers").child(userNameFollower).setValue(followerslist);
-                                    //    Log.e(TAGTEST, userNameFollower);
+
                                     }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                            datarefOtherUID.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    userNameFollower = dataSnapshot.getValue().toString();
+                                    FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
+                                    Log.e("Check", "FALSEEE" );
+                                    //  Log.e(TAGTEST, UIDToFollow);
+                                    //   Log.e(TAGTEST, userNameFollower);
+                                    FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
+                                    datarefFollowing.child(MyUID).child("following").child(UsernameOtherUser).setValue(followingList);
+                                    datarefFollowing.child(UIDOtherUser).child("followers").child(userNameFollower).setValue(followerslist);
+                                    //    Log.e(TAGTEST, userNameFollower);
                                 }
 
                                 @Override
