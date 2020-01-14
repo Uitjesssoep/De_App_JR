@@ -70,7 +70,14 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
+        holder.Content.setText(uploadCurrent.getContent());
         holder.Date.setText(uploadCurrent.getDate());
+
+        String ContentTemp = holder.Content.getText().toString();
+        if(ContentTemp.length() > 147){
+            ContentTemp = ContentTemp.substring(0, ContentTemp.length() - 3);
+            holder.Content.setText(ContentTemp.trim() + "...");
+        }
 
         holder.DeleteTextPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -356,7 +363,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, KeyHolder, Date;
+        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, Content, KeyHolder, Date;
         public ImageButton Upvote, Downvote, DeleteTextPost;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
@@ -372,6 +379,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             Upvote = itemView.findViewById(R.id.ibLikeUpTextPostItem);
             Downvote = itemView.findViewById(R.id.ibLikeDownTextPostItem);
             DeleteTextPost = itemView.findViewById(R.id.ibDeleteIconTextPostItem);
+            Content = itemView.findViewById(R.id.tvContentTextPostItem);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

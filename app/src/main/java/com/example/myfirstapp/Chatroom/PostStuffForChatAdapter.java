@@ -66,6 +66,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
         holder.Date.setText(uploadCurrent.getDate());
         holder.CommentCount.setVisibility(View.GONE);
         holder.CommentLogo.setVisibility(View.GONE);
+        holder.Content.setVisibility(View.GONE);
 
         String KeyYeah = uploadCurrent.getKey().toString();
 
@@ -203,7 +204,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, KeyHolder, Date;
+        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, Content, KeyHolder, Date;
         public ImageButton Upvote, Downvote, DeleteTextPost;
         public ImageView CommentLogo;
 
@@ -221,6 +222,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             Downvote = itemView.findViewById(R.id.ibLikeDownTextPostItem);
             DeleteTextPost = itemView.findViewById(R.id.ibDeleteIconTextPostItem);
             CommentLogo = itemView.findViewById(R.id.ivCommentImageTextPostItem);
+            Content = itemView.findViewById(R.id.tvContentTextPostItem);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
