@@ -137,10 +137,10 @@ public class UserListToFollow extends AppCompatActivity {
                     adapter.setOnItemClickListener(new UserAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(int position) {
-                            UIDOtherUser =list.get(position).getUserName();
+                            UIDOtherUser =list.get(position).getTheUID();
                             Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
                             intent.putExtra("Key", UIDOtherUser);
-                            Log.e("Checkj", UIDOtherUser);
+                            Log.e("Checkj", "test");
                             startActivity(intent);
                         }
 
