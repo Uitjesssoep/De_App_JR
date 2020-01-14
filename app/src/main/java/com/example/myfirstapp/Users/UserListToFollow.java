@@ -165,7 +165,7 @@ public class UserListToFollow extends AppCompatActivity {
                             UIDOtherUser=list.get(position).getTheUID();
                             UsernameOtherUser=list.get(position).getUserName();
                             datarefOtherUID=FirebaseDatabase.getInstance().getReference().child("users").child(UIDOtherUser).child("followers");
-                            datarefOtherUID.addListenerForSingleValueEvent(new ValueEventListener() {
+                            datarefUID.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.hasChild(UsernameOtherUser)) {
