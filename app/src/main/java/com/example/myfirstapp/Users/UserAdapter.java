@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -100,7 +99,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                     Log.e(TAGTEST, "TRUE");
                     holder.Follow.setBackgroundColor(Color.rgb(151, 189, 240));
                     holder.Follow.setText("FOLLOWING");
-                    holder.Follow.setTextSize(12);
+                   // holder.Follow.setTextSize(12);
                 }
                 else Log.e(TAGTEST, "FALSE" );
             }
@@ -163,9 +162,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView Username, UIDhidden;
+        public TextView Username, UIDhidden, Follow;
         public ImageView ProfilePicture;
-        public Button Follow;
 
 
         public UserViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
@@ -173,7 +171,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             Username = itemView.findViewById(R.id.tvUser_name);
             UIDhidden = itemView.findViewById(R.id.tvUID);
             ProfilePicture = itemView.findViewById(R.id.ivProfilePictureUserList);
-            Follow = itemView.findViewById(R.id.btFollow);
+            Follow = itemView.findViewById(R.id.tvFollow);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
