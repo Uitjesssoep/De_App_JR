@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity_Users;
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
@@ -122,34 +123,34 @@ public class UserListToFollow extends AppCompatActivity {
                     adapter.setOnItemClickListener(new UserAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(int position) {
-                          /*  UIDOtherUser =list.get(position).getUserName();
+                            UIDOtherUser =list.get(position).getUserName();
                             Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
                             intent.putExtra("Key", UIDOtherUser);
                             Log.e("Checkj", UIDOtherUser);
-                            startActivity(intent);*/
+                            startActivity(intent);
                         }
 
                         @Override
                         public void onUserNameClick(int position) {
-                          /*  UIDOtherUser=list.get(position).getTheUID();
+                            UIDOtherUser=list.get(position).getTheUID();
                             Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
                             intent.putExtra("UID", UIDOtherUser);
-                            startActivity(intent);*/
+                            startActivity(intent);
                         }
 
                         @Override
                         public void onProfilePictureClick(int position) {
-                           /* UIDOtherUser=list.get(position).getTheUID();
+                            UIDOtherUser=list.get(position).getTheUID();
                             Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
                             intent.putExtra("UID", UIDOtherUser);
-                            startActivity(intent);*/
+                            startActivity(intent);
                         }
 
                         @Override
                         public void onFollowClick(int position) {
                             UIDOtherUser=list.get(position).getTheUID();
                             UsernameOtherUser=list.get(position).getUserName();
-                            datarefOtherUID=FirebaseDatabase.getInstance().getReference().child("users").child(UIDOtherUser).child("followers");
+                            datarefOtherUID=FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
                             datarefOtherUID.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -181,7 +182,7 @@ public class UserListToFollow extends AppCompatActivity {
                                         //   holder.Follow.setEnabled(false);
                                     } else {
 
-
+                                        Log.e("Check", "FALSEEE" );
                                     }
                                 }
 
@@ -190,12 +191,12 @@ public class UserListToFollow extends AppCompatActivity {
 
                                 }
                             });
-                            datarefOtherUID.addValueEventListener(new ValueEventListener() {
+                            datarefFollower.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     userNameFollower = dataSnapshot.getValue().toString();
                                     FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
-                                    Log.e("Check", "FALSEEE" );
+
                                     //  Log.e(TAGTEST, UIDToFollow);
                                     //   Log.e(TAGTEST, userNameFollower);
                                     FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
