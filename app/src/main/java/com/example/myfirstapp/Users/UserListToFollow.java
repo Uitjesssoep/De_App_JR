@@ -120,6 +120,20 @@ public class UserListToFollow extends AppCompatActivity {
                     recyclerView.setAdapter(adapter);
                     ProgressCircle.setVisibility(View.INVISIBLE);
 
+                    datarefFollower.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            userNameFollower = dataSnapshot.getValue().toString();
+
+                            //    Log.e(TAGTEST, userNameFollower);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                     adapter.setOnItemClickListener(new UserAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(int position) {
@@ -150,8 +164,8 @@ public class UserListToFollow extends AppCompatActivity {
                         public void onFollowClick(int position) {
                             UIDOtherUser=list.get(position).getTheUID();
                             UsernameOtherUser=list.get(position).getUserName();
-                            datarefOtherUID=FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
-                            datarefOtherUID.addValueEventListener(new ValueEventListener() {
+                            datarefOtherUID=FirebaseDatabase.getInstance().getReference().child("users").child(UIDOtherUser).child("followers");
+                            datarefUID.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.hasChild(UsernameOtherUser)) {
@@ -181,7 +195,13 @@ public class UserListToFollow extends AppCompatActivity {
                                        // alertDialog.show();
                                         //   holder.Follow.setEnabled(false);
                                     } else {
+                                        FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
 
+                                        //  Log.e(TAGTEST, UIDToFollow);
+                                        //   Log.e(TAGTEST, userNameFollower);
+                                        FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
+                                        datarefFollowing.child(MyUID).child("following").child(UsernameOtherUser).setValue(followingList);
+                                        datarefFollowing.child(UIDOtherUser).child("followers").child(userNameFollower).setValue(followerslist);
                                         Log.e("Check", "FALSEEE" );
                                     }
                                 }
@@ -191,25 +211,7 @@ public class UserListToFollow extends AppCompatActivity {
 
                                 }
                             });
-                            datarefFollower.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    userNameFollower = dataSnapshot.getValue().toString();
-                                    FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
 
-                                    //  Log.e(TAGTEST, UIDToFollow);
-                                    //   Log.e(TAGTEST, userNameFollower);
-                                    FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
-                                    datarefFollowing.child(MyUID).child("following").child(UsernameOtherUser).setValue(followingList);
-                                    datarefFollowing.child(UIDOtherUser).child("followers").child(userNameFollower).setValue(followerslist);
-                                    //    Log.e(TAGTEST, userNameFollower);
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
                         }
                     });
 
