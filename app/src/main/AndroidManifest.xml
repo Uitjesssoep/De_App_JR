@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".Report_TextPost_Activity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".App_Settings_Activity"
             android:screenOrientation="portrait"/>
         <activity
