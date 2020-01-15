@@ -81,7 +81,7 @@ public class Followers_Feed_Activity extends AppCompatActivity
         firebaseAuth = FirebaseAuth.getInstance();
 
         progressBar = findViewById(R.id.pbLoadingGeneralFeed);
-
+        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
         bottomNavigationView = findViewById(R.id.bottom_nav_second);
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
@@ -128,6 +128,29 @@ public class Followers_Feed_Activity extends AppCompatActivity
                     PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
                     postStuffForTextList.add(postStuffForText);
                     Log.d("tekstshit", postStuffForTextList.toString());
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference()
+                            .child("users")
+                            .child(MyUID)
+                            .child("following");
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
+                            int position;
+                            for (int i = 0; i < postStuffForTextList.size(); i++) {
+                                if (dataSnapshot2.hasChild(postStuffForTextList.get(i).getUID())) {
+                                    position = i;
+                                    postStuffForTextList.remove(position);
+                                    Log.e("list", postStuffForTextList.toString());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                 }
 
                 postStuffForTextAdapter = new PostStuffForTextAdapter(Followers_Feed_Activity.this, postStuffForTextList);

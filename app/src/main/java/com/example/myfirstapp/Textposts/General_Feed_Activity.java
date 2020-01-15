@@ -1,30 +1,11 @@
 package com.example.myfirstapp.Textposts;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,19 +15,24 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
-import com.example.myfirstapp.AccountActivities.Deleting_Account_Activity;
-import com.example.myfirstapp.App_Settings_Activity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.SecondActivity;
 import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.tabs.TabItem;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -497,6 +483,10 @@ public class General_Feed_Activity extends AppCompatActivity
                 StartOrReload();
 
                 break;
+
+            case R.id.action_follwers_feed:
+                Intent startFeed = new Intent(General_Feed_Activity.this, Followers_Feed_Activity.class);
+                startActivity(startFeed);
         }
 
         return super.onOptionsItemSelected(item);

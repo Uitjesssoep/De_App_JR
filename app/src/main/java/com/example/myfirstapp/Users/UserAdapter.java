@@ -144,7 +144,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 UIDToFollow2 = holder.UIDhidden.getText().toString();
                 UsernameToFollow2 = holder.Username.getText().toString();
 
-                if (dataSnapshot.hasChild(UsernameToFollow2)) {
+                if (dataSnapshot.hasChild(UIDToFollow2)) {
                     Log.e(TAGTEST, "Followin");
                     holder.Follow.setBackgroundColor(Color.rgb(151, 189, 240));
                     holder.Follow.setText("Following");
