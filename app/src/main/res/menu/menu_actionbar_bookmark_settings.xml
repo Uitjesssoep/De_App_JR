@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_bookmark_selected"
+        android:title="Save"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_bookmark_black_24dp">
+    </item>
+
+    <item
+        android:id="@+id/action_bookmark_unselected"
+        android:title="Save"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_bookmark_border_black_24dp">
+    </item>
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="Report"
+        app:showAsAction = "never">
+    </item>
+
+    <item
+        android:id="@+id/action_refresh_feed"
+        android:title="Refresh"
+        app:showAsAction = "never">
+    </item>
+
+</menu>

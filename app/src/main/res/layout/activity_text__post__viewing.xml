@@ -6,18 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".Textposts.Text_Post_Viewing_Activity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <include
+        android:id="@+id/action_bar_textpostviewing"
+        layout="@layout/action_bar_textpostviewing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/tvTitleOfTextPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:text="Title"
         android:textColor="#000000"
         android:textSize="18sp"
@@ -25,7 +28,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/action_bar_textpostviewing"
         app:layout_constraintVertical_bias="0.100000024" />
 
     <TextView
@@ -164,19 +167,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/tvUsernameGebruikerVerstoptInEenHoekjeOmdatIkGeenBetereManierWeet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#00FFFFFF"
-        android:background="#ffffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCommentsTextPost"

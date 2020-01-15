@@ -3,6 +3,8 @@ package com.example.myfirstapp.Textposts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,7 +12,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,8 +27,10 @@ import android.widget.Toast;
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUserComments_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
+import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
+import com.example.myfirstapp.Report_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +46,7 @@ import java.util.List;
 public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
 
-    private TextView Title, Content, UserName, LikeCountDisplay, DislikeCountDisplay, NumberOfComments, user_name_gebruiker;
+    private TextView Title, Content, UserName, LikeCountDisplay, DislikeCountDisplay, NumberOfComments;
 
     private RecyclerView CommentView;
     private List<CommentStuffForTextPost> commentStuffForTextPostList;
@@ -81,7 +90,6 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         NumberOfComments = findViewById(R.id.tvNumberOfCommentsForTextPosts);
         PostComment = findViewById(R.id.btnPostCommentOnTextPost);
         CommentSubstance = findViewById(R.id.etAddCommentForTextPost);
-        user_name_gebruiker = findViewById(R.id.tvUsernameGebruikerVerstoptInEenHoekjeOmdatIkGeenBetereManierWeet);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -152,6 +160,8 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_text__post__viewing);
 
         SetupUI();
+
+        SetupDesign();
 
         LikeDislikeCount();
 
@@ -290,23 +300,6 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
 
     private void CommentOnPost() {
-
-        //test
-
-        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-                user_name_gebruiker.setText(userProfile.getUserName());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Text_Post_Viewing_Activity.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         key = getIntent().getExtras().get("Key").toString();
 
@@ -759,6 +752,132 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         Intent Back = new Intent(Text_Post_Viewing_Activity.this, General_Feed_Activity.class);
         startActivity(Back);
         finish();
+    }
+
+    private void SetupDesign() {
+        //voor het geven van kleur aan de status bar:
+
+        Window window = Text_Post_Viewing_Activity.this.getWindow();
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        window.setStatusBarColor(ContextCompat.getColor(Text_Post_Viewing_Activity.this, R.color.slighly_darker_mainGreen));
+
+
+        //action bar ding
+
+        Toolbar toolbar = findViewById(R.id.action_bar_textpostviewing);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_actionbar_bookmark_settings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        final MenuItem notsaved = menu.findItem(R.id.action_bookmark_unselected);
+        final MenuItem saved = menu.findItem(R.id.action_bookmark_selected);
+
+        DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedPosts");
+        CheckIfSaved.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild(getIntent().getExtras().get("Key").toString())){
+                    notsaved.setVisible(false);
+                    saved.setVisible(true);
+                }
+                else{
+                    notsaved.setVisible(true);
+                    saved.setVisible(false);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_settings:
+
+                Intent intent = new Intent(Text_Post_Viewing_Activity.this, Report_TextPost_Activity.class);
+                intent.putExtra("Titel", Title.getText().toString());
+                intent.putExtra("User", UserName.getText().toString());
+                intent.putExtra("Key", getIntent().getExtras().get("Key").toString());
+                startActivity(intent);
+
+                break;
+
+            case R.id.action_refresh_feed:
+
+                ReloadComments();
+
+                break;
+
+            case R.id.action_bookmark_unselected:
+
+                BookmarkDingen();
+
+                break;
+
+            case R.id.action_bookmark_selected:
+
+                BookmarkDingen();
+
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void BookmarkDingen() {
+
+        Log.e("Bookmark", "Save pushed");
+
+        final String KeyPost = getIntent().getExtras().get("Key").toString();
+
+        final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+
+        SaveThePost.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.child("SavedPosts").hasChild(KeyPost)){
+                    Log.e("Bookmark", "Unsave bereikt");
+                    SaveThePost.child("SavedPosts").child(KeyPost).removeValue();
+                }
+                else{
+                    Log.e("Bookmark", "Save bereikt");
+                    SaveThePost.child("SavedPosts").child(KeyPost).setValue("added");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 }

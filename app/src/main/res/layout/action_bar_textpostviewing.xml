@@ -7,13 +7,4 @@
     android:theme="@style/ToolBar"
     app:popupTheme="@style/Popup">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:text="Strimbula"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        android:textStyle="bold" />.
-
 </androidx.appcompat.widget.Toolbar>

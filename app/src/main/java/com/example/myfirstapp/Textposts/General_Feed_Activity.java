@@ -155,39 +155,6 @@ public class General_Feed_Activity extends AppCompatActivity
                         startActivity(Test2);
                     }
 
-
-                    /*@Override
-                    public void onDeleteIconClick(int position) {
-                        final String TAGCheck = "DeleteTextPost";
-                        Log.e(TAGCheck, "Deleting Text Post After Click");
-
-                        final String ThePostKey = postStuffForTextList.get(position).getKey().toString();
-
-                        final AlertDialog.Builder dialog = new AlertDialog.Builder(General_Feed_Activity.this);
-                        dialog.setTitle("Delete your post?");
-                        dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
-                        dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                final DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(ThePostKey);
-                                DeleteThePost.removeValue();
-
-                                StartOrReload();
-                            }
-                        });
-                        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        });
-
-                        AlertDialog alertDialog = dialog.create();
-                        alertDialog.show();
-
-                    }*/
-
-
                     @Override
                     public void onUserNameClick(int position) {
                         final String PostKey = postStuffForTextList.get(position).getKey().toString();
