@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,6 +43,28 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private DatabaseReference datarefFollowing = FirebaseDatabase.getInstance().getReference().child("users");
 
     private UserAdapter.OnItemClickListener mListener;
+
+
+    private Filter listFilter= new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<UserProfileToDatabase> filteredList = new ArrayList<>();
+
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+
+        }
+    };
+
+    @Override
+    public Filter getFilter() {
+        return listFilter;
+    }
+
+
+
     public interface OnItemClickListener {
         void onItemClick(int position);
         void onUserNameClick(int position);
