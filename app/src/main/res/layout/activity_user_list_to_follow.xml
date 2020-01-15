@@ -24,11 +24,10 @@
         android:id="@+id/recycler_viewUserList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav_second"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/svSearch"/>
+        app:layout_constraintTop_toBottomOf="@id/action_bar" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_second"
@@ -44,12 +43,4 @@
         app:labelVisibilityMode="unlabeled"
         app:itemIconTint="@drawable/bottom_nav_icon_color_selector"/>
 
-    <SearchView
-        android:id="@+id/svSearch"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/recycler_viewUserList"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
