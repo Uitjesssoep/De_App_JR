@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".Textposts.General_Feed_Activity">
 
+    <ProgressBar
+        android:id="@+id/pbLoadingGeneralFeed"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:progressTint="#4caf50"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/action_bar" />
+
     <include
         android:id="@+id/action_bar"
         layout="@layout/action_bar_main" />
@@ -63,7 +74,6 @@
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/swipe_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
