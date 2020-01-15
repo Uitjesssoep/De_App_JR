@@ -61,11 +61,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Textposts.Followers_Feed_Activity"
-            android:screenOrientation="portrait"
-            android:theme="@style/noAnimationTheme">
-            <meta-data android:name="android.app.searchable"
-            android:resource="@xml/searchable" />
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Textposts.General_Feed_Activity"
             android:launchMode="singleTask"

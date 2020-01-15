@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,11 +23,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> implements Filterable {
     private Context mContext;
     private List<UserProfileToDatabase> list;
+    private List<UserProfileToDatabase> listFull;
     public String UIDString;
     private boolean Checkje = true;
     private String UsernameToFollow, UIDToFollow, userNameFollower, UIDFollower, UsernameToFollow2, UIDToFollow2;
@@ -51,6 +54,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
     public UserAdapter(Context context, List list) {
         this.list = list;
+        listFull = new ArrayList<>(list);
         mContext = context;
 
     }
