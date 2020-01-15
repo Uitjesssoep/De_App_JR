@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Chat;
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Choose_PostType_Activity;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
@@ -164,7 +165,7 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
                                             }
                                             else{
 
-                                                Intent GoToProfile = new Intent(Chat_Room_MakeOrSearch_Activity.this, Account_Info_OtherUser_Activity.class);
+                                                Intent GoToProfile = new Intent(Chat_Room_MakeOrSearch_Activity.this, Account_Info_OtherUser_Chat.class);
                                                 GoToProfile.putExtra("Key", PostKey);
                                                 startActivity(GoToProfile);
 
