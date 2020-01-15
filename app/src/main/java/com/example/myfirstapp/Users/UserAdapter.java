@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,11 +24,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> implements Filterable {
     private Context mContext;
     private List<UserProfileToDatabase> list;
+    private List<UserProfileToDatabase> listFull;
     public String UIDString;
     private boolean Checkje = true;
     private String UsernameToFollow, UIDToFollow, userNameFollower, UIDFollower, UsernameToFollow2, UIDToFollow2;
@@ -39,6 +43,28 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private DatabaseReference datarefFollowing = FirebaseDatabase.getInstance().getReference().child("users");
 
     private UserAdapter.OnItemClickListener mListener;
+
+
+    private Filter listFilter= new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<UserProfileToDatabase> filteredList = new ArrayList<>();
+
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+
+        }
+    };
+
+    @Override
+    public Filter getFilter() {
+        return listFilter;
+    }
+
+
+
     public interface OnItemClickListener {
         void onItemClick(int position);
         void onUserNameClick(int position);
@@ -51,6 +77,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
     public UserAdapter(Context context, List list) {
         this.list = list;
+        listFull = new ArrayList<>(list);
         mContext = context;
 
     }
