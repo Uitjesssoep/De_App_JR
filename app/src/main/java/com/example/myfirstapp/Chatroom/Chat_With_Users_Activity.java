@@ -1,5 +1,6 @@
 package com.example.myfirstapp.Chatroom;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -24,6 +25,8 @@ import com.example.myfirstapp.Notifications.Data;
 import com.example.myfirstapp.Notifications.Sender;
 import com.example.myfirstapp.Notifications.Token;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.Textposts.General_Feed_Activity;
+import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -86,12 +89,10 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
 
 
-        user_name = getIntent().getExtras().get("user_name").toString();
-        room_name = getIntent().getExtras().get("room_name").toString();
+        String key = getIntent().getExtras().get("Key").toString();
 
-        setTitle(" Room - "+room_name);
 
-        myDatabase = FirebaseDatabase.getInstance().getReference("Rooms").child(room_name);
+        myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
 
         message = ChatInputText.getText().toString();
 
@@ -270,6 +271,12 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
         }
 
+    }
+
+    public void onBackPressed(){
+        Intent Back = new Intent(Chat_With_Users_Activity.this, General_Feed_Activity.class);
+        startActivity(Back);
+        finish();
     }
 
 }

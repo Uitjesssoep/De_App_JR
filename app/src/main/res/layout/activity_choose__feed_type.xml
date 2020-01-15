@@ -7,7 +7,7 @@
     tools:context=".Choose_FeedType_Activity">
 
     <include
-        layout="@layout/action_bar_main_two"
+        layout="@layout/action_bar_main"
         android:id="@+id/action_bar"/>
 
     <Button
@@ -42,13 +42,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:srcCompat="@color/login_error_border"
-        tools:layout_editor_absoluteX="92dp"
-        tools:layout_editor_absoluteY="466dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

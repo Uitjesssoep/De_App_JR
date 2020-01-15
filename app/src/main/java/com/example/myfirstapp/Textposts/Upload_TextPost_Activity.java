@@ -30,7 +30,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
 
     private EditText Title, Content;
-    private CheckBox DisableComments, VisibleForEveryone;
+    private CheckBox Anon, Followers;
     private Button Post;
     private String TitleContent, TextContent, usernameString;
 
@@ -48,8 +48,8 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
         Title = findViewById(R.id.etTitleTextPost);
         Content = findViewById(R.id.etContentTextPost);
-        DisableComments = findViewById(R.id.cbDisableComments);
-        VisibleForEveryone = findViewById(R.id.cbVisibleForEveryone);
+        Anon = findViewById(R.id.cbPostAnonText);
+        Followers = findViewById(R.id.cbOnlyFollowersText);
         Post = findViewById(R.id.btnPostTextPost);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -80,8 +80,8 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                TitleContent = Title.getText().toString();
-                TextContent = Content.getText().toString();
+                TitleContent = Title.getText().toString().trim();
+                TextContent = Content.getText().toString().trim();
 
                 if(TitleContent.isEmpty() || TextContent.isEmpty()){
                     Toast.makeText(Upload_TextPost_Activity.this, "Please fill in a title and the content", Toast.LENGTH_SHORT).show();
@@ -89,19 +89,19 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
                 else{
 
-                    if(VisibleForEveryone.isChecked() && DisableComments.isChecked()){
+                    if(Followers.isChecked() && Anon.isChecked()){
                         BothChecked();
                     }
 
-                    if((VisibleForEveryone.isChecked()==false) && (DisableComments.isChecked()==false)){
+                    if((Followers.isChecked()==false) && (Anon.isChecked()==false)){
                         BothNotChecked();
                     }
 
-                    if(VisibleForEveryone.isChecked() && (DisableComments.isChecked()==false)){
+                    if(Followers.isChecked() && (Anon.isChecked()==false)){
                         VCheckedDNotChecked();
                     }
 
-                    if((VisibleForEveryone.isChecked()==false) && DisableComments.isChecked()){
+                    if((Followers.isChecked()==false) && Anon.isChecked()){
                         VNotCheckedDChecked();
                     }
 
@@ -113,7 +113,17 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     }
 
     private void BothChecked() {
-        VCheckedDNotChecked();
+
+                String anonString = "[anonymous]";
+
+                temp_key = GeneralTextPosts.push().getKey();
+                PostStuffForText postStuffForText = new PostStuffForText(TitleContent, anonString, TextContent, MyUID, temp_key, Date);
+                GeneralTextPosts.child(temp_key).setValue(postStuffForText);
+
+                Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
+                startActivity(VNoD);
+                finish();
+
     }
 
     private void BothNotChecked(){
@@ -151,7 +161,17 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     }
 
     private void VNotCheckedDChecked(){
-        BothChecked();
+
+        String anonString = "[anonymous]";
+
+        temp_key = GeneralTextPosts.push().getKey();
+        PostStuffForText postStuffForText = new PostStuffForText(TitleContent, anonString, TextContent, MyUID, temp_key, Date);
+        GeneralTextPosts.child(temp_key).setValue(postStuffForText);
+
+        Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
+        startActivity(VNoD);
+        finish();
+
     }
 
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class PostStuffForChatAdapter {
+public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForChatAdapter.ViewHolder>{
 
     public Context mContext;
     public List<PostStuffForChat> mPost;
@@ -31,6 +32,11 @@ public class PostStuffForChatAdapter {
 
     private PostStuffForChatAdapter.OnItemClickListener mListener;
     public interface OnItemClickListener {
+        void onItemClick(int position);
+        void onDeleteIconClick(int position);
+        void onUserNameClick (int position);
+        void onUpvoteClick (int position);
+        void onDownvoteClick (int position);
     }
 
     public void setOnItemClickListener(PostStuffForChatAdapter.OnItemClickListener listener){
@@ -45,24 +51,27 @@ public class PostStuffForChatAdapter {
     }
 
     @NonNull
-    //@Override
+    @Override
     public PostStuffForChatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
         return new PostStuffForChatAdapter.ViewHolder(view, mListener);
     }
 
-    //@Override
+    @Override
     public void onBindViewHolder(@NonNull final PostStuffForChatAdapter.ViewHolder holder, int position) {
         PostStuffForChat uploadCurrent = mPost.get(position);
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
         holder.Date.setText(uploadCurrent.getDate());
+        holder.CommentCount.setVisibility(View.GONE);
+        holder.CommentLogo.setVisibility(View.GONE);
+        holder.Content.setVisibility(View.GONE);
 
         String KeyYeah = uploadCurrent.getKey().toString();
 
-        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
-        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
+        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Likes");
+        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Dislikes");
         LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -91,7 +100,7 @@ public class PostStuffForChatAdapter {
 
         //kijken of de user deleted is
         final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
-        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("user_name");
+        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("user_name");
         final String PostUID = uploadCurrent.getUID().toString();
 
         UserUIDCheck.addValueEventListener(new ValueEventListener() {
@@ -118,7 +127,7 @@ public class PostStuffForChatAdapter {
 
         //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
         final String KeyPost = uploadCurrent.getKey().toString();
-        final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+        final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("Chatrooms");
 
         DeleteIconCheck.addValueEventListener(new ValueEventListener() {
             @Override
@@ -149,15 +158,15 @@ public class PostStuffForChatAdapter {
 
 
         final String MyUID = FirebaseAuth.getInstance().getUid().toString();
-        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
+        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Likes");
         CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.hasChild(MyUID)) {
-                    holder.Upvote.setImageResource(R.drawable.pijl_omhoog_geklikt);
+                    holder.Upvote.setImageResource(R.drawable.ic_keyboard_arrow_up_green_24dp);
                 } else {
-                    holder.Upvote.setImageResource(R.drawable.pijl_omhoog_neutraal);
+                    holder.Upvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                 }
 
             }
@@ -168,15 +177,15 @@ public class PostStuffForChatAdapter {
             }
         });
 
-        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
+        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Dislikes");
         CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if (dataSnapshot.hasChild(MyUID)) {
-                    holder.Downvote.setImageResource(R.drawable.pijl_omlaag_geklikt);
+                    holder.Downvote.setImageResource(R.drawable.ic_keyboard_arrow_down_green_24dp);
                 } else {
-                    holder.Downvote.setImageResource(R.drawable.pijl_omlaag_neutraal);
+                    holder.Downvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                 }
 
             }
@@ -188,15 +197,16 @@ public class PostStuffForChatAdapter {
         });
     }
 
-    //@Override
+    @Override
     public int getItemCount() {
         return mPost.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, KeyHolder, Date;
+        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, Content, KeyHolder, Date;
         public ImageButton Upvote, Downvote, DeleteTextPost;
+        public ImageView CommentLogo;
 
         public ViewHolder(@NonNull View itemView, final PostStuffForChatAdapter.OnItemClickListener listener) {
             super(itemView);
@@ -211,6 +221,69 @@ public class PostStuffForChatAdapter {
             Upvote = itemView.findViewById(R.id.ibLikeUpTextPostItem);
             Downvote = itemView.findViewById(R.id.ibLikeDownTextPostItem);
             DeleteTextPost = itemView.findViewById(R.id.ibDeleteIconTextPostItem);
+            CommentLogo = itemView.findViewById(R.id.ivCommentImageTextPostItem);
+            Content = itemView.findViewById(R.id.tvContentTextPostItem);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            Username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onUserNameClick(position);
+                        }
+                    }
+                }
+            });
+
+            Upvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onUpvoteClick(position);
+                        }
+                    }
+                }
+            });
+
+            Downvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onDownvoteClick(position);
+                        }
+                    }
+                }
+            });
+
+            DeleteTextPost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onDeleteIconClick(position);
+                        }
+                    }
+                }
+            });
+
         }
     }
 }

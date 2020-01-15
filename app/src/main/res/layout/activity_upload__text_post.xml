@@ -47,10 +47,10 @@
         app:layout_constraintVertical_bias="0.06999999" />
 
     <CheckBox
-        android:id="@+id/cbDisableComments"
+        android:id="@+id/cbPostAnonText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Disable comments"
+        android:text="Post anonymously"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,17 +65,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbVisibleForEveryone" />
+        app:layout_constraintTop_toBottomOf="@+id/cbOnlyFollowersText" />
 
     <CheckBox
-        android:id="@+id/cbVisibleForEveryone"
+        android:id="@+id/cbOnlyFollowersText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Visible for everyone"
+        android:text="Only to followers"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbDisableComments"
+        app:layout_constraintTop_toBottomOf="@+id/cbPostAnonText"
         app:layout_constraintVertical_bias="0.07999998" />
 
     <TextView

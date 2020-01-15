@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#4caf50</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="statusBarColorLogin">#eeeeee</color>
     <color name="login_error_border">#d32f2f</color>
     <color name="slighly_darker_mainGreen">#39833C</color>
+    <color name="soortvanGrijs">#616161</color>
 </resources>

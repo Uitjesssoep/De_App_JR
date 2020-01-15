@@ -107,6 +107,43 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
+
+        final String ThePostKey = getIntent().getExtras().get("Key").toString();
+        final String MyUID3 = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+        DatabaseReference GetPostUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(ThePostKey).child("uid");
+        GetPostUID.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(MyUID3.equals(dataSnapshot.getValue().toString())){
+
+                    DatabaseReference GetMyUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID3).child("userName");
+                    GetMyUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            String MyUserName = dataSnapshot.getValue().toString();
+                            UserName.setText(MyUserName);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     @Override
@@ -175,13 +212,15 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                 final String ThePostKey = getIntent().getExtras().get("Key").toString();
 
-                DatabaseReference CheckIfMyUIDCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(ThePostKey).child("uid");
+                DatabaseReference CheckIfMyUIDCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(ThePostKey);
                 CheckIfMyUIDCheck.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         final String MyUIdForCheck = FirebaseAuth.getInstance().getUid().toString();
-                        final String PostUIDForCheck = dataSnapshot.getValue().toString();
+                        final String PostUIDForCheck = dataSnapshot.child("uid").getValue().toString();
+                        final String AnonToCheck = dataSnapshot.child("user_name").getValue().toString();
+                        final String AnonCheck = "[anonymous]";
 
                         DatabaseReference CheckIfDeleted = FirebaseDatabase.getInstance().getReference("users");
                         CheckIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -198,10 +237,23 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                                     }
                                     else {
 
-                                        Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
-                                        GoToProfile.putExtra("Key", ThePostKey);
-                                        startActivity(GoToProfile);
+                                        if(AnonCheck.equals(AnonToCheck)){
 
+                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(Text_Post_Viewing_Activity.this);
+                                            dialog.setTitle("This user has posted anonymously");
+                                            dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
+                                            AlertDialog alertDialog = dialog.create();
+                                            alertDialog.show();
+
+                                        }
+
+                                        else{
+
+                                            Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
+                                            GoToProfile.putExtra("Key", ThePostKey);
+                                            startActivity(GoToProfile);
+
+                                        }
                                     }
 
                                 }
@@ -266,7 +318,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                CommentMessage = CommentSubstance.getText().toString();
+                CommentMessage = CommentSubstance.getText().toString().trim();
                 calendar = Calendar.getInstance();
                 dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
                 Date = dateFormat.format(calendar.getTime());

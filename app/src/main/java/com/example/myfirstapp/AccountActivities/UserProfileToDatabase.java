@@ -15,7 +15,53 @@ public class UserProfileToDatabase {
     }
 
 
+    public String getUserBirthdate() {
+        return userBirthdate;
+    }
 
+    public void setUserBirthdate(String userBirthdate) {
+        this.userBirthdate = userBirthdate;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public String getUserFullName() {
+        return userFullName;
+    }
+
+    public void setUserFullName(String userFullName) {
+        this.userFullName = userFullName;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public String getTheUID() {
+        return theUID;
+    }
+
+    public void setTheUID(String theUID) {
+        this.theUID = theUID;
+    }
 
     public UserProfileToDatabase(String profilePicture, String theUID, String userName, String userEmail, String userFullName, String userBirthdate) {
         this.profilePicture = profilePicture;
@@ -29,7 +75,7 @@ public class UserProfileToDatabase {
 
     //getters and setters:
 
-    public String getProfilePicture() {
+   /* public String getProfilePicture() {
         return profilePicture;
     }
     public void setProfilePicture(String profilePicture) {
@@ -83,5 +129,5 @@ public class UserProfileToDatabase {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
-    }
+    }*/
 }
