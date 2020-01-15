@@ -4,18 +4,18 @@
     <item
         android:id="@+id/action_settings"
         android:title="@string/settings_name"
-        app:showAsAction="never"></item>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_refresh_feed"
         android:title="Refresh"
-        app:showAsAction="never"></item>
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_black_24dp"
         android:title="Search"
-        app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView"></item>
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"/>
 
 </menu>
