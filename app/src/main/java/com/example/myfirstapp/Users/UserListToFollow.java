@@ -49,7 +49,6 @@ import java.util.List;
 
 public class UserListToFollow extends AppCompatActivity {
 
-    private Button Follow;
     private TextView Username;
     private ImageView ProfilePicture;
     private DatabaseReference databaseReferenceUIDlist, databaseReference;
@@ -181,8 +180,8 @@ public class UserListToFollow extends AppCompatActivity {
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             datarefUID.child(UsernameOtherUser).removeValue();
                                             datarefOtherUID.child(userNameFollower).removeValue();
-                                            Follow.setBackgroundColor(Color.rgb(151, 189, 240));
-                                            Follow.setText("Follow");
+                                            //setBackgroundColor(Color.rgb(151, 189, 240));
+                                            //Follow.setText("Follow");
                                             dialogInterface.dismiss();
                                         }
                                     });
