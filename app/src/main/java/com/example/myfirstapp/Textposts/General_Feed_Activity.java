@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
@@ -75,6 +76,8 @@ public class General_Feed_Activity extends AppCompatActivity
     private Boolean Liked = false, Disliked = false, LikedCheck = false, DislikedCheck = false;
     private int LikeCount, DislikeCount, CommentCount;
 
+    private ProgressBar progressBar;
+
     private BottomNavigationView bottomNavigationView;
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -90,6 +93,8 @@ public class General_Feed_Activity extends AppCompatActivity
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
+
+        progressBar = findViewById(R.id.pbLoadingGeneralFeed);
 
         bottomNavigationView = findViewById(R.id.bottom_nav_second);
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
@@ -131,7 +136,6 @@ public class General_Feed_Activity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
                 clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -143,6 +147,7 @@ public class General_Feed_Activity extends AppCompatActivity
                 postStuffForTextAdapter = new PostStuffForTextAdapter(General_Feed_Activity.this, postStuffForTextList);
                 GeneralFeed.setAdapter(postStuffForTextAdapter);
 
+                progressBar.setVisibility(View.GONE);
 
                 postStuffForTextAdapter.setOnItemClickListener(new PostStuffForTextAdapter.OnItemClickListener() {
 
