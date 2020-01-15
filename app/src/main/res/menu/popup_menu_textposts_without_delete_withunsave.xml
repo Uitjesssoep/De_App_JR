@@ -7,8 +7,8 @@
     </item>
 
     <item
-        android:id="@+id/savepost_option_textposts"
-        android:title="Save post">
+        android:id="@+id/unsavepost_option_textposts"
+        android:title="Remove from saved posts">
     </item>
 
 </menu>
