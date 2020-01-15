@@ -165,9 +165,9 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
                                             }
                                             else{
 
-                                                Intent GoToProfile = new Intent(Chat_Room_MakeOrSearch_Activity.this, Account_Info_OtherUser_Chat.class);
-                                                GoToProfile.putExtra("Key", PostKey);
-                                                startActivity(GoToProfile);
+                                                Intent GoToOtherProfile = new Intent(Chat_Room_MakeOrSearch_Activity.this, Account_Info_OtherUser_Chat.class);
+                                                GoToOtherProfile.putExtra("Key", PostKey);
+                                                startActivity(GoToOtherProfile);
 
                                             }
 

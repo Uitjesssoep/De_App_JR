@@ -173,6 +173,9 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                             case R.id.reportpost_option_textposts:
 
                                                 Intent intent= new Intent(mContext, Report_TextPost_Activity.class);
+                                                intent.putExtra("Titel", uploadCurrent.getTitle());
+                                                intent.putExtra("User", uploadCurrent.getUser_name());
+                                                intent.putExtra("Key", uploadCurrent.getKey());
                                                 mContext.startActivity(intent);
 
                                                 break;

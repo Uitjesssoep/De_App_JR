@@ -6,4 +6,62 @@
     android:layout_height="match_parent"
     tools:context=".Report_TextPost_Activity">
 
+    <TextView
+        android:id="@+id/tvReportTextPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Report post"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.13" />
+
+    <TextView
+        android:id="@+id/tvReportWhatTextPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="placeholder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvReportTextPost"
+        app:layout_constraintVertical_bias="0.050000012" />
+
+    <EditText
+        android:id="@+id/etReasonReportTextPost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Reason (optional)"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOnlyReportOneText"
+        app:layout_constraintVertical_bias="0.19" />
+
+    <Button
+        android:id="@+id/btnSendTextReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="send report"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etReasonReportTextPost" />
+
+    <TextView
+        android:id="@+id/tvOnlyReportOneText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="You can only report a post once! If you have already reported this post, you will override your previous report when you report it again!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvReportWhatTextPost"
+        app:layout_constraintVertical_bias="0.050000012" />
 </androidx.constraintlayout.widget.ConstraintLayout>
