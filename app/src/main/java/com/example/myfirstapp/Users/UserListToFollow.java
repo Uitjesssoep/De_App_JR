@@ -2,6 +2,8 @@ package com.example.myfirstapp.Users;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -61,7 +63,7 @@ public class UserListToFollow extends AppCompatActivity {
     private List<String> UIDlist;
     private UserAdapter adapter;
     private String MyUID, UIDOtherUser, UsernameOtherUser, userNameFollower;
-    private DatabaseReference datarefFollower, datarefFollowing,datarefUID, datarefOtherUID;
+    private DatabaseReference datarefFollower, datarefFollowing, datarefUID, datarefOtherUID;
 
     private void SetupUI() {
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -76,15 +78,13 @@ public class UserListToFollow extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         list = new ArrayList<>();
         UIDlist = new ArrayList<>();
-        MyUID=firebaseAuth.getUid();
+        MyUID = firebaseAuth.getUid();
         datarefFollower = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("userName");
-        datarefUID= FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
+        datarefUID = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
         datarefFollowing = FirebaseDatabase.getInstance().getReference().child("users");
 
 
-
     }
-
 
 
     @Override
@@ -97,136 +97,137 @@ public class UserListToFollow extends AppCompatActivity {
 
         databaseReference = firebaseDatabase.getReference("users");
 
-            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    clear();
+                clear();
 
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        UserProfileToDatabase users = postSnapshot.getValue(UserProfileToDatabase.class);
-                        list.add(users);
-                        int position;
-                        for (int i = 0; i < list.size(); i++) {
-                            if (list.get(i).getTheUID().equals(MyUID)) {
-                                position = i;
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    UserProfileToDatabase users = postSnapshot.getValue(UserProfileToDatabase.class);
+                    list.add(users);
+                    int position;
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).getTheUID().equals(MyUID)) {
+                            position = i;
                             list.remove(position);
-                        Log.d("list", list.toString());}
+                            Log.d("list", list.toString());
                         }
-
                     }
 
-                    adapter = new UserAdapter(UserListToFollow.this, list);
-                    recyclerView.setAdapter(adapter);
-                    ProgressCircle.setVisibility(View.INVISIBLE);
-
-                    datarefFollower.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            userNameFollower = dataSnapshot.getValue().toString();
-
-                            //    Log.e(TAGTEST, userNameFollower);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    adapter.setOnItemClickListener(new UserAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            UIDOtherUser =list.get(position).getTheUID();
-                            Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
-                            intent.putExtra("Key", UIDOtherUser);
-                            Log.e("Checkj", "test");
-                            startActivity(intent);
-                        }
-
-                        @Override
-                        public void onUserNameClick(int position) {
-                            UIDOtherUser=list.get(position).getTheUID();
-                            Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
-                            intent.putExtra("UID", UIDOtherUser);
-                            startActivity(intent);
-                        }
-
-                        @Override
-                        public void onProfilePictureClick(int position) {
-                            UIDOtherUser=list.get(position).getTheUID();
-                            Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
-                            intent.putExtra("UID", UIDOtherUser);
-                            startActivity(intent);
-                        }
-
-                        @Override
-                        public void onFollowClick(int position) {
-                            UIDOtherUser=list.get(position).getTheUID();
-                            UsernameOtherUser=list.get(position).getUserName();
-                            datarefOtherUID=FirebaseDatabase.getInstance().getReference().child("users").child(UIDOtherUser).child("followers");
-                            datarefUID.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot.hasChild(UsernameOtherUser)) {
-                                       Log.e("Check", "TRUEE" );
-                                        final AlertDialog.Builder dialog = new AlertDialog.Builder(UserListToFollow.this);
-                                        dialog.setTitle("Do you want to unfollow this user?");
-                                      //  dialog.setMessage("You can no longer view this user");
-                                        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                datarefUID.child(UsernameOtherUser).removeValue();
-                                                datarefOtherUID.child(userNameFollower).removeValue();
-                                                dialogInterface.dismiss();
-
-                                            }
-                                        });
-                                        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                dialogInterface.dismiss();
-                                            }
-                                        });
-                                        AlertDialog alertDialog = dialog.create();
-                                        alertDialog.show();
-                                        // dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
-                                       // AlertDialog alertDialog = dialog.create();
-                                       // alertDialog.show();
-                                        //   holder.Follow.setEnabled(false);
-                                    } else {
-                                        FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
-
-                                        //  Log.e(TAGTEST, UIDToFollow);
-                                        //   Log.e(TAGTEST, userNameFollower);
-                                        FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
-                                        datarefFollowing.child(MyUID).child("following").child(UsernameOtherUser).setValue(followingList);
-                                        datarefFollowing.child(UIDOtherUser).child("followers").child(userNameFollower).setValue(followerslist);
-                                        Log.e("Check", "FALSEEE" );
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-
-                        }
-                    });
-
-
-
-
-
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Toast.makeText(UserListToFollow.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                    ProgressCircle.setVisibility(View.INVISIBLE);
-                }
-            });
+                adapter = new UserAdapter(UserListToFollow.this, list);
+                recyclerView.setAdapter(adapter);
+                ProgressCircle.setVisibility(View.INVISIBLE);
+
+                datarefFollower.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        userNameFollower = dataSnapshot.getValue().toString();
+
+                        //    Log.e(TAGTEST, userNameFollower);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                adapter.setOnItemClickListener(new UserAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        UIDOtherUser = list.get(position).getTheUID();
+                        Log.e("Checkj", "test");
+                        Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
+                        intent.putExtra("UID", UIDOtherUser);
+
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onUserNameClick(int position) {
+                        UIDOtherUser = list.get(position).getTheUID();
+                        Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
+                        intent.putExtra("UID", UIDOtherUser);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onProfilePictureClick(int position) {
+                        UIDOtherUser = list.get(position).getTheUID();
+                        Log.e("Check", UIDOtherUser);
+                        Intent intent = new Intent(getApplicationContext(), Account_Info_OtherUser_Activity_Users.class);
+                        intent.putExtra("UID", UIDOtherUser);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFollowClick(int position) {
+                        UIDOtherUser = list.get(position).getTheUID();
+                        UsernameOtherUser = list.get(position).getUserName();
+                        datarefOtherUID = FirebaseDatabase.getInstance().getReference().child("users").child(UIDOtherUser).child("followers");
+                        datarefUID.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(UsernameOtherUser)) {
+                                    Log.e("Check", "TRUEE");
+                                    final AlertDialog.Builder dialog = new AlertDialog.Builder(UserListToFollow.this);
+                                    dialog.setTitle("Do you want to unfollow this user?");
+                                    //  dialog.setMessage("You can no longer view this user");
+                                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            datarefUID.child(UsernameOtherUser).removeValue();
+                                            datarefOtherUID.child(userNameFollower).removeValue();
+                                            Follow.setBackgroundColor(Color.rgb(151, 189, 240));
+                                            Follow.setText("Follow");
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    AlertDialog alertDialog = dialog.create();
+                                    alertDialog.show();
+                                    // dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
+                                    // AlertDialog alertDialog = dialog.create();
+                                    // alertDialog.show();
+                                    //   holder.Follow.setEnabled(false);
+                                } else {
+                                    FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
+
+                                    //  Log.e(TAGTEST, UIDToFollow);
+                                    //   Log.e(TAGTEST, userNameFollower);
+                                    FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
+                                    datarefFollowing.child(MyUID).child("following").child(UsernameOtherUser).setValue(followingList);
+                                    datarefFollowing.child(UIDOtherUser).child("followers").child(userNameFollower).setValue(followerslist);
+                                    Log.e("Check", "FALSEEE");
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(UserListToFollow.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                ProgressCircle.setVisibility(View.INVISIBLE);
+            }
+        });
 
     }
 
@@ -267,7 +268,7 @@ public class UserListToFollow extends AppCompatActivity {
 
                     Fragment selectedFragment = null;
 
-                    switch (menuItem.getItemId()){
+                    switch (menuItem.getItemId()) {
                         case R.id.navigation_home:
 
                             Intent home = new Intent(UserListToFollow.this, General_Feed_Activity.class);
@@ -326,7 +327,7 @@ public class UserListToFollow extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_settings:
 
                 Intent intent = new Intent(UserListToFollow.this, ImagesFeed.class);
@@ -341,7 +342,7 @@ public class UserListToFollow extends AppCompatActivity {
     public void clear() {
 
         int size = list.size();
-        if(size > 0){
+        if (size > 0) {
             for (int i = 0; i < size; i++) {
                 list.remove(0);
 
@@ -353,7 +354,7 @@ public class UserListToFollow extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
