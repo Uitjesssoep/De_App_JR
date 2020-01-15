@@ -46,7 +46,7 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
         tvOtherUserUID = findViewById(R.id.tvHiddenOtherUserUIDPlaceholder);
 
-        key = getIntent().getExtras().get("Key").toString();
+        key = getIntent().getExtras().get("UID").toString();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();

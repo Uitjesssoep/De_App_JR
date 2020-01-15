@@ -68,7 +68,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         UserViewHolder userViewHolder = new UserViewHolder(view, mListener);
         return userViewHolder;
     }
-
+//l
     @Override
     public void onBindViewHolder(@NonNull final UserViewHolder holder, int position) {
         UserProfileToDatabase users = list.get(position);
