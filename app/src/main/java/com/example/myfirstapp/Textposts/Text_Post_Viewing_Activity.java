@@ -868,6 +868,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                 else{
                     Log.e("Bookmark", "Save bereikt");
                     SaveThePost.child("SavedPosts").child(KeyPost).setValue("added");
+                    //yeah
                 }
 
             }
