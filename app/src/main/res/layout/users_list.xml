@@ -28,6 +28,7 @@
             android:id="@+id/tvFollow"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:layout_marginEnd="24dp"
             android:gravity="center|center_vertical"
             android:text="Follow"
             android:textAlignment="center"
@@ -40,8 +41,8 @@
 
         <ImageView
             android:id="@+id/ivProfilePictureUserList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
