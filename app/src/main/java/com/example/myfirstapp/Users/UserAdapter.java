@@ -47,13 +47,35 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     private Filter listFilter= new Filter() {
         @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
+        protected FilterResults performFiltering(CharSequence constraint) {
             List<UserProfileToDatabase> filteredList = new ArrayList<>();
 
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(listFull);
+
+            }else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (UserProfileToDatabase item : listFull) {
+                    if (item.getUserName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
         }
 
         @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list.clear();
+            list.addAll((List) results.values);
+            notifyDataSetChanged();
+
 
         }
     };
