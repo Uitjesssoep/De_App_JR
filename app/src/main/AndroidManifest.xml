@@ -58,6 +58,9 @@
         <activity
             android:name=".Textposts.Text_Post_Viewing_Activity"
             android:screenOrientation="portrait" />
+        <activity android:name=".Textposts.Followers_Feed_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/noAnimationTheme"/>
         <activity
             android:name=".Textposts.General_Feed_Activity"
             android:launchMode="singleTask"
