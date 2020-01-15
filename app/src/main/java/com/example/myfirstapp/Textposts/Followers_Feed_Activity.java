@@ -1,5 +1,6 @@
 package com.example.myfirstapp.Textposts;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -29,6 +31,7 @@ import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.Users.UserAdapter;
 import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -94,10 +97,34 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
     }
 
+    SearchView.OnQueryTextListener;
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        UserAdapter.getFilter().filter(newText);
+
+        return true;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.svSearch).getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        searchView.setSubmitButtonEnabled(true);
+
+        searchView.setOnQueryTextListener((SearchView.OnQueryTextListener) this);
 
         return true;
     }
