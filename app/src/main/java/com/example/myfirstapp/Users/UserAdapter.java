@@ -56,9 +56,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             }else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (UserProfileToDatabase item : listFull) {
-                    if (item.getUserName().toLowerCase().contains(filterPattern)){
-                        filteredList.add(item);
+                for (UserProfileToDatabase user : listFull) {
+                    if (user.getUserName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(user);
                     }
                 }
 
