@@ -88,7 +88,6 @@ public class Account_Info_Activity extends AppCompatActivity {
 
         userIDforDelete = firebaseAuth.getUid().toString();
 
-
         //underline de delete account text
         DeleteAccount.setPaintFlags(DeleteAccount.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
