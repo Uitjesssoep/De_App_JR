@@ -318,6 +318,7 @@ public class UserListToFollow extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_actionbar_search, menu);
         androidx.appcompat.widget.SearchView searchView = ((androidx.appcompat.widget.SearchView) menu.findItem(R.id.action_search).getActionView());
+        searchView.setIconifiedByDefault(false);
       // SearchView searchView = ((s) menu.findItem(R.id.action_search).getActionView());
         //SearchView searchView = (SearchView) searchItem.getActionView();
 
