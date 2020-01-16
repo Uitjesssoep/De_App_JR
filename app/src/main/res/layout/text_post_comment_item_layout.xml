@@ -2,9 +2,10 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
-    android:layout_marginTop="10dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,53 +15,138 @@
             android:id="@+id/tvUsernameTextPostComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:text="Username" />
+            android:text="Username"
+            android:textColor="#858585"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvStreepjeCommentTextPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
+            android:layout_marginTop="8dp"
             android:layout_toRightOf="@id/tvUsernameTextPostComment"
-            android:text="  -  " />
+            android:layout_weight="1"
+            android:text="  -  "
+            android:textColor="#858585"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvDatumCommentTextPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
+            android:layout_marginTop="8dp"
             android:layout_toRightOf="@id/tvStreepjeCommentTextPost"
-            android:text="Date" />
+            android:layout_weight="1"
+            android:text="Date"
+            android:textColor="#858585"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tvContentCommentTextPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
             android:layout_below="@id/tvUsernameTextPostComment"
-            android:text="Content" />
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="0dp"
+            android:layout_weight="1"
+            android:text="Content"
+            android:textColor="#161616"
+            android:textSize="16sp" />
 
         <ImageButton
             android:id="@+id/ibDeleteIconComments"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="34dp"
+            android:layout_height="38dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="0dp"
+            android:background="#00FFFFFF"
+            android:paddingLeft="17dp"
+            android:paddingTop="10dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="8.5dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_more_vert_grey_24dp" />
+
+        <ImageButton
+            android:id="@+id/ibLikeUpComment"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/tvContentCommentTextPost"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
             android:background="#00FFFFFF"
             android:scaleType="centerCrop"
-            android:clickable="true"
-            android:focusable="true"
-            app:srcCompat="@drawable/delete_icon" />
+            app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
+
+        <TextView
+            android:id="@+id/tvDislikeCounterComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvContentCommentTextPost"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/ibLikeDownComment"
+            android:text="0"
+            android:textColor="#858585"
+            app:layout_constraintVertical_bias="0.018" />
+
+        <ImageButton
+            android:id="@+id/ibLikeDownComment"
+            android:layout_width="20dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/tvContentCommentTextPost"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/tvLikeCounterComment"
+            android:background="#00FFFFFF"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
+
+        <TextView
+            android:id="@+id/tvLikeCounterComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvContentCommentTextPost"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/ibLikeUpComment"
+            android:text="0"
+            android:textColor="#858585" />
+
+        <ImageView
+            android:id="@+id/ivReplyImageComment"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvContentCommentTextPost"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/tvDislikeCounterComment"
+            app:srcCompat="@drawable/ic_reply_grey_24dp" />
+
+        <TextView
+            android:id="@+id/tvReplyTextComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvContentCommentTextPost"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="18.5dp"
+            android:layout_toRightOf="@id/ivReplyImageComment"
+            android:text="Reply"
+            android:textColor="#858585" />
+
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
