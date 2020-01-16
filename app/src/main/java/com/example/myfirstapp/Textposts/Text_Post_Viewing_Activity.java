@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,8 +56,8 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private String key, MyUID, CommentMessage, temp_key;
     private ImageButton Like, Dislike;
-    private Button PostComment;
     private EditText CommentSubstance;
+
     private boolean Liked = false;
     private boolean Disliked = false;
     private boolean LikedCheck = false, DislikedCheck = false;
@@ -88,32 +89,12 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         commentStuffForTextPostList = new ArrayList<>();
 
         NumberOfComments = findViewById(R.id.tvNumberOfCommentsForTextPosts);
-        PostComment = findViewById(R.id.btnPostCommentOnTextPost);
         CommentSubstance = findViewById(R.id.etAddCommentForTextPost);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         firebaseAuth = FirebaseAuth.getInstance();
         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-
-        key = getIntent().getExtras().get("Key").toString();
-        DatabaseReference CheckIfCommentsDisabledDatabase = firebaseDatabase.getReference("General_Text_Posts").child(key);
-        CheckIfCommentsDisabledDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild("DisabledComments")){
-                    CommentView.setVisibility(View.GONE);
-                    NumberOfComments.setVisibility(View.GONE);
-                    PostComment.setVisibility(View.GONE);
-                    CommentSubstance.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
         final String ThePostKey = getIntent().getExtras().get("Key").toString();
@@ -307,7 +288,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         ReloadComments();
 
-        PostComment.setOnClickListener(new View.OnClickListener() {
+        CommentSubstance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -316,7 +297,13 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                 dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
                 Date = dateFormat.format(calendar.getTime());
 
-                if(CommentMessage.isEmpty()){
+
+                Intent intent = new Intent(Text_Post_Viewing_Activity.this, Make_Comment_TextPost_Activity.class);
+                intent.putExtra("Key", key);
+                startActivity(intent);
+
+
+                /*if(CommentMessage.isEmpty()){
                     Toast.makeText(Text_Post_Viewing_Activity.this, "Can't post an empty comment", Toast.LENGTH_SHORT).show();
                 }
 
@@ -346,7 +333,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                     overridePendingTransition(0, 0);
                     startActivity(getIntent());
                     overridePendingTransition(0, 0);
-                }
+                }*/
 
             }
         });

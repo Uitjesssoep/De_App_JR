@@ -96,6 +96,8 @@ public class General_Feed_Activity extends AppCompatActivity
             }
         });
 
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+
         registerForContextMenu(GeneralFeed);
 
     }
