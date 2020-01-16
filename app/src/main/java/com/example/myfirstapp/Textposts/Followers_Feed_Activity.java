@@ -49,7 +49,7 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
 
     private RecyclerView GeneralFeed;
-    private List<PostStuffForText> postStuffForTextList;
+    private List<PostStuffForText> postStuffForTextList, postStuffForTextListFiltered;
     private PostStuffForTextAdapter postStuffForTextAdapter;
 
     private FirebaseDatabase firebaseDatabase;
@@ -58,7 +58,7 @@ public class Followers_Feed_Activity extends AppCompatActivity
     private DatabaseReference posts = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
     private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
 
-    private String key, MyUID;
+    private String key, MyUID, UIDuser;
     private Boolean Liked = false, Disliked = false, LikedCheck = false, DislikedCheck = false;
     private int LikeCount, DislikeCount, CommentCount;
 
@@ -125,43 +125,33 @@ public class Followers_Feed_Activity extends AppCompatActivity
                 clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
-                    //postStuffForTextList.add(if
-
-
-
-
-                                                    //(postStuffForText.getUID().) {
-
-                    //}
-
-                           // postStuffForText);
-                    Log.d("tekstshit", postStuffForTextList.toString());
+                    final PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
-//                            Log.e("Check2", dataSnapshot2.getValue().toString());
-                            int position;
-                            for (int i = 0; i < postStuffForTextList.size(); i++) {
-                                if (dataSnapshot2.hasChild(postStuffForTextList.get(i).getUID())) {
-                                  //  Log.e("Check2", postStuffForTextList.get(i).getUID());
-                                    //Log.e("Check3", "Iffunctie");
-                                   // Log.e("list2", postStuffForTextList.toString());
-                                }else{
-                                    position = i;
-                                    postStuffForTextList.remove(position);
-                                    //Log.e("Check3", "Elsefunctie");
-                                   // Log.e("list", postStuffForTextList.toString());
+                            Log.e("Check2", dataSnapshot2.getValue().toString());
+                            //for (int i = 0; i < postStuffForTextList.size(); i++) {
+                                if (dataSnapshot2.hasChild(postStuffForText.getUID())) {
+                                    Log.e("Check", "tot if gekomen");
+                                    postStuffForTextListFiltered.add(postStuffForText);
+                                    Log.e("Check", String.valueOf(postStuffForTextListFiltered) );
+                                    Log.e("Check", String.valueOf(postStuffForTextListFiltered.size()));
                                 }
+                                   // position = i;
+                                   // postStuffForTextList.remove(position);)
                             }
-                        }
+                        //}
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
                     });
+                    postStuffForTextListFiltered = postStuffForTextList;
+
+                    Log.d("tekstshit2", postStuffForTextList.toString());
+
 
                 }
 
