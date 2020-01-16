@@ -42,7 +42,6 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         void onUserNameClick(int position);
         void onUpvoteClick(int position);
         void onDownvoteClick(int position);
-        //void onDeleteIconClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -262,6 +261,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                                             intent.putExtra("Titel", uploadCurrent.getTitle());
                                                             intent.putExtra("User", uploadCurrent.getUser_name());
                                                             intent.putExtra("Key", uploadCurrent.getKey());
+                                                            intent.putExtra("Soort", "post");
                                                             mContext.startActivity(intent);
 
                                                             break;
@@ -449,6 +449,8 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         }
 
 
+        //Like image set
+
         final String MyUID = FirebaseAuth.getInstance().getUid().toString();
         DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
         CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
@@ -564,18 +566,6 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                     }
                 }
             });
-
-            /*DeleteTextPost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onDeleteIconClick(position);
-                        }
-                    }
-                }
-            });*/
 
         }
 

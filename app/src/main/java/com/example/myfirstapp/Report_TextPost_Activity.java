@@ -37,8 +37,9 @@ public class Report_TextPost_Activity extends AppCompatActivity {
 
         String Title = getIntent().getExtras().get("Titel").toString();
         String Username = getIntent().getExtras().get("User").toString();
+        String Soort = getIntent().getExtras().get("Soort").toString();
 
-        ReportThisPost.setText("Reporting the following post:" + "'" + Title + "'" + "uploaded by" + Username);
+        ReportThisPost.setText("Reporting the following" + Soort + ":" + "'" + Title + "'" + "uploaded by" + Username);
 
         SendReport.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -455,40 +455,117 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onDeleteCommentClick(int position) {
-                        String TAG5 = "CheckDeleteCommentClick";
-                        Log.e(TAG5, "er is geclickt");
+                    public void onUpvoteClick(int position) {
+                        key = commentStuffForTextPostList.get(position).getKey().toString();
+                        String Postkey = commentStuffForTextPostList.get(position).getOldKey();
+                        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(Postkey).child("Comments").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
+                        final String TAGDownvote = "VoteCheck";
 
-                        final String CommentKey = commentStuffForTextPostList.get(position).getKey().toString();
 
-                        final AlertDialog.Builder dialog = new AlertDialog.Builder(Text_Post_Viewing_Activity.this);
-                        dialog.setTitle("Delete your comment?");
-                        dialog.setMessage("Deleting this comment cannot be undone! Are you sure you want to delete it?");
-                        dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                final DatabaseReference DeleteVisible = FirebaseDatabase.getInstance()
-                                        .getReference("General_Text_Posts")
-                                        .child(key)
-                                        .child("Comments");
-                                DeleteVisible.child(CommentKey).removeValue();
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                Intent intent = getIntent();
-                                finish();
-                                startActivity(intent);
+                                if(dataSnapshot.hasChild(MyUID)){
+
+                                    DatabaseDislike.child(MyUID).removeValue();
+                                    DatabaseLike.child(MyUID).setValue("RandomLike");
+
+                                }
+
+
+                                else{
+
+                                    DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            if(dataSnapshot.hasChild(MyUID)){
+                                                DatabaseLike.child(MyUID).removeValue();
+                                            }
+
+                                            else{
+                                                DatabaseLike.child(MyUID).setValue("RandomLike");
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
                             }
                         });
-                        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        });
-
-                        AlertDialog alertDialog = dialog.create();
-                        alertDialog.show();
-
                     }
+
+                    @Override
+                    public void onDownvoteClick(int position) {
+                        key = commentStuffForTextPostList.get(position).getKey().toString();
+                        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                        String Postkey = commentStuffForTextPostList.get(position).getOldKey();
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(Postkey).child("Comments").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
+                        final String TAGDownvote = "VoteCheck";
+
+
+                        DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if(dataSnapshot.hasChild(MyUID)){
+                                    DatabaseLike.child(MyUID).removeValue();
+                                    DatabaseDislike.child(MyUID).setValue("RandomDislike");
+                                }
+
+                                else{
+
+                                    DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            if(dataSnapshot.hasChild(MyUID)){
+
+                                                DatabaseDislike.child(MyUID).removeValue();
+
+                                            }
+
+                                            else{
+
+                                                DatabaseDislike.child(MyUID).setValue("RandomDislike");
+
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+
                 });
 
             }
