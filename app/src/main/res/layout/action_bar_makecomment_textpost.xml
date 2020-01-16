@@ -7,4 +7,12 @@
     android:theme="@style/ToolBar"
     app:popupTheme="@style/Popup">
 
+    <ImageButton
+        android:id="@+id/exitmakecommenttextpost"
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_close_black_24dp"
+        android:background="@color/colorAccent">
+    </ImageButton>
+
 </androidx.appcompat.widget.Toolbar>

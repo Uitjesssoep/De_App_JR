@@ -82,6 +82,9 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
                     CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, temp_key, MyUID, key);
                     DatabaseCommentStuff.child(temp_key).setValue(commentStuffForTextPost);
 
+                    Intent intent = new Intent(Make_Comment_TextPost_Activity.this, Text_Post_Viewing_Activity.class);
+                    intent.putExtra("Key", key);
+                    startActivity(intent);
                     finish();
                 }
 
@@ -111,7 +114,6 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.action_bar_comment);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //id toekennen
