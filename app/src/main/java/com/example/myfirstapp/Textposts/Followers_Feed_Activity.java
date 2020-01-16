@@ -131,7 +131,6 @@ public class Followers_Feed_Activity extends AppCompatActivity
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
                             Log.e("Check2", dataSnapshot2.getValue().toString());
-                            int position;
                             //for (int i = 0; i < postStuffForTextList.size(); i++) {
                                 if (dataSnapshot2.hasChild(postStuffForText.getUID())) {
                                     Log.e("Check", "tot if gekomen");
