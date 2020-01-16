@@ -12,10 +12,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -288,56 +290,16 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         ReloadComments();
 
+        CommentSubstance.setInputType(InputType.TYPE_NULL);
+
         CommentSubstance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                CommentMessage = CommentSubstance.getText().toString().trim();
-                calendar = Calendar.getInstance();
-                dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
-                Date = dateFormat.format(calendar.getTime());
-
-
                 Intent intent = new Intent(Text_Post_Viewing_Activity.this, Make_Comment_TextPost_Activity.class);
                 intent.putExtra("Key", key);
                 startActivity(intent);
-
-
-                /*if(CommentMessage.isEmpty()){
-                    Toast.makeText(Text_Post_Viewing_Activity.this, "Can't post an empty comment", Toast.LENGTH_SHORT).show();
-                }
-
-                else{
-
-                    DatabaseReference GetUserName = firebaseDatabase.getReference("users").child(MyUID);
-                    GetUserName.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-
-                            String userName = userProfile.getUserName().toString();
-
-                            temp_key = DatabaseCommentStuff.push().getKey();
-                            CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, temp_key, MyUID, key);
-                            DatabaseCommentStuff.child(temp_key).setValue(commentStuffForTextPost);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    CommentSubstance.setText("");
-                    finish();
-                    overridePendingTransition(0, 0);
-                    startActivity(getIntent());
-                    overridePendingTransition(0, 0);
-                }*/
-
             }
         });
-
 
         DatabaseCommentCount = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Comments");
         DatabaseCommentCount.addValueEventListener(new ValueEventListener() {

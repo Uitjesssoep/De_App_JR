@@ -14,7 +14,6 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".Textposts.Make_Comment_TextPost_Activity"
-            android:parentActivityName=".Textposts.Text_Post_Viewing_Activity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".Report_TextPost_Activity"

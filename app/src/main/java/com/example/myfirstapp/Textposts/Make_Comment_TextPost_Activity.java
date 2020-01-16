@@ -81,6 +81,8 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
                     temp_key = DatabaseCommentStuff.push().getKey();
                     CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, temp_key, MyUID, key);
                     DatabaseCommentStuff.child(temp_key).setValue(commentStuffForTextPost);
+
+                    finish();
                 }
 
                 @Override
