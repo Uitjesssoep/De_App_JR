@@ -49,7 +49,7 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
 
     private RecyclerView GeneralFeed;
-    private List<PostStuffForText> postStuffForTextList;
+    private List<PostStuffForText> postStuffForTextList, postStuffForTextListFiltered;
     private PostStuffForTextAdapter postStuffForTextAdapter;
 
     private FirebaseDatabase firebaseDatabase;
@@ -134,9 +134,9 @@ public class Followers_Feed_Activity extends AppCompatActivity
                             //for (int i = 0; i < postStuffForTextList.size(); i++) {
                                 if (dataSnapshot2.hasChild(postStuffForText.getUID())) {
                                     Log.e("Check", "tot if gekomen");
-                                    postStuffForTextList.add(postStuffForText);
-                                    Log.e("Check", String.valueOf(postStuffForTextList) );
-                                    Log.e("Check", String.valueOf(postStuffForTextList.size()));
+                                    postStuffForTextListFiltered.add(postStuffForText);
+                                    Log.e("Check", String.valueOf(postStuffForTextListFiltered) );
+                                    Log.e("Check", String.valueOf(postStuffForTextListFiltered.size()));
                                 }
                                    // position = i;
                                    // postStuffForTextList.remove(position);)
@@ -148,8 +148,9 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
                         }
                     });
+                    postStuffForTextListFiltered = postStuffForTextList;
 
-                    Log.d("tekstshit", postStuffForTextList.toString());
+                    Log.d("tekstshit2", postStuffForTextList.toString());
 
 
                 }
