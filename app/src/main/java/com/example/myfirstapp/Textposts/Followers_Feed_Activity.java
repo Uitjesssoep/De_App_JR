@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,7 +50,7 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
 
     private RecyclerView GeneralFeed;
-    private List<PostStuffForText> postStuffForTextList, postStuffForTextListFiltered;
+    private List<PostStuffForText> postStuffForTextList;
     private PostStuffForTextAdapter postStuffForTextAdapter;
 
     private FirebaseDatabase firebaseDatabase;
@@ -127,16 +128,31 @@ public class Followers_Feed_Activity extends AppCompatActivity
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     final PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
-                    databaseReference.addValueEventListener(new ValueEventListener() {
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
                             Log.e("Check2", dataSnapshot2.getValue().toString());
                             //for (int i = 0; i < postStuffForTextList.size(); i++) {
                                 if (dataSnapshot2.hasChild(postStuffForText.getUID())) {
-                                    Log.e("Check", "tot if gekomen");
-                                    postStuffForTextListFiltered.add(postStuffForText);
-                                    Log.e("Check", String.valueOf(postStuffForTextListFiltered) );
-                                    Log.e("Check", String.valueOf(postStuffForTextListFiltered.size()));
+
+                                    Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            Log.e("Check", "tot if gekomen");
+                                            postStuffForTextList.add(postStuffForText);
+                                            //postStuffForTextListFiltered = postStuffForTextList;
+
+                                            Log.e("Check", String.valueOf(postStuffForTextList) );
+                                            Log.e("Check", String.valueOf(postStuffForTextList.size()));
+
+                                        }
+                                    }, 500);
+
+
+
+
                                 }
                                    // position = i;
                                    // postStuffForTextList.remove(position);)
@@ -148,9 +164,9 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
                         }
                     });
-                    postStuffForTextListFiltered = postStuffForTextList;
 
-                    Log.d("tekstshit2", postStuffForTextList.toString());
+
+                    Log.e("Check4", postStuffForTextList.toString());
 
 
                 }
