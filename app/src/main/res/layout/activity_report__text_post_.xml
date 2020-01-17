@@ -52,7 +52,7 @@
         android:ems="10"
         android:hint="Reason (optional)"
         android:inputType="textMultiLine"
-        android:maxHeight="350dp"
+        android:maxHeight="200dp"
         android:maxLength="400"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
