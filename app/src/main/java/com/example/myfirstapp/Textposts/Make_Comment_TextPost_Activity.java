@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
@@ -39,6 +41,7 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
     private String CommentMessage, temp_key;
 
     private EditText CommentSubstance;
+    private ImageButton Exit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +119,13 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        //id toekennen
-
-        CommentSubstance = findViewById(R.id.etAddACommentToPostTextPost);
+        Exit = (ImageButton) toolbar.findViewById(R.id.exitmakecommenttextpost);
+        Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }
     @Override
@@ -149,7 +156,7 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
 
     private void SetupUI() {
 
-
+        CommentSubstance = findViewById(R.id.etAddACommentToPostTextPost);
 
     }
 }

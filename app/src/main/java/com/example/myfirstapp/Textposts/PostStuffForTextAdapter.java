@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.remoteconfig.proto.ConfigPersistence;
 
 import java.util.List;
 
@@ -300,6 +301,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                                             intent.putExtra("Titel", uploadCurrent.getTitle());
                                                             intent.putExtra("User", uploadCurrent.getUser_name());
                                                             intent.putExtra("Key", uploadCurrent.getKey());
+                                                            intent.putExtra("Soort", "post");
                                                             mContext.startActivity(intent);
 
                                                             break;
@@ -433,6 +435,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
                     final String MyUserName = dataSnapshot.getValue().toString();
 
+                    holder.Username.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
                     holder.Username.setText(MyUserName);
 
                 }

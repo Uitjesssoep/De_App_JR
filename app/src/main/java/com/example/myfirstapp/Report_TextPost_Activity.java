@@ -1,24 +1,31 @@
 package com.example.myfirstapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
+import com.example.myfirstapp.Textposts.Make_Comment_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class Report_TextPost_Activity extends AppCompatActivity {
 
-    private TextView ReportThisPost;
+    private TextView ReportThisPost, OnlyReportOnce, ReportTitle;
     private EditText ReportReason;
     private Button SendReport;
+    private ImageButton Exit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,37 @@ public class Report_TextPost_Activity extends AppCompatActivity {
 
         SetupUI();
 
+        SetupDesign();
+
+    }
+
+    private void SetupDesign() {
+
+        //voor het geven van kleur aan de status bar:
+
+        Window window = Report_TextPost_Activity.this.getWindow();
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        window.setStatusBarColor(ContextCompat.getColor(Report_TextPost_Activity.this, R.color.slighly_darker_mainGreen));
+
+        //action bar ding
+
+        Toolbar toolbar = findViewById(R.id.action_bar_comment);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Exit = (ImageButton) toolbar.findViewById(R.id.exitmakecommenttextpost);
+        Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
     }
 
     private void SetupUI() {
@@ -34,12 +72,16 @@ public class Report_TextPost_Activity extends AppCompatActivity {
         ReportThisPost = findViewById(R.id.tvReportWhatTextPost);
         ReportReason = findViewById(R.id.etReasonReportTextPost);
         SendReport = findViewById(R.id.btnSendTextReport);
+        OnlyReportOnce = findViewById(R.id.tvOnlyReportOneText);
+        ReportTitle = findViewById(R.id.tvReportTextPost);
 
         String Title = getIntent().getExtras().get("Titel").toString();
         String Username = getIntent().getExtras().get("User").toString();
         String Soort = getIntent().getExtras().get("Soort").toString();
 
-        ReportThisPost.setText("Reporting the following" + Soort + ":" + "'" + Title + "'" + "uploaded by" + Username);
+        ReportThisPost.setText("Reporting the following " + Soort + ": \n" + "'" + Title + "' " + "uploaded by " + Username);
+        ReportTitle.setText("Report " + Soort);
+        OnlyReportOnce.setText("You can only report a " + Soort + " once! If you have already reported this " + Soort + ", you will override your previous report when you report it again!");
 
         SendReport.setOnClickListener(new View.OnClickListener() {
             @Override

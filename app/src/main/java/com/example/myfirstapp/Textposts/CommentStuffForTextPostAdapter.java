@@ -100,6 +100,20 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             }
         });
 
+        final String PostUID = uploadCurrent2.getUID();
+        final String MyUID684 = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String PostUsername = uploadCurrent2.getUser_name();
+
+        if(PostUID.equals(MyUID684)){
+
+            if(PostUsername.equals("[deleted_comment_user]")){
+            }
+            else{
+                holder.Username.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+            }
+
+        }
+
         holder.DeleteComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -114,6 +114,8 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                             String MyUserName = dataSnapshot.getValue().toString();
+
+                            UserName.setTextColor(getResources().getColor(R.color.colorAccent));
                             UserName.setText(MyUserName);
 
                         }
@@ -849,6 +851,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                 intent.putExtra("Titel", Title.getText().toString());
                 intent.putExtra("User", UserName.getText().toString());
                 intent.putExtra("Key", getIntent().getExtras().get("Key").toString());
+                intent.putExtra("Soort", "post");
                 startActivity(intent);
 
                 break;
