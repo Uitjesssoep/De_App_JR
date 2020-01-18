@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
@@ -42,6 +43,7 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
 
     private EditText CommentSubstance;
     private ImageButton Exit;
+    private TextView Title, Content, ShowMore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +159,48 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
     private void SetupUI() {
 
         CommentSubstance = findViewById(R.id.etAddACommentToPostTextPost);
+        Title = findViewById(R.id.tvTitleOfTextPostForComment);
+        Content = findViewById(R.id.tvContentPostForComment);
+        ShowMore = findViewById(R.id.tvShowContentPostForComment);
+
+        Content.setVisibility(View.GONE);
+
+        final String PostKey = getIntent().getExtras().get("Key").toString();
+        DatabaseReference getTitle = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey);
+        getTitle.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                String TitlePost = dataSnapshot.child("title").getValue().toString();
+                Title.setText(TitlePost);
+
+                String ContentPost = dataSnapshot.child("content").getValue().toString();
+                Content.setText(ContentPost);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        ShowMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String WhatText = ShowMore.getText().toString();
+                if(WhatText.equals("Show more")){
+                    ShowMore.setText("Show less");
+                    Content.setVisibility(View.VISIBLE);
+                }
+                else{
+                    ShowMore.setText("Show more");
+                    Content.setVisibility(View.GONE);
+                }
+
+            }
+        });
 
     }
 }
