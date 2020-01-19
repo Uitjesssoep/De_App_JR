@@ -113,6 +113,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="0"
+                    android:textColor="#858585"
                     android:textSize="14sp" />
 
                 <ImageButton
@@ -132,6 +133,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="0"
+                    android:textColor="#858585"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -148,8 +150,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="13dp"
                     android:layout_marginTop="16dp"
-                    android:textSize="14sp"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="#858585"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 

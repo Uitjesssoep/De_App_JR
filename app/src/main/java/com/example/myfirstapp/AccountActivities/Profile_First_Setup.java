@@ -235,7 +235,7 @@ public class Profile_First_Setup extends AppCompatActivity {
         FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
         if (userfullnameToDatabase.isEmpty()) {
-            ErrorFullName.setText("Please enter your name");
+            ErrorFullName.setText("Please enter a display name");
             ErrorFullName.setVisibility(View.VISIBLE);
             FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
         }
@@ -248,14 +248,14 @@ public class Profile_First_Setup extends AppCompatActivity {
             else {
 
                 if (!userfullnameToDatabase.matches("[a-zA-Z ]*")) {
-                    ErrorFullName.setText("Make sure your name contains only alphabetic characters and spaces");
+                    ErrorFullName.setText("Make sure your display name contains only alphabetic characters and spaces");
                     ErrorFullName.setVisibility(View.VISIBLE);
                     FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                 }
                 else {
 
                     if(FullnameLength > 31){
-                        ErrorFullName.setText("Make sure your entered name is not longer than 30 characters");
+                        ErrorFullName.setText("Make sure your entered display name is not longer than 30 characters");
                         ErrorFullName.setVisibility(View.VISIBLE);
                         FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                     }
