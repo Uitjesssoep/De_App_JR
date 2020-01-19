@@ -107,6 +107,24 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         if(PostUID.equals(MyUID684)){
 
             if(PostUsername.equals("[deleted_comment_user]")){
+
+                DatabaseReference GetMyUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID684).child("userName");
+                GetMyUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        String MyUsername = dataSnapshot.getValue().toString();
+                        holder.Username.setText(MyUsername);
+                        holder.Username.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
             else{
                 holder.Username.setTextColor(mContext.getResources().getColor(R.color.colorAccent));

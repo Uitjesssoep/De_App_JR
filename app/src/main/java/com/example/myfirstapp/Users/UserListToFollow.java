@@ -263,6 +263,7 @@ public class UserListToFollow extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                     Fragment selectedFragment = null;
+                    BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
 
                     switch (menuItem.getItemId()) {
                         case R.id.navigation_home:
@@ -270,6 +271,7 @@ public class UserListToFollow extends AppCompatActivity {
                             Intent home = new Intent(UserListToFollow.this, General_Feed_Activity.class);
                             home.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(home);
+                            //bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
                             break;
 
@@ -278,6 +280,7 @@ public class UserListToFollow extends AppCompatActivity {
                             Intent chat = new Intent(UserListToFollow.this, Chat_Room_MakeOrSearch_Activity.class);
                             chat.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(chat);
+                            //bottomNavigationView.setSelectedItemId(R.id.navigation_chat);
 
                             break;
 
@@ -302,6 +305,7 @@ public class UserListToFollow extends AppCompatActivity {
                             Intent account = new Intent(UserListToFollow.this, Account_Info_Activity.class);
                             account.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(account);
+                            //bottomNavigationView.setSelectedItemId(R.id.navigation_account);
 
                             break;
 
