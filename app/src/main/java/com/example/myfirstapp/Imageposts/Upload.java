@@ -4,12 +4,12 @@ public class Upload {
 
     private String mTitle;
     private String mUser_name;
-    private String mImageUrl;
+    private String mContent;
     private String mUID;
     private String mKey;
     private String mDate;
 
-    public Upload(String Title, String User_name, String imageUrl, String UID, String Key, String Date) {
+    public Upload(String Title, String User_name, String Content, String UID, String Key, String Date) {
         if (Title.trim().equals("")) {
             Title = " ";
         }
@@ -18,7 +18,7 @@ public class Upload {
         mUID = UID;
         mKey = Key;
         mDate = Date;
-        mImageUrl = imageUrl;
+        mContent = Content;
     }
 
     public Upload() {
@@ -41,12 +41,12 @@ public class Upload {
         mUser_name = User_name;
     }
 
-    public String getImageUrl() {
-        return mImageUrl;
+    public String getContent() {
+        return mContent;
     }
 
-    public void setImageUrl(String imageUrl) {
-        mImageUrl = imageUrl;
+    public void setContent(String Content) {
+        this.mContent = Content;
     }
 
     public String getUID() {

@@ -1,11 +1,9 @@
 package com.example.myfirstapp.Imageposts;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.Textposts.PostStuffForTextAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,7 +55,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         holder.UsernameImage.setText(uploadCurrent.getUser_name());
         holder.DateImage.setText(uploadCurrent.getDate());
         Picasso.get()
-                .load(uploadCurrent.getImageUrl())
+                .load(uploadCurrent.getContent())
                 .fit()
                 .centerCrop()
                 .into(holder.imageView);
