@@ -436,6 +436,7 @@ public class General_Feed_Activity extends AppCompatActivity
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                     Fragment selectedFragment = null;
+                    bottomNavigationView = findViewById(R.id.bottom_nav_second);
 
                     switch (menuItem.getItemId()){
                         case R.id.navigation_home:
@@ -452,6 +453,7 @@ public class General_Feed_Activity extends AppCompatActivity
                             Intent chat = new Intent(General_Feed_Activity.this, Chat_Room_MakeOrSearch_Activity.class);
                             chat.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(chat);
+                            //bottomNavigationView.setSelectedItemId(R.id.navigation_chat);
 
                             break;
 
@@ -468,6 +470,7 @@ public class General_Feed_Activity extends AppCompatActivity
                             Intent search = new Intent(General_Feed_Activity.this, UserListToFollow.class);
                             search.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(search);
+                            //bottomNavigationView.setSelectedItemId(R.id.navigation_search);
 
                             break;
 
@@ -476,6 +479,7 @@ public class General_Feed_Activity extends AppCompatActivity
                             Intent account = new Intent(General_Feed_Activity.this, Account_Info_Activity.class);
                             account.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(account);
+                            //bottomNavigationView.setSelectedItemId(R.id.navigation_account);
 
                             break;
 

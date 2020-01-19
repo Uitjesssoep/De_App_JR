@@ -87,6 +87,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         Dislike = findViewById(R.id.ibLikeDownForTextPostViewing);
 
         CommentView = findViewById(R.id.rvCommentsTextPost);
+        CommentView.setNestedScrollingEnabled(false);
         CommentView.setLayoutManager(new LinearLayoutManager(this));
         commentStuffForTextPostList = new ArrayList<>();
 
@@ -369,10 +370,34 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                                             else{
 
-                                                Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUserComments_Activity.class);
-                                                GoToProfile.putExtra("CommentKey", CommentKey);
-                                                GoToProfile.putExtra("PostKey", PostKey);
-                                                startActivity(GoToProfile);
+                                                DatabaseReference GetCommentUsername = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey).child("Comments").child(CommentKey).child("user_name");
+                                                GetCommentUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                        String CommentUsername = dataSnapshot.getValue().toString();
+                                                        if(CommentUsername.equals("[deleted_comment_user")){
+                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(Text_Post_Viewing_Activity.this);
+                                                            dialog.setTitle("This comment has been deleted");
+                                                            dialog.setMessage("You can no longer see who made this comment");
+                                                            AlertDialog alertDialog = dialog.create();
+                                                            alertDialog.show();
+                                                        }
+
+                                                        else {
+                                                            Intent GoToProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_OtherUserComments_Activity.class);
+                                                            GoToProfile.putExtra("CommentKey", CommentKey);
+                                                            GoToProfile.putExtra("PostKey", PostKey);
+                                                            startActivity(GoToProfile);
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
 
                                             }
                                         }

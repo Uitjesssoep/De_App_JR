@@ -353,6 +353,8 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
+                    BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
+
                     Fragment selectedFragment = null;
 
                     switch (menuItem.getItemId()){
@@ -361,6 +363,7 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
                             Intent home = new Intent(Chat_Room_MakeOrSearch_Activity.this, General_Feed_Activity.class);
                             home.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(home);
+                            //bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
                             break;
 
@@ -385,6 +388,7 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
                             Intent search = new Intent(Chat_Room_MakeOrSearch_Activity.this, UserListToFollow.class);
                             search.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(search);
+                            //bottomNavigationView.setSelectedItemId(R.id.navigation_search);
 
                             break;
 
@@ -393,6 +397,7 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
                             Intent account = new Intent(Chat_Room_MakeOrSearch_Activity.this, Account_Info_Activity.class);
                             account.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(account);
+                            //bottomNavigationView.setSelectedItemId(R.id.navigation_account);
 
                             break;
 

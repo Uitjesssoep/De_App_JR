@@ -7,10 +7,11 @@
     tools:context=".Textposts.Text_Post_Viewing_Activity"
     android:background="@color/white">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="6dp"
         app:layout_constraintBottom_toTopOf="@+id/etAddCommentForTextPost"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +91,12 @@
                 android:text="0"
                 android:textSize="18sp" />
 
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_mode_comment_black_24dp" />
+
             <TextView
                 android:id="@+id/tvNumberOfCommentsForTextPosts"
                 android:layout_width="wrap_content"
@@ -97,20 +104,19 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="24dp"
-                android:text="Number of comments: 0" />
+                android:text="0" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCommentsTextPost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:paddingBottom="16dp"
                 android:nestedScrollingEnabled="true">
 
             </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <include
         android:id="@+id/action_bar_textpostviewing"
@@ -125,6 +131,10 @@
         android:id="@+id/etAddCommentForTextPost"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="6dp"
         android:background="@drawable/edittext_roundedcorners_login"
         android:capitalize="none"
         android:clickable="true"
