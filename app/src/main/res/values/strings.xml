@@ -2,4 +2,10 @@
     <string name="app_name">My First App</string>
     <string name="settings_name">Settings</string>
     <string name="search_title">Search</string>
+    
+    <string-array name="sortnames">
+        <item>New</item>
+        <item>Top</item>
+    </string-array>
+    
 </resources>

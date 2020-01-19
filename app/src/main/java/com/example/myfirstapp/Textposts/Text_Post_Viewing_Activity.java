@@ -21,9 +21,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +51,7 @@ import java.util.List;
 public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
 
-    private TextView Title, Content, UserName, LikeCountDisplay, DislikeCountDisplay, NumberOfComments;
+    private TextView Title, Content, UserName, LikeCountDisplay, DislikeCountDisplay, NumberOfComments, Date;
 
     private RecyclerView CommentView;
     private List<CommentStuffForTextPost> commentStuffForTextPostList;
@@ -70,7 +72,6 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
-    private String Date;
 
     private int LikeCount, DislikeCount, CommentCount;
     private static final String TAG = "Text_Post_Viewing";
@@ -85,6 +86,12 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         DislikeCountDisplay = findViewById(R.id.tvDislikeCounterForTextPostViewing);
         Like = findViewById(R.id.ibLikeUpForTextPostViewing);
         Dislike = findViewById(R.id.ibLikeDownForTextPostViewing);
+        Date = findViewById(R.id.tvDateOfPostTextPostViewing);
+
+        Spinner SortByComments = findViewById(R.id.spinnerDropDownSortByCommentsTextPostViewing);
+        ArrayAdapter<String> sortAdapter = new ArrayAdapter<String>(Text_Post_Viewing_Activity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sortnames));
+        sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        SortByComments.setAdapter(sortAdapter);
 
         CommentView = findViewById(R.id.rvCommentsTextPost);
         CommentView.setNestedScrollingEnabled(false);
@@ -198,6 +205,20 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                 Toast.makeText(Text_Post_Viewing_Activity.this, "Couldn't retrieve data from database", Toast.LENGTH_SHORT).show();
             }
         });
+
+        DatabaseReference PostDateRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("date");
+        PostDateRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String PostDate = dataSnapshot.getValue().toString();
+                Date.setText(PostDate);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void LookAtPostersProfile() {
@@ -309,7 +330,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 CommentCount = (int) dataSnapshot.getChildrenCount();
-                NumberOfComments.setText("Number of comments: " + CommentCount);
+                NumberOfComments.setText(CommentCount);
             }
 
             @Override
