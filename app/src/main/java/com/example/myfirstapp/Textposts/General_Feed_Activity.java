@@ -55,7 +55,8 @@ public class General_Feed_Activity extends AppCompatActivity
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
-    private DatabaseReference posts = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+    private DatabaseReference Textposts = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+    private DatabaseReference Imageposts = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
     private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
 
     private String key, MyUID;
@@ -86,11 +87,13 @@ public class General_Feed_Activity extends AppCompatActivity
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
         swipeRefreshLayout = findViewById(R.id.swipe_container);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
-                StartOrReload();
+                StartOrReloadTextPosts();
+                StartOrReloadImagePosts();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -114,13 +117,35 @@ public class General_Feed_Activity extends AppCompatActivity
 
         SetupDesign();
 
-        StartOrReload();
+        StartOrReloadTextPosts();
+
+        StartOrReloadImagePosts();
 
     }
 
-    private void StartOrReload() {
+    private void StartOrReloadImagePosts(){
+        Imageposts.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-        posts.addListenerForSingleValueEvent(new ValueEventListener() {
+                clear();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    PostStuffForText upload = postSnapshot.getValue(PostStuffForText.class);
+                    postStuffForTextList.add(upload);
+                }
+                }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void StartOrReloadTextPosts() {
+
+        Textposts.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -482,7 +507,8 @@ public class General_Feed_Activity extends AppCompatActivity
 
             case R.id.action_refresh_feed:
 
-                StartOrReload();
+                StartOrReloadTextPosts();
+                StartOrReloadImagePosts();
 
                 break;
 
