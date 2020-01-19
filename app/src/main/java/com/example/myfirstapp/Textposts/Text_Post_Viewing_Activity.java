@@ -87,6 +87,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         Dislike = findViewById(R.id.ibLikeDownForTextPostViewing);
 
         CommentView = findViewById(R.id.rvCommentsTextPost);
+        CommentView.setNestedScrollingEnabled(false);
         CommentView.setLayoutManager(new LinearLayoutManager(this));
         commentStuffForTextPostList = new ArrayList<>();
 
