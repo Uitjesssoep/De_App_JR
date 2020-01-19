@@ -100,7 +100,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((TextPostViewHolder) holder).bind((TextPost), item);
         }
     }
-
+//y
 
     @Override
     public int getItemCount() {
