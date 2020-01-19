@@ -22,19 +22,40 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvUsernameForTextPost"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Username" />
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp">
+
+                <TextView
+                    android:id="@+id/tvUsernameForTextPost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username" />
+
+                <TextView
+                    android:id="@+id/tvStreepjeTextPostViewing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  -  " />
+
+                <TextView
+                    android:id="@+id/tvDateOfPostTextPostViewing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvTitleOfTextPost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="32dp"
                 android:text="Title"
                 android:textColor="#000000"
                 android:textSize="18sp"
@@ -44,72 +65,77 @@
                 android:id="@+id/tvContentOfTextPost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginRight="32dp"
-                android:layout_marginBottom="16dp"
                 android:text="Content" />
 
-            <ImageButton
-                android:id="@+id/ibLikeUpForTextPostViewing"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="32dp"
-                android:background="#00FFFFFF"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
-
-            <TextView
-                android:id="@+id/tvLikeCounterForTextPostViewing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="0dp"
-                android:text="0"
-                android:textSize="18sp" />
-
-            <ImageButton
-                android:id="@+id/ibLikeDownForTextPostViewing"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="32dp"
-                android:background="#00FFFFFF"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
-
-            <TextView
-                android:id="@+id/tvDislikeCounterForTextPostViewing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:text="0"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:id="@+id/imageView2"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_mode_comment_black_24dp" />
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp">
 
-            <TextView
-                android:id="@+id/tvNumberOfCommentsForTextPosts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="24dp"
-                android:text="0" />
+                <ImageButton
+                    android:id="@+id/ibLikeUpForTextPostViewing"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="#00FFFFFF"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
+
+                <TextView
+                    android:id="@+id/tvLikeCounterForTextPostViewing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="0"
+                    android:textSize="18sp" />
+
+                <ImageButton
+                    android:id="@+id/ibLikeDownForTextPostViewing"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="16dp"
+                    android:background="#00FFFFFF"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
+
+                <TextView
+                    android:id="@+id/tvDislikeCounterForTextPostViewing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:text="0"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/ivCommentIconTextPostViewing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginTop="8dp"
+                    app:srcCompat="@drawable/ic_mode_comment_black_24dp" />
+
+                <TextView
+                    android:id="@+id/tvNumberOfCommentsForTextPosts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="18sp"
+                    android:text="0" />
+
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCommentsTextPost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="5dp"
                 android:nestedScrollingEnabled="true">
 
