@@ -152,17 +152,62 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text__post__viewing);
 
-        SetupUI();
-
-        SetupDesign();
-
-        LikeDislikeCount();
-
-        CommentOnPost();
-
-        LookAtPostersProfile();
 
         key = getIntent().getExtras().get("Key").toString();
+
+        final DatabaseReference CheckIfNotDeleted = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+        CheckIfNotDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild(key)){
+
+                    SetupUI();
+
+                    SetupDesign();
+
+                    LikeDislikeCount();
+
+                    CommentOnPost();
+
+                    LookAtPostersProfile();
+
+                    LoadData();
+
+                }
+
+                else{
+
+                    final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Text_Post_Viewing_Activity.this);
+                    dialog.setTitle("This post has been deleted");
+                    dialog.setMessage("This post has been deleted, you can no longer view it.");
+
+                    dialog.setPositiveButton("Understood", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                           Intent intent = new Intent(Text_Post_Viewing_Activity.this, General_Feed_Activity.class);
+                           startActivity(intent);
+                           finish();
+
+                        }
+                    });
+
+                    android.app.AlertDialog alertDialog = dialog.create();
+                    alertDialog.show();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void LoadData() {
 
         DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("title");
 
@@ -219,6 +264,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void LookAtPostersProfile() {
