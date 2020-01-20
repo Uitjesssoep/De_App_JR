@@ -84,20 +84,20 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final RecyclerView.ViewHolder holder;
         View view;
-        switch (viewType){
+        switch (viewType) {
             case 1:
-                Log.e(TAG, "onCreateViewHolder text");
+                Log.e(TAG, "onCreateViewHolder images");
                 view = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
                 holder = new ImagePostViewHolder(view, mListener);
-             break;
+                break;
             case 2:
                 Log.e(TAG, "onCreateViewHolder text");
                 view = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
                 holder = new TextPostViewHolder(view, mListener);
-            break;
+                break;
             default:
                 holder = null;
                 break;
@@ -106,8 +106,8 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return holder;
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+ /*   @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         switch (holder.getItemViewType()) {
             case 1: {
@@ -138,18 +138,35 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             default:
                 break;
         }
+    }*/
+
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ImagePostViewHolder) {
+            ImagePostViewHolder viewHolder = (ImagePostViewHolder) holder;
+            PostStuffForText item = mList.get(position);
+            viewHolder.setIsRecyclable(false);
+            viewHolder.TitleImage.setText(item.getTitle());
+            viewHolder.UsernameImage.setText(item.getUser_name());
+            viewHolder.DateImage.setText(item.getDate());
+            Picasso.get()
+                    .load(item.getContent())
+                    .fit()
+                    .centerCrop()
+                    .into(viewHolder.imageView);
+        } else {
+            TextPostViewHolder viewHolder = (TextPostViewHolder) holder;
+            PostStuffForText item = mList.get(position);
+            viewHolder.setIsRecyclable(false);
+            viewHolder.Username.setText(item.getUser_name());
+            viewHolder.Title.setText(item.getTitle());
+            viewHolder.KeyHolder.setText(item.getKey());
+            viewHolder.Content.setText(item.getContent());
+            viewHolder.Date.setText(item.getDate());
+        }
     }
 
-
-    /*  @Override
-      public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-          if (holder instanceof ImagePostViewHolder){
-              ((ImagePostViewHolder) holder).bind(mList.get(position));
-          }else {
-
-              ((TextPostViewHolder) holder).bind(mList.get(position));
-          }
-      }*/
     @Override
     public int getItemCount() {
         return 0;
