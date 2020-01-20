@@ -79,7 +79,7 @@ public class Report_TextPost_Activity extends AppCompatActivity {
         String Username = getIntent().getExtras().get("User").toString();
         String Soort = getIntent().getExtras().get("Soort").toString();
 
-        ReportThisPost.setText("Reporting the following " + Soort + ": \n" + "'" + Title + "' " + "uploaded by " + Username);
+        ReportThisPost.setText("Reporting a " + Soort + " uploaded by " + Username);
         ReportTitle.setText("Report " + Soort);
         OnlyReportOnce.setText("You can only report a " + Soort + " once! If you have already reported this " + Soort + ", you will override your previous report when you report it again!");
 

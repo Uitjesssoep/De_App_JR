@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:text="Reporting the following [type]: [title] uploaded by [username]"
+        android:text="Reporting a [type] uploaded by [username]"
         android:textAlignment="center"
         android:textColor="#4E4E4E"
         android:textSize="14sp"

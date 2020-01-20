@@ -42,7 +42,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
                     android:text="  -  "
                     android:textColor="#858585"
                     android:textSize="13sp" />
@@ -52,7 +51,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
                     android:text="Date"
                     android:textColor="#858585"
                     android:textSize="13sp" />
