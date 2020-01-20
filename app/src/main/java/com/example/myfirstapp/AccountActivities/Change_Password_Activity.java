@@ -2,13 +2,18 @@ package com.example.myfirstapp.AccountActivities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +28,7 @@ public class Change_Password_Activity extends AppCompatActivity {
     private Button SaveNewPassword;
     private FirebaseUser firebaseUser;
     private TextView PasswordError;
+    private ImageButton Exit;
 
 
     @Override
@@ -38,6 +44,8 @@ public class Change_Password_Activity extends AppCompatActivity {
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        SetupDesign();
 
 
         SaveNewPassword.setOnClickListener(new View.OnClickListener() {
@@ -78,5 +86,33 @@ public class Change_Password_Activity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void SetupDesign() {
+
+            //voor het geven van kleur aan de status bar:
+
+            Window window = Change_Password_Activity.this.getWindow();
+
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+            window.setStatusBarColor(ContextCompat.getColor(Change_Password_Activity.this, R.color.slighly_darker_mainGreen));
+
+            //action bar ding
+
+            Toolbar toolbar = findViewById(R.id.action_bar_changepassword);
+            setSupportActionBar(toolbar);
+
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+            Exit = (ImageButton) toolbar.findViewById(R.id.exitmakecommenttextpost);
+            Exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
     }
 }

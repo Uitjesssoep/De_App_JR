@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import com.example.myfirstapp.App_Settings_Activity;
 import com.example.myfirstapp.Credits_Activity;
 import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -194,7 +195,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
                                                     databaseReference.setValue(userProfileToDatabase);
 
-                                                    startActivity(new Intent(Profile_Settings_Activity.this, Loading_Screen_Activity.class));
                                                     finish();
 
                                                 }
@@ -221,7 +221,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
                                                     databaseReference.setValue(userProfileToDatabase);
 
-                                                    startActivity(new Intent(Profile_Settings_Activity.this, Loading_Screen_Activity.class));
                                                     finish();
 
                                                 }
@@ -254,7 +253,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
         //action bar ding
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.action_bar_credits);
+        Toolbar toolbar = findViewById(R.id.action_bar_profilesettings);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);

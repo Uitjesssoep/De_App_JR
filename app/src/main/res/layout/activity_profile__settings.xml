@@ -13,17 +13,18 @@
 
     <TextView
         android:id="@+id/tvChangeYourProfileSettings"
-        android:layout_width="267dp"
-        android:layout_height="29dp"
-        android:text="Change your profile settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change display settings"
+        android:textAlignment="center"
         android:textColor="#4CAF50"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/action_bar_profilesettings"
-        app:layout_constraintVertical_bias="0.050000012" />
+        app:layout_constraintVertical_bias="0.09" />
 
     <ImageView
         android:id="@+id/ivProfilePictureChange"
@@ -33,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvChangeYourProfileSettings"
-        app:layout_constraintVertical_bias="0.060000002"
+        app:layout_constraintVertical_bias="0.13"
         app:srcCompat="@drawable/neutral_profile_picture_nobackground"
         tools:srcCompat="@drawable/neutral_profile_picture_nobackground" />
 
@@ -53,7 +54,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etFullNameChange" />
+        app:layout_constraintTop_toBottomOf="@+id/etFullNameChange"
+        app:layout_constraintVertical_bias="0.4" />
 
     <EditText
         android:id="@+id/etFullNameChange"
@@ -72,6 +74,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivProfilePictureChange"
-        app:layout_constraintVertical_bias="0.060000002" />
+        app:layout_constraintVertical_bias="0.2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
