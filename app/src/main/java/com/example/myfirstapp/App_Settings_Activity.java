@@ -8,10 +8,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
@@ -29,6 +31,7 @@ public class App_Settings_Activity extends AppCompatActivity {
     private ImageButton Exit;
     private TextView ChangeDisplay, ChangePassword, LogOut, Delete, DataPolicy, ContentPolicy, Credits, SendEmail, ReportBug;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private Switch nightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +96,6 @@ public class App_Settings_Activity extends AppCompatActivity {
 
             }
         });
-        //h
 
         Delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,6 +227,7 @@ public class App_Settings_Activity extends AppCompatActivity {
         Credits = findViewById(R.id.tvCreditsSettingsAbout);
         SendEmail = findViewById(R.id.tvSendAMailSupportSettings);
         ReportBug = findViewById(R.id.tvReportABugSupportSettings);
+        nightMode = findViewById(R.id.switchNightMode);
 
     }
 }
