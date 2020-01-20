@@ -376,7 +376,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 CommentCount = (int) dataSnapshot.getChildrenCount();
-                NumberOfComments.setText(CommentCount);
+                NumberOfComments.setText("" + CommentCount);
             }
 
             @Override
