@@ -27,6 +27,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
+import com.example.myfirstapp.App_Settings_Activity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
 import com.example.myfirstapp.GeneralAdapter;
@@ -516,7 +517,7 @@ public class General_Feed_Activity extends AppCompatActivity
         switch (item.getItemId()){
             case R.id.action_settings:
 
-                Intent intent = new Intent(General_Feed_Activity.this, ImagesFeed.class);
+                Intent intent = new Intent(General_Feed_Activity.this, App_Settings_Activity.class);
                 startActivity(intent);
 
                 break;
@@ -528,9 +529,18 @@ public class General_Feed_Activity extends AppCompatActivity
 
                 break;
 
+            case R.id.action_image_feed:
+
+                Intent intent2 = new Intent(General_Feed_Activity.this, ImagesFeed.class);
+                startActivity(intent2);
+
+                break;
+
             case R.id.action_follwers_feed:
                 Intent startFeed = new Intent(General_Feed_Activity.this, Followers_Feed_Activity.class);
                 startActivity(startFeed);
+
+                break;
         }
 
         return super.onOptionsItemSelected(item);

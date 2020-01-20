@@ -42,7 +42,7 @@ public class App_Settings_Activity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        Exit = (ImageButton) toolbar.findViewById(R.id.exitmakecommenttextpost);
+        Exit = (ImageButton) toolbar.findViewById(R.id.exitsettings);
         Exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
