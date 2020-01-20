@@ -8,11 +8,21 @@ public class Upload {
     private String mUID;
     private String mKey;
     private String mDate;
+    private String mType;
 
-    public Upload(String Title, String User_name, String Content, String UID, String Key, String Date) {
+    public String getmType() {
+        return mType;
+    }
+
+    public void setmType(String mType) {
+        this.mType = mType;
+    }
+
+    public Upload(String Title, String User_name, String Content, String UID, String Key, String Date, String Type) {
         if (Title.trim().equals("")) {
             Title = " ";
         }
+        mType = Type;
         mTitle = Title;
         mUser_name = User_name;
         mUID = UID;
