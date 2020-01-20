@@ -56,13 +56,13 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Log.e("Check", "Tot getitemviewtype gekomen");
         PostStuffForText post = mList.get(position);
         KeyPost = post.getKey();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("General_Text_Posts");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("General_Image_Posts").child(KeyPost).child("title");
         //  databaseReference = FirebaseDatabase.getInstance().getReference().orderByChild("key").equalTo(KeyPost);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    key = ds.getKey();
+                    key = ds.getValue().toString();
                     Log.e("Check", key);
                 }
             }
@@ -74,36 +74,39 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
 
 
-        if (key.equals(KeyPost)) {
+        if (key.equals("image")) {
             return 1;
-        } else {
-            return 2;
         }
+        return 2;
+
     }
 
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        final RecyclerView.ViewHolder holder;
-        View view;
-        switch (viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == 1) {
+            Log.e(TAG, "onCreateViewHolder images");
+            View view = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
+            return new ImagePostViewHolder(view, mListener);
+        }
+        Log.e(TAG, "onCreateViewHolder text");
+        View v = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
+        return new TextPostViewHolder(v, mListener);
+
+
+
+        /*switch (viewType) {
             case 1:
                 Log.e(TAG, "onCreateViewHolder images");
-                view = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
-                holder = new ImagePostViewHolder(view, mListener);
-                break;
+                View view = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
+                return new ImagePostViewHolder(view, mListener);
             case 2:
                 Log.e(TAG, "onCreateViewHolder text");
-                view = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
-                holder = new TextPostViewHolder(view, mListener);
-                break;
-            default:
-                holder = null;
-                break;
-
-        }
-        return holder;
+                View v = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
+                return new TextPostViewHolder(v, mListener);
+            default: throw new IllegalArgumentException();
+        }*/
     }
 
  /*   @Override
@@ -142,8 +145,81 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ImagePostViewHolder) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        Log.e(TAG, "onBindViewHolder invoked");
+        PostStuffForText post = mList.get(position);
+        KeyPost = post.getKey();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("General_Text_Posts");
+        //  databaseReference = FirebaseDatabase.getInstance().getReference().orderByChild("key").equalTo(KeyPost);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    key = ds.getKey();
+                    Log.e("Check", key);
+                    if(key.equals("General_Image_Posts")){
+                        ImagePostViewHolder viewHolder = (ImagePostViewHolder) holder;
+                        PostStuffForText item = mList.get(position);
+                        viewHolder.setIsRecyclable(false);
+                        viewHolder.TitleImage.setText(item.getTitle());
+                        viewHolder.UsernameImage.setText(item.getUser_name());
+                        viewHolder.DateImage.setText(item.getDate());
+                        Picasso.get()
+                                .load(item.getContent())
+                                .fit()
+                                .centerCrop()
+                                .into(viewHolder.imageView);
+                    }else{
+                        TextPostViewHolder viewHolder1 = (TextPostViewHolder) holder;
+                        PostStuffForText item1 = mList.get(position);
+                        viewHolder1.setIsRecyclable(false);
+                        viewHolder1.Username.setText(item1.getUser_name());
+                        viewHolder1.Title.setText(item1.getTitle());
+                        viewHolder1.KeyHolder.setText(item1.getKey());
+                        viewHolder1.Content.setText(item1.getContent());
+                        viewHolder1.Date.setText(item1.getDate());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+
+
+
+
+     /*   Log.e(TAG, "onBindViewHolder invoked");
+        switch (getItemViewType(position)) {
+            case 1:
+                ImagePostViewHolder viewHolder = (ImagePostViewHolder) holder;
+                PostStuffForText item = mList.get(position);
+                viewHolder.setIsRecyclable(false);
+                viewHolder.TitleImage.setText(item.getTitle());
+                viewHolder.UsernameImage.setText(item.getUser_name());
+                viewHolder.DateImage.setText(item.getDate());
+                Picasso.get()
+                        .load(item.getContent())
+                        .fit()
+                        .centerCrop()
+                        .into(viewHolder.imageView);
+                break;
+            case 2:
+                TextPostViewHolder viewHolder1 = (TextPostViewHolder) holder;
+                PostStuffForText item1 = mList.get(position);
+                viewHolder1.setIsRecyclable(false);
+                viewHolder1.Username.setText(item1.getUser_name());
+                viewHolder1.Title.setText(item1.getTitle());
+                viewHolder1.KeyHolder.setText(item1.getKey());
+                viewHolder1.Content.setText(item1.getContent());
+                viewHolder1.Date.setText(item1.getDate());
+        }
+
+       if (holder instanceof ImagePostViewHolder) {
             ImagePostViewHolder viewHolder = (ImagePostViewHolder) holder;
             PostStuffForText item = mList.get(position);
             viewHolder.setIsRecyclable(false);
@@ -164,12 +240,15 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.KeyHolder.setText(item.getKey());
             viewHolder.Content.setText(item.getContent());
             viewHolder.Date.setText(item.getDate());
-        }
+        }*/
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        Log.e(TAG, "GetItemCount");
+        return mList.size();
+
+
     }
 
     private class TextPostViewHolder extends RecyclerView.ViewHolder {
@@ -177,7 +256,9 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public ImageButton Upvote, Downvote, DeleteTextPost;
 
         public TextPostViewHolder(View itemView, final GeneralAdapter.OnItemClickListener listener) {
+
             super(itemView);
+            Log.e(TAG, "TextPostViewHolder: ");
             Username = itemView.findViewById(R.id.tvUsernameTextPostItem);
             LikeCount = itemView.findViewById(R.id.tvLikeCounterTextPostItem);
             DislikeCount = itemView.findViewById(R.id.tvDislikeCounterTextPostItem);
@@ -258,6 +339,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public ImagePostViewHolder(View itemview, final GeneralAdapter.OnItemClickListener listener) {
             super(itemview);
+            Log.e(TAG, "ImagePostViewHolder: ");
             TitleImage = itemView.findViewById(R.id.tvTitleImageItem);
             UsernameImage = itemView.findViewById(R.id.tvUsernameImageItem);
             DateImage = itemView.findViewById(R.id.tvDateImageItem);
