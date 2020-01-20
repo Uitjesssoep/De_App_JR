@@ -123,17 +123,17 @@ public class General_Feed_Activity extends AppCompatActivity
 
         clear();
 
-        LoadAdapter();
-
         StartOrReloadTextPosts();
 
         StartOrReloadImagePosts();
 
+        LoadAdapter();
+
     }
 
     private void LoadAdapter(){
-        postStuffForTextAdapter = new PostStuffForTextAdapter(General_Feed_Activity.this, postStuffForTextList);
-        GeneralFeed.setAdapter(postStuffForTextAdapter);
+        generalAdapter = new GeneralAdapter(General_Feed_Activity.this, postStuffForTextList);
+        GeneralFeed.setAdapter(generalAdapter);
 
         progressBar.setVisibility(View.GONE);
 
@@ -174,7 +174,7 @@ public class General_Feed_Activity extends AppCompatActivity
                     Log.e("tekstshit", postStuffForTextList.toString());
                 }
 
-                postStuffForTextAdapter.setOnItemClickListener(new PostStuffForTextAdapter.OnItemClickListener() {
+                generalAdapter.setOnItemClickListener(new GeneralAdapter.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(int position) {
@@ -549,7 +549,7 @@ public class General_Feed_Activity extends AppCompatActivity
                 Log.e(TAGTest, "tot 'for' gekomen");
             }
 
-            postStuffForTextAdapter.notifyItemRangeRemoved(0, size);
+            generalAdapter.notifyItemRangeRemoved(0, size);
         }
     }
 
