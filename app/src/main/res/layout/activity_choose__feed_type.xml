@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Choose_FeedType_Activity">
+    tools:context=".Choose_FeedType_Activity"
+    android:background="@color/white">
 
     <include
         layout="@layout/action_bar_main"

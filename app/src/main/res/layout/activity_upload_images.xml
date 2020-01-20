@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".Imageposts.Upload_Images_Activity">
+    tools:context=".Imageposts.Upload_Images_Activity"
+    android:background="@color/white">
 
     <Button
         android:id="@+id/btnChooseImage"

@@ -10,9 +10,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +23,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
+import com.example.myfirstapp.Credits_Activity;
 import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,10 +51,9 @@ public class Profile_Settings_Activity extends AppCompatActivity {
     private static final String TAG = "Profile_Settings_Act";
 
     private EditText ChangeFullName;
-    private TextView ChangeBirthdate;
     private ImageView ChangeProfilePicture;
+    private ImageButton Exit;
     private Button SaveChangesProfile;
-    private DatePickerDialog.OnDateSetListener onDateSetListener;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
@@ -95,46 +100,11 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         StorageReference myRef1 = storageReference.child(firebaseAuth.getUid());
 
         ChangeFullName = (EditText)findViewById(R.id.etFullNameChange);
-        ChangeBirthdate = (TextView) findViewById(R.id.tvBirthdateChange);
         ChangeProfilePicture = (ImageView) findViewById(R.id.ivProfilePictureChange);
         SaveChangesProfile = (Button) findViewById(R.id.btnSaveChangesProfileSettings);
 
 
-
-
-
-        //date picker deel drop ik maar ff hier
-
-        ChangeBirthdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(Profile_Settings_Activity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener, year, month, day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-
-            }
-        });
-
-        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                Log.d(TAG, "onDateSet: dd/mm/yy: " + day + month + year);
-
-                String date = day + "/" + month + "/" + year;
-                ChangeBirthdate.setText(date);
-            }
-        };
-
-
-
-
-
+        SetupDesign();
 
 
         ChangeProfilePicture.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +136,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
                 ChangeFullName.setText(userProfile.getUserFullName());
-                ChangeBirthdate.setText(userProfile.getUserBirthdate());
             }
 
             @Override
@@ -180,7 +149,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 UID = firebaseAuth.getUid();
-                ChangeBirthdateString = ChangeBirthdate.getText().toString();
                 ChangeFullNameString = ChangeFullName.getText().toString();
 
                                 if (ChangeFullNameString.isEmpty()) {
@@ -220,6 +188,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
                                                     ChangeNameString = dataSnapshot.child("userName").getValue().toString();
                                                     ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
+                                                    ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
 
                                                     UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
 
@@ -246,6 +215,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
                                                     ChangeNameString = dataSnapshot.child("userName").getValue().toString();
                                                     ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
+                                                    ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
 
                                                     UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
 
@@ -265,6 +235,35 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
                                     }
                                 }
+            }
+        });
+
+    }
+
+    private void SetupDesign() {
+
+        //voor het geven van kleur aan de status bar:
+
+        Window window = Profile_Settings_Activity.this.getWindow();
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        window.setStatusBarColor(ContextCompat.getColor(Profile_Settings_Activity.this, R.color.slighly_darker_mainGreen));
+
+        //action bar ding
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.action_bar_credits);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Exit = (ImageButton) toolbar.findViewById(R.id.exitmakecommenttextpost);
+        Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
