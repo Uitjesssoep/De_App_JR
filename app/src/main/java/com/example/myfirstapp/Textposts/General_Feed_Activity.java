@@ -29,6 +29,7 @@ import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
+import com.example.myfirstapp.GeneralAdapter;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Users.UserListToFollow;
@@ -51,6 +52,7 @@ public class General_Feed_Activity extends AppCompatActivity
     private RecyclerView GeneralFeed;
     private List<PostStuffForText> postStuffForTextList;
     private PostStuffForTextAdapter postStuffForTextAdapter;
+    private GeneralAdapter generalAdapter;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
@@ -59,7 +61,7 @@ public class General_Feed_Activity extends AppCompatActivity
     private DatabaseReference Imageposts = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
     private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
 
-    private String key, MyUID;
+    private String key, MyUID, TAG="Check";
     private Boolean Liked = false, Disliked = false, LikedCheck = false, DislikedCheck = false;
     private int LikeCount, DislikeCount, CommentCount;
 
@@ -92,8 +94,10 @@ public class General_Feed_Activity extends AppCompatActivity
             @Override
             public void onRefresh() {
 
+
                 StartOrReloadTextPosts();
                 StartOrReloadImagePosts();
+                clear();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -117,9 +121,21 @@ public class General_Feed_Activity extends AppCompatActivity
 
         SetupDesign();
 
+        clear();
+
+        LoadAdapter();
+
         StartOrReloadTextPosts();
 
         StartOrReloadImagePosts();
+
+    }
+
+    private void LoadAdapter(){
+        postStuffForTextAdapter = new PostStuffForTextAdapter(General_Feed_Activity.this, postStuffForTextList);
+        GeneralFeed.setAdapter(postStuffForTextAdapter);
+
+        progressBar.setVisibility(View.GONE);
 
     }
 
@@ -128,11 +144,12 @@ public class General_Feed_Activity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                clear();
+             //   clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PostStuffForText upload = postSnapshot.getValue(PostStuffForText.class);
                     postStuffForTextList.add(upload);
+                    Log.e(TAG,"images toegevoegd");
                 }
                 }
 
@@ -149,18 +166,13 @@ public class General_Feed_Activity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                clear();
+            //    clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
                     postStuffForTextList.add(postStuffForText);
-                    Log.d("tekstshit", postStuffForTextList.toString());
+                    Log.e("tekstshit", postStuffForTextList.toString());
                 }
-
-                postStuffForTextAdapter = new PostStuffForTextAdapter(General_Feed_Activity.this, postStuffForTextList);
-                GeneralFeed.setAdapter(postStuffForTextAdapter);
-
-                progressBar.setVisibility(View.GONE);
 
                 postStuffForTextAdapter.setOnItemClickListener(new PostStuffForTextAdapter.OnItemClickListener() {
 
@@ -510,7 +522,7 @@ public class General_Feed_Activity extends AppCompatActivity
                 break;
 
             case R.id.action_refresh_feed:
-
+                clear();
                 StartOrReloadTextPosts();
                 StartOrReloadImagePosts();
 

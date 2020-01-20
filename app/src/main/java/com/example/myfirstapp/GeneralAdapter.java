@@ -44,6 +44,10 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onUpvoteClick(int position);
         void onDownvoteClick(int position);}
 
+    public void setOnItemClickListener(GeneralAdapter.OnItemClickListener listener){
+        mListener = listener;
+    }
+
     public GeneralAdapter(Context mContext, List<PostStuffForText> mList){
         this.mContext = mContext;
         this.mList = mList;
@@ -51,6 +55,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
+        Log.e("Check", "Tot getitemviewtype gekomen");
         PostStuffForText post = mList.get(position);
         KeyPost = post.getKey();
         databaseReference = FirebaseDatabase.getInstance().getReference().orderByChild("key").equalTo(KeyPost);
