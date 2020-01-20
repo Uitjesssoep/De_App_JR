@@ -47,7 +47,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
     private EditText ChangeFullName;
     private TextView ChangeBirthdate;
     private ImageView ChangeProfilePicture;
-    private Button SaveChangesProfile, ChangePasswordButton;
+    private Button SaveChangesProfile;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
 
     private FirebaseAuth firebaseAuth;
@@ -98,7 +98,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         ChangeBirthdate = (TextView) findViewById(R.id.tvBirthdateChange);
         ChangeProfilePicture = (ImageView) findViewById(R.id.ivProfilePictureChange);
         SaveChangesProfile = (Button) findViewById(R.id.btnSaveChangesProfileSettings);
-        ChangePasswordButton = (Button)findViewById(R.id.btnChangePassword);
 
 
 
@@ -269,19 +268,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
             }
         });
 
-        ChangePasswordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent(Profile_Settings_Activity.this, Change_Password_Activity.class));
-            }
-        });
-
-    }
-
-    public void onBackPressed(){
-        startActivity(new Intent(Profile_Settings_Activity.this, Account_Info_Activity.class));
-        finish();
     }
 
 }

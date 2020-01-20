@@ -45,18 +45,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvBirthdateChange"
         app:layout_constraintVertical_bias="0.35000002" />
 
-    <Button
-        android:id="@+id/btnChangePassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Change password"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSaveChangesProfileSettings"
-        app:layout_constraintVertical_bias="0.25" />
-
     <EditText
         android:id="@+id/etFullNameChange"
         android:layout_width="wrap_content"
