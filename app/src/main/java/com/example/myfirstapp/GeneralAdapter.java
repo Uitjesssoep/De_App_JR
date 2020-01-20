@@ -25,7 +25,7 @@ import java.util.List;
 public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public List<PostStuffForText> mList;
     public Context mContext;
-    private String KeyPost, key;
+    private String KeyPost, key, TAG = "Check";
     private Query databaseReference;
 
     private GeneralAdapter.OnItemClickListener mListener;
@@ -45,6 +45,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public GeneralAdapter(Context mContext, List<PostStuffForText> mList) {
+        Log.e(TAG, "GeneralAdapter");
         this.mContext = mContext;
         this.mList = mList;
     }
@@ -84,13 +85,25 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, final int viewType) {
-        if (viewType == 1) {
-            View v = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
-            return new ImagePostViewHolder(v, mListener);
-        } else {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
-            return new TextPostViewHolder(view, mListener);
+        final RecyclerView.ViewHolder holder;
+        View view;
+        switch (viewType){
+            case 1:
+                Log.e(TAG, "onCreateViewHolder text");
+                view = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
+                holder = new ImagePostViewHolder(view, mListener);
+             break;
+            case 2:
+                Log.e(TAG, "onCreateViewHolder text");
+                view = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
+                holder = new TextPostViewHolder(view, mListener);
+            break;
+            default:
+                holder = null;
+                break;
+
         }
+        return holder;
     }
 
     @Override
@@ -124,13 +137,6 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             break;
             default:
                 break;
-        }
-
-
-        if (getItemViewType(position) == 1) {
-            ((ImagePostViewHolder) holder).bind(mList.get(position));
-        } else {
-            ((TextPostViewHolder) holder).bind(mList.get(position));
         }
     }
 

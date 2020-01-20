@@ -133,8 +133,10 @@ public class General_Feed_Activity extends AppCompatActivity
     }
 
     private void LoadAdapter(){
+
         generalAdapter = new GeneralAdapter(General_Feed_Activity.this, postStuffForTextList);
         GeneralFeed.setAdapter(generalAdapter);
+        Log.e(TAG, "LoadAdapter");
 
         progressBar.setVisibility(View.GONE);
 
