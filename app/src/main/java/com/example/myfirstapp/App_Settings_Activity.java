@@ -171,7 +171,8 @@ public class App_Settings_Activity extends AppCompatActivity {
         Credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(App_Settings_Activity.this, Credits_Activity.class);
+                startActivity(intent);
             }
         });
 
