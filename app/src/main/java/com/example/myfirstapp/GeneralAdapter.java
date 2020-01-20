@@ -74,9 +74,9 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
 
 
-        if (key.equals("image")) {
-            return 1;
-        }
+       // if (key.equals("image")) {
+       //     return 1;
+      //  }
         return 2;
 
     }
