@@ -141,15 +141,15 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.27"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivProfilePictureFirstSetup"
-        app:layout_constraintVertical_bias="0.035"
-        app:srcCompat="@drawable/informatie_grijs" />
+        app:layout_constraintVertical_bias="0.03"
+        app:srcCompat="@drawable/ic_info_outline_grey_24dp" />
         app:srcCompat="@drawable/informatie_grijs" />
 
     <TextView
@@ -157,6 +157,7 @@
         android:layout_width="180dip"
         android:layout_height="25dip"
         android:text="Click the image to choose a profile picture You can also leave this image empty"
+        android:textColor="#949494"
         android:textSize="9sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

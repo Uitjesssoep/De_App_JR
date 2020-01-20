@@ -98,10 +98,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.hasChild(MyUID)){
-                    holder.UpvoteImage.setImageResource(R.drawable.pijl_omhoog_geklikt);
+                    holder.UpvoteImage.setImageResource(R.drawable.ic_keyboard_arrow_up_green_24dp);
                 }
                 else{
-                    holder.UpvoteImage.setImageResource(R.drawable.pijl_omhoog_neutraal);
+                    holder.UpvoteImage.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                 }
 
             }
@@ -118,10 +118,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.hasChild(MyUID)){
-                    holder.DownvoteImage.setImageResource(R.drawable.pijl_omlaag_geklikt);
+                    holder.DownvoteImage.setImageResource(R.drawable.ic_keyboard_arrow_down_green_24dp);
                 }
                 else{
-                    holder.DownvoteImage.setImageResource(R.drawable.pijl_omlaag_neutraal);
+                    holder.DownvoteImage.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                 }
 
             }

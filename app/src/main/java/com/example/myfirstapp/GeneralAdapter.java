@@ -718,10 +718,10 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     if(dataSnapshot.hasChild(MyUID)){
-                        UpvoteImage.setImageResource(R.drawable.pijl_omhoog_geklikt);
+                        UpvoteImage.setImageResource(R.drawable.ic_keyboard_arrow_up_green_24dp);
                     }
                     else{
-                        UpvoteImage.setImageResource(R.drawable.pijl_omhoog_neutraal);
+                        UpvoteImage.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                     }
 
                 }
@@ -738,10 +738,10 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     if(dataSnapshot.hasChild(MyUID)){
-                        DownvoteImage.setImageResource(R.drawable.pijl_omlaag_geklikt);
+                        DownvoteImage.setImageResource(R.drawable.ic_keyboard_arrow_down_green_24dp);
                     }
                     else{
-                        DownvoteImage.setImageResource(R.drawable.pijl_omlaag_neutraal);
+                        DownvoteImage.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                     }
 
                 }

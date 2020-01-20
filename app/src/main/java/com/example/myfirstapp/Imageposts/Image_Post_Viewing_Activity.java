@@ -363,12 +363,12 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
                 if (dataSnapshot.hasChild(MyUID)) {
 
-                    Like.setImageResource(R.drawable.pijl_omhoog_geklikt);
+                    Like.setImageResource(R.drawable.ic_keyboard_arrow_up_green_24dp);
                     LikedCheck = true;
 
                 } else {
 
-                    Like.setImageResource(R.drawable.pijl_omhoog_neutraal);
+                    Like.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                     LikedCheck = false;
 
                 }
@@ -388,12 +388,12 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
                 if (dataSnapshot.hasChild(MyUID)) {
 
-                    Dislike.setImageResource(R.drawable.pijl_omlaag_geklikt);
+                    Dislike.setImageResource(R.drawable.ic_keyboard_arrow_down_green_24dp);
                     DislikedCheck = true;
 
                 } else {
 
-                    Dislike.setImageResource(R.drawable.pijl_omlaag_neutraal);
+                    Dislike.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                     DislikedCheck = false;
 
                 }

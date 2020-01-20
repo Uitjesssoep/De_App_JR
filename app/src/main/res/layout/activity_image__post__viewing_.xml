@@ -65,7 +65,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvContentOfImagePost"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/pijl_omhoog_neutraal" />
+            app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
 
         <ImageButton
             android:id="@+id/ibLikeDownForImagePostViewing"
@@ -82,7 +82,7 @@
             app:layout_constraintStart_toEndOf="@+id/tvLikeCounterForImagePostViewing"
             app:layout_constraintTop_toBottomOf="@+id/tvContentOfImagePost"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/pijl_omlaag_neutraal" />
+            app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
 
         <TextView
             android:id="@+id/tvLikeCounterForImagePostViewing"
