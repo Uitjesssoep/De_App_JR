@@ -47,6 +47,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.1"
+        android:background="@drawable/imageview_profilepicture_edge"
         app:srcCompat="@drawable/neutral_profile_picture_nobackground"
         tools:srcCompat="@drawable/neutral_profile_picture_nobackground" />
 

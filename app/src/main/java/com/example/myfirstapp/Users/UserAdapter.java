@@ -126,7 +126,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         }
         else {*/
         holder.Username.setText(users.getUserName());
-        holder.UIDhidden.setText(users.getTheUID());
+        final String UIDToFollow2 = users.getTheUID();
         //UIDString = users.getTheUID();
         Log.e(TAGTEST, users.getUserName());
         Log.e(TAGTEST, users.getProfilePicture());
@@ -141,7 +141,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         dataref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UIDToFollow2 = holder.UIDhidden.getText().toString();
                 UsernameToFollow2 = holder.Username.getText().toString();
 
                 if (dataSnapshot.hasChild(UIDToFollow2)) {
@@ -222,7 +221,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         public UserViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             Username = itemView.findViewById(R.id.tvUser_name);
-            UIDhidden = itemView.findViewById(R.id.tvUID);
             ProfilePicture = itemView.findViewById(R.id.ivProfilePictureUserList);
             Follow = itemView.findViewById(R.id.tvFollow);
 

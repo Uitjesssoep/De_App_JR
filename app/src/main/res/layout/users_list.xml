@@ -4,63 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvDisplay_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_toRightOf="@id/ivProfilePictureUserList"
+            android:text="Display Name:"
+            android:textColor="#000000"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvUser_name"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="10dp"
+            android:layout_below="@id/tvDisplay_Name"
+            android:layout_toRightOf="@id/ivProfilePictureUserList"
             android:text="Username:"
             android:textColor="#000000"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ivProfilePictureUserList"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvFollow"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
-            android:gravity="center|center_vertical"
             android:text="Follow"
             android:textAlignment="center"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/ivProfilePictureUserList"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_toRightOf="@id/tvUser_name"/>
 
         <ImageView
             android:id="@+id/ivProfilePictureUserList"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars[0]" />
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/imageview_profilepicture_edge"/>
 
-        <TextView
-            android:id="@+id/tvUID"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="UID"
+        <Button
+            android:id="@+id/button"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="33dp"
+            android:minWidth="80dp"
+            android:maxWidth="80dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/button_roundedcorners_login"
+            android:scrollbarSize="0dp"
+            android:shadowColor="#00FFFFFF"
+            android:shadowDy="0"
+            android:text="Follow"
             android:textColor="#FFFFFF"
-            android:textSize="1sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ivProfilePictureUserList"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
