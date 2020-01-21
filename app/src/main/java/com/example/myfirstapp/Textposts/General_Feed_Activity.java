@@ -155,8 +155,8 @@ public class General_Feed_Activity extends AppCompatActivity
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PostStuffForText upload = postSnapshot.getValue(PostStuffForText.class);
                     postStuffForTextList.add(upload);
-                    postStuffForTextAdapter = new PostStuffForTextAdapter(General_Feed_Activity.this, postStuffForTextList);
-                    GeneralFeed.setAdapter(postStuffForTextAdapter);
+                    generalAdapter = new GeneralAdapter(General_Feed_Activity.this, postStuffForTextList);
+                    GeneralFeed.setAdapter(generalAdapter);
                     Log.e(TAG, "LoadAdapter");
 
                     progressBar.setVisibility(View.GONE);
@@ -185,7 +185,7 @@ public class General_Feed_Activity extends AppCompatActivity
                     Log.e("tekstshit", postStuffForTextList.toString());
                 }
 
-                postStuffForTextAdapter.setOnItemClickListener(new PostStuffForTextAdapter.OnItemClickListener() {
+                generalAdapter.setOnItemClickListener(new GeneralAdapter.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(int position) {
@@ -585,7 +585,7 @@ public class General_Feed_Activity extends AppCompatActivity
                 Log.e(TAGTest, "tot 'for' gekomen");
             }
 
-            postStuffForTextAdapter.notifyItemRangeRemoved(0, size);
+            generalAdapter.notifyItemRangeRemoved(0, size);
         }
     }
 
