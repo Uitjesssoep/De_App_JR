@@ -78,6 +78,10 @@ public class General_Feed_Activity extends AppCompatActivity
     private void SetupUI() {
 
         GeneralFeed = findViewById(R.id.rvFeedScreen);
+        GeneralFeed.setItemViewCacheSize(20);
+        GeneralFeed.setHasFixedSize(true);
+        GeneralFeed.setDrawingCacheEnabled(true);
+        GeneralFeed.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         GeneralFeed.setLayoutManager(new LinearLayoutManager(this));
 
         postStuffForTextList = new ArrayList<>();
@@ -138,7 +142,7 @@ public class General_Feed_Activity extends AppCompatActivity
 
         generalAdapter = new GeneralAdapter(General_Feed_Activity.this, postStuffForTextList);
         GeneralFeed.setAdapter(generalAdapter);
-        Log.e(TAG, "LoadAdapter");
+        //Log.e(TAG, "LoadAdapter");
 
         progressBar.setVisibility(View.GONE);
 
@@ -157,10 +161,10 @@ public class General_Feed_Activity extends AppCompatActivity
                     postStuffForTextList.add(upload);
                     generalAdapter = new GeneralAdapter(General_Feed_Activity.this, postStuffForTextList);
                     GeneralFeed.setAdapter(generalAdapter);
-                    Log.e(TAG, "LoadAdapter");
+                   // Log.e(TAG, "LoadAdapter");
 
                     progressBar.setVisibility(View.GONE);
-                    Log.e(TAG,"images toegevoegd");
+                  //  Log.e(TAG,"images toegevoegd");
                 }
                 }
 
@@ -182,7 +186,8 @@ public class General_Feed_Activity extends AppCompatActivity
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
                     postStuffForTextList.add(postStuffForText);
-                    Log.e("tekstshit", postStuffForTextList.toString());
+                    Log.e(TAG, "textpostsreload" );
+                   // Log.e("tekstshit", postStuffForTextList.toString());
                 }
 
                 generalAdapter.setOnItemClickListener(new GeneralAdapter.OnItemClickListener() {
@@ -582,7 +587,7 @@ public class General_Feed_Activity extends AppCompatActivity
                 postStuffForTextList.remove(0);
 
                 String TAGTest = "ListEmpty";
-                Log.e(TAGTest, "tot 'for' gekomen");
+               // Log.e(TAGTest, "tot 'for' gekomen");
             }
 
             generalAdapter.notifyItemRangeRemoved(0, size);

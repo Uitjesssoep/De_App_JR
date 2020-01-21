@@ -1,7 +1,6 @@
 package com.example.myfirstapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public GeneralAdapter(Context mContext, List<PostStuffForText> mList) {
-        Log.e(TAG, "GeneralAdapter");
+       // Log.e(TAG, "GeneralAdapter");
         this.mContext = mContext;
         this.mList = mList;
     }
@@ -50,11 +49,11 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(final int position) {
-        Log.e("Check", "Tot getitemviewtype gekomen");
+       // Log.e("Check", "Tot getitemviewtype gekomen");
         PostStuffForText post = mList.get(position);
         KeyPost = post.getKey();
         ContentPost = post.getContent();
-        Log.e("CheckNeutral", ContentPost );
+        //Log.e("CheckNeutral", ContentPost );
         if (ContentPost.contains("firebasestorage.googleapis.com")) {
             return 1;
         }
@@ -67,30 +66,13 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
        if (viewType == 1) {
-            Log.e(TAG, "onCreateViewHolder images");
+            //Log.e(TAG, "onCreateViewHolder images");
             View view = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
             return new ImagePostViewHolder(view, mListener);
-        }else {Log.e(TAG, "onCreateViewHolder text");
+        }else {//Log.e(TAG, "onCreateViewHolder text");
         View v = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
         return new TextPostViewHolder(v, mListener);}
 
-
-      /*  switch (viewType) {
-            case 1: {
-                Log.e(TAG, "onCreateViewHolder images");
-                View view = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
-                return new ImagePostViewHolder(view, mListener);
-            }
-            break;
-            case 2: {
-                Log.e(TAG, "onCreateViewHolder text");
-                View v = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
-                return new TextPostViewHolder(v, mListener);
-            }
-            break;
-            default:
-                break;
-        }*/
     }
 
    @Override
@@ -127,109 +109,9 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-
-  /*  @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        Log.e(TAG, "onBindViewHolder invoked");
-        PostStuffForText post = mList.get(position);
-        KeyPost = post.getKey();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("General_Text_Posts");
-        //  databaseReference = FirebaseDatabase.getInstance().getReference().orderByChild("key").equalTo(KeyPost);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    key = ds.getKey();
-                    Log.e("Check", key);
-                    if (key.equals("General_Image_Posts")) {
-                        ImagePostViewHolder viewHolder = (ImagePostViewHolder) holder;
-                        PostStuffForText item = mList.get(position);
-                        viewHolder.setIsRecyclable(false);
-                        viewHolder.TitleImage.setText(item.getTitle());
-                        viewHolder.UsernameImage.setText(item.getUser_name());
-                        viewHolder.DateImage.setText(item.getDate());
-                        Picasso.get()
-                                .load(item.getContent())
-                                .fit()
-                                .centerCrop()
-                                .into(viewHolder.imageView);
-                    } else {
-                        TextPostViewHolder viewHolder1 = (TextPostViewHolder) holder;
-                        PostStuffForText item1 = mList.get(position);
-                        viewHolder1.setIsRecyclable(false);
-                        viewHolder1.Username.setText(item1.getUser_name());
-                        viewHolder1.Title.setText(item1.getTitle());
-                        viewHolder1.KeyHolder.setText(item1.getKey());
-                        viewHolder1.Content.setText(item1.getContent());
-                        viewHolder1.Date.setText(item1.getDate());
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-        });*/
-
-
-
-
-
-     /*   Log.e(TAG, "onBindViewHolder invoked");
-        switch (getItemViewType(position)) {
-            case 1:
-                ImagePostViewHolder viewHolder = (ImagePostViewHolder) holder;
-                PostStuffForText item = mList.get(position);
-                viewHolder.setIsRecyclable(false);
-                viewHolder.TitleImage.setText(item.getTitle());
-                viewHolder.UsernameImage.setText(item.getUser_name());
-                viewHolder.DateImage.setText(item.getDate());
-                Picasso.get()
-                        .load(item.getContent())
-                        .fit()
-                        .centerCrop()
-                        .into(viewHolder.imageView);
-                break;
-            case 2:
-                TextPostViewHolder viewHolder1 = (TextPostViewHolder) holder;
-                PostStuffForText item1 = mList.get(position);
-                viewHolder1.setIsRecyclable(false);
-                viewHolder1.Username.setText(item1.getUser_name());
-                viewHolder1.Title.setText(item1.getTitle());
-                viewHolder1.KeyHolder.setText(item1.getKey());
-                viewHolder1.Content.setText(item1.getContent());
-                viewHolder1.Date.setText(item1.getDate());
-        }
-
-       if (holder instanceof ImagePostViewHolder) {
-            ImagePostViewHolder viewHolder = (ImagePostViewHolder) holder;
-            PostStuffForText item = mList.get(position);
-            viewHolder.setIsRecyclable(false);
-            viewHolder.TitleImage.setText(item.getTitle());
-            viewHolder.UsernameImage.setText(item.getUser_name());
-            viewHolder.DateImage.setText(item.getDate());
-            Picasso.get()
-                    .load(item.getContent())
-                    .fit()
-                    .centerCrop()
-                    .into(viewHolder.imageView);
-        } else {
-            TextPostViewHolder viewHolder = (TextPostViewHolder) holder;
-            PostStuffForText item = mList.get(position);
-            viewHolder.setIsRecyclable(false);
-            viewHolder.Username.setText(item.getUser_name());
-            viewHolder.Title.setText(item.getTitle());
-            viewHolder.KeyHolder.setText(item.getKey());
-            viewHolder.Content.setText(item.getContent());
-            viewHolder.Date.setText(item.getDate());
-        }
-    }*/
-
     @Override
     public int getItemCount() {
-        Log.e(TAG, "GetItemCount");
+     //  Log.e(TAG, "GetItemCount");
         return mList.size();
 
 
@@ -242,7 +124,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextPostViewHolder(View itemView, final GeneralAdapter.OnItemClickListener listener) {
 
             super(itemView);
-            Log.e(TAG, "TextPostViewHolder: ");
+         //   Log.e(TAG, "TextPostViewHolder: ");
             Username = itemView.findViewById(R.id.tvUsernameTextPostItem);
             LikeCount = itemView.findViewById(R.id.tvLikeCounterTextPostItem);
             DislikeCount = itemView.findViewById(R.id.tvDislikeCounterTextPostItem);
@@ -304,15 +186,6 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
 
         }
-
-        public void bind(PostStuffForText textPost) {
-            Username.setText(textPost.getUser_name());
-            Title.setText(textPost.getTitle());
-            KeyHolder.setText(textPost.getKey());
-            Content.setText(textPost.getContent());
-            Date.setText(textPost.getDate());
-
-        }
     }
 
 
@@ -323,7 +196,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public ImagePostViewHolder(View itemview, final GeneralAdapter.OnItemClickListener listener) {
             super(itemview);
-            Log.e(TAG, "ImagePostViewHolder: ");
+           // Log.e(TAG, "ImagePostViewHolder: ");
             TitleImage = itemView.findViewById(R.id.tvTitleImageItem);
             UsernameImage = itemView.findViewById(R.id.tvUsernameImageItem);
             DateImage = itemView.findViewById(R.id.tvDateImageItem);
@@ -383,16 +256,5 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
         }
 
-        public void bind(PostStuffForText imagePost) {
-            TitleImage.setText(imagePost.getTitle());
-            UsernameImage.setText(imagePost.getUser_name());
-            DateImage.setText(imagePost.getDate());
-            Picasso.get()
-                    .load(imagePost.getContent())
-                    .fit()
-                    .centerCrop()
-                    .into(imageView);
-
-        }
     }
 }
