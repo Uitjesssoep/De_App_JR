@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -60,10 +62,22 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final PostStuffForText uploadCurrent = mPost.get(position);
+        if (mPost.get(position).getContent().contains("firebasestorage.googleapis.com")){
+            Picasso.get()
+                    .load(uploadCurrent.getContent())
+                    .fit()
+                    .centerCrop()
+                    .into(holder.Image);
+            holder.Content.setVisibility(View.GONE);
+        }else{
+            holder.Image.setVisibility(View.GONE);
+            holder.Content.setText(uploadCurrent.getContent());
+        }
+        holder.Image.setVisibility(View.GONE);
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
-        holder.Content.setText(uploadCurrent.getContent());
+
         holder.Date.setText(uploadCurrent.getDate());
 
         String ContentTemp = holder.Content.getText().toString();
@@ -499,10 +513,11 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
         public TextView Username, LikeCount, DislikeCount, CommentCount, Title, Content, KeyHolder, Date;
         public ImageButton Upvote, Downvote, DeleteTextPost;
+        public ImageView Image;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
-
+            Image = itemView.findViewById(R.id.ivImagePostItem);
             Username = itemView.findViewById (R.id.tvUsernameTextPostItem);
             LikeCount = itemView.findViewById (R.id.tvLikeCounterTextPostItem);
             DislikeCount = itemView.findViewById (R.id.tvDislikeCounterTextPostItem);
