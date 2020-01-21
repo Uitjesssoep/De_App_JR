@@ -176,9 +176,9 @@
 
         <ImageView
             android:id="@+id/ivImagePostItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="235dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="100dp"
             android:layout_alignLeft="@+id/tvTitleTextPostItem"
             tools:srcCompat="@tools:sample/avatars" />
 
