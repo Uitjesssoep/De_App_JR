@@ -54,6 +54,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         PostStuffForText post = mList.get(position);
         KeyPost = post.getKey();
         ContentPost = post.getContent();
+        Log.e("CheckNeutral", ContentPost );
         if (ContentPost.contains("firebasestorage.googleapis.com")) {
             return 1;
         }
