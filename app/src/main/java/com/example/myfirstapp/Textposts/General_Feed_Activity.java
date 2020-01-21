@@ -60,6 +60,7 @@ public class General_Feed_Activity extends AppCompatActivity
     private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
     private DatabaseReference Textposts = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
     private DatabaseReference Imageposts = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
+    private DatabaseReference CheckIfMyUID;
     private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
 
     private String key, MyUID, TAG="Check";
@@ -199,7 +200,12 @@ public class General_Feed_Activity extends AppCompatActivity
                     public void onUserNameClick(int position) {
                         final String PostKey = postStuffForTextList.get(position).getKey().toString();
 
-                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey);
+                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")){
+                            CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(PostKey);
+                        }else {
+                            CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey);
+                        }
+
                         CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -276,8 +282,14 @@ public class General_Feed_Activity extends AppCompatActivity
                     public void onUpvoteClick(int position) {
                         key = postStuffForTextList.get(position).getKey().toString();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
-                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")){
+                            DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
+                            DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
+                        }else {
+                            DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
+                            DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+                        }
+
                         final String TAGDownvote = "VoteCheck";
 
 
@@ -330,8 +342,13 @@ public class General_Feed_Activity extends AppCompatActivity
                     public void onDownvoteClick(int position) {
                         key = postStuffForTextList.get(position).getKey().toString();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
-                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")){
+                            DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
+                            DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
+                        }else {
+                            DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
+                            DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+                        }
                         final String TAGDownvote = "VoteCheck";
 
 

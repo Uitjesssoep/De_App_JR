@@ -178,8 +178,9 @@
             android:id="@+id/ivImagePostItem"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginLeft="100dp"
+            android:layout_alignTop="@+id/tvTitleTextPostItem"
             android:layout_alignLeft="@+id/tvTitleTextPostItem"
+            android:layout_marginLeft="200dp"
             tools:srcCompat="@tools:sample/avatars" />
 
     </RelativeLayout>
