@@ -63,7 +63,7 @@ public class General_Feed_Activity extends AppCompatActivity
     private DatabaseReference CheckIfMyUID;
     private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
 
-    private String key, MyUID, TAG = "Check";
+    private String key, MyUID, TAG="Check";
     private Boolean Liked = false, Disliked = false, LikedCheck = false, DislikedCheck = false;
     private int LikeCount, DislikeCount, CommentCount;
 
@@ -103,7 +103,7 @@ public class General_Feed_Activity extends AppCompatActivity
 
                 StartOrReloadTextPosts();
                 StartOrReloadImagePosts();
-                //  clear();
+              //  clear();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -128,16 +128,17 @@ public class General_Feed_Activity extends AppCompatActivity
         SetupDesign();
 
         //clear();
-        //LoadAdapter();
+     //   LoadAdapter();
 
         StartOrReloadTextPosts();
 
         StartOrReloadImagePosts();
 
 
+
     }
 
-    private void LoadAdapter() {
+    private void LoadAdapter(){
 
         generalAdapter = new GeneralAdapter(General_Feed_Activity.this, postStuffForTextList);
         GeneralFeed.setAdapter(generalAdapter);
@@ -147,25 +148,25 @@ public class General_Feed_Activity extends AppCompatActivity
 
     }
 
-    private void StartOrReloadImagePosts() {
+    private void StartOrReloadImagePosts(){
 
         Imageposts.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                clear();
+               clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PostStuffForText upload = postSnapshot.getValue(PostStuffForText.class);
                     postStuffForTextList.add(upload);
-                    // Log.e(TAG, "LoadAdapter");
                     generalAdapter = new GeneralAdapter(General_Feed_Activity.this, postStuffForTextList);
                     GeneralFeed.setAdapter(generalAdapter);
+                   // Log.e(TAG, "LoadAdapter");
 
                     progressBar.setVisibility(View.GONE);
-                    //  Log.e(TAG,"images toegevoegd");
+                  //  Log.e(TAG,"images toegevoegd");
                 }
-            }
+                }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -180,13 +181,13 @@ public class General_Feed_Activity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                clear();
+             //  clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
                     postStuffForTextList.add(postStuffForText);
-                    Log.e(TAG, "textpostsreload");
-                    // Log.e("tekstshit", postStuffForTextList.toString());
+                    Log.e(TAG, "textpostsreload" );
+                   // Log.e("tekstshit", postStuffForTextList.toString());
                 }
 
                 generalAdapter.setOnItemClickListener(new GeneralAdapter.OnItemClickListener() {
@@ -204,9 +205,9 @@ public class General_Feed_Activity extends AppCompatActivity
                     public void onUserNameClick(int position) {
                         final String PostKey = postStuffForTextList.get(position).getKey().toString();
 
-                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")) {
+                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")){
                             CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(PostKey);
-                        } else {
+                        }else {
                             CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey);
                         }
 
@@ -224,16 +225,17 @@ public class General_Feed_Activity extends AppCompatActivity
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                        if (dataSnapshot.hasChild(PostUID2)) {
+                                        if(dataSnapshot.hasChild(PostUID2)){
 
-                                            if (MyUIDCheck2.equals(PostUID2)) {
+                                            if(MyUIDCheck2.equals(PostUID2)){
 
                                                 Intent GoToMyProfile = new Intent(General_Feed_Activity.this, Account_Info_Activity.class);
                                                 startActivity(GoToMyProfile);
 
-                                            } else {
+                                            }
+                                            else{
 
-                                                if (AnonCheck.equals(AnonToCheck)) {
+                                                if(AnonCheck.equals(AnonToCheck)){
 
                                                     final AlertDialog.Builder dialog = new AlertDialog.Builder(General_Feed_Activity.this);
                                                     dialog.setTitle("This user has posted anonymously");
@@ -241,7 +243,9 @@ public class General_Feed_Activity extends AppCompatActivity
                                                     AlertDialog alertDialog = dialog.create();
                                                     alertDialog.show();
 
-                                                } else {
+                                                }
+
+                                                else{
 
                                                     Intent GoToProfile = new Intent(General_Feed_Activity.this, Account_Info_OtherUser_Activity.class);
                                                     GoToProfile.putExtra("Key", PostKey);
@@ -250,7 +254,9 @@ public class General_Feed_Activity extends AppCompatActivity
                                                 }
                                             }
 
-                                        } else {
+                                        }
+
+                                        else{
 
                                             final AlertDialog.Builder dialog = new AlertDialog.Builder(General_Feed_Activity.this);
                                             dialog.setTitle("This user has been deleted");
@@ -281,10 +287,10 @@ public class General_Feed_Activity extends AppCompatActivity
                     public void onUpvoteClick(int position) {
                         key = postStuffForTextList.get(position).getKey().toString();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")) {
+                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")){
                             DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
                             DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
-                        } else {
+                        }else {
                             DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
                             DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
                         }
@@ -296,20 +302,25 @@ public class General_Feed_Activity extends AppCompatActivity
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if (dataSnapshot.hasChild(MyUID)) {
+                                if(dataSnapshot.hasChild(MyUID)){
 
                                     DatabaseDislike.child(MyUID).removeValue();
                                     DatabaseLike.child(MyUID).setValue("RandomLike");
 
-                                } else {
+                                }
+
+
+                                else{
 
                                     DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            if (dataSnapshot.hasChild(MyUID)) {
+                                            if(dataSnapshot.hasChild(MyUID)){
                                                 DatabaseLike.child(MyUID).removeValue();
-                                            } else {
+                                            }
+
+                                            else{
                                                 DatabaseLike.child(MyUID).setValue("RandomLike");
                                             }
 
@@ -336,10 +347,10 @@ public class General_Feed_Activity extends AppCompatActivity
                     public void onDownvoteClick(int position) {
                         key = postStuffForTextList.get(position).getKey().toString();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")) {
+                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")){
                             DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
                             DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
-                        } else {
+                        }else {
                             DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
                             DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
                         }
@@ -350,20 +361,24 @@ public class General_Feed_Activity extends AppCompatActivity
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if (dataSnapshot.hasChild(MyUID)) {
+                                if(dataSnapshot.hasChild(MyUID)){
                                     DatabaseLike.child(MyUID).removeValue();
                                     DatabaseDislike.child(MyUID).setValue("RandomDislike");
-                                } else {
+                                }
+
+                                else{
 
                                     DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            if (dataSnapshot.hasChild(MyUID)) {
+                                            if(dataSnapshot.hasChild(MyUID)){
 
                                                 DatabaseDislike.child(MyUID).removeValue();
 
-                                            } else {
+                                            }
+
+                                            else{
 
                                                 DatabaseDislike.child(MyUID).setValue("RandomDislike");
 
@@ -401,18 +416,20 @@ public class General_Feed_Activity extends AppCompatActivity
     private void CheckInternet() {
 
         boolean connected = false;
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
             connected = true;
-        } else {
+        }
+        else {
             connected = false;
         }
 
-        if (connected) {
+        if(connected){
 
-        } else {
+        }
+        else{
             final AlertDialog.Builder dialog = new AlertDialog.Builder(General_Feed_Activity.this);
             dialog.setTitle("No internet connection");
             dialog.setMessage("Please connect to the internet and try again");
@@ -465,7 +482,7 @@ public class General_Feed_Activity extends AppCompatActivity
                     Fragment selectedFragment = null;
                     bottomNavigationView = findViewById(R.id.bottom_nav_second);
 
-                    switch (menuItem.getItemId()) {
+                    switch (menuItem.getItemId()){
                         case R.id.navigation_home:
 
                             Intent home = new Intent(General_Feed_Activity.this, General_Feed_Activity.class);
@@ -528,7 +545,7 @@ public class General_Feed_Activity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
+        switch (item.getItemId()){
             case R.id.action_settings:
 
                 Intent intent = new Intent(General_Feed_Activity.this, App_Settings_Activity.class);
@@ -537,7 +554,7 @@ public class General_Feed_Activity extends AppCompatActivity
                 break;
 
             case R.id.action_refresh_feed:
-                // clear();
+               // clear();
                 StartOrReloadTextPosts();
                 StartOrReloadImagePosts();
 
@@ -561,6 +578,7 @@ public class General_Feed_Activity extends AppCompatActivity
     }
 
 
+
     public void clear() {
 
         int size = postStuffForTextList.size();
@@ -569,7 +587,7 @@ public class General_Feed_Activity extends AppCompatActivity
                 postStuffForTextList.remove(0);
 
                 String TAGTest = "ListEmpty";
-                // Log.e(TAGTest, "tot 'for' gekomen");
+               // Log.e(TAGTest, "tot 'for' gekomen");
             }
 
             generalAdapter.notifyItemRangeRemoved(0, size);
