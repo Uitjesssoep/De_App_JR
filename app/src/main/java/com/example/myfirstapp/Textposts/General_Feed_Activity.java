@@ -97,8 +97,8 @@ public class General_Feed_Activity extends AppCompatActivity
 
 
                 StartOrReloadTextPosts();
-              //  StartOrReloadImagePosts();
-                clear();
+                StartOrReloadImagePosts();
+              //  clear();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -123,12 +123,13 @@ public class General_Feed_Activity extends AppCompatActivity
         SetupDesign();
 
         //clear();
+     //   LoadAdapter();
 
         StartOrReloadTextPosts();
 
-      //  StartOrReloadImagePosts();
+        StartOrReloadImagePosts();
 
-        LoadAdapter();
+
 
     }
 
@@ -143,6 +144,7 @@ public class General_Feed_Activity extends AppCompatActivity
     }
 
     private void StartOrReloadImagePosts(){
+
         Imageposts.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -152,6 +154,11 @@ public class General_Feed_Activity extends AppCompatActivity
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PostStuffForText upload = postSnapshot.getValue(PostStuffForText.class);
                     postStuffForTextList.add(upload);
+                    generalAdapter = new GeneralAdapter(General_Feed_Activity.this, postStuffForTextList);
+                    GeneralFeed.setAdapter(generalAdapter);
+                    Log.e(TAG, "LoadAdapter");
+
+                    progressBar.setVisibility(View.GONE);
                     Log.e(TAG,"images toegevoegd");
                 }
                 }
@@ -169,7 +176,7 @@ public class General_Feed_Activity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-               clear();
+             //  clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
@@ -525,9 +532,9 @@ public class General_Feed_Activity extends AppCompatActivity
                 break;
 
             case R.id.action_refresh_feed:
-                clear();
+               // clear();
                 StartOrReloadTextPosts();
-                //StartOrReloadImagePosts();
+                StartOrReloadImagePosts();
 
                 break;
 
