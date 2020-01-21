@@ -97,8 +97,8 @@ public class General_Feed_Activity extends AppCompatActivity
 
 
                 StartOrReloadTextPosts();
-                StartOrReloadImagePosts();
-                //clear();
+              //  StartOrReloadImagePosts();
+                clear();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -122,11 +122,11 @@ public class General_Feed_Activity extends AppCompatActivity
 
         SetupDesign();
 
-       // clear();
+        //clear();
 
         StartOrReloadTextPosts();
 
-        StartOrReloadImagePosts();
+      //  StartOrReloadImagePosts();
 
         LoadAdapter();
 
@@ -525,9 +525,9 @@ public class General_Feed_Activity extends AppCompatActivity
                 break;
 
             case R.id.action_refresh_feed:
-              // clear();
+                clear();
                 StartOrReloadTextPosts();
-                StartOrReloadImagePosts();
+                //StartOrReloadImagePosts();
 
                 break;
 

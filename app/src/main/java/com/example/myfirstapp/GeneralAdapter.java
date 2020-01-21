@@ -13,11 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.Textposts.PostStuffForText;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -29,6 +25,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Query databaseReference;
 
     private GeneralAdapter.OnItemClickListener mListener;
+    private String ContentPost;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -56,27 +53,10 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Log.e("Check", "Tot getitemviewtype gekomen");
         PostStuffForText post = mList.get(position);
         KeyPost = post.getKey();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("General_Image_Posts").child(KeyPost).child("title");
-        //  databaseReference = FirebaseDatabase.getInstance().getReference().orderByChild("key").equalTo(KeyPost);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    key = ds.getValue().toString();
-                    Log.e("Check", key);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-       // if (key.equals("image")) {
-       //     return 1;
-      //  }
+        ContentPost = post.getContent();
+        if (ContentPost.contains("firebasestorage.googleapis.com")) {
+            return 1;
+        }
         return 2;
 
     }
@@ -85,31 +65,34 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 1) {
+       if (viewType == 1) {
             Log.e(TAG, "onCreateViewHolder images");
             View view = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
             return new ImagePostViewHolder(view, mListener);
-        }
-        Log.e(TAG, "onCreateViewHolder text");
+        }else {Log.e(TAG, "onCreateViewHolder text");
         View v = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
-        return new TextPostViewHolder(v, mListener);
+        return new TextPostViewHolder(v, mListener);}
 
 
-
-        /*switch (viewType) {
-            case 1:
+      /*  switch (viewType) {
+            case 1: {
                 Log.e(TAG, "onCreateViewHolder images");
                 View view = LayoutInflater.from(mContext).inflate(R.layout.image_item, parent, false);
                 return new ImagePostViewHolder(view, mListener);
-            case 2:
+            }
+            break;
+            case 2: {
                 Log.e(TAG, "onCreateViewHolder text");
                 View v = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
                 return new TextPostViewHolder(v, mListener);
-            default: throw new IllegalArgumentException();
+            }
+            break;
+            default:
+                break;
         }*/
     }
 
- /*   @Override
+   @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         switch (holder.getItemViewType()) {
@@ -141,10 +124,10 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             default:
                 break;
         }
-    }*/
+    }
 
 
-    @Override
+  /*  @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         Log.e(TAG, "onBindViewHolder invoked");
         PostStuffForText post = mList.get(position);
@@ -157,7 +140,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     key = ds.getKey();
                     Log.e("Check", key);
-                    if(key.equals("General_Image_Posts")){
+                    if (key.equals("General_Image_Posts")) {
                         ImagePostViewHolder viewHolder = (ImagePostViewHolder) holder;
                         PostStuffForText item = mList.get(position);
                         viewHolder.setIsRecyclable(false);
@@ -169,7 +152,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 .fit()
                                 .centerCrop()
                                 .into(viewHolder.imageView);
-                    }else{
+                    } else {
                         TextPostViewHolder viewHolder1 = (TextPostViewHolder) holder;
                         PostStuffForText item1 = mList.get(position);
                         viewHolder1.setIsRecyclable(false);
@@ -187,7 +170,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
 
-        });
+        });*/
 
 
 
@@ -240,8 +223,8 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.KeyHolder.setText(item.getKey());
             viewHolder.Content.setText(item.getContent());
             viewHolder.Date.setText(item.getDate());
-        }*/
-    }
+        }
+    }*/
 
     @Override
     public int getItemCount() {
