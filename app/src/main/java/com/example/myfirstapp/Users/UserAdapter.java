@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -126,6 +127,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         }
         else {*/
         holder.Username.setText(users.getUserName());
+        holder.DisplayName.setText(users.getUserFullName());
         final String UIDToFollow2 = users.getTheUID();
         //UIDString = users.getTheUID();
         Log.e(TAGTEST, users.getUserName());
@@ -144,15 +146,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 UsernameToFollow2 = holder.Username.getText().toString();
 
                 if (dataSnapshot.hasChild(UIDToFollow2)) {
-                    Log.e(TAGTEST, "Followin");
-                    holder.Follow.setBackgroundColor(Color.rgb(151, 189, 240));
-                    holder.Follow.setText("Following");
-                    holder.Follow.setTextSize(12);
+                    Log.e(TAGTEST, "Following");
+                    holder.FollowButton.setBackgroundResource(R.drawable.button_roundedcorners_following);
+                    holder.FollowButton.setText("Following");
+                    holder.FollowButton.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
                 }
                 else {Log.e(TAGTEST, "Follow" );
-                    holder.Follow.setText("Wanna Follow?");
-                    holder.Follow.setTextSize(12);
-                    holder.Follow.setBackgroundColor(Color.rgb(199, 193, 193));
+                    holder.FollowButton.setText("Follow");
+                    holder.FollowButton.setBackgroundResource(R.drawable.button_roundedcorners_follow);
+                    holder.FollowButton.setTextColor(mContext.getResources().getColor(R.color.white));
                 }
             }
 
@@ -214,15 +216,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView Username, UIDhidden, Follow;
+        public TextView Username, DisplayName;
         public ImageView ProfilePicture;
+        public Button FollowButton;
 
 
         public UserViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             Username = itemView.findViewById(R.id.tvUser_name);
             ProfilePicture = itemView.findViewById(R.id.ivProfilePictureUserList);
-            Follow = itemView.findViewById(R.id.tvFollow);
+            FollowButton = itemView.findViewById(R.id.btnFollowUserListToFollow);
+            DisplayName = itemView.findViewById(R.id.tvDisplay_Name);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -257,7 +261,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                     }
                 }
             });
-            Follow.setOnClickListener(new View.OnClickListener() {
+            FollowButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(listener != null){

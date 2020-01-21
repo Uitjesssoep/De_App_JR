@@ -15,8 +15,8 @@
             android:id="@+id/tvDisplay_Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="3dp"
             android:layout_toRightOf="@id/ivProfilePictureUserList"
             android:text="Display Name:"
             android:textColor="#000000"
@@ -26,23 +26,12 @@
             android:id="@+id/tvUser_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="3dp"
             android:layout_below="@id/tvDisplay_Name"
             android:layout_toRightOf="@id/ivProfilePictureUserList"
             android:text="Username:"
             android:textColor="#000000"
             android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/tvFollow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:text="Follow"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:layout_toRightOf="@id/tvUser_name"/>
 
         <ImageView
             android:id="@+id/ivProfilePictureUserList"
@@ -55,22 +44,21 @@
             android:background="@drawable/imageview_profilepicture_edge"/>
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="80dp"
+            android:id="@+id/btnFollowUserListToFollow"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="33dp"
-            android:minWidth="80dp"
-            android:maxWidth="80dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/button_roundedcorners_login"
+            android:background="@drawable/button_roundedcorners_follow"
             android:scrollbarSize="0dp"
             android:shadowColor="#00FFFFFF"
             android:shadowDy="0"
             android:text="Follow"
             android:textColor="#FFFFFF"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
