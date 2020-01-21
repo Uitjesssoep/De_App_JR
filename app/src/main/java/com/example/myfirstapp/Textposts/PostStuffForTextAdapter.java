@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -23,24 +24,30 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTextAdapter.ViewHolder>{
+public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTextAdapter.ViewHolder> {
 
+    public DatabaseReference DeleteIconCheck, DeleteThePost, CommentCountInAdapter, LikeCountInAdapter, CheckIfUpvoted, CheckIfDownvoted, DislikeCountInAdapter, ChangeUsername;
     public Context mContext;
     public List<PostStuffForText> mPost;
     public int CommentCountAdapter, LikeCountAdapter, DislikeCountAdapter;
 
     private OnItemClickListener mListener;
+
     public interface OnItemClickListener {
         void onItemClick(int position);
+
         void onUserNameClick(int position);
+
         void onUpvoteClick(int position);
+
         void onDownvoteClick(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
 
@@ -60,14 +67,115 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final PostStuffForText uploadCurrent = mPost.get(position);
+        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
+            Picasso.get().load(uploadCurrent.getContent()).placeholder(R.drawable.app_logo_200).into(holder.Image);
+            holder.Content.setVisibility(View.GONE);
+
+
+            String KeyYeah = uploadCurrent.getKey().toString();
+            final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
+            final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("user_name");
+            final String PostUID = uploadCurrent.getUID().toString();
+            final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
+            final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
+            LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+                    holder.LikeCount.setText("" + LikeCountAdapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            DislikeCountInAdapter.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+                    holder.DislikeCount.setText("" + DislikeCountAdapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            final String MyUID = FirebaseAuth.getInstance().getUid().toString();
+            DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
+            CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.hasChild(MyUID)) {
+                        holder.Upvote.setImageResource(R.drawable.ic_keyboard_arrow_up_green_24dp);
+                    } else {
+                        holder.Upvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
+            CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.hasChild(MyUID)) {
+                        holder.Downvote.setImageResource(R.drawable.ic_keyboard_arrow_down_green_24dp);
+                    } else {
+                        holder.Downvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            UserUIDCheck.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    if (dataSnapshot.hasChild(PostUID)) {
+
+                    } else {
+
+                        ChangeUsername.setValue("[deleted_user]");
+                        holder.Username.setText("[deleted_user]");
+
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+
+        } else {
+            holder.Image.setVisibility(View.GONE);
+            holder.Content.setText(uploadCurrent.getContent());
+        }
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
-        holder.Content.setText(uploadCurrent.getContent());
+
         holder.Date.setText(uploadCurrent.getDate());
 
         String ContentTemp = holder.Content.getText().toString();
-        if(ContentTemp.length() > 147){
+        if (ContentTemp.length() > 147) {
             ContentTemp = ContentTemp.substring(0, ContentTemp.length() - 3);
             holder.Content.setText(ContentTemp.trim() + "...");
         }
@@ -79,25 +187,29 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                 //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
 
                 final String KeyPost = uploadCurrent.getKey().toString();
-                final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
 
+                if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
+                    DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
+                } else {
+                    DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+                }
                 DeleteIconCheck.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        if(dataSnapshot.hasChild(KeyPost)){
+                        if (dataSnapshot.hasChild(KeyPost)) {
 
                             final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
                             final String PostUIDCheck = dataSnapshot.child(KeyPost).child("uid").getValue().toString();
 
-                            if(MyUIDCheck.equals(PostUIDCheck)){
+                            if (MyUIDCheck.equals(PostUIDCheck)) {
 
                                 DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedPosts");
                                 CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                        if(dataSnapshot.hasChild(KeyPost)){
+                                        if (dataSnapshot.hasChild(KeyPost)) {
 
                                             PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
                                             popupMenu.inflate(R.menu.popup_menu_textposts_withunsave);
@@ -105,7 +217,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                                 @Override
                                                 public boolean onMenuItemClick(MenuItem menuItem) {
 
-                                                    switch (menuItem.getItemId()){
+                                                    switch (menuItem.getItemId()) {
 
                                                         case R.id.delete_option_textposts:
 
@@ -117,7 +229,11 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                                                 @Override
                                                                 public void onClick(DialogInterface dialogInterface, int i) {
 
-                                                                    final DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyPost);
+                                                                    if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
+                                                                        DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyPost);
+                                                                    } else {
+                                                                        DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyPost);
+                                                                    }
                                                                     DeleteThePost.removeValue();
 
                                                                     Intent intent = new Intent(mContext, General_Feed_Activity.class);
@@ -159,8 +275,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                             });
                                             popupMenu.show();
 
-                                        }
-                                        else{
+                                        } else {
 
                                             PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
                                             popupMenu.inflate(R.menu.popup_menu_textposts);
@@ -168,7 +283,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                                 @Override
                                                 public boolean onMenuItemClick(MenuItem menuItem) {
 
-                                                    switch (menuItem.getItemId()){
+                                                    switch (menuItem.getItemId()) {
 
                                                         case R.id.delete_option_textposts:
 
@@ -179,8 +294,11 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                                             dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialogInterface, int i) {
-
-                                                                    final DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyPost);
+                                                                    if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
+                                                                        DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyPost);
+                                                                    } else {
+                                                                        DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyPost);
+                                                                    }
                                                                     DeleteThePost.removeValue();
 
                                                                     Intent intent = new Intent(mContext, General_Feed_Activity.class);
@@ -231,15 +349,14 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
                                     }
                                 });
-                            }
-                            else{
+                            } else {
 
                                 DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedPosts");
                                 CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                        if(dataSnapshot.hasChild(uploadCurrent.getKey())){
+                                        if (dataSnapshot.hasChild(uploadCurrent.getKey())) {
 
                                             PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
                                             popupMenu.inflate(R.menu.popup_menu_textposts_without_delete_withunsave);
@@ -247,11 +364,11 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                                 @Override
                                                 public boolean onMenuItemClick(MenuItem menuItem) {
 
-                                                    switch (menuItem.getItemId()){
+                                                    switch (menuItem.getItemId()) {
 
                                                         case R.id.reportpost_option_textposts:
 
-                                                            Intent intent= new Intent(mContext, Report_TextPost_Activity.class);
+                                                            Intent intent = new Intent(mContext, Report_TextPost_Activity.class);
                                                             intent.putExtra("Titel", uploadCurrent.getTitle());
                                                             intent.putExtra("User", uploadCurrent.getUser_name());
                                                             intent.putExtra("Key", uploadCurrent.getKey());
@@ -277,8 +394,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                             });
                                             popupMenu.show();
 
-                                        }
-                                        else{
+                                        } else {
 
                                             PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
                                             popupMenu.inflate(R.menu.popup_menu_textposts_without_delete);
@@ -286,11 +402,11 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                                 @Override
                                                 public boolean onMenuItemClick(MenuItem menuItem) {
 
-                                                    switch (menuItem.getItemId()){
+                                                    switch (menuItem.getItemId()) {
 
                                                         case R.id.reportpost_option_textposts:
 
-                                                            Intent intent= new Intent(mContext, Report_TextPost_Activity.class);
+                                                            Intent intent = new Intent(mContext, Report_TextPost_Activity.class);
                                                             intent.putExtra("Titel", uploadCurrent.getTitle());
                                                             intent.putExtra("User", uploadCurrent.getUser_name());
                                                             intent.putExtra("Key", uploadCurrent.getKey());
@@ -327,8 +443,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                 });
                             }
 
-                        }
-                        else{
+                        } else {
                             //post is gedelete als het goed is
                         }
 
@@ -344,12 +459,17 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         });
 
         String KeyYeah = uploadCurrent.getKey().toString();
-        final DatabaseReference CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Comments");
+        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
+            CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Comments");
+        } else {
+            CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Comments");
+        }
+
         CommentCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               CommentCountAdapter = (int) dataSnapshot.getChildrenCount();
-               holder.CommentCount.setText("" + CommentCountAdapter);
+                CommentCountAdapter = (int) dataSnapshot.getChildrenCount();
+                holder.CommentCount.setText("" + CommentCountAdapter);
             }
 
             @Override
@@ -357,9 +477,13 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
             }
         });
-
-        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
-        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
+        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
+            LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
+            DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
+        } else {
+            LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
+            DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
+        }
         LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -388,18 +512,20 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
         //kijken of de user deleted is
         final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
-        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("user_name");
+        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
+            ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("user_name");
+        } else {
+            ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("user_name");
+        }
         final String PostUID = uploadCurrent.getUID().toString();
 
         UserUIDCheck.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild(PostUID)){
+                if (dataSnapshot.hasChild(PostUID)) {
 
-                }
-
-                else{
+                } else {
 
                     ChangeUsername.setValue("[deleted_user]");
                     holder.Username.setText("[deleted_user]");
@@ -419,7 +545,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         String MyUID2 = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
         String PostUID2 = uploadCurrent.getUID().toString();
 
-        if(MyUID2.equals(PostUID2)){
+        if (MyUID2.equals(PostUID2)) {
 
             DatabaseReference GetUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID2).child("userName");
             GetUsername.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -439,8 +565,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                 }
             });
 
-        }
-        else{
+        } else {
 
         }
 
@@ -448,15 +573,20 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         //Like image set
 
         final String MyUID = FirebaseAuth.getInstance().getUid().toString();
-        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
+        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
+            CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
+        } else {
+            CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
+        }
+
+
         CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild(MyUID)){
+                if (dataSnapshot.hasChild(MyUID)) {
                     holder.Upvote.setImageResource(R.drawable.ic_keyboard_arrow_up_green_24dp);
-                }
-                else{
+                } else {
                     holder.Upvote.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                 }
 
@@ -467,16 +597,19 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
             }
         });
+        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
+            CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
+        } else {
+            CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
+        }
 
-        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
         CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild(MyUID)){
+                if (dataSnapshot.hasChild(MyUID)) {
                     holder.Downvote.setImageResource(R.drawable.ic_keyboard_arrow_down_green_24dp);
-                }
-                else{
+                } else {
                     holder.Downvote.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                 }
 
@@ -495,19 +628,20 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         return mPost.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView Username, LikeCount, DislikeCount, CommentCount, Title, Content, KeyHolder, Date;
         public ImageButton Upvote, Downvote, DeleteTextPost;
+        public ImageView Image;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
-
-            Username = itemView.findViewById (R.id.tvUsernameTextPostItem);
-            LikeCount = itemView.findViewById (R.id.tvLikeCounterTextPostItem);
-            DislikeCount = itemView.findViewById (R.id.tvDislikeCounterTextPostItem);
-            CommentCount = itemView.findViewById (R.id.tvCommentCountTextPostItem);
-            Title = itemView.findViewById (R.id.tvTitleTextPostItem);
+            Image = itemView.findViewById(R.id.ivImagePostItem);
+            Username = itemView.findViewById(R.id.tvUsernameTextPostItem);
+            LikeCount = itemView.findViewById(R.id.tvLikeCounterTextPostItem);
+            DislikeCount = itemView.findViewById(R.id.tvDislikeCounterTextPostItem);
+            CommentCount = itemView.findViewById(R.id.tvCommentCountTextPostItem);
+            Title = itemView.findViewById(R.id.tvTitleTextPostItem);
             KeyHolder = itemView.findViewById(R.id.tvKeyHiddenTextPostItem);
             Date = itemView.findViewById(R.id.tvPostDateTextPostItem);
             Upvote = itemView.findViewById(R.id.ibLikeUpTextPostItem);
@@ -518,9 +652,9 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
                         }
                     }
@@ -530,9 +664,9 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             Username.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onUserNameClick(position);
                         }
                     }
@@ -542,9 +676,9 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             Upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onUpvoteClick(position);
                         }
                     }
@@ -554,9 +688,9 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             Downvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onDownvoteClick(position);
                         }
                     }
