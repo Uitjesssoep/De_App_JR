@@ -12,6 +12,22 @@
         layout="@layout/action_bar_makecomment_textpost"/>
 
     <TextView
+        android:id="@+id/tvDisplayNameErrorChangeSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:text="Error"
+        android:textColor="#D32F2F"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etFullNameChange"
+        app:layout_constraintVertical_bias="0.005" />
+
+    <TextView
         android:id="@+id/tvChangeYourProfileSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,6 +86,7 @@
         android:inputType="textCapWords"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:maxLength="25"
         android:scrollHorizontally="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -130,9 +130,10 @@
 
     <TextView
         android:id="@+id/tvUsernameErrorReg"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:text="Error"
         android:textColor="#D32F2F"
         android:textSize="10sp"
@@ -145,10 +146,11 @@
 
     <TextView
         android:id="@+id/tvEmailErrorReg"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:text="Error"
+        android:layout_marginEnd="40dp"
         android:textColor="#D32F2F"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -160,10 +162,11 @@
 
     <TextView
         android:id="@+id/tvPasswordErrorReg"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:text="Error"
+        android:layout_marginEnd="40dp"
         android:textColor="#D32F2F"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"

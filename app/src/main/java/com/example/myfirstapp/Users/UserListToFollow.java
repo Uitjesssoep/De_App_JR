@@ -170,8 +170,8 @@ public class UserListToFollow extends AppCompatActivity {
                                 if (dataSnapshot.hasChild(UIDOtherUser)) {
                                     Log.e("Check", "TRUEE");
                                     final AlertDialog.Builder dialog = new AlertDialog.Builder(UserListToFollow.this);
-                                    dialog.setTitle("Do you want to unfollow this user?");
-                                    //  dialog.setMessage("You can no longer view this user");
+                                    dialog.setTitle("Unfollow");
+                                    dialog.setMessage("Are you sure you want to unfollow this user?");
                                     dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -182,7 +182,7 @@ public class UserListToFollow extends AppCompatActivity {
                                             dialogInterface.dismiss();
                                         }
                                     });
-                                    dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             dialogInterface.dismiss();

@@ -51,6 +51,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
     private static final String TAG = "Profile_Settings_Act";
 
+    private TextView ErrorDisplayName;
     private EditText ChangeFullName;
     private ImageView ChangeProfilePicture;
     private ImageButton Exit;
@@ -91,8 +92,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile__settings);
 
-
-
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -103,6 +102,9 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         ChangeFullName = (EditText)findViewById(R.id.etFullNameChange);
         ChangeProfilePicture = (ImageView) findViewById(R.id.ivProfilePictureChange);
         SaveChangesProfile = (Button) findViewById(R.id.btnSaveChangesProfileSettings);
+
+        ErrorDisplayName = findViewById(R.id.tvDisplayNameErrorChangeSettings);
+        ErrorDisplayName.setVisibility(View.INVISIBLE);
 
 
         SetupDesign();
@@ -151,14 +153,21 @@ public class Profile_Settings_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 UID = firebaseAuth.getUid();
                 ChangeFullNameString = ChangeFullName.getText().toString();
+                ErrorDisplayName.setVisibility(View.INVISIBLE);
+                ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
                                 if (ChangeFullNameString.isEmpty()) {
                                     Toast.makeText(Profile_Settings_Activity.this, "Please make sure you have filled in your full name", Toast.LENGTH_LONG).show();
+                                    ErrorDisplayName.setText("Please enter a display name");
+                                    ErrorDisplayName.setVisibility(View.VISIBLE);
+                                    ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                                 }
 
                                 else{
                                     if(!ChangeFullNameString.matches("[a-zA-Z ]*")){
-                                        Toast.makeText(Profile_Settings_Activity.this, "Please make sure your full name contains only letters (a-z, A-Z) and spaces ( )", Toast.LENGTH_LONG).show();
+                                        ErrorDisplayName.setText("Make sure your display name contains only alphabetic characters and spaces");
+                                        ErrorDisplayName.setVisibility(View.VISIBLE);
+                                        ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                                     }
 
                                     else{

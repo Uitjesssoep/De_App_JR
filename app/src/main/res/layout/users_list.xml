@@ -13,25 +13,30 @@
 
         <TextView
             android:id="@+id/tvDisplay_Name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginStart="3dp"
+            android:layout_marginEnd="20dp"
+            android:layout_toLeftOf="@id/btnFollowUserListToFollow"
             android:layout_toRightOf="@id/ivProfilePictureUserList"
             android:text="Display Name:"
             android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tvUser_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
+            android:layout_marginBottom="10dp"
             android:layout_below="@id/tvDisplay_Name"
+            android:layout_marginEnd="20dp"
+            android:layout_toLeftOf="@id/btnFollowUserListToFollow"
             android:layout_toRightOf="@id/ivProfilePictureUserList"
             android:text="Username:"
-            android:textColor="#000000"
-            android:textSize="18sp" />
+            android:textColor="#858585"
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/ivProfilePictureUserList"
@@ -41,6 +46,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="15dp"
+            android:layout_centerVertical="true"
             android:background="@drawable/imageview_profilepicture_edge"/>
 
         <Button
@@ -50,8 +56,9 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginTop="33dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginEnd="12dp"
             android:background="@drawable/button_roundedcorners_follow"
             android:scrollbarSize="0dp"
             android:shadowColor="#00FFFFFF"
