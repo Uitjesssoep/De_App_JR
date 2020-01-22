@@ -48,6 +48,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +100,10 @@ public class General_Feed_Activity extends AppCompatActivity
         TextFAB = findViewById(R.id.fabTextMake);
         ChatFAB = findViewById(R.id.fabChatMake);
 
+        ImageFAB.setClickable(false);
+        TextFAB.setClickable(false);
+        ChatFAB.setClickable(false);
+
         FABOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         FABClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
@@ -135,6 +141,13 @@ public class General_Feed_Activity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent = new Intent(General_Feed_Activity.this, Upload_Images_Activity.class);
                 startActivity(intent);
+                ImageFAB.startAnimation(FABClose);
+                TextFAB.startAnimation(FABClose);
+                ChatFAB.startAnimation(FABClose);
+                ImageFAB.setClickable(false);
+                TextFAB.setClickable(false);
+                ChatFAB.setClickable(false);
+                FABisOpen = false;
             }
         });
 
@@ -143,6 +156,13 @@ public class General_Feed_Activity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent2 = new Intent(General_Feed_Activity.this, Upload_TextPost_Activity.class);
                 startActivity(intent2);
+                ImageFAB.startAnimation(FABClose);
+                TextFAB.startAnimation(FABClose);
+                ChatFAB.startAnimation(FABClose);
+                ImageFAB.setClickable(false);
+                TextFAB.setClickable(false);
+                ChatFAB.setClickable(false);
+                FABisOpen = false;
             }
         });
 
@@ -151,6 +171,13 @@ public class General_Feed_Activity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent3 = new Intent(General_Feed_Activity.this, Chatrooms_Post_Activity.class);
                 startActivity(intent3);
+                ImageFAB.startAnimation(FABClose);
+                TextFAB.startAnimation(FABClose);
+                ChatFAB.startAnimation(FABClose);
+                ImageFAB.setClickable(false);
+                TextFAB.setClickable(false);
+                ChatFAB.setClickable(false);
+                FABisOpen = false;
             }
         });
 
@@ -544,9 +571,29 @@ public class General_Feed_Activity extends AppCompatActivity
 
                         case R.id.navigation_make:
 
-                            Intent make = new Intent(General_Feed_Activity.this, Choose_PostType_Activity.class);
+                            /*Intent make = new Intent(General_Feed_Activity.this, Choose_PostType_Activity.class);
                             make.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            startActivity(make);
+                            startActivity(make);*/
+
+                            if(FABisOpen){
+                                ImageFAB.startAnimation(FABClose);
+                                TextFAB.startAnimation(FABClose);
+                                ChatFAB.startAnimation(FABClose);
+                                ImageFAB.setClickable(false);
+                                TextFAB.setClickable(false);
+                                ChatFAB.setClickable(false);
+                                FABisOpen = false;
+                            }
+
+                            else {
+                                ImageFAB.startAnimation(FABOpen);
+                                TextFAB.startAnimation(FABOpen);
+                                ChatFAB.startAnimation(FABOpen);
+                                ImageFAB.setClickable(true);
+                                TextFAB.setClickable(true);
+                                ChatFAB.setClickable(true);
+                                FABisOpen = true;
+                            }
 
                             break;
 
