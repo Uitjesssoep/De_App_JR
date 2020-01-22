@@ -31,9 +31,12 @@ import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.App_Settings_Activity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
+import com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
 import com.example.myfirstapp.GeneralAdapter;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
+import com.example.myfirstapp.Imageposts.Upload;
+import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -130,21 +133,24 @@ public class General_Feed_Activity extends AppCompatActivity
         ImageFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(General_Feed_Activity.this, )
+                Intent intent = new Intent(General_Feed_Activity.this, Upload_Images_Activity.class);
+                startActivity(intent);
             }
         });
 
         TextFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent2 = new Intent(General_Feed_Activity.this, Upload_TextPost_Activity.class);
+                startActivity(intent2);
             }
         });
 
         ChatFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent3 = new Intent(General_Feed_Activity.this, Chatrooms_Post_Activity.class);
+                startActivity(intent3);
             }
         });
 
