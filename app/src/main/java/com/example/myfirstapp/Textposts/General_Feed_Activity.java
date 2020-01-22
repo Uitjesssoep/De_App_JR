@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -35,6 +37,7 @@ import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,6 +57,10 @@ public class General_Feed_Activity extends AppCompatActivity
     private List<PostStuffForText> postStuffForTextList;
     private PostStuffForTextAdapter postStuffForTextAdapter;
     private GeneralAdapter generalAdapter;
+
+    private FloatingActionButton ImageFAB, TextFAB, ChatFAB;
+    private Animation FABOpen, FABClose;
+    private boolean FABisOpen = false;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
@@ -84,6 +91,13 @@ public class General_Feed_Activity extends AppCompatActivity
         GeneralFeed.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         GeneralFeed.setLayoutManager(new LinearLayoutManager(this));
 
+        ImageFAB = findViewById(R.id.fabImageMake);
+        TextFAB = findViewById(R.id.fabTextMake);
+        ChatFAB = findViewById(R.id.fabChatMake);
+
+        FABOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        FABClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+
         postStuffForTextList = new ArrayList<>();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -112,6 +126,27 @@ public class General_Feed_Activity extends AppCompatActivity
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
 
         registerForContextMenu(GeneralFeed);
+
+        ImageFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(General_Feed_Activity.this, )
+            }
+        });
+
+        TextFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        ChatFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
     }
 

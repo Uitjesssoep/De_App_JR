@@ -28,10 +28,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity_Users;
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
+import com.example.myfirstapp.App_Settings_Activity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.Textposts.Followers_Feed_Activity;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,7 +68,7 @@ public class UserListToFollow extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
-        ProgressCircle = findViewById(R.id.progress_circle3);
+        ProgressCircle = findViewById(R.id.pbLoadingUserListToFollow);
         recyclerView = findViewById(R.id.recycler_viewUserList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -90,6 +92,12 @@ public class UserListToFollow extends AppCompatActivity {
         SetupUI();
 
         SetupDesign();
+
+        Refresh();
+
+    }
+
+    private void Refresh() {
 
         databaseReference = firebaseDatabase.getReference("users");
 
@@ -195,11 +203,11 @@ public class UserListToFollow extends AppCompatActivity {
                                     // alertDialog.show();
                                     //   holder.Follow.setEnabled(false);
                                 } else {
-                                  //  FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
+                                    //  FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
 
                                     //  Log.e(TAGTEST, UIDToFollow);
                                     //   Log.e(TAGTEST, userNameFollower);
-                                  //  FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
+                                    //  FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
                                     datarefFollowing.child(MyUID).child("following").child(UIDOtherUser).setValue("");
                                     datarefFollowing.child(UIDOtherUser).child("followers").child(MyUID).setValue("");
                                     Log.e("Check", "FALSEEE");
@@ -346,11 +354,17 @@ public class UserListToFollow extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
+        switch (item.getItemId()){
             case R.id.action_settings:
 
-                Intent intent = new Intent(UserListToFollow.this, ImagesFeed.class);
+                Intent intent = new Intent(UserListToFollow.this, App_Settings_Activity.class);
                 startActivity(intent);
+
+                break;
+
+            case R.id.action_refresh_feed:
+                // clear();
+                Refresh();
 
                 break;
         }
