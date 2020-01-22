@@ -5,8 +5,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Change_Password_Activity;
@@ -29,7 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class App_Settings_Activity extends AppCompatActivity {
 
     private ImageButton Exit;
-    private TextView ChangeDisplay, ChangePassword, LogOut, Delete, DataPolicy, ContentPolicy, Credits, SendEmail, ReportBug;
+    private TextView ChangeDisplay, ChangePassword, LogOut, Delete, DataPolicy, ContentPolicy, Credits, SendEmail, ReportBug, BuildInfo;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private Switch nightMode;
 
@@ -180,12 +185,41 @@ public class App_Settings_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                String EmailTo = "jul.rob.app@gmail.com";
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + EmailTo));
+                startActivity(intent);
+
             }
         });
 
         ReportBug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String EmailTo = "jul.rob.app@gmail.com";
+                String Subject = "Bug Report";
+                String Content = "PLEASE DO NOT CHANGE THE FORMAT OR THE SUBJECT! \n \n My username: \n \n \n Describe the bug you encountered: \n \n \n Have you been able to recreate it? \n \n \n Can we contact you for any further questions? \n \n \n Thank you very much for taking the effort to report this bug! All feedback is always appreciated and will only make Strimbula better! \n \n The Strimbula Team";
+
+                Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + EmailTo));
+                intent2.putExtra(Intent.EXTRA_SUBJECT, Subject);
+                intent2.putExtra(Intent.EXTRA_TEXT, Content);
+                startActivity(intent2);
+            }
+        });
+
+        BuildInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String BuildNo = BuildInfo.getText().toString();
+
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Build Version Number Strimbula", BuildNo);
+                clipboard.setPrimaryClip(clip);
+
+
+                Toast toast = Toast.makeText(App_Settings_Activity.this, "copied to clipboard", Toast.LENGTH_SHORT);
+                toast.show();
 
             }
         });
@@ -229,6 +263,7 @@ public class App_Settings_Activity extends AppCompatActivity {
         SendEmail = findViewById(R.id.tvSendAMailSupportSettings);
         ReportBug = findViewById(R.id.tvReportABugSupportSettings);
         nightMode = findViewById(R.id.switchNightMode);
+        BuildInfo = findViewById(R.id.tvBuildInfoSettingsBuild);
 
     }
 }
