@@ -287,11 +287,11 @@ public class Account_Info_Activity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
 
-        //BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
-        //bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
         Log.e("Testjeyeah", "onResume bereikt");
-        //bottomNavigationView.setSelectedItemId(R.id.navigation_account);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_account);
 
     }
 

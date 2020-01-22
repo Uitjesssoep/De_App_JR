@@ -134,7 +134,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         Log.e(TAGTEST, users.getProfilePicture());
         Picasso.get()
                 .load(users.getProfilePicture())
-                .placeholder(R.drawable.app_logo_200)
+                .placeholder(R.drawable.neutral_profile_picture_nobackground)
                 .fit()
                 .centerCrop()
                 .into(holder.ProfilePicture);

@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,12 +32,16 @@ import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity_
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.App_Settings_Activity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
+import com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity;
 import com.example.myfirstapp.Choose_PostType_Activity;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
+import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Textposts.Followers_Feed_Activity;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
+import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,6 +70,10 @@ public class UserListToFollow extends AppCompatActivity {
     private String MyUID, UIDOtherUser, UsernameOtherUser, userNameFollower;
     private DatabaseReference datarefFollower, datarefFollowing, datarefUID, datarefOtherUID;
 
+    private FloatingActionButton ImageFAB, TextFAB, ChatFAB;
+    private Animation FABOpen, FABClose;
+    private boolean FABisOpen = false;
+
     private void SetupUI() {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -82,6 +92,61 @@ public class UserListToFollow extends AppCompatActivity {
         datarefUID = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
         datarefFollowing = FirebaseDatabase.getInstance().getReference().child("users");
 
+        ImageFAB = findViewById(R.id.fabImageMakeSearch);
+        TextFAB = findViewById(R.id.fabTextMakeSearch);
+        ChatFAB = findViewById(R.id.fabChatMakeSearch);
+
+        ImageFAB.setClickable(false);
+        TextFAB.setClickable(false);
+        ChatFAB.setClickable(false);
+
+        FABOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        FABClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+
+        ImageFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserListToFollow.this, Upload_Images_Activity.class);
+                startActivity(intent);
+                ImageFAB.startAnimation(FABClose);
+                TextFAB.startAnimation(FABClose);
+                ChatFAB.startAnimation(FABClose);
+                ImageFAB.setClickable(false);
+                TextFAB.setClickable(false);
+                ChatFAB.setClickable(false);
+                FABisOpen = false;
+            }
+        });
+
+        TextFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent2 = new Intent(UserListToFollow.this, Upload_TextPost_Activity.class);
+                startActivity(intent2);
+                ImageFAB.startAnimation(FABClose);
+                TextFAB.startAnimation(FABClose);
+                ChatFAB.startAnimation(FABClose);
+                ImageFAB.setClickable(false);
+                TextFAB.setClickable(false);
+                ChatFAB.setClickable(false);
+                FABisOpen = false;
+            }
+        });
+
+        ChatFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent3 = new Intent(UserListToFollow.this, Chatrooms_Post_Activity.class);
+                startActivity(intent3);
+                ImageFAB.startAnimation(FABClose);
+                TextFAB.startAnimation(FABClose);
+                ChatFAB.startAnimation(FABClose);
+                ImageFAB.setClickable(false);
+                TextFAB.setClickable(false);
+                ChatFAB.setClickable(false);
+                FABisOpen = false;
+            }
+        });
 
     }
 
@@ -294,9 +359,25 @@ public class UserListToFollow extends AppCompatActivity {
 
                         case R.id.navigation_make:
 
-                            Intent make = new Intent(UserListToFollow.this, Choose_PostType_Activity.class);
-                            make.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                            startActivity(make);
+                            if(FABisOpen){
+                                ImageFAB.startAnimation(FABClose);
+                                TextFAB.startAnimation(FABClose);
+                                ChatFAB.startAnimation(FABClose);
+                                ImageFAB.setClickable(false);
+                                TextFAB.setClickable(false);
+                                ChatFAB.setClickable(false);
+                                FABisOpen = false;
+                            }
+
+                            else {
+                                ImageFAB.startAnimation(FABOpen);
+                                TextFAB.startAnimation(FABOpen);
+                                ChatFAB.startAnimation(FABOpen);
+                                ImageFAB.setClickable(true);
+                                TextFAB.setClickable(true);
+                                ChatFAB.setClickable(true);
+                                FABisOpen = true;
+                            }
 
                             break;
 
