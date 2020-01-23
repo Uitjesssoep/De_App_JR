@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -31,6 +34,7 @@ import com.example.myfirstapp.Credits_Activity;
 import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -51,11 +55,10 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
     private static final String TAG = "Profile_Settings_Act";
 
-    private TextView ErrorDisplayName;
     private EditText ChangeFullName;
     private ImageView ChangeProfilePicture;
     private ImageButton Exit;
-    private Button SaveChangesProfile;
+    private TextInputLayout DisplayNameLayout;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
@@ -99,16 +102,12 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         final StorageReference storageReference = firebaseStorage.getReference();
         StorageReference myRef1 = storageReference.child(firebaseAuth.getUid());
 
-        ChangeFullName = (EditText)findViewById(R.id.etFullNameChange);
+        DisplayNameLayout = findViewById(R.id.inputlayoutDisplayNameUpdate);
+
+        ChangeFullName = (EditText)findViewById(R.id.etDisplayName);
         ChangeProfilePicture = (ImageView) findViewById(R.id.ivProfilePictureChange);
-        SaveChangesProfile = (Button) findViewById(R.id.btnSaveChangesProfileSettings);
-
-        ErrorDisplayName = findViewById(R.id.tvDisplayNameErrorChangeSettings);
-        ErrorDisplayName.setVisibility(View.INVISIBLE);
-
 
         SetupDesign();
-
 
         ChangeProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,104 +146,105 @@ public class Profile_Settings_Activity extends AppCompatActivity {
             }
         });
 
+    }
 
-        SaveChangesProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UID = firebaseAuth.getUid();
-                ChangeFullNameString = ChangeFullName.getText().toString();
-                ErrorDisplayName.setVisibility(View.INVISIBLE);
-                ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+    private void ClickSave() {
 
-                                if (ChangeFullNameString.isEmpty()) {
-                                    Toast.makeText(Profile_Settings_Activity.this, "Please make sure you have filled in your full name", Toast.LENGTH_LONG).show();
-                                    ErrorDisplayName.setText("Please enter a display name");
-                                    ErrorDisplayName.setVisibility(View.VISIBLE);
-                                    ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
-                                }
+        DisplayNameLayout.setError(null);
 
-                                else{
-                                    if(!ChangeFullNameString.matches("[a-zA-Z ]*")){
-                                        ErrorDisplayName.setText("Make sure your display name contains only alphabetic characters and spaces");
-                                        ErrorDisplayName.setVisibility(View.VISIBLE);
-                                        ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
-                                    }
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseStorage = FirebaseStorage.getInstance();
 
-                                    else{
+        final StorageReference storageReference = firebaseStorage.getReference();
+        StorageReference myRef1 = storageReference.child(firebaseAuth.getUid());
+        final DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
 
-                                        if(imagePath != null) {
+        UID = firebaseAuth.getUid();
+        ChangeFullNameString = ChangeFullName.getText().toString();
+        ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
-                                            StorageReference imageReference = storageReference.child("ProfilePictures").child(firebaseAuth.getUid());
-                                            UploadTask uploadTask = imageReference.putFile(imagePath);
+        if (ChangeFullNameString.isEmpty()) {
+            DisplayNameLayout.setError("Please enter a display name");
+            ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+        }
+
+        else {
+            if (!ChangeFullNameString.matches("[a-zA-Z ]*")) {
+                DisplayNameLayout.setError("Please make sure your display name contains only alphabetic characters and spaces");
+                ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+            } else {
+
+                if (imagePath != null) {
+
+                    StorageReference imageReference = storageReference.child("ProfilePictures").child(firebaseAuth.getUid());
+                    UploadTask uploadTask = imageReference.putFile(imagePath);
 
 
-                                            uploadTask.addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(Profile_Settings_Activity.this, "Couldn't upload image to database", Toast.LENGTH_LONG).show();
-                                                }
-                                            });
-                                            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    uploadTask.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(Profile_Settings_Activity.this, "Couldn't upload image to database", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                                }
-                                            });
+                        }
+                    });
 
-                                            DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-                                            GetName.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
+                    GetName.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                    ChangeNameString = dataSnapshot.child("userName").getValue().toString();
-                                                    ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
-                                                    ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
+                            ChangeNameString = dataSnapshot.child("userName").getValue().toString();
+                            ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
+                            ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
 
-                                                    UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
+                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
 
-                                                    databaseReference.setValue(userProfileToDatabase);
+                            databaseReference.setValue(userProfileToDatabase);
 
-                                                    finish();
+                            finish();
 
-                                                }
+                        }
 
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                                }
-                                            });
-                                        }
+                        }
+                    });
+                } else {
 
-                                        else{
+                    DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
+                    GetName.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            DatabaseReference GetName = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
-                                            GetName.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            ChangeNameString = dataSnapshot.child("userName").getValue().toString();
+                            ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
+                            ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
 
-                                                    ChangeNameString = dataSnapshot.child("userName").getValue().toString();
-                                                    ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
-                                                    ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
+                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
 
-                                                    UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
+                            databaseReference.setValue(userProfileToDatabase);
 
-                                                    databaseReference.setValue(userProfileToDatabase);
+                            finish();
 
-                                                    finish();
+                        }
 
-                                                }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                }
 
-                                                }
-                                            });
-                                        }
-
-                                    }
-                                }
             }
-        });
+        }
 
     }
 
@@ -262,12 +262,12 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
         //action bar ding
 
-        Toolbar toolbar = findViewById(R.id.action_bar_profilesettings);
+        Toolbar toolbar = findViewById(R.id.action_bar_display);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        Exit = (ImageButton) toolbar.findViewById(R.id.exitmakecommenttextpost);
+        Exit = (ImageButton) toolbar.findViewById(R.id.exitdisplaysettings);
         Exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -275,6 +275,30 @@ public class Profile_Settings_Activity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_actionbar_savesettings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+
+
+            case R.id.action_save_settings:
+
+                ClickSave();
+
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
