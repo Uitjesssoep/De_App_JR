@@ -33,11 +33,8 @@ import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.App_Settings_Activity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity;
-import com.example.myfirstapp.Choose_PostType_Activity;
-import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.Textposts.Followers_Feed_Activity;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -273,8 +270,8 @@ public class UserListToFollow extends AppCompatActivity {
                                     //  Log.e(TAGTEST, UIDToFollow);
                                     //   Log.e(TAGTEST, userNameFollower);
                                     //  FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
-                                    datarefFollowing.child(MyUID).child("following").child(UIDOtherUser).setValue("");
-                                    datarefFollowing.child(UIDOtherUser).child("followers").child(MyUID).setValue("");
+                                    datarefFollowing.child(MyUID).child("following").child(UIDOtherUser).setValue(UsernameOtherUser);
+                                    datarefFollowing.child(UIDOtherUser).child("followers").child(MyUID).setValue(UsernameOtherUser);
                                     Log.e("Check", "FALSEEE");
                                 }
                             }
