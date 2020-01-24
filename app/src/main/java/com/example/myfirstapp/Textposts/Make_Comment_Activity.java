@@ -1,10 +1,5 @@
 package com.example.myfirstapp.Textposts;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,23 +10,29 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.Report_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Make_Comment_TextPost_Activity extends AppCompatActivity {
+public class Make_Comment_Activity extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference DatabaseCommentStuff;
@@ -39,16 +40,17 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
     private String Date;
-    private String CommentMessage, temp_key;
+    private String CommentMessage, temp_key, Type;
 
     private EditText CommentSubstance;
+    private ImageView Image;
     private ImageButton Exit;
     private TextView Title, Content, ShowMore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_make__comment__text_post_);
+        setContentView(R.layout.activity_make_comment_post_);
 
         SetupUI();
 
@@ -69,11 +71,9 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
 
         final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        if(CommentMessage.isEmpty()){
-            Toast.makeText(Make_Comment_TextPost_Activity.this, "Can't post an empty comment", Toast.LENGTH_SHORT).show();
-        }
-
-        else{
+        if (CommentMessage.isEmpty()) {
+            Toast.makeText(Make_Comment_Activity.this, "Can't post an empty comment", Toast.LENGTH_SHORT).show();
+        } else {
 
             DatabaseReference GetUserName = firebaseDatabase.getReference("users").child(MyUID);
             GetUserName.addValueEventListener(new ValueEventListener() {
@@ -87,7 +87,7 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
                     CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, temp_key, MyUID, key);
                     DatabaseCommentStuff.child(temp_key).setValue(commentStuffForTextPost);
 
-                    Intent intent = new Intent(Make_Comment_TextPost_Activity.this, Text_Post_Viewing_Activity.class);
+                    Intent intent = new Intent(Make_Comment_Activity.this, Text_Post_Viewing_Activity.class);
                     intent.putExtra("Key", key);
                     startActivity(intent);
                     finish();
@@ -106,13 +106,13 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
 
         //voor het geven van kleur aan de status bar:
 
-        Window window = Make_Comment_TextPost_Activity.this.getWindow();
+        Window window = Make_Comment_Activity.this.getWindow();
 
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-        window.setStatusBarColor(ContextCompat.getColor(Make_Comment_TextPost_Activity.this, R.color.slighly_darker_mainGreen));
+        window.setStatusBarColor(ContextCompat.getColor(Make_Comment_Activity.this, R.color.slighly_darker_mainGreen));
 
         //action bar ding
 
@@ -130,6 +130,7 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
         });
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -140,7 +141,7 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
 
 
             case R.id.action_post_comment:
@@ -155,14 +156,14 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
     }
 
 
-
     private void SetupUI() {
 
         CommentSubstance = findViewById(R.id.etAddACommentToPostTextPost);
         Title = findViewById(R.id.tvTitleOfTextPostForComment);
+        Image = findViewById(R.id.ivContentImagePostForContent);
         Content = findViewById(R.id.tvContentPostForComment);
         ShowMore = findViewById(R.id.tvShowContentPostForComment);
-
+        Image.setVisibility(View.GONE);
         Content.setVisibility(View.GONE);
 
         final String PostKey = getIntent().getExtras().get("Key").toString();
@@ -173,10 +174,14 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
 
                 String TitlePost = dataSnapshot.child("title").getValue().toString();
                 Title.setText(TitlePost);
+                Type = dataSnapshot.child("type").getValue().toString();
 
                 String ContentPost = dataSnapshot.child("content").getValue().toString();
-                Content.setText(ContentPost);
-
+                if (dataSnapshot.child("type").getValue().equals("Image")) {
+                    Picasso.get().load(ContentPost).fit().centerCrop().into(Image);
+                } else {
+                    Content.setText(ContentPost);
+                }
             }
 
             @Override
@@ -190,13 +195,20 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
             public void onClick(View view) {
 
                 String WhatText = ShowMore.getText().toString();
-                if(WhatText.equals("Show more")){
+                if (WhatText.equals("Show more")) {
                     ShowMore.setText("Show less");
-                    Content.setVisibility(View.VISIBLE);
-                }
-                else{
+                    if (Type.equals("Image")) {
+                        Image.setVisibility(View.VISIBLE);
+                        Content.setVisibility(View.GONE);
+                    } else {
+                        Image.setVisibility(View.GONE);
+                        Content.setVisibility(View.VISIBLE);
+                    }
+                } else {
                     ShowMore.setText("Show more");
+                    Image.setVisibility(View.GONE);
                     Content.setVisibility(View.GONE);
+
                 }
 
             }

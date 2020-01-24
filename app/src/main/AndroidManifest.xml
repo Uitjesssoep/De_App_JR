@@ -15,7 +15,7 @@
         <activity android:name=".Credits_Activity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".Textposts.Make_Comment_TextPost_Activity"
+            android:name=".Textposts.Make_Comment_Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Report_TextPost_Activity"

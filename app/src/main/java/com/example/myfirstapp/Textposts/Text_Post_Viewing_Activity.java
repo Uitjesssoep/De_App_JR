@@ -360,7 +360,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         CommentSubstance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Text_Post_Viewing_Activity.this, Make_Comment_TextPost_Activity.class);
+                Intent intent = new Intent(Text_Post_Viewing_Activity.this, Make_Comment_Activity.class);
                 intent.putExtra("Key", key);
                 startActivity(intent);
             }

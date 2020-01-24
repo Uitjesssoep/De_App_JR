@@ -15,7 +15,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
-import com.example.myfirstapp.Textposts.Make_Comment_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
