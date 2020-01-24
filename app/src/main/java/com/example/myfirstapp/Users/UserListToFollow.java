@@ -271,7 +271,7 @@ public class UserListToFollow extends AppCompatActivity {
                                     //   Log.e(TAGTEST, userNameFollower);
                                     //  FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
                                     datarefFollowing.child(MyUID).child("following").child(UIDOtherUser).setValue(UsernameOtherUser);
-                                    datarefFollowing.child(UIDOtherUser).child("followers").child(MyUID).setValue(UsernameOtherUser);
+                                    datarefFollowing.child(UIDOtherUser).child("followers").child(MyUID).setValue(userNameFollower);
                                     Log.e("Check", "FALSEEE");
                                 }
                             }
