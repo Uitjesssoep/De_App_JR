@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageButton
             android:id="@+id/ibLikeUpTextPostItem"
@@ -17,7 +17,7 @@
             android:layout_height="40dp"
             android:layout_below="@id/tvContentTextPostItem"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:background="#00FFFFFF"
@@ -31,7 +31,7 @@
             android:layout_below="@id/tvContentTextPostItem"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="13dp"
             android:layout_toRightOf="@id/ibLikeDownTextPostItem"
             android:text="0"
             android:textColor="#858585"
@@ -44,7 +44,7 @@
             android:layout_below="@id/tvContentTextPostItem"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@id/tvLikeCounterTextPostItem"
             android:background="#00FFFFFF"
             android:scaleType="centerCrop"
@@ -57,7 +57,7 @@
             android:layout_below="@id/tvContentTextPostItem"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="13dp"
             android:layout_toRightOf="@id/ibLikeUpTextPostItem"
             android:text="0"
             android:textColor="#858585" />
@@ -92,9 +92,10 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="7dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1"
             android:text="Content"
+            android:textAllCaps="false"
             android:textColor="#161616"
             android:textSize="18sp" />
 
@@ -104,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvContentTextPostItem"
             android:layout_marginStart="13dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="13dp"
             android:layout_toRightOf="@id/ivCommentImageTextPostItem"
             android:text="0"
             android:textColor="#858585" />
@@ -154,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvContentTextPostItem"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="13dp"
             android:layout_toRightOf="@id/tvDislikeCounterTextPostItem"
             app:srcCompat="@drawable/ic_mode_comment_black_24dp" />
 
@@ -162,11 +163,9 @@
             android:id="@+id/tvContentTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvTitleTextPostItem"
+            android:layout_below="@id/ivImagePostItem"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="4dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="5dp"
             android:ellipsize="marquee"
             android:maxLength="150"
             android:maxLines="3"
@@ -176,11 +175,13 @@
 
         <ImageView
             android:id="@+id/ivImagePostItem"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_alignTop="@+id/tvTitleTextPostItem"
-            android:layout_alignLeft="@+id/tvTitleTextPostItem"
-            android:layout_marginLeft="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitleTextPostItem"
+            android:layout_marginBottom="5dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="400dp"
+            android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
 
     </RelativeLayout>
