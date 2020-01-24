@@ -52,7 +52,7 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference("General_Text_Posts").child(PostKey).child("Comments").child(CommentKey).child("uid");
+        DatabaseReference databaseReference = firebaseDatabase.getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey).child("uid");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

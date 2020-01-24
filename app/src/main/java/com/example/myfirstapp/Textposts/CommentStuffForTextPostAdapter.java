@@ -74,7 +74,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         final String KeyComments2 = uploadCurrent2.getKey();
         final String KeyOGPosts2 = uploadCurrent2.getOldKey();
         final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
-        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("user_name");
+        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("user_name");
         final String CommentUID = uploadCurrent2.getUID().toString();
 
         UserUIDCheck.addValueEventListener(new ValueEventListener() {
@@ -161,7 +161,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
 
-                                            final DatabaseReference RemoveComment = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyPost).child("Comments").child(KeyComment);
+                                            final DatabaseReference RemoveComment = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost).child("Comments").child(KeyComment);
                                             RemoveComment.child("content").setValue("[deleted_comment]");
                                             RemoveComment.child("user_name").setValue("[deleted_comment_user]");
 
@@ -237,8 +237,8 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         });
 
 
-        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Likes");
-        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Dislikes");
+        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Likes");
+        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Dislikes");
         LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -265,7 +265,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         });
 
         final String MyUID = FirebaseAuth.getInstance().getUid().toString();
-        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Likes");
+        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Likes");
         CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -285,7 +285,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             }
         });
 
-        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Dislikes");
+        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Dislikes");
         CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

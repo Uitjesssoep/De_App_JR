@@ -1,10 +1,5 @@
 package com.example.myfirstapp.Imageposts;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,11 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
-import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_ActivityImagePostsTemporary;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,8 +26,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -96,7 +92,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
     private void FillVariables(){
         Content.setText("");
 
-        DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("title");
+        DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("title");
 
         TitleRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -110,7 +106,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference ImagePostRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("imageUrl");
+        DatabaseReference ImagePostRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("content");
 
         ImagePostRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -125,7 +121,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference UserNameRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("user_name");
+        DatabaseReference UserNameRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("user_name");
 
         UserNameRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -149,7 +145,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
                 final String ThePostKey = getIntent().getExtras().get("Key").toString();
 
-                DatabaseReference CheckIfMyUIDCheck = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(ThePostKey).child("uid");
+                DatabaseReference CheckIfMyUIDCheck = FirebaseDatabase.getInstance().getReference("General_Posts").child(ThePostKey).child("uid");
                 CheckIfMyUIDCheck.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -215,8 +211,8 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
    private void LikeDislikeCount() {
 
-        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
-        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
+        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
+        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
 //PROBLEEM
         Like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -355,7 +351,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseIsItLiked = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
+        DatabaseIsItLiked = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
         DatabaseIsItLiked.keepSynced(true);
         DatabaseIsItLiked.addValueEventListener(new ValueEventListener() {
             @Override
@@ -380,7 +376,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseIsItDisliked = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
+        DatabaseIsItDisliked = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
         DatabaseIsItDisliked.keepSynced(true);
         DatabaseIsItDisliked.addValueEventListener(new ValueEventListener() {
             @Override
@@ -406,7 +402,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         });
 
 
-        DatabaseLikeCount = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
+        DatabaseLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
         DatabaseLikeCount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -420,7 +416,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseDislikeCount = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
+        DatabaseDislikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
         DatabaseDislikeCount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

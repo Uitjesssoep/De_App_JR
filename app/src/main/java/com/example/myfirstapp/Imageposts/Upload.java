@@ -10,11 +10,11 @@ public class Upload {
     private String mDate;
     private String mType;
 
-    public String getmType() {
+    public String getType() {
         return mType;
     }
 
-    public void setmType(String mType) {
+    public void setType(String mType) {
         this.mType = mType;
     }
 

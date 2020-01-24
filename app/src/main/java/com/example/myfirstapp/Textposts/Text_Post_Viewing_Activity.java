@@ -1,14 +1,5 @@
 package com.example.myfirstapp.Textposts;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,24 +8,28 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUserComments_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
-import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Report_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -109,7 +104,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         final String ThePostKey = getIntent().getExtras().get("Key").toString();
         final String MyUID3 = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-        DatabaseReference GetPostUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(ThePostKey).child("uid");
+        DatabaseReference GetPostUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(ThePostKey).child("uid");
         GetPostUID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -155,7 +150,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         key = getIntent().getExtras().get("Key").toString();
 
-        final DatabaseReference CheckIfNotDeleted = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+        final DatabaseReference CheckIfNotDeleted = FirebaseDatabase.getInstance().getReference("General_Posts");
         CheckIfNotDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -209,7 +204,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
     private void LoadData() {
 
-        DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("title");
+        DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("title");
 
         TitleRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -223,7 +218,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference ContentRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("content");
+        DatabaseReference ContentRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("content");
 
         ContentRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -237,7 +232,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference UserNameRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("user_name");
+        DatabaseReference UserNameRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("user_name");
 
         UserNameRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -251,7 +246,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference PostDateRef = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("date");
+        DatabaseReference PostDateRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("date");
         PostDateRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -275,7 +270,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                 final String ThePostKey = getIntent().getExtras().get("Key").toString();
 
-                DatabaseReference CheckIfMyUIDCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(ThePostKey);
+                DatabaseReference CheckIfMyUIDCheck = FirebaseDatabase.getInstance().getReference("General_Posts").child(ThePostKey);
                 CheckIfMyUIDCheck.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -356,7 +351,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         key = getIntent().getExtras().get("Key").toString();
 
-        DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Comments");
+        DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Comments");
 
         ReloadComments();
 
@@ -371,7 +366,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseCommentCount = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Comments");
+        DatabaseCommentCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Comments");
         DatabaseCommentCount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -388,7 +383,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
     private void ReloadComments() {
 
-        DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Comments");
+        DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Comments");
 
 
         DatabaseCommentStuff.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -413,7 +408,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                         final String CommentKey = commentStuffForTextPostList.get(position).getKey().toString();
                         final String PostKey = commentStuffForTextPostList.get(position).getOldKey().toString();
 
-                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey).child("Comments").child(CommentKey).child("uid");
+                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey).child("uid");
                         CheckIfMyUID.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -437,7 +432,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                                             else{
 
-                                                DatabaseReference GetCommentUsername = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey).child("Comments").child(CommentKey).child("user_name");
+                                                DatabaseReference GetCommentUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey).child("user_name");
                                                 GetCommentUsername.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -502,8 +497,8 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                         key = commentStuffForTextPostList.get(position).getKey().toString();
                         String Postkey = commentStuffForTextPostList.get(position).getOldKey();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(Postkey).child("Comments").child(key).child("Likes");
-                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
                         final String TAGDownvote = "VoteCheck";
 
 
@@ -557,8 +552,8 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                         key = commentStuffForTextPostList.get(position).getKey().toString();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
                         String Postkey = commentStuffForTextPostList.get(position).getOldKey();
-                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(Postkey).child("Comments").child(key).child("Likes");
-                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
                         final String TAGDownvote = "VoteCheck";
 
 
@@ -642,8 +637,8 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         key = getIntent().getExtras().get("Key").toString();
 
-        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
-        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
+        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
 
         Like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -784,7 +779,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseIsItLiked = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
+        DatabaseIsItLiked = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
         DatabaseIsItLiked.keepSynced(true);
         DatabaseIsItLiked.addValueEventListener(new ValueEventListener() {
             @Override
@@ -811,7 +806,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseIsItDisliked = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+        DatabaseIsItDisliked = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
         DatabaseIsItDisliked.keepSynced(true);
         DatabaseIsItDisliked.addValueEventListener(new ValueEventListener() {
             @Override
@@ -839,7 +834,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         });
 
 
-        DatabaseLikeCount = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
+        DatabaseLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
         DatabaseLikeCount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -853,7 +848,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseDislikeCount = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+        DatabaseDislikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
         DatabaseDislikeCount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

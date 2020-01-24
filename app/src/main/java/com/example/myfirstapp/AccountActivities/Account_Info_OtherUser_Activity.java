@@ -1,14 +1,14 @@
 package com.example.myfirstapp.AccountActivities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,7 +53,7 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference("General_Text_Posts").child(key).child("uid");
+        DatabaseReference databaseReference = firebaseDatabase.getReference("General_Posts").child(key).child("uid");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

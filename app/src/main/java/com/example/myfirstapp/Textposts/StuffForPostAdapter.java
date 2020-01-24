@@ -28,11 +28,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTextAdapter.ViewHolder> {
+public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapter.ViewHolder> {
 
     public DatabaseReference DeleteIconCheck, DeleteThePost, CommentCountInAdapter, LikeCountInAdapter, CheckIfUpvoted, CheckIfDownvoted, DislikeCountInAdapter, ChangeUsername;
     public Context mContext;
-    public List<PostStuffForText> mPost;
+    public List<StuffForPost> mPost;
     public int CommentCountAdapter, LikeCountAdapter, DislikeCountAdapter;
 
     private OnItemClickListener mListener;
@@ -51,7 +51,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         mListener = listener;
     }
 
-    public PostStuffForTextAdapter(Context mContext, List<PostStuffForText> mPost) {
+    public StuffForPostAdapter(Context mContext, List<StuffForPost> mPost) {
         this.mContext = mContext;
         this.mPost = mPost;
     }
@@ -60,24 +60,24 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
-        return new PostStuffForTextAdapter.ViewHolder(view, mListener);
+        return new StuffForPostAdapter.ViewHolder(view, mListener);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        final PostStuffForText uploadCurrent = mPost.get(position);
-        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
+        final StuffForPost uploadCurrent = mPost.get(position);
+        if (uploadCurrent.getType().equals("Image")) {
             Picasso.get().load(uploadCurrent.getContent()).placeholder(R.drawable.app_logo_200).into(holder.Image);
             holder.Content.setVisibility(View.GONE);
 
 
             String KeyYeah = uploadCurrent.getKey().toString();
             final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
-            final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("user_name");
+            final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("user_name");
             final String PostUID = uploadCurrent.getUID().toString();
-            final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
-            final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
+            final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Likes");
+            final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Dislikes");
             LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -104,7 +104,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
             });
 
             final String MyUID = FirebaseAuth.getInstance().getUid().toString();
-            DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
+            DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Likes");
             CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -123,7 +123,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                 }
             });
 
-            DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
+            DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Dislikes");
             CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -187,12 +187,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                 //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
 
                 final String KeyPost = uploadCurrent.getKey().toString();
-
-                if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
-                    DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
-                } else {
-                    DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
-                }
+                DeleteIconCheck = FirebaseDatabase.getInstance().getReference("General_Posts");
                 DeleteIconCheck.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -228,12 +223,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                                             dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialogInterface, int i) {
-
-                                                                    if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
-                                                                        DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyPost);
-                                                                    } else {
-                                                                        DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyPost);
-                                                                    }
+                                                                    DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
                                                                     DeleteThePost.removeValue();
 
                                                                     Intent intent = new Intent(mContext, General_Feed_Activity.class);
@@ -294,11 +284,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
                                                             dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
-                                                                        DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyPost);
-                                                                    } else {
-                                                                        DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyPost);
-                                                                    }
+                                                                    DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
                                                                     DeleteThePost.removeValue();
 
                                                                     Intent intent = new Intent(mContext, General_Feed_Activity.class);
@@ -459,11 +445,8 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         });
 
         String KeyYeah = uploadCurrent.getKey().toString();
-        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
-            CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Comments");
-        } else {
-            CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Comments");
-        }
+        CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Comments");
+
 
         CommentCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
@@ -477,13 +460,8 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
             }
         });
-        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
-            LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
-            DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
-        } else {
-            LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
-            DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
-        }
+        LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Likes");
+        DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Dislikes");
         LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -512,11 +490,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
         //kijken of de user deleted is
         final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
-        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
-            ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("user_name");
-        } else {
-            ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("user_name");
-        }
+        ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("user_name");
         final String PostUID = uploadCurrent.getUID().toString();
 
         UserUIDCheck.addValueEventListener(new ValueEventListener() {
@@ -573,12 +547,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
         //Like image set
 
         final String MyUID = FirebaseAuth.getInstance().getUid().toString();
-        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
-            CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
-        } else {
-            CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Likes");
-        }
-
+            CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Likes");
 
         CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
             @Override
@@ -597,11 +566,7 @@ public class PostStuffForTextAdapter extends RecyclerView.Adapter<PostStuffForTe
 
             }
         });
-        if (uploadCurrent.getContent().contains("firebasestorage.googleapis.com")) {
-            CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
-        } else {
-            CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(KeyYeah).child("Dislikes");
-        }
+        CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Dislikes");
 
         CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
             @Override

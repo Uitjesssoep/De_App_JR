@@ -1,6 +1,6 @@
 package com.example.myfirstapp.Textposts;
 
-public class PostStuffForText {
+public class StuffForPost {
 
     private String mTitle;
     private String mUser_name;
@@ -8,17 +8,28 @@ public class PostStuffForText {
     private String mUID;
     private String mKey;
     private String mDate;
+    private String mType;
 
-    public PostStuffForText(String Title, String User_name, String Content, String UID, String Key, String Date) {
+
+    public StuffForPost(String Title, String User_name, String Content, String UID, String Key, String Date, String Type) {
         mTitle = Title;
         mUser_name = User_name;
         mContent = Content;
         mUID = UID;
         mKey = Key;
         mDate = Date;
+        mType = Type;
     }
 
-    public PostStuffForText() {
+    public StuffForPost() {
+    }
+
+    public String getType() {
+        return mType;
+    }
+
+    public void setType(String mType) {
+        this.mType = mType;
     }
 
     public String getTitle() {

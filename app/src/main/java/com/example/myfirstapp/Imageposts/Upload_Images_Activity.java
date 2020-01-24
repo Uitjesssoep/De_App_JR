@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
+import com.example.myfirstapp.Textposts.StuffForPost;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,8 +84,8 @@ public class Upload_Images_Activity extends AppCompatActivity {
         mImageView = findViewById(R.id.ivUploadedImage);
         user_name_gebruiker = findViewById(R.id.tvUserNameHiddenDing);
         mProgressbar = findViewById(R.id.pbUploadingImage);
-        mStorageRef = FirebaseStorage.getInstance().getReference("General_Image_Posts");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
+        mStorageRef = FirebaseStorage.getInstance().getReference("General_Posts");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Posts");
         calendar = Calendar.getInstance();
         dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
         Date = dateFormat.format(calendar.getTime());
@@ -155,9 +156,9 @@ public class Upload_Images_Activity extends AppCompatActivity {
                 usernameString = user_name_gebruiker.getText().toString();
 
                 temp_key = mDatabaseRef.push().getKey();
-                Upload upload = new Upload(Title.getText().toString().trim(),
+                StuffForPost stuffForPost = new StuffForPost(Title.getText().toString().trim(),
                         usernameString, UriImage, MyUID, temp_key, Date, "Image");
-                mDatabaseRef.child(temp_key).setValue(upload);
+                mDatabaseRef.child(temp_key).setValue(stuffForPost);
                 Intent VNoD = new Intent(Upload_Images_Activity.this, SecondActivity.class);
                 startActivity(VNoD);
                 finish();

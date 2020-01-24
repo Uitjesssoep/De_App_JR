@@ -11,14 +11,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myfirstapp.Textposts.PostStuffForText;
+import com.example.myfirstapp.Textposts.StuffForPost;
 import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public List<PostStuffForText> mList;
+    public List<StuffForPost> mList;
     public Context mContext;
     private String KeyPost, key, TAG = "Check";
     private Query databaseReference;
@@ -40,7 +40,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mListener = listener;
     }
 
-    public GeneralAdapter(Context mContext, List<PostStuffForText> mList) {
+    public GeneralAdapter(Context mContext, List<StuffForPost> mList) {
        // Log.e(TAG, "GeneralAdapter");
         this.mContext = mContext;
         this.mList = mList;
@@ -50,11 +50,11 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(final int position) {
        // Log.e("Check", "Tot getitemviewtype gekomen");
-        PostStuffForText post = mList.get(position);
+        StuffForPost post = mList.get(position);
         KeyPost = post.getKey();
         ContentPost = post.getContent();
         //Log.e("CheckNeutral", ContentPost );
-        if (ContentPost.contains("firebasestorage.googleapis.com")) {
+        if (post.getType().equals("Image")) {
             return 1;
         }
         return 2;
@@ -81,7 +81,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (holder.getItemViewType()) {
             case 1: {
                 ImagePostViewHolder viewHolder = (ImagePostViewHolder) holder;
-                PostStuffForText item = mList.get(position);
+                StuffForPost item = mList.get(position);
                 viewHolder.setIsRecyclable(false);
                 viewHolder.TitleImage.setText(item.getTitle());
                 viewHolder.UsernameImage.setText(item.getUser_name());
@@ -95,7 +95,7 @@ public class GeneralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             break;
             case 2: {
                 TextPostViewHolder viewHolder = (TextPostViewHolder) holder;
-                PostStuffForText item = mList.get(position);
+                StuffForPost item = mList.get(position);
                 viewHolder.setIsRecyclable(false);
                 viewHolder.Username.setText(item.getUser_name());
                 viewHolder.Title.setText(item.getTitle());

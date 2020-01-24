@@ -1,8 +1,5 @@
 package com.example.myfirstapp.Textposts;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,9 +9,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
-import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -58,7 +58,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         MyUID = user.getUid();
 
-        GeneralTextPosts = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+        GeneralTextPosts = FirebaseDatabase.getInstance().getReference("General_Posts");
         PersonalTextPosts = FirebaseDatabase.getInstance().getReference("Personal_Text_Posts").child(MyUID);
 
         user_name_gebruiker = findViewById(R.id.tvUserNameHiddenDing);
@@ -117,8 +117,8 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                 String anonString = "[anonymous]";
 
                 temp_key = GeneralTextPosts.push().getKey();
-                PostStuffForText postStuffForText = new PostStuffForText(TitleContent, anonString, TextContent, MyUID, temp_key, Date);
-                GeneralTextPosts.child(temp_key).setValue(postStuffForText);
+                StuffForPost StuffForPost = new StuffForPost(TitleContent, anonString, TextContent, MyUID, temp_key, Date, "Text");
+                GeneralTextPosts.child(temp_key).setValue(StuffForPost);
 
                 Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
                 startActivity(VNoD);
@@ -144,8 +144,8 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
 
                 temp_key = GeneralTextPosts.push().getKey();
-                PostStuffForText postStuffForText = new PostStuffForText(TitleContent, usernameString, TextContent, MyUID, temp_key, Date);
-                GeneralTextPosts.child(temp_key).setValue(postStuffForText);
+                StuffForPost StuffForPost = new StuffForPost(TitleContent, usernameString, TextContent, MyUID, temp_key, Date, "Text");
+                GeneralTextPosts.child(temp_key).setValue(StuffForPost);
 
                 Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
                 startActivity(VNoD);
@@ -165,8 +165,8 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         String anonString = "[anonymous]";
 
         temp_key = GeneralTextPosts.push().getKey();
-        PostStuffForText postStuffForText = new PostStuffForText(TitleContent, anonString, TextContent, MyUID, temp_key, Date);
-        GeneralTextPosts.child(temp_key).setValue(postStuffForText);
+        StuffForPost StuffForPost = new StuffForPost(TitleContent, anonString, TextContent, MyUID, temp_key, Date, "Text");
+        GeneralTextPosts.child(temp_key).setValue(StuffForPost);
 
         Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
         startActivity(VNoD);

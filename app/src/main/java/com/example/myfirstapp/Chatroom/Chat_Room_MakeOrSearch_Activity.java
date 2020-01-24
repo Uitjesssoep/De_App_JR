@@ -3,21 +3,12 @@ package com.example.myfirstapp.Chatroom;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.Sampler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -29,17 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
-import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Chat;
-import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Choose_PostType_Activity;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.SecondActivity;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
-import com.example.myfirstapp.Textposts.PostStuffForText;
-import com.example.myfirstapp.Textposts.PostStuffForTextAdapter;
-import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
 import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,12 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
 

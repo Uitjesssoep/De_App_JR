@@ -60,7 +60,7 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
 
         final String key = getIntent().getExtras().get("Key").toString();
 
-        DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Comments");
+        DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Comments");
 
         CommentMessage = CommentSubstance.getText().toString().trim();
         calendar = Calendar.getInstance();
@@ -166,7 +166,7 @@ public class Make_Comment_TextPost_Activity extends AppCompatActivity {
         Content.setVisibility(View.GONE);
 
         final String PostKey = getIntent().getExtras().get("Key").toString();
-        DatabaseReference getTitle = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey);
+        DatabaseReference getTitle = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey);
         getTitle.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

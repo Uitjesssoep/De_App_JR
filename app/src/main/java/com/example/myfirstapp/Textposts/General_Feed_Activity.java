@@ -32,10 +32,9 @@ import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.App_Settings_Activity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity;
-import com.example.myfirstapp.Choose_PostType_Activity;
 import com.example.myfirstapp.GeneralAdapter;
+import com.example.myfirstapp.Imageposts.Image_Post_Viewing_Activity;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
-import com.example.myfirstapp.Imageposts.Upload;
 import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Users.UserListToFollow;
@@ -48,8 +47,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,8 +56,8 @@ public class General_Feed_Activity extends AppCompatActivity
 
 
     private RecyclerView GeneralFeed;
-    private List<PostStuffForText> postStuffForTextList;
-    private PostStuffForTextAdapter postStuffForTextAdapter;
+    private List<StuffForPost> StuffForPostList;
+    private StuffForPostAdapter stuffForPostAdapter;
     private GeneralAdapter generalAdapter;
 
     private FloatingActionButton ImageFAB, TextFAB, ChatFAB;
@@ -70,12 +67,12 @@ public class General_Feed_Activity extends AppCompatActivity
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
-    private DatabaseReference Textposts = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
-    private DatabaseReference Imageposts = FirebaseDatabase.getInstance().getReference("General_Image_Posts");
+    private DatabaseReference Textposts = FirebaseDatabase.getInstance().getReference("General_Posts");
+    private DatabaseReference Imageposts = FirebaseDatabase.getInstance().getReference("General_Posts");
     private DatabaseReference CheckIfMyUID;
     private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
 
-    private String key, MyUID, TAG="Check";
+    private String key, MyUID, TAG = "Check";
     private Boolean Liked = false, Disliked = false, LikedCheck = false, DislikedCheck = false;
     private int LikeCount, DislikeCount, CommentCount;
 
@@ -95,7 +92,6 @@ public class General_Feed_Activity extends AppCompatActivity
         GeneralFeed.setDrawingCacheEnabled(true);
         GeneralFeed.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         GeneralFeed.setLayoutManager(new LinearLayoutManager(this));
-
         ImageFAB = findViewById(R.id.fabImageMake);
         TextFAB = findViewById(R.id.fabTextMake);
         ChatFAB = findViewById(R.id.fabChatMake);
@@ -107,7 +103,7 @@ public class General_Feed_Activity extends AppCompatActivity
         FABOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         FABClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
 
-        postStuffForTextList = new ArrayList<>();
+        StuffForPostList = new ArrayList<>();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -125,8 +121,7 @@ public class General_Feed_Activity extends AppCompatActivity
 
 
                 StartOrReloadTextPosts();
-                StartOrReloadImagePosts();
-              //  clear();
+                //  clear();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -196,45 +191,32 @@ public class General_Feed_Activity extends AppCompatActivity
         SetupDesign();
 
         //clear();
-     //   LoadAdapter();
+        //   LoadAdapter();
 
         StartOrReloadTextPosts();
 
-        StartOrReloadImagePosts();
-
-
 
     }
 
-    private void LoadAdapter(){
-
-        generalAdapter = new GeneralAdapter(General_Feed_Activity.this, postStuffForTextList);
-        GeneralFeed.setAdapter(generalAdapter);
-        //Log.e(TAG, "LoadAdapter");
-
-        progressBar.setVisibility(View.GONE);
-
-    }
-
-    private void StartOrReloadImagePosts(){
+    private void StartOrReloadImagePosts() {
 
         Imageposts.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-               clear();
+                clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    PostStuffForText upload = postSnapshot.getValue(PostStuffForText.class);
-                    postStuffForTextList.add(upload);
-                    generalAdapter = new GeneralAdapter(General_Feed_Activity.this, postStuffForTextList);
-                    GeneralFeed.setAdapter(generalAdapter);
-                   // Log.e(TAG, "LoadAdapter");
+                    StuffForPost upload = postSnapshot.getValue(StuffForPost.class);
+                    StuffForPostList.add(upload);
+                    stuffForPostAdapter = new StuffForPostAdapter(General_Feed_Activity.this, StuffForPostList);
+                    GeneralFeed.setAdapter(stuffForPostAdapter);
+                    // Log.e(TAG, "LoadAdapter");
 
                     progressBar.setVisibility(View.GONE);
-                  //  Log.e(TAG,"images toegevoegd");
+                    //  Log.e(TAG,"images toegevoegd");
                 }
-                }
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -249,36 +231,45 @@ public class General_Feed_Activity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-             //  clear();
+                clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
-                    postStuffForTextList.add(postStuffForText);
-                    Log.e(TAG, "textpostsreload" );
-                   // Log.e("tekstshit", postStuffForTextList.toString());
+                    StuffForPost StuffForPost = postSnapshot.getValue(StuffForPost.class);
+                    StuffForPostList.add(StuffForPost);
+
+                    //  Log.e(TAG,"images toegevoegd");
+                    Log.e(TAG, "textpostsreload");
+                    // Log.e("tekstshit", StuffForPostList.toString());
                 }
 
-                generalAdapter.setOnItemClickListener(new GeneralAdapter.OnItemClickListener() {
+                stuffForPostAdapter = new StuffForPostAdapter(General_Feed_Activity.this, StuffForPostList);
+                GeneralFeed.setAdapter(stuffForPostAdapter);
+
+                progressBar.setVisibility(View.GONE);
+
+                stuffForPostAdapter.setOnItemClickListener(new StuffForPostAdapter.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(int position) {
-                        key = postStuffForTextList.get(position).getKey().toString();
+                        key = StuffForPostList.get(position).getKey().toString();
 
-                        Intent Test2 = new Intent(getApplicationContext(), Text_Post_Viewing_Activity.class);
-                        Test2.putExtra("Key", key);
-                        startActivity(Test2);
+                        if (StuffForPostList.get(position).getType().equals("Image")) {
+                            Intent Test2 = new Intent(getApplicationContext(), Image_Post_Viewing_Activity.class);
+                            Test2.putExtra("Key", key);
+                            startActivity(Test2);
+                        } else {
+                            Intent Test2 = new Intent(getApplicationContext(), Text_Post_Viewing_Activity.class);
+                            Test2.putExtra("Key", key);
+                            startActivity(Test2);
+                        }
+
+
                     }
 
                     @Override
                     public void onUserNameClick(int position) {
-                        final String PostKey = postStuffForTextList.get(position).getKey().toString();
-
-                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")){
-                            CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(PostKey);
-                        }else {
-                            CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey);
-                        }
-
+                        final String PostKey = StuffForPostList.get(position).getKey().toString();
+                        CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey);
                         CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -293,17 +284,16 @@ public class General_Feed_Activity extends AppCompatActivity
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                        if(dataSnapshot.hasChild(PostUID2)){
+                                        if (dataSnapshot.hasChild(PostUID2)) {
 
-                                            if(MyUIDCheck2.equals(PostUID2)){
+                                            if (MyUIDCheck2.equals(PostUID2)) {
 
                                                 Intent GoToMyProfile = new Intent(General_Feed_Activity.this, Account_Info_Activity.class);
                                                 startActivity(GoToMyProfile);
 
-                                            }
-                                            else{
+                                            } else {
 
-                                                if(AnonCheck.equals(AnonToCheck)){
+                                                if (AnonCheck.equals(AnonToCheck)) {
 
                                                     final AlertDialog.Builder dialog = new AlertDialog.Builder(General_Feed_Activity.this);
                                                     dialog.setTitle("This user has posted anonymously");
@@ -311,9 +301,7 @@ public class General_Feed_Activity extends AppCompatActivity
                                                     AlertDialog alertDialog = dialog.create();
                                                     alertDialog.show();
 
-                                                }
-
-                                                else{
+                                                } else {
 
                                                     Intent GoToProfile = new Intent(General_Feed_Activity.this, Account_Info_OtherUser_Activity.class);
                                                     GoToProfile.putExtra("Key", PostKey);
@@ -322,9 +310,7 @@ public class General_Feed_Activity extends AppCompatActivity
                                                 }
                                             }
 
-                                        }
-
-                                        else{
+                                        } else {
 
                                             final AlertDialog.Builder dialog = new AlertDialog.Builder(General_Feed_Activity.this);
                                             dialog.setTitle("This user has been deleted");
@@ -353,15 +339,11 @@ public class General_Feed_Activity extends AppCompatActivity
 
                     @Override
                     public void onUpvoteClick(int position) {
-                        key = postStuffForTextList.get(position).getKey().toString();
+                        key = StuffForPostList.get(position).getKey().toString();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")){
-                            DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
-                            DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
-                        }else {
-                            DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
-                            DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
-                        }
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
+
 
                         final String TAGDownvote = "VoteCheck";
 
@@ -370,25 +352,20 @@ public class General_Feed_Activity extends AppCompatActivity
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if(dataSnapshot.hasChild(MyUID)){
+                                if (dataSnapshot.hasChild(MyUID)) {
 
                                     DatabaseDislike.child(MyUID).removeValue();
                                     DatabaseLike.child(MyUID).setValue("RandomLike");
 
-                                }
-
-
-                                else{
+                                } else {
 
                                     DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            if(dataSnapshot.hasChild(MyUID)){
+                                            if (dataSnapshot.hasChild(MyUID)) {
                                                 DatabaseLike.child(MyUID).removeValue();
-                                            }
-
-                                            else{
+                                            } else {
                                                 DatabaseLike.child(MyUID).setValue("RandomLike");
                                             }
 
@@ -413,15 +390,11 @@ public class General_Feed_Activity extends AppCompatActivity
 
                     @Override
                     public void onDownvoteClick(int position) {
-                        key = postStuffForTextList.get(position).getKey().toString();
+                        key = StuffForPostList.get(position).getKey().toString();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        if (postStuffForTextList.get(position).getContent().contains("firebasestorage.googleapis.com")){
-                            DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
-                            DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
-                        }else {
-                            DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
-                            DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
-                        }
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
+
                         final String TAGDownvote = "VoteCheck";
 
 
@@ -429,24 +402,20 @@ public class General_Feed_Activity extends AppCompatActivity
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if(dataSnapshot.hasChild(MyUID)){
+                                if (dataSnapshot.hasChild(MyUID)) {
                                     DatabaseLike.child(MyUID).removeValue();
                                     DatabaseDislike.child(MyUID).setValue("RandomDislike");
-                                }
-
-                                else{
+                                } else {
 
                                     DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            if(dataSnapshot.hasChild(MyUID)){
+                                            if (dataSnapshot.hasChild(MyUID)) {
 
                                                 DatabaseDislike.child(MyUID).removeValue();
 
-                                            }
-
-                                            else{
+                                            } else {
 
                                                 DatabaseDislike.child(MyUID).setValue("RandomDislike");
 
@@ -484,20 +453,18 @@ public class General_Feed_Activity extends AppCompatActivity
     private void CheckInternet() {
 
         boolean connected = false;
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
             connected = true;
-        }
-        else {
+        } else {
             connected = false;
         }
 
-        if(connected){
+        if (connected) {
 
-        }
-        else{
+        } else {
             final AlertDialog.Builder dialog = new AlertDialog.Builder(General_Feed_Activity.this);
             dialog.setTitle("No internet connection");
             dialog.setMessage("Please connect to the internet and try again");
@@ -550,7 +517,7 @@ public class General_Feed_Activity extends AppCompatActivity
                     Fragment selectedFragment = null;
                     bottomNavigationView = findViewById(R.id.bottom_nav_second);
 
-                    switch (menuItem.getItemId()){
+                    switch (menuItem.getItemId()) {
                         case R.id.navigation_home:
 
                             Intent home = new Intent(General_Feed_Activity.this, General_Feed_Activity.class);
@@ -575,7 +542,7 @@ public class General_Feed_Activity extends AppCompatActivity
                             make.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(make);*/
 
-                            if(FABisOpen){
+                            if (FABisOpen) {
                                 ImageFAB.startAnimation(FABClose);
                                 TextFAB.startAnimation(FABClose);
                                 ChatFAB.startAnimation(FABClose);
@@ -583,9 +550,7 @@ public class General_Feed_Activity extends AppCompatActivity
                                 TextFAB.setClickable(false);
                                 ChatFAB.setClickable(false);
                                 FABisOpen = false;
-                            }
-
-                            else {
+                            } else {
                                 ImageFAB.startAnimation(FABOpen);
                                 TextFAB.startAnimation(FABOpen);
                                 ChatFAB.startAnimation(FABOpen);
@@ -633,7 +598,7 @@ public class General_Feed_Activity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_settings:
 
                 Intent intent = new Intent(General_Feed_Activity.this, App_Settings_Activity.class);
@@ -642,9 +607,8 @@ public class General_Feed_Activity extends AppCompatActivity
                 break;
 
             case R.id.action_refresh_feed:
-               // clear();
+                // clear();
                 StartOrReloadTextPosts();
-                StartOrReloadImagePosts();
 
                 break;
 
@@ -666,19 +630,18 @@ public class General_Feed_Activity extends AppCompatActivity
     }
 
 
-
     public void clear() {
 
-        int size = postStuffForTextList.size();
+        int size = StuffForPostList.size();
         if (size > 0) {
             for (int i = 0; i < size; i++) {
-                postStuffForTextList.remove(0);
+                StuffForPostList.remove(0);
 
                 String TAGTest = "ListEmpty";
-               // Log.e(TAGTest, "tot 'for' gekomen");
+                // Log.e(TAGTest, "tot 'for' gekomen");
             }
 
-            generalAdapter.notifyItemRangeRemoved(0, size);
+            stuffForPostAdapter.notifyItemRangeRemoved(0, size);
         }
     }
 

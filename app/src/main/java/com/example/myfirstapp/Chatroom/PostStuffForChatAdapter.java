@@ -12,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.Textposts.PostStuffForText;
-import com.example.myfirstapp.Textposts.PostStuffForTextAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

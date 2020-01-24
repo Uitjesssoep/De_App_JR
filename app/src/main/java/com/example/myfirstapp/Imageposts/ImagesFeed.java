@@ -1,12 +1,6 @@
 package com.example.myfirstapp.Imageposts;
 
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,12 +8,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
-import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_ActivityImagePostsTemporary;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.Textposts.General_Feed_Activity;
-import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -59,7 +56,7 @@ public class ImagesFeed extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        mDatabaseRef = firebaseDatabase.getReference("General_Image_Posts");
+        mDatabaseRef = firebaseDatabase.getReference("General_Posts");
 
         mDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -91,7 +88,7 @@ public class ImagesFeed extends AppCompatActivity {
                     public void onUserNameClick(int position) {
                         final String PostKey = mUploads.get(position).getKey().toString();
 
-                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(PostKey).child("uid");
+                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("uid");
                         CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -153,8 +150,8 @@ public class ImagesFeed extends AppCompatActivity {
                     public void onUpvoteClick(int position) {
                         key = mUploads.get(position).getKey().toString();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
-                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
                         final String TAGDownvote = "VoteCheck";
 
 
@@ -207,8 +204,8 @@ public class ImagesFeed extends AppCompatActivity {
                     public void onDownvoteClick(int position) {
                         key = mUploads.get(position).getKey().toString();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Likes");
-                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(key).child("Dislikes");
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
                         final String TAGDownvote = "VoteCheck";
 
 

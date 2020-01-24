@@ -49,13 +49,13 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
 
     private RecyclerView GeneralFeed;
-    private List<PostStuffForText> postStuffForTextList;
-    private PostStuffForTextAdapter postStuffForTextAdapter;
+    private List<StuffForPost> StuffForPostList;
+    private StuffForPostAdapter StuffForPostAdapter;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
-    private DatabaseReference posts = FirebaseDatabase.getInstance().getReference("General_Text_Posts");
+    private DatabaseReference posts = FirebaseDatabase.getInstance().getReference("General_Posts");
     private DatabaseReference following=FirebaseDatabase.getInstance().getReference("users");
     private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
 
@@ -76,7 +76,7 @@ public class Followers_Feed_Activity extends AppCompatActivity
         GeneralFeed = findViewById(R.id.rvFeedScreen);
         GeneralFeed.setLayoutManager(new LinearLayoutManager(this));
 
-        postStuffForTextList = new ArrayList<>();
+        StuffForPostList = new ArrayList<>();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -128,22 +128,22 @@ public class Followers_Feed_Activity extends AppCompatActivity
                 clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    PostStuffForText postStuffForText = postSnapshot.getValue(PostStuffForText.class);
-                    postStuffForTextList.add(postStuffForText);
+                    StuffForPost StuffForPost = postSnapshot.getValue(StuffForPost.class);
+                    StuffForPostList.add(StuffForPost);
                         MyUID = firebaseAuth.getCurrentUser().getUid();
                         following.child(MyUID).child("following").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (int i = 0; i < postStuffForTextList.size(); i++) {
+                                for (int i = 0; i < StuffForPostList.size(); i++) {
                                 int position;
 
-                                if (!dataSnapshot.hasChild(postStuffForTextList.get(i).getUID())) {
+                                if (!dataSnapshot.hasChild(StuffForPostList.get(i).getUID())) {
                                     position = i;
-                                    postStuffForTextList.remove(position);
-                                    Log.e("list", postStuffForTextList.toString());
+                                    StuffForPostList.remove(position);
+                                    Log.e("list", StuffForPostList.toString());
                                 }}
-                                postStuffForTextAdapter = new PostStuffForTextAdapter(Followers_Feed_Activity.this, postStuffForTextList);
-                                GeneralFeed.setAdapter(postStuffForTextAdapter);
+                                StuffForPostAdapter = new StuffForPostAdapter(Followers_Feed_Activity.this, StuffForPostList);
+                                GeneralFeed.setAdapter(StuffForPostAdapter);
                                 progressBar.setVisibility(View.GONE);
                                 onclicklistener();
                             }
@@ -157,7 +157,7 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
 
 
-                    Log.e("tekstshit", postStuffForTextList.toString());
+                    Log.e("tekstshit", StuffForPostList.toString());
                 }
 
 
@@ -205,11 +205,11 @@ public class Followers_Feed_Activity extends AppCompatActivity
     }
 
     private void onclicklistener(){
-        postStuffForTextAdapter.setOnItemClickListener(new PostStuffForTextAdapter.OnItemClickListener() {
+        StuffForPostAdapter.setOnItemClickListener(new StuffForPostAdapter.OnItemClickListener() {
 
             @Override
             public void onItemClick(int position) {
-                key = postStuffForTextList.get(position).getKey().toString();
+                key = StuffForPostList.get(position).getKey().toString();
 
                 Intent Test2 = new Intent(getApplicationContext(), Text_Post_Viewing_Activity.class);
                 Test2.putExtra("Key", key);
@@ -218,9 +218,9 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
             @Override
             public void onUserNameClick(int position) {
-                final String PostKey = postStuffForTextList.get(position).getKey().toString();
+                final String PostKey = StuffForPostList.get(position).getKey().toString();
 
-                DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(PostKey);
+                DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey);
                 CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -295,10 +295,10 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
             @Override
             public void onUpvoteClick(int position) {
-                key = postStuffForTextList.get(position).getKey().toString();
+                key = StuffForPostList.get(position).getKey().toString();
                 MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
-                DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+                DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
+                DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
                 final String TAGDownvote = "VoteCheck";
 
 
@@ -349,10 +349,10 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
             @Override
             public void onDownvoteClick(int position) {
-                key = postStuffForTextList.get(position).getKey().toString();
+                key = StuffForPostList.get(position).getKey().toString();
                 MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Likes");
-                DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Text_Posts").child(key).child("Dislikes");
+                DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
+                DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
                 final String TAGDownvote = "VoteCheck";
 
 
@@ -523,16 +523,16 @@ public class Followers_Feed_Activity extends AppCompatActivity
 
     public void clear() {
 
-        int size = postStuffForTextList.size();
+        int size = StuffForPostList.size();
         if (size > 0) {
             for (int i = 0; i < size; i++) {
-                postStuffForTextList.remove(0);
+                StuffForPostList.remove(0);
 
                 String TAGTest = "ListEmpty";
                 Log.e(TAGTest, "tot 'for' gekomen");
             }
 
-            postStuffForTextAdapter.notifyItemRangeRemoved(0, size);
+            StuffForPostAdapter.notifyItemRangeRemoved(0, size);
         }
     }
 

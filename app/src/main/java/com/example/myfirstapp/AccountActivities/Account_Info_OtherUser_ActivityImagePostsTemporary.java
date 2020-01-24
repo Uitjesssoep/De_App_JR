@@ -53,7 +53,7 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference("General_Image_Posts").child(key).child("uid");
+        DatabaseReference databaseReference = firebaseDatabase.getReference("General_Posts").child(key).child("uid");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

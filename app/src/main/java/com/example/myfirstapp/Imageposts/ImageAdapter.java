@@ -62,10 +62,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         String KeyYeah = uploadCurrent.getKey().toString();
         final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
-        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("user_name");
+        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("user_name");
         final String PostUID = uploadCurrent.getUID().toString();
-        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
-        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
+        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Likes");
+        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Dislikes");
         LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -92,7 +92,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         });
 
         final String MyUID = FirebaseAuth.getInstance().getUid().toString();
-        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Likes");
+        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Likes");
         CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -112,7 +112,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             }
         });
 
-        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Image_Posts").child(KeyYeah).child("Dislikes");
+        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Dislikes");
         CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
