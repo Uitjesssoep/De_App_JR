@@ -26,7 +26,6 @@ import com.example.myfirstapp.Notifications.Sender;
 import com.example.myfirstapp.Notifications.Token;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
-import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -72,7 +71,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
         SendChatButton = (Button)findViewById(R.id.btnSendMessageChat);
         ChatInputText = (EditText)findViewById(R.id.etChatInput);
-        Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
+      //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
 
 
         //voor scrollen

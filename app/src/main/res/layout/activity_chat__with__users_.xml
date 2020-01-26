@@ -16,7 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/etChatInput"
-        app:layout_constraintTop_toBottomOf="@+id/tvChatWindow" />
+        app:layout_constraintTop_toBottomOf="@+id/rvChatWindow" />
 
     <EditText
         android:id="@+id/etChatInput"
@@ -33,8 +33,8 @@
         app:layout_constraintTop_toTopOf="@+id/btnSendMessageChat" />
 
 
-    <TextView
-        android:id="@+id/tvChatWindow"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChatWindow"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="0dp"
