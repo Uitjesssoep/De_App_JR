@@ -63,6 +63,8 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
                         case R.id.navigation_chat:
 
+                            selectedFragment = new ChatFragment();
+
                             break;
 
                         case R.id.navigation_make:
@@ -76,6 +78,8 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             break;
 
                         case R.id.navigation_account:
+
+                            selectedFragment = new AccountFragment();
 
                             break;
                     }

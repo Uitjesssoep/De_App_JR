@@ -2,12 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".AccountFragment">
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout_general_feed_home"
+        android:id="@+id/tab_layout_personal_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
@@ -20,26 +21,26 @@
         app:tabTextColor="@color/white">
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab_layout_allFeed_home"
+            android:id="@+id/tab_layout_MyPosts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="All" />
+            android:text="My Posts" />
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab_layout_followingFeed_home"
+            android:id="@+id/tab_layout_SavedPosts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Following" />
+            android:text="SavedPosts" />
 
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager_tablayout_home"
+        android:id="@+id/viewpager_tablayout_MyAccount"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tab_layout_general_feed_home" />
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout_personal_account" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

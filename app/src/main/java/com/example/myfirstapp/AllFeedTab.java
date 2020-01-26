@@ -359,5 +359,4 @@ public class AllFeedTab extends Fragment {
         });
 
     }
-
 }
