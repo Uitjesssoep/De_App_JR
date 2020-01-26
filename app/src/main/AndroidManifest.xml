@@ -12,8 +12,10 @@
         android:roundIcon="@mipmap/launcher_s_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Credits_Activity"
-            android:screenOrientation="portrait"></activity>
+        <activity android:name=".Layout_Manager_BottomNav_Activity"></activity>
+        <activity
+            android:name=".Credits_Activity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Textposts.Make_Comment_Activity"
             android:screenOrientation="portrait" />
@@ -53,8 +55,8 @@
         <activity
             android:name=".Users.UserListToFollow"
             android:launchMode="singleTask"
-            android:theme="@style/noAnimationTheme"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/noAnimationTheme" />
         <activity
             android:name=".Choose_FeedType_Activity"
             android:screenOrientation="portrait" />

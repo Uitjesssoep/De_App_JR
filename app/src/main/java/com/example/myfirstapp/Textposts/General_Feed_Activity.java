@@ -36,6 +36,7 @@ import com.example.myfirstapp.GeneralAdapter;
 import com.example.myfirstapp.Imageposts.Image_Post_Viewing_Activity;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
+import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -614,7 +615,7 @@ public class General_Feed_Activity extends AppCompatActivity
 
             case R.id.action_image_feed:
 
-                Intent intent2 = new Intent(General_Feed_Activity.this, ImagesFeed.class);
+                Intent intent2 = new Intent(General_Feed_Activity.this, Layout_Manager_BottomNav_Activity.class);
                 startActivity(intent2);
 
                 break;
