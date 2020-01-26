@@ -1,5 +1,6 @@
 package com.example.myfirstapp.Imageposts;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -11,7 +12,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,11 +29,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUserComments_Activity;
-import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_ActivityImagePostsTemporary;
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPost;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPostAdapter;
+import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.example.myfirstapp.Textposts.Make_Comment_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,46 +50,45 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Image_Post_Viewing_Activity extends AppCompatActivity {
-    private ImageView ImagePost;
-    private TextView Title, Content, UserName, LikeCountDisplay, DislikeCountDisplay, NumberOfComments, user_name_gebruiker;
-    private Button PostComment;
-    private RecyclerView CommentView;
-    private List<CommentStuffForTextPost> commentStuffForImagePostList;
-    private String key, MyUID, CommentMessage, temp_key;
-    private EditText CommentSubstance;
 
+
+    private TextView Title, UserName, LikeCountDisplay, DislikeCountDisplay, NumberOfComments, Date;
+    private ImageView Content;
+
+    private RecyclerView CommentView;
+    private List<CommentStuffForTextPost> commentStuffForTextPostList;
     private CommentStuffForTextPostAdapter commentStuffForTextPostAdapter;
 
-    private ImageButton Like, Dislike;
-
     private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
-    private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
-    private FirebaseAuth firebaseAuth;
-
-    private int LikeCount, DislikeCount, CommentCount;
-
-    private Calendar calendar;
-    private SimpleDateFormat dateFormat;
-    private String Date;
+    private String key, MyUID, CommentMessage, temp_key;
+    private ImageButton Like, Dislike;
+    private EditText CommentSubstance;
 
     private boolean Liked = false;
     private boolean Disliked = false;
     private boolean LikedCheck = false, DislikedCheck = false;
 
+    private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
+    private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
+    private FirebaseAuth firebaseAuth;
+
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
+
+    private int LikeCount, DislikeCount, CommentCount;
+    private static final String TAG = "Text_Post_Viewing";
+
+
     private void SetupUI() {
-        ImagePost = findViewById(R.id.ivContentOfImagePost);
+
         Title = findViewById(R.id.tvTitleOfImagePost);
+        Content = findViewById(R.id.ivContentOfImagePost);
         UserName = findViewById(R.id.tvUsernameForImagePost);
         LikeCountDisplay = findViewById(R.id.tvLikeCounterFoImagePostViewing);
         DislikeCountDisplay = findViewById(R.id.tvDislikeCounterForImagePostViewing);
         Like = findViewById(R.id.ibLikeUpForImagePostViewing);
         Dislike = findViewById(R.id.ibLikeDownForImagePostViewing);
-        NumberOfComments = findViewById(R.id.tvNumberOfCommentsForImagePosts);
-        CommentView = findViewById(R.id.rvCommentsImagePost);
-        firebaseAuth = FirebaseAuth.getInstance();
-        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-        key = getIntent().getExtras().get("Key").toString();
+        Date = findViewById(R.id.tvDateOfPostTImagePostViewing);
 
         Spinner SortByComments = findViewById(R.id.spinnerDropDownSortByCommentsImagePostViewing);
         ArrayAdapter<String> sortAdapter = new ArrayAdapter<String>(Image_Post_Viewing_Activity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sortnames));
@@ -98,12 +98,54 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         CommentView = findViewById(R.id.rvCommentsImagePost);
         CommentView.setNestedScrollingEnabled(false);
         CommentView.setLayoutManager(new LinearLayoutManager(this));
-        commentStuffForImagePostList = new ArrayList<>();
+        commentStuffForTextPostList = new ArrayList<>();
 
         NumberOfComments = findViewById(R.id.tvNumberOfCommentsForImagePosts);
         CommentSubstance = findViewById(R.id.etAddCommentForImagePost);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+
+
+        final String ThePostKey = getIntent().getExtras().get("Key").toString();
+        final String MyUID3 = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+        DatabaseReference GetPostUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(ThePostKey).child("uid");
+        GetPostUID.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (MyUID3.equals(dataSnapshot.getValue().toString())) {
+
+                    DatabaseReference GetMyUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID3).child("userName");
+                    GetMyUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            String MyUserName = dataSnapshot.getValue().toString();
+
+                            UserName.setTextColor(getResources().getColor(R.color.colorAccent));
+                            UserName.setText(MyUserName);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 
@@ -112,21 +154,60 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image__post__viewing_);
 
-        SetupUI();
 
-        SetupDesign();
-//PROBLEEM
-        LikeDislikeCount();
+        key = getIntent().getExtras().get("Key").toString();
 
-        FillVariables();
+        final DatabaseReference CheckIfNotDeleted = FirebaseDatabase.getInstance().getReference("General_Posts");
+        CheckIfNotDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-        CommentOnPost();
+                if (dataSnapshot.hasChild(key)) {
 
-        LookAtPostersProfile();
+                    SetupUI();
+
+                    SetupDesign();
+
+                    LikeDislikeCount();
+
+                    CommentOnPost();
+
+                    LookAtPostersProfile();
+
+                    LoadData();
+
+                } else {
+
+                    final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Image_Post_Viewing_Activity.this);
+                    dialog.setTitle("This post has been deleted");
+                    dialog.setMessage("This post has been deleted, you can no longer view it.");
+
+                    dialog.setPositiveButton("Understood", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            Intent intent = new Intent(Image_Post_Viewing_Activity.this, General_Feed_Activity.class);
+                            startActivity(intent);
+                            finish();
+
+                        }
+                    });
+
+                    android.app.AlertDialog alertDialog = dialog.create();
+                    alertDialog.show();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
-
-    private void FillVariables() {
+    private void LoadData() {
 
         DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("title");
 
@@ -142,13 +223,12 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference ImagePostRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("content");
+        DatabaseReference ContentRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("content");
 
-        ImagePostRef.addValueEventListener(new ValueEventListener() {
+        ContentRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Picasso.get().load(dataSnapshot.getValue().toString()).fit().centerCrop().into(ImagePost);
-                Log.e("Test imageurl", dataSnapshot.toString());
+                Picasso.get().load(dataSnapshot.getValue().toString()).fit().centerCrop().into(Content);
             }
 
             @Override
@@ -170,7 +250,102 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
                 Toast.makeText(Image_Post_Viewing_Activity.this, "Couldn't retrieve data from database", Toast.LENGTH_SHORT).show();
             }
         });
+
+        DatabaseReference PostDateRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("date");
+        PostDateRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String PostDate = dataSnapshot.getValue().toString();
+                Date.setText(PostDate);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
+
+    private void LookAtPostersProfile() {
+
+        UserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final String ThePostKey = getIntent().getExtras().get("Key").toString();
+
+                DatabaseReference CheckIfMyUIDCheck = FirebaseDatabase.getInstance().getReference("General_Posts").child(ThePostKey);
+                CheckIfMyUIDCheck.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        final String MyUIdForCheck = FirebaseAuth.getInstance().getUid().toString();
+                        final String PostUIDForCheck = dataSnapshot.child("uid").getValue().toString();
+                        final String AnonToCheck = dataSnapshot.child("user_name").getValue().toString();
+                        final String AnonCheck = "[anonymous]";
+
+                        DatabaseReference CheckIfDeleted = FirebaseDatabase.getInstance().getReference("users");
+                        CheckIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if (dataSnapshot.hasChild(PostUIDForCheck)) {
+
+                                    if (MyUIdForCheck.equals(PostUIDForCheck)) {
+
+                                        Intent GoToMyProfileAfterCheck = new Intent(Image_Post_Viewing_Activity.this, Account_Info_Activity.class);
+                                        startActivity(GoToMyProfileAfterCheck);
+
+                                    } else {
+
+                                        if (AnonCheck.equals(AnonToCheck)) {
+
+                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(Image_Post_Viewing_Activity.this);
+                                            dialog.setTitle("This user has posted anonymously");
+                                            dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
+                                            AlertDialog alertDialog = dialog.create();
+                                            alertDialog.show();
+
+                                        } else {
+
+                                            Intent GoToProfile = new Intent(Image_Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
+                                            GoToProfile.putExtra("Key", ThePostKey);
+                                            startActivity(GoToProfile);
+
+                                        }
+                                    }
+
+                                } else {
+
+                                    final AlertDialog.Builder dialog = new AlertDialog.Builder(Image_Post_Viewing_Activity.this);
+                                    dialog.setTitle("This user has been deleted");
+                                    dialog.setMessage("You can no longer view this user");
+                                    AlertDialog alertDialog = dialog.create();
+                                    alertDialog.show();
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
+
+    }
+
 
     private void CommentOnPost() {
 
@@ -221,17 +396,17 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     CommentStuffForTextPost commentStuffForTextPost = dataSnapshot1.getValue(CommentStuffForTextPost.class);
-                    commentStuffForImagePostList.add(commentStuffForTextPost);
+                    commentStuffForTextPostList.add(commentStuffForTextPost);
                 }
 
-                commentStuffForTextPostAdapter = new CommentStuffForTextPostAdapter(Image_Post_Viewing_Activity.this, commentStuffForImagePostList);
+                commentStuffForTextPostAdapter = new CommentStuffForTextPostAdapter(Image_Post_Viewing_Activity.this, commentStuffForTextPostList);
                 CommentView.setAdapter(commentStuffForTextPostAdapter);
 
                 commentStuffForTextPostAdapter.setOnItemClickListener(new CommentStuffForTextPostAdapter.OnItemClickListener() {
                     @Override
                     public void onUserNameClick(int position) {
-                        final String CommentKey = commentStuffForImagePostList.get(position).getKey().toString();
-                        final String PostKey = commentStuffForImagePostList.get(position).getOldKey().toString();
+                        final String CommentKey = commentStuffForTextPostList.get(position).getKey().toString();
+                        final String PostKey = commentStuffForTextPostList.get(position).getOldKey().toString();
 
                         DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey).child("uid");
                         CheckIfMyUID.addValueEventListener(new ValueEventListener() {
@@ -314,8 +489,8 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
                     @Override
                     public void onUpvoteClick(int position) {
-                        key = commentStuffForImagePostList.get(position).getKey().toString();
-                        String Postkey = commentStuffForImagePostList.get(position).getOldKey();
+                        key = commentStuffForTextPostList.get(position).getKey().toString();
+                        String Postkey = commentStuffForTextPostList.get(position).getOldKey();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
                         DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Likes");
                         DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
@@ -364,9 +539,9 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
                     @Override
                     public void onDownvoteClick(int position) {
-                        key = commentStuffForImagePostList.get(position).getKey().toString();
+                        key = commentStuffForTextPostList.get(position).getKey().toString();
                         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        String Postkey = commentStuffForImagePostList.get(position).getOldKey();
+                        String Postkey = commentStuffForTextPostList.get(position).getOldKey();
                         DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Likes");
                         DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
                         final String TAGDownvote = "VoteCheck";
@@ -427,79 +602,12 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
     }
 
-
-    private void LookAtPostersProfile() {
-
-        UserName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                final String ThePostKey = getIntent().getExtras().get("Key").toString();
-
-                DatabaseReference CheckIfMyUIDCheck = FirebaseDatabase.getInstance().getReference("General_Posts").child(ThePostKey).child("uid");
-                CheckIfMyUIDCheck.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        final String MyUIdForCheck = FirebaseAuth.getInstance().getUid().toString();
-                        final String PostUIDForCheck = dataSnapshot.getValue().toString();
-
-                        DatabaseReference CheckIfDeleted = FirebaseDatabase.getInstance().getReference("users");
-                        CheckIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                if (dataSnapshot.hasChild(PostUIDForCheck)) {
-
-                                    if (MyUIdForCheck.equals(PostUIDForCheck)) {
-
-                                        Intent GoToMyProfileAfterCheck = new Intent(Image_Post_Viewing_Activity.this, Account_Info_Activity.class);
-                                        startActivity(GoToMyProfileAfterCheck);
-
-                                    } else {
-
-                                        Intent GoToProfile = new Intent(Image_Post_Viewing_Activity.this, Account_Info_OtherUser_ActivityImagePostsTemporary.class);
-                                        GoToProfile.putExtra("Key", ThePostKey);
-                                        startActivity(GoToProfile);
-
-                                    }
-
-                                } else {
-
-                                    final AlertDialog.Builder dialog = new AlertDialog.Builder(Image_Post_Viewing_Activity.this);
-                                    dialog.setTitle("This user has been deleted");
-                                    dialog.setMessage("You can no longer view this user");
-                                    AlertDialog alertDialog = dialog.create();
-                                    alertDialog.show();
-
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-            }
-        });
-
-    }
-
     private void clear() {
 
-        int size = commentStuffForImagePostList.size();
+        int size = commentStuffForTextPostList.size();
         if (size > 0) {
             for (int i = 0; i < size; i++) {
-                commentStuffForImagePostList.remove(0);
+                commentStuffForTextPostList.remove(0);
 
                 String TAGTest = "ListEmpty";
                 Log.e(TAGTest, "tot 'for' gekomen");
@@ -513,9 +621,11 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
 
     private void LikeDislikeCount() {
 
+        key = getIntent().getExtras().get("Key").toString();
+
         DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
         DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
-//PROBLEEM
+
         Like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -732,6 +842,13 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
             }
         });
     }
+
+    public void onBackPressed() {
+        Intent Back = new Intent(Image_Post_Viewing_Activity.this, General_Feed_Activity.class);
+        startActivity(Back);
+        finish();
+    }
+
     private void SetupDesign() {
         //voor het geven van kleur aan de status bar:
 
@@ -771,11 +888,10 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild(getIntent().getExtras().get("Key").toString())){
+                if (dataSnapshot.hasChild(getIntent().getExtras().get("Key").toString())) {
                     notsaved.setVisible(false);
                     saved.setVisible(true);
-                }
-                else{
+                } else {
                     notsaved.setVisible(true);
                     saved.setVisible(false);
                 }
@@ -794,7 +910,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_settings:
 
                 Intent intent = new Intent(Image_Post_Viewing_Activity.this, Report_TextPost_Activity.class);
@@ -840,11 +956,10 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.child("SavedPosts").hasChild(KeyPost)){
+                if (dataSnapshot.child("SavedPosts").hasChild(KeyPost)) {
                     Log.e("Bookmark", "Unsave bereikt");
                     SaveThePost.child("SavedPosts").child(KeyPost).removeValue();
-                }
-                else{
+                } else {
                     Log.e("Bookmark", "Save bereikt");
                     SaveThePost.child("SavedPosts").child(KeyPost).setValue("added");
                 }

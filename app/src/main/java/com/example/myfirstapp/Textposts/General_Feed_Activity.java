@@ -34,7 +34,6 @@ import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity;
 import com.example.myfirstapp.GeneralAdapter;
 import com.example.myfirstapp.Imageposts.Image_Post_Viewing_Activity;
-import com.example.myfirstapp.Imageposts.ImagesFeed;
 import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
