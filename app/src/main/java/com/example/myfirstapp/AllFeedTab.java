@@ -71,6 +71,7 @@ public class AllFeedTab extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
     }
 
     private void CheckInternet() {

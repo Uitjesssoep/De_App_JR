@@ -401,7 +401,8 @@ public class Followers_Feed_Activity extends AppCompatActivity
                     }
                 });
             }
-        });}
+        });
+    }
 
     private void SetupDesign() {
 
