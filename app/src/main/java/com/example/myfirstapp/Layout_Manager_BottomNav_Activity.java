@@ -41,7 +41,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(Layout_Manager_BottomNav_Activity.this, R.color.slighly_darker_mainGreen));
 
-        Toolbar toolbar = findViewById(R.id.action_bar_manager);
+        Toolbar toolbar = findViewById(R.id.action_bar_feed_manager);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -70,6 +70,8 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             break;
 
                         case R.id.navigation_search:
+
+                            selectedFragment = new SearchFragment();
 
                             break;
 
