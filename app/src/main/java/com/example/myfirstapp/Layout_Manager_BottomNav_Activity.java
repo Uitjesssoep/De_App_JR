@@ -41,9 +41,9 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(Layout_Manager_BottomNav_Activity.this, R.color.slighly_darker_mainGreen));
 
-        Toolbar toolbar = findViewById(R.id.action_bar);
+        Toolbar toolbar = findViewById(R.id.action_bar_manager);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
     }
 
@@ -89,7 +89,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_actionbar, menu);
+        inflater.inflate(R.menu.menu_actionbar_feedfragment, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
