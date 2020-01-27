@@ -15,8 +15,7 @@ import com.google.android.material.tabs.TabLayout;
 
 public class AccountFragment extends Fragment {
 
-    private ViewPager viewPager;
-    public PageAdapter pagerAdapter;
+    public PageAdapter_MyAccount pagerAdapter;
 
     @Nullable
     @Override
@@ -33,7 +32,7 @@ public class AccountFragment extends Fragment {
         TabItem SavedPosts = getView().findViewById(R.id.tab_layout_SavedPosts);
         final ViewPager viewPager = getView().findViewById(R.id.viewpager_tablayout_MyAccount);
 
-        pagerAdapter = new PageAdapter(getFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new PageAdapter_MyAccount(getFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
