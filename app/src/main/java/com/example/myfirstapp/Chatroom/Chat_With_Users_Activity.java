@@ -70,17 +70,19 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     }
 
     private void LoadMessages() {
-        myDatabase.addValueEventListener(new ValueEventListener() {
+        myDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //MessagesList.clear();
+                clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     PostStuffForChatRoom postStuffForChatRoom = snapshot.getValue(PostStuffForChatRoom.class);
                     MessagesList.add(postStuffForChatRoom);
+                    Log.e(TAG, MessagesList.toString());
+                    Log.e(TAG, String.valueOf(MessagesList.size()) );
 
                 }
-                postStuffForChatRoomAdapter = new PostStuffForChatRoomAdapter(Chat_With_Users_Activity.this, MessagesList);
+                postStuffForChatRoomAdapter = new PostStuffForChatRoomAdapter(getApplicationContext(), MessagesList);
                 ChatWindow.setAdapter(postStuffForChatRoomAdapter);
                 Log.e(TAG, "succes adapter" );
             }
@@ -165,6 +167,22 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         });
 
     }
+
+    public void clear() {
+
+        int size = MessagesList.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                MessagesList.remove(0);
+
+                String TAGTest = "ListEmpty";
+                // Log.e(TAGTest, "tot 'for' gekomen");
+            }
+
+            postStuffForChatRoomAdapter.notifyItemRangeRemoved(0, size);
+        }
+    }
+
 
     private void Notifications() {
         //voor notificaties
