@@ -2,6 +2,7 @@ package com.example.myfirstapp.Chatroom;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,7 +42,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     private PostStuffForChatAdapter postStuffForChatAdapter;
 
     private String room_name, user_name;
-    private String temp_key;
+    private String temp_key, TAG = "Test";
     private String message, messageNummeroTwee, key;
 
     private String MyUid, Username, Date;
@@ -130,8 +131,12 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Username = dataSnapshot.child("userName").getValue().toString();
+                            Log.e(TAG, Username);
                             PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, MyUid, Username, Date);
-                            myDatabase.child(key).setValue(postStuffForChatRoom);
+
+                            temp_key = myDatabase.child(key).push().getKey();
+                            myDatabase.child(key).child("messages").child(temp_key).setValue(postStuffForChatRoom);
+                            Log.e(TAG, "gepushed" );
                             ChatInputText.setText("");
                         }
 

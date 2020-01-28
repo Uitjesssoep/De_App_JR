@@ -5,10 +5,10 @@ public class PostStuffForChatRoom {
 
 
     public PostStuffForChatRoom(String Message, String UID, String User_name, String Date) {
-        Message = mMessage;
-        UID = mUID;
-        User_name = mUserName;
-        Date = mDate;
+        mMessage = Message;
+        mUID = UID;
+        mUserName = User_name;
+        mDate = Date;
     }
 
     public PostStuffForChatRoom() {

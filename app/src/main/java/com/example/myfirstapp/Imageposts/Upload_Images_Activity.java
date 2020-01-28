@@ -151,9 +151,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-                user_name_gebruiker.setText(userProfile.getUserName());
-
-                usernameString = user_name_gebruiker.getText().toString();
+                usernameString = userProfile.getUserName();
 
                 temp_key = mDatabaseRef.push().getKey();
                 StuffForPost stuffForPost = new StuffForPost(Title.getText().toString().trim(),
