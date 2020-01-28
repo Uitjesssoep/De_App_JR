@@ -58,6 +58,17 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
     boolean notify = false;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat__with__users_);
+
+        SetupUI();
+        LoadMessages();
+        SendChat();
+
+    }
+
     private void LoadMessages() {
         myDatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -65,14 +76,12 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                 MessagesList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    PostStuffForChatRoom
-                            postStuffForChatRoom = snapshot.
-                            getValue
-                                    (PostStuffForChatRoom.class);
+                    PostStuffForChatRoom postStuffForChatRoom = snapshot.getValue(PostStuffForChatRoom.class);
                     MessagesList.add(postStuffForChatRoom);
-                    postStuffForChatRoomAdapter = new PostStuffForChatRoomAdapter(Chat_With_Users_Activity.this, MessagesList);
-                    ChatWindow.setAdapter(postStuffForChatRoomAdapter);
+
                 }
+                postStuffForChatRoomAdapter = new PostStuffForChatRoomAdapter(Chat_With_Users_Activity.this, MessagesList);
+                ChatWindow.setAdapter(postStuffForChatRoomAdapter);
             }
 
             @Override
@@ -84,8 +93,8 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     }
 
     private void SetupUI() {
-        SendChatButton = (Button) findViewById(R.id.btnSendMessageChat);
-        ChatInputText = (EditText) findViewById(R.id.etChatInput);
+        SendChatButton = findViewById(R.id.btnSendMessageChat);
+        ChatInputText = findViewById(R.id.etChatInput);
         //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
         ChatWindow = findViewById(R.id.rvChatWindow);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -112,12 +121,12 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         key = getIntent().getExtras().get("Key").toString();
 
         myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms");
-       // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
+        // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
 
         message = ChatInputText.getText().toString();
     }
 
-    private void SendChat(){
+    private void SendChat() {
         SendChatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,11 +141,12 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Username = dataSnapshot.child("userName").getValue().toString();
                             Log.e(TAG, Username);
+                            message = ChatInputText.getText().toString();
                             PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, MyUid, Username, Date);
 
                             temp_key = myDatabase.child(key).push().getKey();
                             myDatabase.child(key).child("messages").child(temp_key).setValue(postStuffForChatRoom);
-                            Log.e(TAG, "gepushed" );
+                            Log.e(TAG, "gepushed");
                             ChatInputText.setText("");
                         }
 
@@ -147,14 +157,13 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                     });
 
 
-
                 }
             }
         });
 
     }
 
-    private void Notifications(){
+    private void Notifications() {
         //voor notificaties
                    /* notify = true;
 
@@ -298,17 +307,6 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         }
 
     }*/
-
-}
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat__with__users_);
-
-        SetupUI();
-        LoadMessages();
-        SendChat();
 
     }
 
