@@ -58,12 +58,14 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                         case R.id.navigation_home:
 
                             selectedFragment = new HomeFragment();
+                            getSupportActionBar().show();
 
                             break;
 
                         case R.id.navigation_chat:
 
                             selectedFragment = new ChatFragment();
+                            getSupportActionBar().show();
 
                             break;
 
@@ -74,12 +76,14 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                         case R.id.navigation_search:
 
                             selectedFragment = new SearchFragment();
+                            getSupportActionBar().hide();
 
                             break;
 
                         case R.id.navigation_account:
 
                             selectedFragment = new AccountFragment();
+                            getSupportActionBar().show();
 
                             break;
                     }
