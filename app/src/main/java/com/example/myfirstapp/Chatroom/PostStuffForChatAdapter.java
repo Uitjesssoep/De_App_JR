@@ -1,17 +1,24 @@
 package com.example.myfirstapp.Chatroom;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.Report_TextPost_Activity;
+import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -57,7 +64,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
 
     @Override
     public void onBindViewHolder(@NonNull final PostStuffForChatAdapter.ViewHolder holder, int position) {
-        PostStuffForChat uploadCurrent = mPost.get(position);
+        final PostStuffForChat uploadCurrent = mPost.get(position);
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
@@ -65,6 +72,270 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
         holder.CommentCount.setVisibility(View.GONE);
         holder.CommentLogo.setVisibility(View.GONE);
         holder.Content.setVisibility(View.GONE);
+
+        holder.DeleteTextPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
+
+                final String KeyPost = uploadCurrent.getKey().toString();
+                DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("Chatrooms");
+                DeleteIconCheck.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if (dataSnapshot.hasChild(KeyPost)) {
+
+                            final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
+                            final String PostUIDCheck = dataSnapshot.child(KeyPost).child("uid").getValue().toString();
+
+                            if (MyUIDCheck.equals(PostUIDCheck)) {
+
+                                DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedChatrooms");
+                                CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        if (dataSnapshot.hasChild(KeyPost)) {
+
+                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
+                                            popupMenu.inflate(R.menu.popup_menu_textposts_withunsave);
+                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                                @Override
+                                                public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                                    switch (menuItem.getItemId()) {
+
+                                                        case R.id.delete_option_textposts:
+
+                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                                                            dialog.setTitle("Delete your chatroom?");
+                                                            dialog.setMessage("Deleting this chatroom cannot be undone! Are you sure you want to delete it?");
+
+                                                            dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                    DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyPost);
+                                                                    DeleteThePost.removeValue();
+
+                                                                    Intent intent = new Intent(mContext, General_Feed_Activity.class);
+                                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                                    mContext.startActivity(intent);
+
+                                                                }
+                                                            });
+
+                                                            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                                    dialogInterface.dismiss();
+
+                                                                }
+                                                            });
+
+                                                            AlertDialog alertDialog = dialog.create();
+                                                            alertDialog.show();
+
+                                                            break;
+
+
+                                                        case R.id.unsavepost_option_textposts:
+
+                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                                            SaveThePost.child("SavedChatrooms").child(KeyPost).removeValue();
+
+                                                            break;
+
+                                                        default:
+                                                            break;
+
+                                                    }
+
+                                                    return false;
+                                                }
+                                            });
+                                            popupMenu.show();
+
+                                        } else {
+
+                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
+                                            popupMenu.inflate(R.menu.popup_menu_textposts);
+                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                                @Override
+                                                public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                                    switch (menuItem.getItemId()) {
+
+                                                        case R.id.delete_option_textposts:
+
+                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                                                            dialog.setTitle("Delete your chatroom?");
+                                                            dialog.setMessage("Deleting this chatroom cannot be undone! Are you sure you want to delete it?");
+
+                                                            dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                    DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyPost);
+                                                                    DeleteThePost.removeValue();
+
+                                                                    Intent intent = new Intent(mContext, General_Feed_Activity.class);
+                                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                                    mContext.startActivity(intent);
+
+                                                                }
+                                                            });
+
+                                                            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                                    dialogInterface.dismiss();
+
+                                                                }
+                                                            });
+
+                                                            AlertDialog alertDialog = dialog.create();
+                                                            alertDialog.show();
+
+                                                            break;
+
+
+                                                        case R.id.savepost_option_textposts:
+
+                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                            SaveThePost.child("SavedChatrooms").child(KeyPost).setValue("added");
+
+                                                            break;
+
+                                                        default:
+                                                            break;
+
+                                                    }
+
+                                                    return false;
+                                                }
+                                            });
+                                            popupMenu.show();
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                            } else {
+
+                                DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedChatrooms");
+                                CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        if (dataSnapshot.hasChild(uploadCurrent.getKey())) {
+
+                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
+                                            popupMenu.inflate(R.menu.popup_menu_textposts_without_delete_withunsave);
+                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                                @Override
+                                                public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                                    switch (menuItem.getItemId()) {
+
+                                                        case R.id.reportpost_option_textposts:
+
+                                                            Intent intent = new Intent(mContext, Report_TextPost_Activity.class);
+                                                            intent.putExtra("Titel", uploadCurrent.getTitle());
+                                                            intent.putExtra("User", uploadCurrent.getUser_name());
+                                                            intent.putExtra("Key", uploadCurrent.getKey());
+                                                            intent.putExtra("Soort", "chatroom");
+                                                            mContext.startActivity(intent);
+
+                                                            break;
+
+                                                        case R.id.unsavepost_option_textposts:
+
+                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                                            SaveThePost.child("SavedChatrooms").child(KeyPost).removeValue();
+
+                                                            break;
+
+                                                        default:
+                                                            break;
+
+                                                    }
+
+                                                    return false;
+                                                }
+                                            });
+                                            popupMenu.show();
+
+                                        } else {
+
+                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
+                                            popupMenu.inflate(R.menu.popup_menu_textposts_without_delete);
+                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                                @Override
+                                                public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                                    switch (menuItem.getItemId()) {
+
+                                                        case R.id.reportpost_option_textposts:
+
+                                                            Intent intent = new Intent(mContext, Report_TextPost_Activity.class);
+                                                            intent.putExtra("Titel", uploadCurrent.getTitle());
+                                                            intent.putExtra("User", uploadCurrent.getUser_name());
+                                                            intent.putExtra("Key", uploadCurrent.getKey());
+                                                            intent.putExtra("Soort", "chatroom");
+                                                            mContext.startActivity(intent);
+
+                                                            break;
+
+                                                        case R.id.savepost_option_textposts:
+
+                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                                            SaveThePost.child("SavedChatrooms").child(KeyPost).setValue("added");
+
+                                                            break;
+
+                                                        default:
+                                                            break;
+
+                                                    }
+
+                                                    return false;
+                                                }
+                                            });
+                                            popupMenu.show();
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+
+                        } else {
+                            //post is gedelete als het goed is
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
 
         String KeyYeah = uploadCurrent.getKey().toString();
 
@@ -122,38 +393,34 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             }
         });
 
+        //kijken als user anonymous is dat de username voor de anon zelf wel zichtbaar is
 
-        //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
-        final String KeyPost = uploadCurrent.getKey().toString();
-        final DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("Chatrooms");
+        String MyUID2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String PostUID2 = uploadCurrent.getUID();
 
-        DeleteIconCheck.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        if (MyUID2.equals(PostUID2)) {
 
-                if (dataSnapshot.hasChild(KeyPost)) {
+            DatabaseReference GetUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID2).child("userName");
+            GetUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
-                    final String PostUIDCheck = dataSnapshot.child(KeyPost).child("uid").getValue().toString();
+                    final String MyUserName = dataSnapshot.getValue().toString();
 
-                    if (MyUIDCheck.equals(PostUIDCheck)) {
-                        //zou moeten werken gewoon??
-                    } else {
-                        holder.DeleteTextPost.setVisibility(View.GONE);
-                    }
+                    holder.Username.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                    holder.Username.setText(MyUserName);
 
-                } else {
-                    //post is gedelete als het goed is
                 }
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
 
-            }
-        });
+        } else {
 
+        }
 
         final String MyUID = FirebaseAuth.getInstance().getUid().toString();
         DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Likes");

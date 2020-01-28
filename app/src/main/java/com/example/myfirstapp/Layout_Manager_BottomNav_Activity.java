@@ -76,7 +76,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                         case R.id.navigation_search:
 
                             selectedFragment = new SearchFragment();
-                            getSupportActionBar().hide();
+                            getSupportActionBar().show();
 
                             break;
 
