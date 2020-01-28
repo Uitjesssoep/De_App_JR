@@ -2,8 +2,6 @@ package com.example.myfirstapp.Chatroom;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,117 +9,149 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
-import com.example.myfirstapp.Notifications.Data;
-import com.example.myfirstapp.Notifications.Sender;
-import com.example.myfirstapp.Notifications.Token;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Chat_With_Users_Activity extends AppCompatActivity {
 
 
-    private DatabaseReference myDatabase;
+    private DatabaseReference myDatabase, MessageDatabase;
     private Button SendChatButton;
     private EditText ChatInputText;
     private TextView Conversation_Content;
 
+    private PostStuffForChatRoomAdapter postStuffForChatRoomAdapter;
+    private PostStuffForChatAdapter postStuffForChatAdapter;
+
     private String room_name, user_name;
     private String temp_key;
-    private String message, messageNummeroTwee;
+    private String message, messageNummeroTwee, key;
 
-    private String MyUid;
+    private String MyUid, Username, Date;
     private FirebaseAuth firebaseAuth;
 
+    private ArrayList<PostStuffForChatRoom> MessagesList;
+
+    private RecyclerView ChatWindow;
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
 
     private RequestQueue requestQueue;
 
     boolean notify = false;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat__with__users_);
+    private void LoadMessages() {
+        myDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                MessagesList.clear();
 
-        SendChatButton = (Button)findViewById(R.id.btnSendMessageChat);
-        ChatInputText = (EditText)findViewById(R.id.etChatInput);
-      //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    PostStuffForChatRoom
+                            postStuffForChatRoom = snapshot.
+                            getValue
+                                    (PostStuffForChatRoom.class);
+                    MessagesList.add(postStuffForChatRoom);
+                    postStuffForChatRoomAdapter = new PostStuffForChatRoomAdapter(Chat_With_Users_Activity.this, MessagesList);
+                    ChatWindow.setAdapter(postStuffForChatRoomAdapter);
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+    }
+
+    private void SetupUI() {
+        SendChatButton = (Button) findViewById(R.id.btnSendMessageChat);
+        ChatInputText = (EditText) findViewById(R.id.etChatInput);
+        //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
+        ChatWindow = findViewById(R.id.rvChatWindow);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        linearLayoutManager.setStackFromEnd(true);
+        ChatWindow.setLayoutManager(linearLayoutManager);
+
+        MessagesList = new ArrayList<>();
         //voor scrollen
-        Conversation_Content.setMovementMethod(new ScrollingMovementMethod());
+        // Conversation_Content.setMovementMethod(new ScrollingMovementMethod());
 
 
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         MyUid = user.getUid();
 
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        Date = dateFormat.format(calendar.getTime());
 
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
 
+        key = getIntent().getExtras().get("Key").toString();
 
-        String key = getIntent().getExtras().get("Key").toString();
-
-
-        myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
+        myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms");
+       // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
 
         message = ChatInputText.getText().toString();
+    }
 
+    private void SendChat(){
         SendChatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 messageNummeroTwee = ChatInputText.getText().toString();
 
-                if(messageNummeroTwee.isEmpty()){
+                if (messageNummeroTwee.isEmpty()) {
                     Toast.makeText(Chat_With_Users_Activity.this, "Can't send an empty message", Toast.LENGTH_SHORT).show();
+                } else {
+                    FirebaseDatabase.getInstance().getReference("users").child(MyUid).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Username = dataSnapshot.child("userName").getValue().toString();
+                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, MyUid, Username, Date);
+                            myDatabase.child(key).setValue(postStuffForChatRoom);
+                            ChatInputText.setText("");
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
                 }
+            }
+        });
 
-                else {
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    temp_key = myDatabase.push().getKey();
-                    myDatabase.updateChildren(map);
+    }
 
-                    DatabaseReference message_root = myDatabase.child(temp_key);
-                    Map<String, Object> map2 = new HashMap<String, Object>();
-                    map2.put("name", user_name);
-                    map2.put("message", ChatInputText.getText().toString());
-
-                    message_root.updateChildren(map2);
-
-                    ChatInputText.setText("");
-
-
-                    //voor notificaties
-                    notify = true;
+    private void Notifications(){
+        //voor notificaties
+                   /* notify = true;
 
                     String msg = message;
                     DatabaseReference database = FirebaseDatabase.getInstance().getReference("users");
@@ -141,13 +171,8 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 
                         }
-                    });
-                }
-            }
-        });
-
-
-        myDatabase.addChildEventListener(new ChildEventListener() {
+                    });*/
+                   /* myDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
@@ -181,15 +206,12 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
-
-    }
-
+        });*/
 
 
 //allemaal voor notificaties, negeer dit maar
 
-    private void senNotification(String userName, final String message) {
+   /* private void senNotification(String userName, final String message) {
         DatabaseReference allTokens = FirebaseDatabase.getInstance().getReference("Tokens");
         Query query = allTokens;
         query.addValueEventListener(new ValueEventListener() {
@@ -246,14 +268,14 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 
 
 
 
 
 
-    private String chat_msg, chat_user_name;
+  /*  private String chat_msg, chat_user_name;
 
     private void append_chat_conversation (DataSnapshot dataSnapshot) {
 
@@ -270,9 +292,23 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
         }
 
+    }*/
+
+}
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat__with__users_);
+
+        SetupUI();
+        LoadMessages();
+        SendChat();
+
     }
 
-    public void onBackPressed(){
+
+    public void onBackPressed() {
         Intent Back = new Intent(Chat_With_Users_Activity.this, General_Feed_Activity.class);
         startActivity(Back);
         finish();
