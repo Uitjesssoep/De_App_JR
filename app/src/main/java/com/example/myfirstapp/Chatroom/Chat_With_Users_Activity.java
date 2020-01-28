@@ -73,7 +73,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         myDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                MessagesList.clear();
+                //MessagesList.clear();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     PostStuffForChatRoom postStuffForChatRoom = snapshot.getValue(PostStuffForChatRoom.class);
@@ -82,6 +82,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                 }
                 postStuffForChatRoomAdapter = new PostStuffForChatRoomAdapter(Chat_With_Users_Activity.this, MessagesList);
                 ChatWindow.setAdapter(postStuffForChatRoomAdapter);
+                Log.e(TAG, "succes adapter" );
             }
 
             @Override
@@ -111,7 +112,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         MyUid = user.getUid();
 
         calendar = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
         Date = dateFormat.format(calendar.getTime());
 
 
@@ -135,7 +136,9 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
                 if (messageNummeroTwee.isEmpty()) {
                     Toast.makeText(Chat_With_Users_Activity.this, "Can't send an empty message", Toast.LENGTH_SHORT).show();
+                    LoadMessages();
                 } else {
+                    LoadMessages();
                     FirebaseDatabase.getInstance().getReference("users").child(MyUid).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

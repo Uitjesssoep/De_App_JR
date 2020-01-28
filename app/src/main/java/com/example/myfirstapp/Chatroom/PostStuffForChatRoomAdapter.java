@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,7 +42,14 @@ public class PostStuffForChatRoomAdapter extends RecyclerView.Adapter<PostStuffF
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        PostStuffForChatRoom uploadCurrent = mMessages.get(position);
+        PostStuffForChatRoom postStuffForChatRoom = mMessages.get(position);
+        holder.Username.setText(postStuffForChatRoom.getUserName());
+        StringBuilder str = new StringBuilder(postStuffForChatRoom.getDate());
+        str.replace(7, 12, "");
+        String Date = str.toString();
+        holder.Date.setText(Date);
+        holder.Message.setText(postStuffForChatRoom.getMessage());
+
 
     }
 
@@ -49,10 +57,15 @@ public class PostStuffForChatRoomAdapter extends RecyclerView.Adapter<PostStuffF
     public int getItemCount() {
         return 0;
     }
+
     public class ChatViewHolder extends RecyclerView.ViewHolder {
+        public TextView Username, Date, Message;
 
         public ChatViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
+            Username= itemView.findViewById(R.id.tvUserNameMessage);
+            Date = itemView.findViewById(R.id.tvDateMessage);
+            Message = itemView.findViewById(R.id.tvMessage);
 
         }
 
