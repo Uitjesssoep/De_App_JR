@@ -186,7 +186,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                 // Log.e(TAGTest, "tot 'for' gekomen");
             }
 
-            postStuffForChatRoomAdapter.notifyItemRangeRemoved(0, size);
+            postStuffForChatRoomAdapterNúmeroDos.notifyItemRangeRemoved(0, size);
         }
     }
 
