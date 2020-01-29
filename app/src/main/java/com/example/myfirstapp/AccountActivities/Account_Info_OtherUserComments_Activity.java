@@ -60,6 +60,32 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
                 OtherUserUIDComments = dataSnapshot.getValue().toString();
                 Log.e(TAG, "In String: " + OtherUserUIDComments);
 
+                //user visit count
+                final DatabaseReference UserVisitCount = FirebaseDatabase.getInstance().getReference("users").child(OtherUserUIDComments);
+                UserVisitCount.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("AccountVisits")) {
+                            String VisitCountString = dataSnapshot.child("Counters").child("AccountVisits").getValue().toString();
+                            int VisitCountInt = Integer.parseInt(VisitCountString);
+                            VisitCountInt = Integer.valueOf(VisitCountInt + 1);
+                            String NewVisitCountString = Integer.toString(VisitCountInt);
+                            UserVisitCount.child("Counters").child("AccountVisits").setValue(NewVisitCountString);
+                        }
+                        else{
+                            UserVisitCount.child("Counters").child("AccountVisits").setValue("1");
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                //hopelijk werkt t
+
                 RetrieveData();
             }
 

@@ -1,5 +1,6 @@
 package com.example.myfirstapp.AccountActivities;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,6 +61,34 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
                 tvOtherUserUID.setText(dataSnapshot.getValue(String.class));
                 OtherUserUID = tvOtherUserUID.getText().toString();
                 Log.e(TAG, OtherUserUID);
+
+
+                //user visit count
+                final DatabaseReference UserVisitCount = FirebaseDatabase.getInstance().getReference("users").child(OtherUserUID);
+                UserVisitCount.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("AccountVisits")) {
+                            String VisitCountString = dataSnapshot.child("Counters").child("AccountVisits").getValue().toString();
+                            int VisitCountInt = Integer.parseInt(VisitCountString);
+                            VisitCountInt = Integer.valueOf(VisitCountInt + 1);
+                            String NewVisitCountString = Integer.toString(VisitCountInt);
+                            UserVisitCount.child("Counters").child("AccountVisits").setValue(NewVisitCountString);
+                        }
+                        else{
+                            UserVisitCount.child("Counters").child("AccountVisits").setValue("1");
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                //hopelijk werkt t
+
 
                 RetrieveData();
             }
