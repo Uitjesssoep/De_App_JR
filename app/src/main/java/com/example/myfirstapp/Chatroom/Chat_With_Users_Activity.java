@@ -71,7 +71,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     }
 
     private void LoadMessages() {
-        myDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
+        myDatabase2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clear();
@@ -82,11 +82,12 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                     Log.e(TAG, MessagesList.toString());
                     Log.e(TAG, String.valueOf(MessagesList.size()) );
 
-                    postStuffForChatRoomAdapter = new PostStuffForChatRoomAdapter(getApplicationContext(), MessagesList);
-                    ChatWindow.setAdapter(postStuffForChatRoomAdapter);
-                    Log.e(TAG, "succes adapter" );
+
 
                 }
+                postStuffForChatRoomAdapter = new PostStuffForChatRoomAdapter(Chat_With_Users_Activity.this, MessagesList);
+                ChatWindow.setAdapter(postStuffForChatRoomAdapter);
+                Log.e(TAG, "succes adapter" );
 
             }
 

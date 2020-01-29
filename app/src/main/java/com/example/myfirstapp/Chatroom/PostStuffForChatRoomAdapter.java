@@ -1,6 +1,7 @@
 package com.example.myfirstapp.Chatroom;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,12 @@ import java.util.List;
 
 public class PostStuffForChatRoomAdapter extends RecyclerView.Adapter<PostStuffForChatRoomAdapter.ChatViewHolder> {
 
+    public String TAG="test";
     public Context mContext;
     public List<PostStuffForChatRoom> mMessages;
     public int LikeCountAdapter, DislikeCountAdapter;
 
-    private PostStuffForChatRoomAdapter.OnItemClickListener mListener;
+    private OnItemClickListener mListener;
     public interface OnItemClickListener {
         void onUserNameClick (int position);
     }
@@ -37,7 +39,9 @@ public class PostStuffForChatRoomAdapter extends RecyclerView.Adapter<PostStuffF
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.chat_message_item, parent, false);
+        Log.e(TAG, "onCreateViewHolder: ");
         return new PostStuffForChatRoomAdapter.ChatViewHolder(v, mListener);
+
     }
 
     @Override
@@ -47,8 +51,9 @@ public class PostStuffForChatRoomAdapter extends RecyclerView.Adapter<PostStuffF
         StringBuilder str = new StringBuilder(postStuffForChatRoom.getDate());
         str.replace(7, 12, "");
         String Date = str.toString();
-        holder.Date.setText(Date);
+        holder.Date.setText(postStuffForChatRoom.getDate());
         holder.Message.setText(postStuffForChatRoom.getMessage());
+        Log.e(TAG, "onBindViewHolder: ");
 
 
     }
@@ -66,6 +71,7 @@ public class PostStuffForChatRoomAdapter extends RecyclerView.Adapter<PostStuffF
             Username= itemView.findViewById(R.id.tvUserNameMessage);
             Date = itemView.findViewById(R.id.tvDateMessage);
             Message = itemView.findViewById(R.id.tvMessage);
+            Log.e(TAG, "ChatViewHolder: ");
 
         }
 
