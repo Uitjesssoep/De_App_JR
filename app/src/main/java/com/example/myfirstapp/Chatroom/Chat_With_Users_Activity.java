@@ -29,11 +29,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class Chat_With_Users_Activity extends AppCompatActivity {
 
 
-    private DatabaseReference myDatabase, MessageDatabase;
+    private DatabaseReference myDatabase, MessageDatabase, myDatabase2;
     private Button SendChatButton;
     private EditText ChatInputText;
     private TextView Conversation_Content;
@@ -48,7 +49,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     private String MyUid, Username, Date;
     private FirebaseAuth firebaseAuth;
 
-    private ArrayList<PostStuffForChatRoom> MessagesList;
+    private List<PostStuffForChatRoom> MessagesList;
 
     private RecyclerView ChatWindow;
     private Calendar calendar;
@@ -70,7 +71,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     }
 
     private void LoadMessages() {
-        myDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        myDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clear();
@@ -81,10 +82,12 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                     Log.e(TAG, MessagesList.toString());
                     Log.e(TAG, String.valueOf(MessagesList.size()) );
 
+                    postStuffForChatRoomAdapter = new PostStuffForChatRoomAdapter(getApplicationContext(), MessagesList);
+                    ChatWindow.setAdapter(postStuffForChatRoomAdapter);
+                    Log.e(TAG, "succes adapter" );
+
                 }
-                postStuffForChatRoomAdapter = new PostStuffForChatRoomAdapter(getApplicationContext(), MessagesList);
-                ChatWindow.setAdapter(postStuffForChatRoomAdapter);
-                Log.e(TAG, "succes adapter" );
+
             }
 
             @Override
@@ -100,7 +103,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         ChatInputText = findViewById(R.id.etChatInput);
         //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
         ChatWindow = findViewById(R.id.rvChatWindow);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         ChatWindow.setLayoutManager(linearLayoutManager);
 
@@ -124,7 +127,9 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         key = getIntent().getExtras().get("Key").toString();
 
         myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms");
-        // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
+       // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
+
+        myDatabase2 = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("messages");
 
         message = ChatInputText.getText().toString();
     }
@@ -149,8 +154,8 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                             message = ChatInputText.getText().toString();
                             PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, MyUid, Username, Date);
 
-                            temp_key = myDatabase.child(key).push().getKey();
-                            myDatabase.child(key).child("messages").child(temp_key).setValue(postStuffForChatRoom);
+                            temp_key = myDatabase2.push().getKey();
+                            myDatabase2.child(temp_key).setValue(postStuffForChatRoom);
                             Log.e(TAG, "gepushed");
                             ChatInputText.setText("");
                         }

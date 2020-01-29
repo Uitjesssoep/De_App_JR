@@ -5,8 +5,8 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Chatroom.Chat_With_Users_Activity"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".Chatroom.Chat_With_Users_Activity">
 
     <Button
         android:id="@+id/btnSendMessageChat"
@@ -37,8 +37,6 @@
         android:id="@+id/rvChatWindow"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="bottom"
-        android:hint="Your chat will be shown here!"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@+id/btnSendMessageChat"
         app:layout_constraintEnd_toEndOf="parent"
