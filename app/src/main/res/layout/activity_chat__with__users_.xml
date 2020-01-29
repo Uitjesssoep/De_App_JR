@@ -38,7 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="vertical"
-        android:background="@color/soortvanGrijs"
+        android:background="#b0d9bd"
         app:layout_constraintBottom_toTopOf="@+id/btnSendMessageChat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
