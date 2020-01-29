@@ -105,6 +105,27 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        final DatabaseReference LoadCounters = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+        LoadCounters.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild("Counters")){
+
+                    TextView AccountVisits = getView().findViewById(R.id.tvAccountVisitCount);
+                    String VisitCountString = dataSnapshot.child("Counters").child("AccountVisits").getValue().toString();
+                    AccountVisits.setText("Account visits: " + VisitCountString);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 }
