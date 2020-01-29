@@ -41,6 +41,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
     private PostStuffForChatRoomAdapter postStuffForChatRoomAdapter;
     private PostStuffForChatAdapter postStuffForChatAdapter;
+    private PostStuffForChatRoomAdapterNúmeroDos postStuffForChatRoomAdapterNúmeroDos;
 
     private String room_name, user_name;
     private String temp_key, TAG = "Test";
@@ -85,8 +86,8 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
 
                 }
-                postStuffForChatRoomAdapter = new PostStuffForChatRoomAdapter(Chat_With_Users_Activity.this, MessagesList);
-                ChatWindow.setAdapter(postStuffForChatRoomAdapter);
+                postStuffForChatRoomAdapterNúmeroDos = new PostStuffForChatRoomAdapterNúmeroDos(Chat_With_Users_Activity.this, MessagesList);
+                ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
                 Log.e(TAG, "succes adapter" );
 
             }

@@ -16,23 +16,20 @@ import java.util.List;
 
 public class PostStuffForChatRoomAdapter extends RecyclerView.Adapter<PostStuffForChatRoomAdapter.ChatViewHolder> {
 
-    public String TAG="test";
-    public Context mContext;
-    public List<PostStuffForChatRoom> mMessages;
+    private String TAG = "test";
+    private Context mContext;
+    private List<PostStuffForChatRoom> mMessages;
     public int LikeCountAdapter, DislikeCountAdapter;
 
     private OnItemClickListener mListener;
+
     public interface OnItemClickListener {
-        void onUserNameClick (int position);
+        void onUserNameClick(int position);
     }
 
     public PostStuffForChatRoomAdapter(Context mContext, List<PostStuffForChatRoom> mMessages) {
         this.mContext = mContext;
         this.mMessages = mMessages;
-    }
-
-    public void setOnItemClickListener(PostStuffForChatRoomAdapter.OnItemClickListener listener){
-        mListener = listener;
     }
 
     @NonNull
@@ -45,22 +42,26 @@ public class PostStuffForChatRoomAdapter extends RecyclerView.Adapter<PostStuffF
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        PostStuffForChatRoom postStuffForChatRoom = mMessages.get(position);
-        holder.Username.setText(postStuffForChatRoom.getUserName());
-        StringBuilder str = new StringBuilder(postStuffForChatRoom.getDate());
+    public void onBindViewHolder(@NonNull final ChatViewHolder holder, int position) {
+        PostStuffForChatRoom uploadCurrent = mMessages.get(position);
+        holder.Username.setText(uploadCurrent.getmUserName());
+        StringBuilder str = new StringBuilder(uploadCurrent.getmDate());
         str.replace(7, 12, "");
         String Date = str.toString();
-        holder.Date.setText(postStuffForChatRoom.getDate());
-        holder.Message.setText(postStuffForChatRoom.getMessage());
+        holder.Date.setText(uploadCurrent.getmDate());
+        holder.Message.setText(uploadCurrent.getmMessage());
         Log.e(TAG, "onBindViewHolder: ");
 
 
     }
 
+    public void setOnItemClickListener(PostStuffForChatRoomAdapter.OnItemClickListener listener) {
+        mListener = listener;
+    }
+
     @Override
     public int getItemCount() {
-        return 0;
+        return mMessages.size();
     }
 
     public class ChatViewHolder extends RecyclerView.ViewHolder {
@@ -68,7 +69,7 @@ public class PostStuffForChatRoomAdapter extends RecyclerView.Adapter<PostStuffF
 
         public ChatViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
-            Username= itemView.findViewById(R.id.tvUserNameMessage);
+            Username = itemView.findViewById(R.id.tvUserNameMessage);
             Date = itemView.findViewById(R.id.tvDateMessage);
             Message = itemView.findViewById(R.id.tvMessage);
             Log.e(TAG, "ChatViewHolder: ");
