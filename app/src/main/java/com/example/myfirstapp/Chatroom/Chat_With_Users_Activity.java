@@ -73,7 +73,6 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
         SetupUI();
         LoadMessages();
-        SetupPostition();
         SendChat();
 
     }
@@ -97,14 +96,20 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                 postStuffForChatRoomAdapterNúmeroDos = new PostStuffForChatRoomAdapterNúmeroDos(Chat_With_Users_Activity.this, MessagesList);
                 ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
 
-               // View firstItemView = manager.findViewByPosition(firstItem);
-              //  float topOffset = firstItemView.getTop();
-             //   outState.putInt(LayoutPosition,firstItem);
-             //   outState.putFloat(LayoutFloat, topOffset);
-              //  manager.scrollToPosition(firstItem);
-            //    manager.scrollToPositionWithOffset(outState.getInt(LayoutPosition), (int) outState.getFloat(LayoutFloat));
-                Log.e(TAG, "succes adapter" );
-                ItemCount = postStuffForChatRoomAdapterNúmeroDos.getItemCount();
+                LinearLayoutManager manager = (LinearLayoutManager) ChatWindow.getLayoutManager();
+                if (ChatWindow.getAdapter() == postStuffForChatRoomAdapterNúmeroDos){
+                    int firstItem = manager.findFirstVisibleItemPosition();
+                    Log.e("Test2", String.valueOf(firstItem));
+                    View firstItemView = manager.findViewByPosition(firstItem);
+                    float topOffset = firstItemView.getTop();
+                    outState.putInt(LayoutPosition,firstItem);
+                    outState.putFloat(LayoutFloat, topOffset);
+                    manager.scrollToPosition(firstItem);
+                    manager.scrollToPositionWithOffset(outState.getInt(LayoutPosition), (int) outState.getFloat(LayoutFloat));
+                    Log.e(TAG, "succes adapter" );
+                    ItemCount = postStuffForChatRoomAdapterNúmeroDos.getItemCount();
+                }
+
 
             }
 
@@ -114,12 +119,6 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void SetupPostition(){
-        LinearLayoutManager manager = (LinearLayoutManager) ChatWindow.getLayoutManager();
-        int firstItem = manager.findFirstVisibleItemPosition();
-        Log.e("Test2", String.valueOf(firstItem));
     }
 
     private void SetupUI() {
