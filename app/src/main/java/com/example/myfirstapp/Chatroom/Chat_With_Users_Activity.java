@@ -47,6 +47,9 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     private String temp_key, TAG = "Test";
     private String message, messageNummeroTwee, key;
 
+    private String LayoutPosition = "ARGS_SCROLL_POS";
+    private String LayoutFloat ="ARGS_SCROLL_OFFSET" ;
+
     private String MyUid, Username, Date;
     private FirebaseAuth firebaseAuth;
 
@@ -58,7 +61,10 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
     private RequestQueue requestQueue;
 
+    private Bundle outState;
+
     boolean notify = false;
+    private int ItemCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
         SetupUI();
         LoadMessages();
+        SetupPostition();
         SendChat();
 
     }
@@ -85,10 +92,19 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
 
 
+
                 }
                 postStuffForChatRoomAdapterNúmeroDos = new PostStuffForChatRoomAdapterNúmeroDos(Chat_With_Users_Activity.this, MessagesList);
                 ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
+
+               // View firstItemView = manager.findViewByPosition(firstItem);
+              //  float topOffset = firstItemView.getTop();
+             //   outState.putInt(LayoutPosition,firstItem);
+             //   outState.putFloat(LayoutFloat, topOffset);
+              //  manager.scrollToPosition(firstItem);
+            //    manager.scrollToPositionWithOffset(outState.getInt(LayoutPosition), (int) outState.getFloat(LayoutFloat));
                 Log.e(TAG, "succes adapter" );
+                ItemCount = postStuffForChatRoomAdapterNúmeroDos.getItemCount();
 
             }
 
@@ -98,6 +114,12 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void SetupPostition(){
+        LinearLayoutManager manager = (LinearLayoutManager) ChatWindow.getLayoutManager();
+        int firstItem = manager.findFirstVisibleItemPosition();
+        Log.e("Test2", String.valueOf(firstItem));
     }
 
     private void SetupUI() {

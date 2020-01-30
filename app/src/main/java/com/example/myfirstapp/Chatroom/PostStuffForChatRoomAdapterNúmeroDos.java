@@ -34,7 +34,10 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         PostStuffForChatRoom uploadCurrent = mUploads.get(position);
         holder.Message.setText(uploadCurrent.getMessage());
-        holder.Date.setText(uploadCurrent.getDate());
+        StringBuilder str = new StringBuilder(uploadCurrent.getDate());
+        str.replace(5, 12, "");
+        String Date = str.toString();
+        holder.Date.setText(Date);
         holder.Username.setText(uploadCurrent.getUserName());
     }
 
