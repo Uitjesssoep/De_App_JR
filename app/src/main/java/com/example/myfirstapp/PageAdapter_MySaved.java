@@ -5,13 +5,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class PageAdapter_MyAccount extends FragmentPagerAdapter {
+public class PageAdapter_MySaved extends FragmentPagerAdapter {
 
 
     private int numoftabs;
 
 
-    public PageAdapter_MyAccount(@NonNull FragmentManager fm, int numOfTabs) {
+    public PageAdapter_MySaved(@NonNull FragmentManager fm, int numOfTabs) {
         super(fm);
         this.numoftabs = numOfTabs;
     }
@@ -23,13 +23,10 @@ public class PageAdapter_MyAccount extends FragmentPagerAdapter {
         switch (position){
 
             case 0:
-                return new MyPostsTab();
+                return new SavedPosts();
 
             case 1:
-                return new MyCommentsTab();
-
-            case 2:
-                return new MyAboutTab();
+                return new SavedChatrooms();
 
             default:
                 return null;

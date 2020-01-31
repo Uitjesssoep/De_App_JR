@@ -7,8 +7,8 @@
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/action_refresh_feed"
-        android:title="Refresh"
+        android:id="@+id/action_ToSavedPosts"
+        android:title="Saved"
         app:showAsAction="never"/>
 
 </menu>

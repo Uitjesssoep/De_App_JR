@@ -112,8 +112,9 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                 startActivity(intent);
                 break;
 
-            case R.id.action_refresh_feed:
-                //StartOrReloadTextPosts();
+            case R.id.action_ToSavedPosts:
+                Intent intent2 = new Intent(Layout_Manager_BottomNav_Activity.this, MySaved_Activity.class);
+                startActivity(intent2);
                 break;
         }
 

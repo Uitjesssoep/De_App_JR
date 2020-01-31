@@ -40,7 +40,6 @@ public class AccountFragment extends Fragment {
         
         TabLayout tabLayout = getView().findViewById(R.id.tab_layout_personal_account);
         TabItem MyPosts = getView().findViewById(R.id.tab_layout_MyPosts);
-        TabItem SavedPosts = getView().findViewById(R.id.tab_layout_SavedPosts);
         final ViewPager viewPager = getView().findViewById(R.id.viewpager_tablayout_MyAccount);
 
         pagerAdapter = new PageAdapter_MyAccount(getFragmentManager(), tabLayout.getTabCount());
@@ -56,6 +55,9 @@ public class AccountFragment extends Fragment {
                     pagerAdapter.notifyDataSetChanged();
                 }
                 else if(tab.getPosition() == 1){
+                    pagerAdapter.notifyDataSetChanged();
+                }
+                else if(tab.getPosition() == 2){
                     pagerAdapter.notifyDataSetChanged();
                 }
 

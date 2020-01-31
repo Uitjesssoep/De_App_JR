@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/launcher_s_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".MySaved_Activity"></activity>
         <activity
             android:name=".Layout_Manager_BottomNav_Activity"
             android:screenOrientation="portrait" />

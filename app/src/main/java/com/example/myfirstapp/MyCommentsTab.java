@@ -41,10 +41,10 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SavedPostsTab extends Fragment {
+public class MyCommentsTab extends Fragment {
 
 
-    public SavedPostsTab() {
+    public MyCommentsTab() {
         // Required empty public constructor
     }
 
