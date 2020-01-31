@@ -2,6 +2,7 @@ package com.example.myfirstapp.Chatroom;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,7 +49,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     private String message, messageNummeroTwee, key;
 
     private String LayoutPosition = "ARGS_SCROLL_POS";
-    private String LayoutFloat ="ARGS_SCROLL_OFFSET" ;
+    private String LayoutFloat = "ARGS_SCROLL_OFFSET";
 
     private String MyUid, Username, Date;
     private FirebaseAuth firebaseAuth;
@@ -61,10 +62,10 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
     private RequestQueue requestQueue;
 
-    private Bundle outState;
 
     boolean notify = false;
     private int ItemCount;
+    private int scrollPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,23 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         SendChat();
 
     }
+ /*   @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        LinearLayoutManager manager = (LinearLayoutManager) ChatWindow.getLayoutManager();
+        if (manager != null && manager instanceof LinearLayoutManager) {
+            int firstItem = ((LinearLayoutManager) manager).findFirstVisibleItemPosition();
+            Log.e("Test2", String.valueOf(firstItem));
+            View firstItemView = manager.findViewByPosition(firstItem);
+            float topOffset = firstItemView.getTop();
+            outState.putInt(LayoutPosition, firstItem);
+            outState.putFloat(LayoutFloat, topOffset);
+            manager.scrollToPosition(firstItem);
+            manager.scrollToPositionWithOffset(outState.getInt(LayoutPosition), (int) outState.getFloat(LayoutFloat));
+            Log.e(TAG, "succes adapter");
+            ItemCount = postStuffForChatRoomAdapterNúmeroDos.getItemCount();
+        }
+    }*/
 
     private void LoadMessages() {
         myDatabase2.addValueEventListener(new ValueEventListener() {
@@ -87,28 +105,27 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                     PostStuffForChatRoom postStuffForChatRoom = snapshot.getValue(PostStuffForChatRoom.class);
                     MessagesList.add(postStuffForChatRoom);
                     Log.e(TAG, MessagesList.toString());
-                    Log.e(TAG, String.valueOf(MessagesList.size()) );
+                    Log.e(TAG, String.valueOf(MessagesList.size()));
 
 
-
-
+                }
+                int position = 0;
+                LinearLayoutManager manager = (LinearLayoutManager) ChatWindow.getLayoutManager();
+                if (manager != null) {
+                    scrollPosition = manager.findFirstVisibleItemPosition();
+                }
+                if (manager != null) {
+                    ChatWindow.scrollToPosition(scrollPosition);
                 }
                 postStuffForChatRoomAdapterNúmeroDos = new PostStuffForChatRoomAdapterNúmeroDos(Chat_With_Users_Activity.this, MessagesList);
                 ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
 
-                LinearLayoutManager manager = (LinearLayoutManager) ChatWindow.getLayoutManager();
-                if (ChatWindow.getAdapter() == postStuffForChatRoomAdapterNúmeroDos){
-                    int firstItem = manager.findFirstVisibleItemPosition();
-                    Log.e("Test2", String.valueOf(firstItem));
-                    View firstItemView = manager.findViewByPosition(firstItem);
-                    float topOffset = firstItemView.getTop();
-                    outState.putInt(LayoutPosition,firstItem);
-                    outState.putFloat(LayoutFloat, topOffset);
-                    manager.scrollToPosition(firstItem);
-                    manager.scrollToPositionWithOffset(outState.getInt(LayoutPosition), (int) outState.getFloat(LayoutFloat));
-                    Log.e(TAG, "succes adapter" );
-                    ItemCount = postStuffForChatRoomAdapterNúmeroDos.getItemCount();
-                }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                }, 500);
 
 
             }
@@ -150,7 +167,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         key = getIntent().getExtras().get("Key").toString();
 
         myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms");
-       // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
+        // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
 
         myDatabase2 = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("messages");
 
