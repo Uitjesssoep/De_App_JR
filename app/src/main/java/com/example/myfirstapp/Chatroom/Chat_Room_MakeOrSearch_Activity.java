@@ -86,39 +86,6 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onDeleteIconClick(int position) {
-                        final String TAGCheck = "DeleteTextPost";
-                        Log.e(TAGCheck, "Deleting Text Post After Click");
-
-                        final String ThePostKey = postStuffForChatList.get(position).getKey().toString();
-
-                        final AlertDialog.Builder dialog = new AlertDialog.Builder(Chat_Room_MakeOrSearch_Activity.this);
-                        dialog.setTitle("Delete your chatroom?");
-                        dialog.setMessage("Deleting this chatroom will delete the chatroom and all of its content, it cannot be undone! Are you sure you want to delete it?");
-                        dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                final DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("Chatrooms").child(ThePostKey);
-                                DeleteThePost.removeValue();
-
-                                Intent intent = getIntent();
-                                finish();
-                                startActivity(intent);
-                            }
-                        });
-                        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        });
-
-                        AlertDialog alertDialog = dialog.create();
-                        alertDialog.show();
-
-                    }
-
-                    @Override
                     public void onUserNameClick(int position) {
                         final String PostKey = postStuffForChatList.get(position).getKey().toString();
 

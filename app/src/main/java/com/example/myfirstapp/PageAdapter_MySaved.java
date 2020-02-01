@@ -26,6 +26,9 @@ public class PageAdapter_MySaved extends FragmentPagerAdapter {
                 return new SavedPosts();
 
             case 1:
+                return new SavedComments();
+
+            case 2:
                 return new SavedChatrooms();
 
             default:

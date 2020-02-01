@@ -38,7 +38,6 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
     private PostStuffForChatAdapter.OnItemClickListener mListener;
     public interface OnItemClickListener {
         void onItemClick(int position);
-        void onDeleteIconClick(int position);
         void onUserNameClick (int position);
         void onUpvoteClick (int position);
         void onDownvoteClick (int position);
@@ -532,18 +531,6 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             listener.onDownvoteClick(position);
-                        }
-                    }
-                }
-            });
-
-            DeleteTextPost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(listener != null){
-                        int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
-                            listener.onDeleteIconClick(position);
                         }
                     }
                 }

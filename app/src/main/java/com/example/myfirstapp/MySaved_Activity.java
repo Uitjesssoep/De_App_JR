@@ -52,6 +52,9 @@ public class MySaved_Activity extends AppCompatActivity {
                 else if(tab.getPosition() == 1){
                     pagerAdapter.notifyDataSetChanged();
                 }
+                else if(tab.getPosition() == 2){
+                    pagerAdapter.notifyDataSetChanged();
+                }
 
             }
 

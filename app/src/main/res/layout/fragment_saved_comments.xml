@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SavedPosts">
+    tools:context=".SavedComments">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,12 +12,12 @@
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_container_SavedPosts_fragment"
+            android:id="@+id/swipe_container_SavedComments_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvSavedPostsFragment"
+                android:id="@+id/rvSavedCommentsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -29,7 +29,7 @@
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/pbLoadingSavedPosts_fragment"
+        android:id="@+id/pbLoadingSavedComments_fragment"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
