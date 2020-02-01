@@ -71,6 +71,9 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
                         case R.id.navigation_make:
 
+                            Intent intent = new Intent(Layout_Manager_BottomNav_Activity.this, Choose_PostType_Activity.class);
+                            startActivity(intent);
+
                             break;
 
                         case R.id.navigation_search:
