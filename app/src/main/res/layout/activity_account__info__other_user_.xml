@@ -8,75 +8,93 @@
     android:background="@color/white">
 
     <ImageView
-        android:id="@+id/ivProfilePictureAccountInfoOtherUser"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.06999999"
-        app:srcCompat="@drawable/neutral_profile_picture_nobackground"
-        tools:srcCompat="@drawable/neutral_profile_picture_nobackground" />
-
-    <TextView
-        android:id="@+id/tvRealNameAccountInfoOtherUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Real name is not specified"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/ivProfilePictureAccountInfoOtherUser"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.100000024" />
-
-    <TextView
-        android:id="@+id/tvUsernameAccountInfoOtherUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="username"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivProfilePictureAccountInfoOtherUser"
-        app:layout_constraintTop_toBottomOf="@+id/tvRealNameAccountInfoOtherUser"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tvEmailAccountInfoOtherUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email is not specified"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivProfilePictureAccountInfoOtherUser"
-        app:layout_constraintTop_toBottomOf="@+id/tvBirthdayAccountInfoOtherUser"
-        app:layout_constraintVertical_bias="0.05" />
-
-    <TextView
-        android:id="@+id/tvBirthdayAccountInfoOtherUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:text="Day of birth is not specified"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ivProfilePictureAccountInfoOtherUser"
-        app:layout_constraintTop_toBottomOf="@+id/tvUsernameAccountInfoOtherUser"
-        app:layout_constraintVertical_bias="0.050000012" />
-
-    <TextView
-        android:id="@+id/tvHiddenOtherUserUIDPlaceholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#00FFFFFF"
+        android:id="@+id/ivProfilePictureAccountInfoViewingOtherUser"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/imageview_profilepicture_edge"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/neutral_profile_picture_nobackground"
+        tools:srcCompat="@drawable/neutral_profile_picture_nobackground" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_other_user_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfilePictureAccountInfoViewingOtherUser"
+        app:layout_constraintVertical_bias="0.0"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabTextColor="@color/colorAccent">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_layout_TheirPosts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Posts" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_layout_TheirComments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comments" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_layout_TheirAbout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager_tablayout_OtherUserAccount"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?android:windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout_other_user_account" >
+
+    </androidx.viewpager.widget.ViewPager>
+
+    <TextView
+        android:id="@+id/tvUsernameOtherUserAccountViewing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[username]"
+        android:textColor="#696969"
+        app:layout_constraintBottom_toBottomOf="@+id/ivProfilePictureAccountInfoViewingOtherUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvDisplayNameOtherUserAccountViewing"
+        app:layout_constraintTop_toBottomOf="@+id/tvDisplayNameOtherUserAccountViewing"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <TextView
+        android:id="@+id/tvDisplayNameOtherUserAccountViewing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Display name"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ivProfilePictureAccountInfoViewingOtherUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toEndOf="@+id/ivProfilePictureAccountInfoViewingOtherUser"
+        app:layout_constraintTop_toTopOf="@+id/ivProfilePictureAccountInfoViewingOtherUser"
+        app:layout_constraintVertical_bias="0.1" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

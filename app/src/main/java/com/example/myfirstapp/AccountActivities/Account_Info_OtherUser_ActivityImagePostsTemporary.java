@@ -25,7 +25,7 @@ import com.squareup.picasso.Picasso;
 public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompatActivity {
 
 
-    private TextView RealName, UserName, BirthDate, Email, tvOtherUserUID;
+    private TextView DisplayName, UserName;
     private ImageView ProfilePicture;
 
     private String key, OtherUserUID;
@@ -39,13 +39,9 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
 
     private void SetupUI() {
 
-        RealName = findViewById(R.id.tvRealNameAccountInfoOtherUser);
-        UserName = findViewById(R.id.tvUsernameAccountInfoOtherUser);
-        BirthDate = findViewById(R.id.tvBirthdayAccountInfoOtherUser);
-        Email = findViewById(R.id.tvEmailAccountInfoOtherUser);
-        ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoOtherUser);
-
-        tvOtherUserUID = findViewById(R.id.tvHiddenOtherUserUIDPlaceholder);
+        ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoViewingOtherUser);
+        UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);
+        DisplayName = findViewById(R.id.tvDisplayNameOtherUserAccountViewing);
 
         key = getIntent().getExtras().get("Key").toString();
 
@@ -57,9 +53,7 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvOtherUserUID.setText(dataSnapshot.getValue(String.class));
-                OtherUserUID = tvOtherUserUID.getText().toString();
-                Log.e(TAG, OtherUserUID);
+                OtherUserUID = dataSnapshot.getValue(String.class).toString();
 
                 //user visit count
                 final DatabaseReference UserVisitCount = FirebaseDatabase.getInstance().getReference("users").child(OtherUserUID);
@@ -87,6 +81,7 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
                 });
                 //hopelijk werkt t
 
+
                 RetrieveData();
             }
 
@@ -106,7 +101,7 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
         storageReference.child("ProfilePictures").child(OtherUserUID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-        Picasso.get().load(uri).fit().centerCrop().into(ProfilePicture);
+                Picasso.get().load(uri).fit().centerCrop().into(ProfilePicture);
             }
         });
 
@@ -116,10 +111,8 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-                RealName.setText(userProfile.getUserFullName());
+                DisplayName.setText(userProfile.getUserFullName());
                 UserName.setText(userProfile.getUserName());
-                BirthDate.setText(userProfile.getUserBirthdate());
-                Email.setText(userProfile.getUserEmail());
             }
 
             @Override

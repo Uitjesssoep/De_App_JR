@@ -23,7 +23,7 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
-    private TextView RealName, UserName, BirthDate, Email, tvOtherUserUID;
+    private TextView RealName, UserName;
     private ImageView ProfilePicture;
 
     private String PostKey, CommentKey, OtherUserUIDComments;
@@ -37,13 +37,9 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
 
     private void SetupUI() {
 
-        RealName = findViewById(R.id.tvRealNameAccountInfoOtherUserComments);
-        UserName = findViewById(R.id.tvUsernameAccountInfoOtherUserComments);
-        BirthDate = findViewById(R.id.tvBirthdayAccountInfoOtherUserComments);
-        Email = findViewById(R.id.tvEmailAccountInfoOtherUserComments);
-        ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoOtherUserComments);
-
-        tvOtherUserUID = findViewById(R.id.tvHiddenOtherUserCommentsUIDPlaceholder);
+        RealName = findViewById(R.id.tvDisplayNameOtherUserAccountViewing);
+        UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);
+        ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoViewingOtherUser);
 
         PostKey = getIntent().getExtras().get("PostKey").toString();
         CommentKey = getIntent().getExtras().get("CommentKey").toString();
@@ -117,8 +113,6 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
                 RealName.setText(userProfile.getUserFullName());
                 UserName.setText(userProfile.getUserName());
-                BirthDate.setText(userProfile.getUserBirthdate());
-                Email.setText(userProfile.getUserEmail());
             }
 
             @Override
@@ -133,7 +127,7 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account__info__other_user_comments_);
+        setContentView(R.layout.activity_account__info__other_user_);
 
         SetupUI();
 

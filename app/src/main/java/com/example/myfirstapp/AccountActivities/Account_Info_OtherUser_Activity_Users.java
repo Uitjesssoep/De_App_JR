@@ -24,10 +24,10 @@ import com.squareup.picasso.Picasso;
 public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
 
-    private TextView RealName, UserName, BirthDate, Email, tvOtherUserUID;
+    private TextView RealName, UserName;
     private ImageView ProfilePicture;
 
-    private String key, OtherUserUID;
+    private String key;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
@@ -38,13 +38,9 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
     private void SetupUI() {
 
-        RealName = findViewById(R.id.tvRealNameAccountInfoOtherUser);
-        UserName = findViewById(R.id.tvUsernameAccountInfoOtherUser);
-        BirthDate = findViewById(R.id.tvBirthdayAccountInfoOtherUser);
-        Email = findViewById(R.id.tvEmailAccountInfoOtherUser);
-        ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoOtherUser);
-
-        tvOtherUserUID = findViewById(R.id.tvHiddenOtherUserUIDPlaceholder);
+        RealName = findViewById(R.id.tvDisplayNameOtherUserAccountViewing);
+        UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);
+        ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoViewingOtherUser);
 
         key = getIntent().getExtras().get("UID").toString();
 
@@ -76,37 +72,12 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
             }
         });
-        //hopelijk werkt t
-
-      /*  DatabaseReference databaseReference = firebaseDatabase.getReference("General_Posts").child(key).child("uid");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvOtherUserUID.setText(dataSnapshot.getValue(String.class));
-                OtherUserUID = tvOtherUserUID.getText().toString();
-                Log.e(TAG, OtherUserUID);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });*/
     }
 
     private void RetrieveData() {
 
-//        Log.e(TAG, OtherUserUID);
-
-
-        //voor profielfoto
-        tvOtherUserUID.setText(key);
-        OtherUserUID = tvOtherUserUID.getText().toString();
-
-
         StorageReference storageReference = firebaseStorage.getReference();
-        storageReference.child("ProfilePictures").child(OtherUserUID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("ProfilePictures").child(key).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).fit().centerCrop().into(ProfilePicture);
@@ -114,15 +85,13 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
         });
 
         //voor de rest
-        DatabaseReference OtherUserData = firebaseDatabase.getReference("users").child(OtherUserUID);
+        DatabaseReference OtherUserData = firebaseDatabase.getReference("users").child(key);
         OtherUserData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
                 RealName.setText(userProfile.getUserFullName());
                 UserName.setText(userProfile.getUserName());
-                BirthDate.setText(userProfile.getUserBirthdate());
-                Email.setText(userProfile.getUserEmail());
             }
 
             @Override

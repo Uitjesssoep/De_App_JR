@@ -25,7 +25,7 @@ import com.squareup.picasso.Picasso;
 public class Account_Info_OtherUser_Chat extends AppCompatActivity {
 
 
-    private TextView RealName, UserName, BirthDate, Email, tvOtherUserUID;
+    private TextView RealName, UserName;
     private ImageView ProfilePicture;
 
     private String key, OtherUserUID;
@@ -48,13 +48,9 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
 
     private void SetupUI() {
 
-        RealName = findViewById(R.id.tvRealNameAccountInfoOtherUser);
-        UserName = findViewById(R.id.tvUsernameAccountInfoOtherUser);
-        BirthDate = findViewById(R.id.tvBirthdayAccountInfoOtherUser);
-        Email = findViewById(R.id.tvEmailAccountInfoOtherUser);
-        ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoOtherUser);
-
-        tvOtherUserUID = findViewById(R.id.tvHiddenOtherUserUIDPlaceholder);
+        RealName = findViewById(R.id.tvDisplayNameOtherUserAccountViewing);
+        UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);
+        ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoViewingOtherUser);
 
         key = getIntent().getExtras().get("Key").toString();
 
@@ -66,8 +62,7 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvOtherUserUID.setText(dataSnapshot.getValue(String.class));
-                OtherUserUID = tvOtherUserUID.getText().toString();
+                OtherUserUID = dataSnapshot.getValue(String.class).toString();
                 Log.e(TAG, OtherUserUID);
 
                 //user visit count
@@ -127,8 +122,6 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
                 RealName.setText(userProfile.getUserFullName());
                 UserName.setText(userProfile.getUserName());
-                BirthDate.setText(userProfile.getUserBirthdate());
-                Email.setText(userProfile.getUserEmail());
             }
 
             @Override
