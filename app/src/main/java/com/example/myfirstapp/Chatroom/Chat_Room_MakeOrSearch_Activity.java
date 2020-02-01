@@ -23,6 +23,7 @@ import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Chat;
 import com.example.myfirstapp.Choose_PostType_Activity;
 import com.example.myfirstapp.Imageposts.ImagesFeed;
+import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.example.myfirstapp.Users.UserListToFollow;
@@ -307,7 +308,7 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
                     switch (menuItem.getItemId()){
                         case R.id.navigation_home:
 
-                            Intent home = new Intent(Chat_Room_MakeOrSearch_Activity.this, General_Feed_Activity.class);
+                            Intent home = new Intent(Chat_Room_MakeOrSearch_Activity.this, Layout_Manager_BottomNav_Activity.class);
                             home.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(home);
                             //bottomNavigationView.setSelectedItemId(R.id.navigation_home);

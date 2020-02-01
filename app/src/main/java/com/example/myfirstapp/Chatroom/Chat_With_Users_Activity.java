@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -375,12 +376,4 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     }*/
 
     }
-
-
-    public void onBackPressed() {
-        Intent Back = new Intent(Chat_With_Users_Activity.this, General_Feed_Activity.class);
-        startActivity(Back);
-        finish();
-    }
-
 }

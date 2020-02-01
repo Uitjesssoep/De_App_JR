@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -130,7 +131,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                                                                     DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
                                                                     DeleteThePost.removeValue();
 
-                                                                    Intent intent = new Intent(mContext, General_Feed_Activity.class);
+                                                                    Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
                                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                                     mContext.startActivity(intent);
 
@@ -191,7 +192,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                                                                     DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
                                                                     DeleteThePost.removeValue();
 
-                                                                    Intent intent = new Intent(mContext, General_Feed_Activity.class);
+                                                                    Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
                                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                                     mContext.startActivity(intent);
 

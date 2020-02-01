@@ -36,7 +36,7 @@ public class Choose_FeedType_Activity extends AppCompatActivity {
         Text_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Choose_FeedType_Activity.this, General_Feed_Activity.class));
+                startActivity(new Intent(Choose_FeedType_Activity.this, Layout_Manager_BottomNav_Activity.class));
             }
         });
 

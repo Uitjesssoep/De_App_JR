@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUserComments_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
+import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPost;
@@ -186,7 +187,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
-                            Intent intent = new Intent(Image_Post_Viewing_Activity.this, General_Feed_Activity.class);
+                            Intent intent = new Intent(Image_Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
                             startActivity(intent);
                             finish();
 

@@ -104,7 +104,7 @@ public class Report_TextPost_Activity extends AppCompatActivity {
             NoReason.child("UserWhoReported").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
             NoReason.child("Reason").setValue("No reason given");
 
-            Intent intent = new Intent(Report_TextPost_Activity.this, General_Feed_Activity.class);
+            Intent intent = new Intent(Report_TextPost_Activity.this, Layout_Manager_BottomNav_Activity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
@@ -115,7 +115,7 @@ public class Report_TextPost_Activity extends AppCompatActivity {
             NoReason.child("UserWhoReported").setValue(FirebaseAuth.getInstance().getCurrentUser().getUid());
             NoReason.child("Reason").setValue(Reason);
 
-            Intent intent2 = new Intent(Report_TextPost_Activity.this, General_Feed_Activity.class);
+            Intent intent2 = new Intent(Report_TextPost_Activity.this, Layout_Manager_BottomNav_Activity.class);
             intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent2);
 

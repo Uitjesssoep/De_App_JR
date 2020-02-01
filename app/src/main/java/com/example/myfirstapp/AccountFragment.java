@@ -83,7 +83,7 @@ public class AccountFragment extends Fragment {
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference GetAccountInfo = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
 
-        GetAccountInfo.addValueEventListener(new ValueEventListener() {
+        GetAccountInfo.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

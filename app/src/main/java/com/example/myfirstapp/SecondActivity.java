@@ -105,7 +105,7 @@ public class SecondActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
-        Intent home = new Intent(SecondActivity.this, General_Feed_Activity.class);
+        Intent home = new Intent(SecondActivity.this, Layout_Manager_BottomNav_Activity.class);
         startActivity(home);
         finish();
 
@@ -122,7 +122,7 @@ public class SecondActivity extends AppCompatActivity {
                     switch (menuItem.getItemId()){
                         case R.id.navigation_home:
 
-                            Intent home = new Intent(SecondActivity.this, General_Feed_Activity.class);
+                            Intent home = new Intent(SecondActivity.this, Layout_Manager_BottomNav_Activity.class);
                             startActivity(home);
 
                             break;

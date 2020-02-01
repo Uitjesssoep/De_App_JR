@@ -44,8 +44,6 @@ public class MyAboutTab extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild("Counters")){
-
                     if(dataSnapshot.child("Counters").hasChild("AccountVisits")){
                         TextView AccountVisits = getView().findViewById(R.id.tvAccountVisitCount);
                         String VisitCountString = dataSnapshot.child("Counters").child("AccountVisits").getValue().toString();
@@ -81,7 +79,6 @@ public class MyAboutTab extends Fragment {
                         int CommentCountString = (int) dataSnapshot.child("MyComments").getChildrenCount();
                         Followers.setText("Comments: " + CommentCountString);
                     }
-                }
 
             }
 

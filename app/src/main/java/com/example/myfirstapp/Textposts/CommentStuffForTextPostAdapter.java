@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.crashlytics.android.answers.FirebaseAnalyticsEvent;
+import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -173,7 +174,10 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                                                         RemoveComment.child("content").setValue("[deleted_comment]");
                                                         RemoveComment.child("user_name").setValue("[deleted_comment_user]");
 
-                                                        Intent intent = new Intent(mContext, General_Feed_Activity.class);
+                                                        final DatabaseReference RemoveCommentFromMyProfile = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments").child(KeyComment);
+                                                        RemoveCommentFromMyProfile.removeValue();
+
+                                                        Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
                                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                         mContext.startActivity(intent);
                                                     }
@@ -234,9 +238,9 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                                                         RemoveComment.child("user_name").setValue("[deleted_comment_user]");
 
                                                         final DatabaseReference RemoveCommentFromMyProfile = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments").child(KeyComment);
-                                                        RemoveComment.removeValue();
+                                                        RemoveCommentFromMyProfile.removeValue();
 
-                                                        Intent intent = new Intent(mContext, General_Feed_Activity.class);
+                                                        Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
                                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                         mContext.startActivity(intent);
                                                     }

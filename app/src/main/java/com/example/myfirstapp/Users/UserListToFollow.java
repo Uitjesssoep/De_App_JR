@@ -34,6 +34,7 @@ import com.example.myfirstapp.App_Settings_Activity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity;
 import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
+import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
@@ -338,7 +339,7 @@ public class UserListToFollow extends AppCompatActivity {
                     switch (menuItem.getItemId()) {
                         case R.id.navigation_home:
 
-                            Intent home = new Intent(UserListToFollow.this, General_Feed_Activity.class);
+                            Intent home = new Intent(UserListToFollow.this, Layout_Manager_BottomNav_Activity.class);
                             home.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(home);
                             //bottomNavigationView.setSelectedItemId(R.id.navigation_home);
