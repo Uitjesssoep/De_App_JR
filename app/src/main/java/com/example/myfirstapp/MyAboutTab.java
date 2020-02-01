@@ -19,10 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MyAboutTab extends Fragment {
 
 
@@ -70,7 +66,7 @@ public class MyAboutTab extends Fragment {
 
                     if(dataSnapshot.hasChild("followers")){
                         TextView Followers = getView().findViewById(R.id.tvFollowersCount);
-                        String FollowersCountString = "...";
+                        int FollowersCountString = (int) dataSnapshot.child("followers").getChildrenCount();
                         Followers.setText("Followers: " + FollowersCountString);
                     }
 
@@ -82,7 +78,7 @@ public class MyAboutTab extends Fragment {
 
                     if (dataSnapshot.hasChild("MyComments")){
                         TextView Followers = getView().findViewById(R.id.tvCommentCount);
-                        String CommentCountString = "...";
+                        int CommentCountString = (int) dataSnapshot.child("MyComments").getChildrenCount();
                         Followers.setText("Comments: " + CommentCountString);
                     }
                 }
