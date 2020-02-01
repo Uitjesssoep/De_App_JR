@@ -28,6 +28,9 @@ public class PageAdapter_ChatRooms extends FragmentPagerAdapter {
             case 1:
                 return new PrivateChatsTab();
 
+            case 2:
+                return new MyChatroomsTab();
+
             default:
                 return null;
 

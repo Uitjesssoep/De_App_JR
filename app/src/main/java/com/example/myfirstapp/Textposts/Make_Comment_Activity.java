@@ -76,20 +76,23 @@ public class Make_Comment_Activity extends AppCompatActivity {
         } else {
 
             DatabaseReference GetUserName = firebaseDatabase.getReference("users").child(MyUID);
-            GetUserName.addValueEventListener(new ValueEventListener() {
+            GetUserName.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
 
                     String userName = userProfile.getUserName();
 
+                    DatabaseReference ToMyProfile = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments");
+
                     temp_key = DatabaseCommentStuff.push().getKey();
                     CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, temp_key, MyUID, key);
                     DatabaseCommentStuff.child(temp_key).setValue(commentStuffForTextPost);
+                    ToMyProfile.child(temp_key).setValue(commentStuffForTextPost);
 
-                    Intent intent = new Intent(Make_Comment_Activity.this, Text_Post_Viewing_Activity.class);
+                    /*Intent intent = new Intent(Make_Comment_Activity.this, Text_Post_Viewing_Activity.class);
                     intent.putExtra("Key", key);
-                    startActivity(intent);
+                    startActivity(intent);*/
                     finish();
                 }
 

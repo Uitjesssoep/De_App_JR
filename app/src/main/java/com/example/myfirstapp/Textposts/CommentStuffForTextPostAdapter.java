@@ -233,6 +233,9 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                                                         RemoveComment.child("content").setValue("[deleted_comment]");
                                                         RemoveComment.child("user_name").setValue("[deleted_comment_user]");
 
+                                                        final DatabaseReference RemoveCommentFromMyProfile = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments").child(KeyComment);
+                                                        RemoveComment.removeValue();
+
                                                         Intent intent = new Intent(mContext, General_Feed_Activity.class);
                                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                         mContext.startActivity(intent);

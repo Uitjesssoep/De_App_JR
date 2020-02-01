@@ -23,7 +23,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUserComments_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
+import com.example.myfirstapp.Imageposts.Image_Post_Viewing_Activity;
+import com.example.myfirstapp.Textposts.CommentStuffForTextPost;
+import com.example.myfirstapp.Textposts.CommentStuffForTextPostAdapter;
 import com.example.myfirstapp.Textposts.StuffForPost;
 import com.example.myfirstapp.Textposts.StuffForPostAdapter;
 import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
@@ -105,127 +109,202 @@ public class MyCommentsTab extends Fragment {
 
     private void StartOrReload() {
 
-        final RecyclerView GeneralFeed = getView().findViewById(R.id.rvMyCommentsFragment);
-        GeneralFeed.setItemViewCacheSize(20);
-        GeneralFeed.setHasFixedSize(true);
-        GeneralFeed.setDrawingCacheEnabled(true);
-        GeneralFeed.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        GeneralFeed.setLayoutManager(new LinearLayoutManager(getActivity()));
+        final RecyclerView CommentView = getView().findViewById(R.id.rvMyCommentsFragment);
+        CommentView.setItemViewCacheSize(20);
+        CommentView.setHasFixedSize(true);
+        CommentView.setDrawingCacheEnabled(true);
+        CommentView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        CommentView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingMyComments_fragment);
-        final List<StuffForPost> StuffForPostList = new ArrayList<>();
-        final StuffForPostAdapter stuffForPostAdapter = null;
+        final List<CommentStuffForTextPost> commentStuffForTextPostList = new ArrayList<>();
+        final CommentStuffForTextPostAdapter commentStuffForTextPostAdapter = null;
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        final DatabaseReference posts = FirebaseDatabase.getInstance().getReference("General_Posts");
-        final DatabaseReference SavedPosts = FirebaseDatabase.getInstance().getReference("users");
-        registerForContextMenu(GeneralFeed);
+        final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final DatabaseReference comments = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments");
+        registerForContextMenu(CommentView);
 
-        posts.addListenerForSingleValueEvent(new ValueEventListener() {
+        comments.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 clear();
 
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    StuffForPost StuffForPost = postSnapshot.getValue(StuffForPost.class);
-                    StuffForPostList.add(StuffForPost);
-                    final String MyUID = firebaseAuth.getCurrentUser().getUid();
-                    SavedPosts.child(MyUID).child("SavedPosts").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (int i = 0; i < StuffForPostList.size(); i++) {
-                                int position;
 
-                                if (!dataSnapshot.hasChild(StuffForPostList.get(i).getKey())) {
-                                    position = i;
-                                    StuffForPostList.remove(position);
-                                    Log.e("list", StuffForPostList.toString());
-                                }}
-                            StuffForPostAdapter stuffForPostAdapter;
-                            stuffForPostAdapter = new StuffForPostAdapter(getActivity(), StuffForPostList);
-                            GeneralFeed.setAdapter(stuffForPostAdapter);
-                            progressBar.setVisibility(View.GONE);
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    CommentStuffForTextPost commentStuffForTextPost = dataSnapshot1.getValue(CommentStuffForTextPost.class);
+                    commentStuffForTextPostList.add(commentStuffForTextPost);
+                }
 
+                CommentStuffForTextPostAdapter commentStuffForTextPostAdapter;
 
+                commentStuffForTextPostAdapter = new CommentStuffForTextPostAdapter(getActivity(), commentStuffForTextPostList);
+                CommentView.setAdapter(commentStuffForTextPostAdapter);
+                progressBar.setVisibility(View.GONE);
 
-                            stuffForPostAdapter.setOnItemClickListener(new StuffForPostAdapter.OnItemClickListener() {
+                commentStuffForTextPostAdapter.setOnItemClickListener(new CommentStuffForTextPostAdapter.OnItemClickListener() {
 
-                                @Override
-                                public void onItemClick(int position) {
-                                    final String key = StuffForPostList.get(position).getKey().toString();
+                    @Override
+                    public void onItemClick(int position) {
 
-                                    Intent Test2 = new Intent(getActivity().getApplicationContext(), Text_Post_Viewing_Activity.class);
-                                    Test2.putExtra("Key", key);
-                                    startActivity(Test2);
+                        final String PostKey = commentStuffForTextPostList.get(position).getOldKey();
+
+                        DatabaseReference CheckType = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey);
+                        CheckType.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                String Type = dataSnapshot.child("type").getValue().toString();
+
+                                if(Type.equals("Text")){
+
+                                    Intent ToTextPost = new Intent(getActivity(), Text_Post_Viewing_Activity.class);
+                                    ToTextPost.putExtra("Key", PostKey);
+                                    startActivity(ToTextPost);
+
+                                }
+                                else if(Type.equals("Image")){
+
+                                    Intent ToImagePost = new Intent(getActivity(), Image_Post_Viewing_Activity.class);
+                                    ToImagePost.putExtra("Key", PostKey);
+                                    startActivity(ToImagePost);
+
                                 }
 
-                                @Override
-                                public void onUserNameClick(int position) {
-                                    final String PostKey = StuffForPostList.get(position).getKey().toString();
+                            }
 
-                                    DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey);
-                                    CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onUserNameClick(int position) {
+                        final String CommentKey = commentStuffForTextPostList.get(position).getKey();
+                        final String PostKey = commentStuffForTextPostList.get(position).getOldKey();
+
+                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey).child("uid");
+                        CheckIfMyUID.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                final String MyUIDCheck = FirebaseAuth.getInstance().getUid();
+                                final String CommentUID = dataSnapshot.getValue().toString();
+
+                                DatabaseReference UserIfDeleted = FirebaseDatabase.getInstance().getReference("users");
+                                UserIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        if(dataSnapshot.hasChild(CommentUID)){
+
+
+                                            if(MyUIDCheck.equals(CommentUID)){
+
+                                                Intent GoToMyProfile = new Intent(getActivity(), Account_Info_Activity.class);
+                                                startActivity(GoToMyProfile);
+
+                                            }
+
+                                            else{
+
+                                                DatabaseReference GetCommentUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey).child("user_name");
+                                                GetCommentUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                        String CommentUsername = dataSnapshot.getValue().toString();
+                                                        if(CommentUsername.equals("[deleted_comment_user")){
+                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                                                            dialog.setTitle("This comment has been deleted");
+                                                            dialog.setMessage("You can no longer see who made this comment");
+                                                            AlertDialog alertDialog = dialog.create();
+                                                            alertDialog.show();
+                                                        }
+
+                                                        else {
+                                                            Intent GoToProfile = new Intent(getActivity(), Account_Info_OtherUserComments_Activity.class);
+                                                            GoToProfile.putExtra("CommentKey", CommentKey);
+                                                            GoToProfile.putExtra("PostKey", PostKey);
+                                                            startActivity(GoToProfile);
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                        else{
+
+                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                                            dialog.setTitle("This user has been deleted");
+                                            dialog.setMessage("You can no longer view this user");
+                                            AlertDialog alertDialog = dialog.create();
+                                            alertDialog.show();
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onUpvoteClick(int position) {
+                        String key = commentStuffForTextPostList.get(position).getKey().toString();
+                        String Postkey = commentStuffForTextPostList.get(position).getOldKey();
+                        final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Likes");
+                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
+                        final String TAGDownvote = "VoteCheck";
+
+
+                        DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if(dataSnapshot.hasChild(MyUID)){
+
+                                    DatabaseDislike.child(MyUID).removeValue();
+                                    DatabaseLike.child(MyUID).setValue("RandomLike");
+
+                                }
+
+
+                                else{
+
+                                    DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            final String MyUIDCheck2 = FirebaseAuth.getInstance().getUid().toString();
-                                            final String PostUID2 = dataSnapshot.child("uid").getValue().toString();
-                                            final String AnonToCheck = dataSnapshot.child("user_name").getValue().toString();
-                                            final String AnonCheck = "[anonymous]";
+                                            if(dataSnapshot.hasChild(MyUID)){
+                                                DatabaseLike.child(MyUID).removeValue();
+                                            }
 
-                                            DatabaseReference CheckIfDeleted = FirebaseDatabase.getInstance().getReference("users");
-                                            CheckIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            else{
+                                                DatabaseLike.child(MyUID).setValue("RandomLike");
+                                            }
 
-                                                    if(dataSnapshot.hasChild(PostUID2)){
-
-                                                        if(MyUIDCheck2.equals(PostUID2)){
-
-                                                            Intent GoToMyProfile = new Intent(getActivity(), Account_Info_Activity.class);
-                                                            startActivity(GoToMyProfile);
-
-                                                        }
-                                                        else{
-
-                                                            if(AnonCheck.equals(AnonToCheck)){
-
-                                                                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                                                                dialog.setTitle("This user has posted anonymously");
-                                                                dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
-                                                                AlertDialog alertDialog = dialog.create();
-                                                                alertDialog.show();
-
-                                                            }
-
-                                                            else{
-
-                                                                Intent GoToProfile = new Intent(getActivity(), Account_Info_OtherUser_Activity.class);
-                                                                GoToProfile.putExtra("Key", PostKey);
-                                                                startActivity(GoToProfile);
-
-                                                            }
-                                                        }
-
-                                                    }
-
-                                                    else{
-
-                                                        final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                                                        dialog.setTitle("This user has been deleted");
-                                                        dialog.setMessage("You can no longer view this user");
-                                                        AlertDialog alertDialog = dialog.create();
-                                                        alertDialog.show();
-
-                                                    }
-
-                                                }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                }
-                                            });
                                         }
 
                                         @Override
@@ -236,14 +315,35 @@ public class MyCommentsTab extends Fragment {
 
                                 }
 
-                                @Override
-                                public void onUpvoteClick(int position) {
-                                    final String key = StuffForPostList.get(position).getKey().toString();
-                                    final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                                    final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
-                                    final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
-                                    final String TAGDownvote = "VoteCheck";
+                            }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onDownvoteClick(int position) {
+                        String key = commentStuffForTextPostList.get(position).getKey().toString();
+                        final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                        String Postkey = commentStuffForTextPostList.get(position).getOldKey();
+                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Likes");
+                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
+                        final String TAGDownvote = "VoteCheck";
+
+
+                        DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if(dataSnapshot.hasChild(MyUID)){
+                                    DatabaseLike.child(MyUID).removeValue();
+                                    DatabaseDislike.child(MyUID).setValue("RandomDislike");
+                                }
+
+                                else{
 
                                     DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
@@ -252,87 +352,12 @@ public class MyCommentsTab extends Fragment {
                                             if(dataSnapshot.hasChild(MyUID)){
 
                                                 DatabaseDislike.child(MyUID).removeValue();
-                                                DatabaseLike.child(MyUID).setValue("RandomLike");
 
                                             }
-
 
                                             else{
 
-                                                DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                                        if(dataSnapshot.hasChild(MyUID)){
-                                                            DatabaseLike.child(MyUID).removeValue();
-                                                        }
-
-                                                        else{
-                                                            DatabaseLike.child(MyUID).setValue("RandomLike");
-                                                        }
-
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                    }
-                                                });
-
-                                            }
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onDownvoteClick(int position) {
-                                    final String key = StuffForPostList.get(position).getKey().toString();
-                                    final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                                    final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
-                                    final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
-                                    final String TAGDownvote = "VoteCheck";
-
-
-                                    DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                            if(dataSnapshot.hasChild(MyUID)){
-                                                DatabaseLike.child(MyUID).removeValue();
                                                 DatabaseDislike.child(MyUID).setValue("RandomDislike");
-                                            }
-
-                                            else{
-
-                                                DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                                        if(dataSnapshot.hasChild(MyUID)){
-
-                                                            DatabaseDislike.child(MyUID).removeValue();
-
-                                                        }
-
-                                                        else{
-
-                                                            DatabaseDislike.child(MyUID).setValue("RandomDislike");
-
-                                                        }
-
-                                                    }
-
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                    }
-                                                });
 
                                             }
 
@@ -343,32 +368,34 @@ public class MyCommentsTab extends Fragment {
 
                                         }
                                     });
+
                                 }
-                            });
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
 
 
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                }
+                });
 
             }
 
             private void clear() {
-                int size = StuffForPostList.size();
+                int size = commentStuffForTextPostList.size();
                 if (size > 0) {
                     for (int i = 0; i < size; i++) {
-                        StuffForPostList.remove(0);
+                        commentStuffForTextPostList.remove(0);
 
                         String TAGTest = "ListEmpty";
                         // Log.e(TAGTest, "tot 'for' gekomen");
                     }
 
-                    stuffForPostAdapter.notifyItemRangeRemoved(0, size);
+                    commentStuffForTextPostAdapter.notifyItemRangeRemoved(0, size);
                 }
             }
 

@@ -849,12 +849,6 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         });
     }
 
-    public void onBackPressed() {
-        Intent Back = new Intent(Image_Post_Viewing_Activity.this, General_Feed_Activity.class);
-        startActivity(Back);
-        finish();
-    }
-
     private void SetupDesign() {
         //voor het geven van kleur aan de status bar:
 
