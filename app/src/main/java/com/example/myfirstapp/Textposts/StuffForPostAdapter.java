@@ -68,7 +68,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final StuffForPost uploadCurrent = mPost.get(position);
         if (uploadCurrent.getType().equals("Image")) {
-            Picasso.get().load(uploadCurrent.getContent()).placeholder(R.drawable.app_logo_200).into(holder.Image);
+            Picasso.get().load(uploadCurrent.getContent()).placeholder(R.color.white).into(holder.Image);
             holder.Content.setVisibility(View.GONE);
         } else {
             holder.Image.setVisibility(View.GONE);
@@ -97,8 +97,6 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                 DeleteIconCheck.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        if (dataSnapshot.hasChild(KeyPost)) {
 
                             final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
                             final String PostUIDCheck = dataSnapshot.child(KeyPost).child("uid").getValue().toString();
@@ -334,11 +332,6 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                                     }
                                 });
                             }
-
-                        } else {
-                            //post is gedelete als het goed is
-                        }
-
                     }
 
                     @Override

@@ -62,7 +62,7 @@ public class MyCommentsTab extends Fragment {
         CheckInternet();
         StartOrReload();
 
-        final SwipeRefreshLayout swipeRefreshLayout = getView().findViewById(R.id.swipe_container_SavedPosts_fragment);
+        final SwipeRefreshLayout swipeRefreshLayout = getView().findViewById(R.id.swipe_container_MyComments_fragment);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -105,14 +105,14 @@ public class MyCommentsTab extends Fragment {
 
     private void StartOrReload() {
 
-        final RecyclerView GeneralFeed = getView().findViewById(R.id.rvSavedPostsFragment);
+        final RecyclerView GeneralFeed = getView().findViewById(R.id.rvMyCommentsFragment);
         GeneralFeed.setItemViewCacheSize(20);
         GeneralFeed.setHasFixedSize(true);
         GeneralFeed.setDrawingCacheEnabled(true);
         GeneralFeed.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         GeneralFeed.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingSavedPosts_fragment);
+        final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingMyComments_fragment);
         final List<StuffForPost> StuffForPostList = new ArrayList<>();
         final StuffForPostAdapter stuffForPostAdapter = null;
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();

@@ -143,96 +143,235 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                 if(MyUID.equals(CommentUID)){
 
-                    PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteComment);
-                    popupMenu.inflate(R.menu.popup_menu_comments_delete);
-                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedComments");
+                    CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            switch (menuItem.getItemId()){
+                            if(dataSnapshot.hasChild(KeyComment)){
 
-                                case R.id.delete_option_comments:
+                                PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteComment);
+                                popupMenu.inflate(R.menu.popup_menu_textposts_withunsave);
+                                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem menuItem) {
 
-                                    final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-                                    dialog.setTitle("Delete your comment?");
-                                    dialog.setMessage("Deleting this comment cannot be undone! The comment itself will remain, only its content will be removed. Are you sure you want to delete it?");
+                                        switch (menuItem.getItemId()){
 
-                                    dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            case R.id.delete_option_textposts:
 
-                                            final DatabaseReference RemoveComment = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost).child("Comments").child(KeyComment);
-                                            RemoveComment.child("content").setValue("[deleted_comment]");
-                                            RemoveComment.child("user_name").setValue("[deleted_comment_user]");
+                                                final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                                                dialog.setTitle("Delete your comment?");
+                                                dialog.setMessage("Deleting this comment cannot be undone! The comment itself will remain, only its content will be removed. Are you sure you want to delete it?");
 
-                                            Intent intent = new Intent(mContext, General_Feed_Activity.class);
-                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            mContext.startActivity(intent);
+                                                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                                                        final DatabaseReference RemoveComment = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost).child("Comments").child(KeyComment);
+                                                        RemoveComment.child("content").setValue("[deleted_comment]");
+                                                        RemoveComment.child("user_name").setValue("[deleted_comment_user]");
+
+                                                        Intent intent = new Intent(mContext, General_Feed_Activity.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        mContext.startActivity(intent);
+                                                    }
+                                                });
+                                                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                });
+
+                                                AlertDialog alertDialog = dialog.create();
+                                                alertDialog.show();
+
+                                                break;
+
+                                            case R.id.unsavepost_option_textposts:
+
+                                                final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                SaveThePost.child("SavedComments").child(KeyComment).removeValue();
+
+                                                break;
+
+                                            default:
+                                                break;
 
                                         }
-                                    });
 
-                                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                                            dialogInterface.dismiss();
-
-                                        }
-                                    });
-
-                                    AlertDialog alertDialog = dialog.create();
-                                    alertDialog.show();
-
-                                    break;
-
-                                default:
-                                    break;
+                                        return false;
+                                    }
+                                });
+                                popupMenu.show();
 
                             }
 
-                            return false;
+                            else{
+
+                                PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteComment);
+                                popupMenu.inflate(R.menu.popup_menu_textposts);
+                                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                        switch (menuItem.getItemId()){
+
+                                            case R.id.delete_option_textposts:
+
+                                                final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                                                dialog.setTitle("Delete your comment?");
+                                                dialog.setMessage("Deleting this comment cannot be undone! The comment itself will remain, only its content will be removed. Are you sure you want to delete it?");
+
+                                                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                        final DatabaseReference RemoveComment = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost).child("Comments").child(KeyComment);
+                                                        RemoveComment.child("content").setValue("[deleted_comment]");
+                                                        RemoveComment.child("user_name").setValue("[deleted_comment_user]");
+
+                                                        Intent intent = new Intent(mContext, General_Feed_Activity.class);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        mContext.startActivity(intent);
+                                                    }
+                                                });
+                                                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                });
+
+                                                AlertDialog alertDialog = dialog.create();
+                                                alertDialog.show();
+
+                                                break;
+
+                                            case R.id.savepost_option_textposts:
+
+                                                final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                SaveThePost.child("SavedComments").child(KeyComment).child("KeyPost").setValue(KeyPost);
+
+                                                break;
+
+                                            default:
+                                                break;
+
+                                        }
+
+                                        return false;
+                                    }
+                                });
+                                popupMenu.show();
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
                         }
                     });
-                    popupMenu.show();
-
                 }
 
                 else{
 
-                    PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteComment);
-                    popupMenu.inflate(R.menu.popup_menu_comments_report);
-                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedComments");
+                    CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            switch (menuItem.getItemId()){
+                            if(dataSnapshot.hasChild(KeyComment)){
 
-                                case R.id.report_option_comments:
+                                PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteComment);
+                                popupMenu.inflate(R.menu.popup_menu_textposts_without_delete_withunsave);
+                                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem menuItem) {
 
-                                    Intent intent= new Intent(mContext, Report_TextPost_Activity.class);
-                                    intent.putExtra("Titel", uploadCurrent2.getContent());
-                                    intent.putExtra("User", uploadCurrent2.getUser_name());
-                                    intent.putExtra("Key", uploadCurrent2.getKey());
-                                    intent.putExtra("Soort", "comment");
-                                    mContext.startActivity(intent);
+                                        switch (menuItem.getItemId()){
 
-                                    break;
+                                            case R.id.reportpost_option_textposts:
 
-                                default:
-                                    break;
+                                                Intent intent= new Intent(mContext, Report_TextPost_Activity.class);
+                                                intent.putExtra("Titel", uploadCurrent2.getContent());
+                                                intent.putExtra("User", uploadCurrent2.getUser_name());
+                                                intent.putExtra("Key", uploadCurrent2.getKey());
+                                                intent.putExtra("Soort", "comment");
+                                                mContext.startActivity(intent);
+
+                                                break;
+
+                                            case R.id.unsavepost_option_textposts:
+
+                                                final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                SaveThePost.child("SavedComments").child(KeyComment).removeValue();
+
+                                                break;
+
+                                            default:
+                                                break;
+
+                                        }
+
+                                        return false;
+                                    }
+                                });
+                                popupMenu.show();
 
                             }
 
-                            return false;
+                            else{
+
+                                PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteComment);
+                                popupMenu.inflate(R.menu.popup_menu_textposts_without_delete);
+                                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                        switch (menuItem.getItemId()){
+
+                                            case R.id.reportpost_option_textposts:
+
+                                                Intent intent= new Intent(mContext, Report_TextPost_Activity.class);
+                                                intent.putExtra("Titel", uploadCurrent2.getContent());
+                                                intent.putExtra("User", uploadCurrent2.getUser_name());
+                                                intent.putExtra("Key", uploadCurrent2.getKey());
+                                                intent.putExtra("Soort", "comment");
+                                                mContext.startActivity(intent);
+
+                                                break;
+
+                                            case R.id.savepost_option_textposts:
+
+                                                final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                SaveThePost.child("SavedComments").child(KeyComment).child("KeyPost").setValue(KeyPost);
+
+                                                break;
+
+                                            default:
+                                                break;
+
+                                        }
+
+                                        return false;
+                                    }
+                                });
+                                popupMenu.show();
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
                         }
                     });
-                    popupMenu.show();
-
                 }
-
-
             }
         });
 
