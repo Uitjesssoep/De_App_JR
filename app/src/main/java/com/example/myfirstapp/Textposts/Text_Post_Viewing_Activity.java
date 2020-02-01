@@ -403,6 +403,12 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
                 CommentView.setAdapter(commentStuffForTextPostAdapter);
 
                 commentStuffForTextPostAdapter.setOnItemClickListener(new CommentStuffForTextPostAdapter.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(int position) {
+                        //hier hoeft nu niks
+                    }
+
                     @Override
                     public void onUserNameClick(int position) {
                         final String CommentKey = commentStuffForTextPostList.get(position).getKey().toString();

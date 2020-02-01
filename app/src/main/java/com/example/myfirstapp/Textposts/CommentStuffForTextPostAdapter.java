@@ -42,6 +42,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
     private OnItemClickListener mListener;
     public interface OnItemClickListener {
+        void onItemClick(int position);
         void onUserNameClick(int position);
         void onUpvoteClick(int position);
         void onDownvoteClick(int position);
@@ -251,8 +252,16 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                             case R.id.savepost_option_textposts:
 
-                                                final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-                                                SaveThePost.child("SavedComments").child(KeyComment).child("KeyPost").setValue(KeyPost);
+                                                String CommentMessage = uploadCurrent2.getContent();
+                                                String Date = uploadCurrent2.getDate();
+                                                String userName = uploadCurrent2.getUser_name();
+                                                String CommentKey = uploadCurrent2.getKey();
+                                                String TheUID = uploadCurrent2.getUID();
+                                                String PostKey = uploadCurrent2.getOldKey();
+
+                                                DatabaseReference SaveComment = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("SavedComments");
+                                                CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, CommentKey, TheUID, PostKey);
+                                                SaveComment.child(CommentKey).setValue(commentStuffForTextPost);
 
                                                 break;
 
@@ -347,8 +356,16 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                             case R.id.savepost_option_textposts:
 
-                                                final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-                                                SaveThePost.child("SavedComments").child(KeyComment).child("KeyPost").setValue(KeyPost);
+                                                String CommentMessage = uploadCurrent2.getContent();
+                                                String Date = uploadCurrent2.getDate();
+                                                String userName = uploadCurrent2.getUser_name();
+                                                String CommentKey = uploadCurrent2.getKey();
+                                                String TheUID = uploadCurrent2.getUID();
+                                                String PostKey = uploadCurrent2.getOldKey();
+
+                                                DatabaseReference SaveComment = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("SavedComments");
+                                                CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, CommentKey, TheUID, PostKey);
+                                                SaveComment.child(CommentKey).setValue(commentStuffForTextPost);
 
                                                 break;
 
@@ -468,6 +485,18 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             DislikeCount = itemView.findViewById(R.id.tvDislikeCounterComment);
             Upvote = itemView.findViewById(R.id.ibLikeUpComment);
             Downvote = itemView.findViewById(R.id.ibLikeDownComment);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
 
             Username.setOnClickListener(new View.OnClickListener() {
                 @Override
