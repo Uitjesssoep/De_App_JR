@@ -48,6 +48,23 @@
             android:background="@drawable/imageview_profilepicture_edge" />
 
         <Button
+            android:id="@+id/btnChatUserListToFollow"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_toLeftOf="@id/btnChatUserListToFollow"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/button_roundedcorners_follow"
+            android:scrollbarSize="0dp"
+            android:shadowColor="#00FFFFFF"
+            android:shadowDy="0"
+            android:text="Chat"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <Button
             android:id="@+id/btnFollowUserListToFollow"
             android:layout_width="80dp"
             android:layout_height="30dp"

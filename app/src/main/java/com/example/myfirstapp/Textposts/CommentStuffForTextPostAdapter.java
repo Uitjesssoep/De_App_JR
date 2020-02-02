@@ -259,8 +259,8 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                                                     public void onClick(DialogInterface dialogInterface, int i) {
 
                                                         final DatabaseReference RemoveComment = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost).child("Comments").child(KeyComment);
-                                                        RemoveComment.child("content").setValue("[deleted_comment]");
-                                                        RemoveComment.child("user_name").setValue("[deleted_comment_user]");
+                                                        RemoveComment.removeValue();
+                                                       // RemoveComment.child("user_name").setValue("[deleted_comment_user]");
 
                                                         final DatabaseReference RemoveCommentFromMyProfile = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments").child(KeyComment);
                                                         RemoveCommentFromMyProfile.removeValue();
