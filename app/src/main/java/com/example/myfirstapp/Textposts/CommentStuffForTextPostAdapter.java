@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.crashlytics.android.answers.FirebaseAnalyticsEvent;
+import com.example.myfirstapp.Edit_PC_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
@@ -196,6 +197,12 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                             case R.id.edit_option_textposts:
 
+                                                Intent intent = new Intent(mContext, Edit_PC_Activity.class);
+                                                intent.putExtra("Type", "Comment");
+                                                intent.putExtra("PostKey", uploadCurrent2.getOldKey());
+                                                intent.putExtra("CommentKey", uploadCurrent2.getKey());
+                                                mContext.startActivity(intent);
+
                                                 break;
 
                                             case R.id.unsavepost_option_textposts:
@@ -262,6 +269,12 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                                                 break;
 
                                             case R.id.edit_option_textposts:
+
+                                                Intent intent = new Intent(mContext, Edit_PC_Activity.class);
+                                                intent.putExtra("Type", "Comment");
+                                                intent.putExtra("PostKey", uploadCurrent2.getOldKey());
+                                                intent.putExtra("CommentKey", uploadCurrent2.getKey());
+                                                mContext.startActivity(intent);
 
                                                 break;
 

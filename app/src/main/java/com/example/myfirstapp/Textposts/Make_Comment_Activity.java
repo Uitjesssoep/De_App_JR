@@ -1,6 +1,7 @@
 package com.example.myfirstapp.Textposts;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,7 +44,6 @@ public class Make_Comment_Activity extends AppCompatActivity {
     private String CommentMessage, temp_key, Type;
 
     private EditText CommentSubstance;
-    private ImageView Image;
     private ImageButton Exit;
     private TextView Title, Content, ShowMore;
 
@@ -163,10 +163,8 @@ public class Make_Comment_Activity extends AppCompatActivity {
 
         CommentSubstance = findViewById(R.id.etAddACommentToPostTextPost);
         Title = findViewById(R.id.tvTitleOfTextPostForComment);
-        Image = findViewById(R.id.ivContentImagePostForContent);
         Content = findViewById(R.id.tvContentPostForComment);
         ShowMore = findViewById(R.id.tvShowContentPostForComment);
-        Image.setVisibility(View.GONE);
         Content.setVisibility(View.GONE);
 
         final String PostKey = getIntent().getExtras().get("Key").toString();
@@ -180,11 +178,7 @@ public class Make_Comment_Activity extends AppCompatActivity {
                 Type = dataSnapshot.child("type").getValue().toString();
 
                 String ContentPost = dataSnapshot.child("content").getValue().toString();
-                if (dataSnapshot.child("type").getValue().equals("Image")) {
-                    Picasso.get().load(ContentPost).fit().centerCrop().into(Image);
-                } else {
-                    Content.setText(ContentPost);
-                }
+                Content.setText(ContentPost);
             }
 
             @Override
@@ -200,16 +194,9 @@ public class Make_Comment_Activity extends AppCompatActivity {
                 String WhatText = ShowMore.getText().toString();
                 if (WhatText.equals("Show more")) {
                     ShowMore.setText("Show less");
-                    if (Type.equals("Image")) {
-                        Image.setVisibility(View.VISIBLE);
-                        Content.setVisibility(View.GONE);
-                    } else {
-                        Image.setVisibility(View.GONE);
                         Content.setVisibility(View.VISIBLE);
-                    }
                 } else {
                     ShowMore.setText("Show more");
-                    Image.setVisibility(View.GONE);
                     Content.setVisibility(View.GONE);
 
                 }

@@ -140,6 +140,10 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
 
                                                             break;
 
+                                                        case R.id.edit_option_textposts:
+
+                                                            break;
+
 
                                                         case R.id.unsavepost_option_textposts:
 
@@ -198,6 +202,10 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
 
                                                             AlertDialog alertDialog = dialog.create();
                                                             alertDialog.show();
+
+                                                            break;
+
+                                                        case R.id.edit_option_textposts:
 
                                                             break;
 

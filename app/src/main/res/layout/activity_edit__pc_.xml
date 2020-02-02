@@ -4,15 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Textposts.Make_Comment_Activity"
+    tools:context=".Edit_PC_Activity"
     android:background="@color/white">
+
+    <include
+        android:id="@+id/action_bar_editPC"
+        layout="@layout/action_bar_makecomment_textpost" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar_comment">
+        app:layout_constraintTop_toBottomOf="@+id/action_bar_editPC">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,53 +24,45 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvAddCommentToPost"
+                android:id="@+id/tvAddEditToPC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
-                android:text="Comment on post:"
+                android:text="Edit [type]:"
                 android:textColor="#4CAF50"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvTitleOfTextPostForComment"
+                android:id="@+id/tvCurentTitleOrComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="32dp"
-                android:text="Post Title Placeholder"
+                android:text="[Current Title/Comment]"
                 android:textColor="#000000"
                 android:textIsSelectable="true"
                 android:textSize="16sp" />
 
-
-            <TextView
-                android:id="@+id/tvContentPostForComment"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/etAddEditToPCTitleComment"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
-                android:text="Post Content Placeholder"
-                android:textColor="#8D8D8D"
-                android:textIsSelectable="true"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/tvShowContentPostForComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
-                android:text="Show more"
-                android:textColor="#4CAF50"
-                android:textSize="14sp" />
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/edittext_addcomment"
+                android:ems="10"
+                android:hint="Add your edit"
+                android:inputType="textMultiLine"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <View
-                android:id="@+id/divider"
+                android:id="@+id/dividerForPC"
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:layout_marginStart="16dp"
@@ -74,8 +70,20 @@
                 android:layout_marginEnd="16dp"
                 android:background="#949494" />
 
+            <TextView
+                android:id="@+id/tvCurrentContentPC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:text="[Current Content]"
+                android:textColor="#696969"
+                android:textIsSelectable="true"
+                android:textSize="14sp" />
+
             <EditText
-                android:id="@+id/etAddACommentToPostTextPost"
+                android:id="@+id/etAddEditToPCContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -85,15 +93,11 @@
                 android:paddingBottom="64dp"
                 android:background="@drawable/edittext_addcomment"
                 android:ems="10"
-                android:hint="Add a comment"
+                android:hint="Add your edit"
                 android:inputType="textMultiLine"
-                android:textColor="#000000"
+                android:textColor="#696969"
                 android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
-
-    <include
-        android:id="@+id/action_bar_comment"
-        layout="@layout/action_bar_makecomment_textpost"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

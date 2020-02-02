@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myfirstapp.Edit_PC_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
@@ -154,6 +155,20 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
 
                                                         case R.id.edit_option_textposts:
 
+                                                            Intent intent = new Intent(mContext, Edit_PC_Activity.class);
+                                                            String Text = "Text";
+                                                            if(Text.equals(uploadCurrent.getType())){
+                                                                intent.putExtra("Type", "TextPost");
+                                                                intent.putExtra("Key", uploadCurrent.getKey());
+                                                                mContext.startActivity(intent);
+                                                            }
+                                                            String Image = "Image";
+                                                            if(Image.equals(uploadCurrent.getType())){
+                                                                intent.putExtra("Type", "ImagePost");
+                                                                intent.putExtra("Key", uploadCurrent.getKey());
+                                                                mContext.startActivity(intent);
+                                                            }
+
                                                             break;
 
 
@@ -218,6 +233,20 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                                                             break;
 
                                                         case R.id.edit_option_textposts:
+
+                                                            Intent intent = new Intent(mContext, Edit_PC_Activity.class);
+                                                            String Text = "Text";
+                                                            if(Text.equals(uploadCurrent.getType())){
+                                                                intent.putExtra("Type", "TextPost");
+                                                                intent.putExtra("Key", uploadCurrent.getKey());
+                                                                mContext.startActivity(intent);
+                                                            }
+                                                            String Image = "Image";
+                                                            if(Image.equals(uploadCurrent.getType())){
+                                                                intent.putExtra("Type", "ImagePost");
+                                                                intent.putExtra("Key", uploadCurrent.getKey());
+                                                                mContext.startActivity(intent);
+                                                            }
 
                                                             break;
 
