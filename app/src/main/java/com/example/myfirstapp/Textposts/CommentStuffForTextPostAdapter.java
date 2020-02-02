@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.crashlytics.android.answers.FirebaseAnalyticsEvent;
 import com.example.myfirstapp.Edit_PC_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
@@ -28,11 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Comment;
-
 import java.util.List;
-
-import javax.crypto.spec.DESKeySpec;
 
 public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<CommentStuffForTextPostAdapter.ViewHolder>{
 
@@ -172,15 +166,16 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                                                     public void onClick(DialogInterface dialogInterface, int i) {
 
                                                         final DatabaseReference RemoveComment = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost).child("Comments").child(KeyComment);
-                                                        RemoveComment.child("content").setValue("[deleted_comment]");
-                                                        RemoveComment.child("user_name").setValue("[deleted_comment_user]");
+                                                        RemoveComment.removeValue();
+                                                        notifyDataSetChanged();
+                                                       // RemoveComment.child("user_name").setValue("[deleted_comment_user]");
 
                                                         final DatabaseReference RemoveCommentFromMyProfile = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments").child(KeyComment);
                                                         RemoveCommentFromMyProfile.removeValue();
 
-                                                        Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
-                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                        mContext.startActivity(intent);
+                                                      //  Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
+                                                     //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                     //   mContext.startActivity(intent);
                                                     }
                                                 });
                                                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
