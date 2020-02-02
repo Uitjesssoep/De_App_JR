@@ -152,6 +152,10 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
 
                                                             break;
 
+                                                        case R.id.edit_option_textposts:
+
+                                                            break;
+
 
                                                         case R.id.unsavepost_option_textposts:
 
@@ -210,6 +214,10 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
 
                                                             AlertDialog alertDialog = dialog.create();
                                                             alertDialog.show();
+
+                                                            break;
+
+                                                        case R.id.edit_option_textposts:
 
                                                             break;
 

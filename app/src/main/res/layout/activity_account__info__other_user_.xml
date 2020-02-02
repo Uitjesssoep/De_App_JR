@@ -7,6 +7,10 @@
     tools:context=".AccountActivities.Account_Info_OtherUser_Activity"
     android:background="@color/white">
 
+    <include
+        android:id="@+id/action_bar_otheruser"
+        layout="@layout/action_bar_main" />
+
     <ImageView
         android:id="@+id/ivProfilePictureAccountInfoViewingOtherUser"
         android:layout_width="100dp"
@@ -18,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/action_bar_otheruser"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/neutral_profile_picture_nobackground"
         tools:srcCompat="@drawable/neutral_profile_picture_nobackground" />

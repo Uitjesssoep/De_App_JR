@@ -7,6 +7,11 @@
     </item>
 
     <item
+        android:id="@+id/edit_option_textposts"
+        android:title="Edit">
+    </item>
+
+    <item
         android:id="@+id/unsavepost_option_textposts"
         android:title="Remove from saved">
     </item>

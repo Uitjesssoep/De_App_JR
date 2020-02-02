@@ -194,6 +194,10 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                                 break;
 
+                                            case R.id.edit_option_textposts:
+
+                                                break;
+
                                             case R.id.unsavepost_option_textposts:
 
                                                 final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
@@ -254,6 +258,10 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                                 AlertDialog alertDialog = dialog.create();
                                                 alertDialog.show();
+
+                                                break;
+
+                                            case R.id.edit_option_textposts:
 
                                                 break;
 

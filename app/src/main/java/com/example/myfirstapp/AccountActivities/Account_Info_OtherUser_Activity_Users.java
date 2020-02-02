@@ -8,9 +8,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
+import com.example.myfirstapp.PageAdapter_HisAccount;
 import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +30,9 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
     private TextView RealName, UserName;
     private ImageView ProfilePicture;
 
-    private String key;
+    private String uid;
+
+    public PageAdapter_HisAccount pagerAdapter;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
@@ -42,14 +47,14 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
         UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);
         ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoViewingOtherUser);
 
-        key = getIntent().getExtras().get("UID").toString();
+        uid = getIntent().getExtras().get("UID").toString();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
         //user visit count
-        final DatabaseReference UserVisitCount = FirebaseDatabase.getInstance().getReference("users").child(key);
+        final DatabaseReference UserVisitCount = FirebaseDatabase.getInstance().getReference("users").child(uid);
         UserVisitCount.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -77,7 +82,7 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
     private void RetrieveData() {
 
         StorageReference storageReference = firebaseStorage.getReference();
-        storageReference.child("ProfilePictures").child(key).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("ProfilePictures").child(uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).fit().centerCrop().into(ProfilePicture);
@@ -85,7 +90,7 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
         });
 
         //voor de rest
-        DatabaseReference OtherUserData = firebaseDatabase.getReference("users").child(key);
+        DatabaseReference OtherUserData = firebaseDatabase.getReference("users").child(uid);
         OtherUserData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -109,6 +114,47 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
         setContentView(R.layout.activity_account__info__other_user_);
         SetupUI();
         RetrieveData();
+        SetupTabView();
+
+    }
+
+    private void SetupTabView() {
+
+        TabLayout tabLayout = findViewById(R.id.tab_layout_other_user_account);
+        final ViewPager viewPager = findViewById(R.id.viewpager_tablayout_OtherUserAccount);
+        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                viewPager.setCurrentItem(tab.getPosition());
+
+                if(tab.getPosition() == 0){
+                    pagerAdapter.notifyDataSetChanged();
+                }
+                else if(tab.getPosition() == 1){
+                    pagerAdapter.notifyDataSetChanged();
+                }
+                else if(tab.getPosition() == 2){
+                    pagerAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
     }
 

@@ -9,9 +9,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
+import com.example.myfirstapp.PageAdapter_HisAccount;
 import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +36,8 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage firebaseStorage;
+
+    public PageAdapter_HisAccount pagerAdapter;
 
     private static final String TAG = "Account_Info_Other_User";
 
@@ -130,6 +135,47 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
         setContentView(R.layout.activity_account__info__other_user_);
 
         SetupUI();
+        SetupTabView();
+
+    }
+
+    private void SetupTabView() {
+
+        TabLayout tabLayout = findViewById(R.id.tab_layout_other_user_account);
+        final ViewPager viewPager = findViewById(R.id.viewpager_tablayout_OtherUserAccount);
+        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                viewPager.setCurrentItem(tab.getPosition());
+
+                if(tab.getPosition() == 0){
+                    pagerAdapter.notifyDataSetChanged();
+                }
+                else if(tab.getPosition() == 1){
+                    pagerAdapter.notifyDataSetChanged();
+                }
+                else if(tab.getPosition() == 2){
+                    pagerAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
     }
 
