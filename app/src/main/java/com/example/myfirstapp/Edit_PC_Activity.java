@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -163,6 +164,70 @@ public class Edit_PC_Activity extends AppCompatActivity {
     }
 
     private void MakeEdit() {
+
+        String TextPost = "TextPost";
+        String ImagePost = "ImagePost";
+        String Comment = "Comment";
+        String Type = getIntent().getExtras().get("Type").toString();
+
+        if(Type.equals(TextPost)){
+
+            if(!EditTitle.getText().toString().isEmpty()) {
+                String AddedToTitle = EditTitle.getText().toString();
+                String NowTitle = CurrentTitle.getText().toString();
+                String NewTitle = NowTitle + "\n[EDIT]: " + AddedToTitle;
+
+                String TextKey = getIntent().getExtras().get("Key").toString();
+                DatabaseReference AddEditsTextPost = FirebaseDatabase.getInstance().getReference("General_Posts").child(TextKey);
+
+                AddEditsTextPost.child("title").setValue(NewTitle);
+            }
+            if(!EditContent.getText().toString().isEmpty()) {
+                String AddedToContent = EditContent.getText().toString();
+                String NowContent = CurrentContent.getText().toString();
+                String NewContent = NowContent + "\n\n[EDIT]: " + AddedToContent;
+
+                String TextKey = getIntent().getExtras().get("Key").toString();
+                DatabaseReference AddEditsTextPost = FirebaseDatabase.getInstance().getReference("General_Posts").child(TextKey);
+
+                AddEditsTextPost.child("content").setValue(NewContent);
+            }
+
+            finish();
+        }
+
+        if(Type.equals(ImagePost)){
+
+            if(!EditTitle.getText().toString().isEmpty()) {
+                String AddedToTitle = EditTitle.getText().toString();
+                String NowTitle = CurrentTitle.getText().toString();
+                String NewTitle = NowTitle + "\n[EDIT]: " + AddedToTitle;
+
+                String TextKey = getIntent().getExtras().get("Key").toString();
+                DatabaseReference AddEditsTextPost = FirebaseDatabase.getInstance().getReference("General_Posts").child(TextKey);
+
+                AddEditsTextPost.child("title").setValue(NewTitle);
+            }
+
+            finish();
+        }
+
+        if(Type.equals(Comment)){
+
+            if(!EditTitle.getText().toString().isEmpty()) {
+                String AddedToComment = EditTitle.getText().toString();
+                String NowComment = CurrentTitle.getText().toString();
+                String NewComment = NowComment + "\n\n[EDIT]: " + AddedToComment;
+
+                String PostKey = getIntent().getExtras().get("PostKey").toString();
+                String CommentKey = getIntent().getExtras().get("CommentKey").toString();
+                DatabaseReference AddEditsTextPost = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey);
+
+                AddEditsTextPost.child("content").setValue(NewComment);
+            }
+
+            finish();
+        }
 
     }
 }

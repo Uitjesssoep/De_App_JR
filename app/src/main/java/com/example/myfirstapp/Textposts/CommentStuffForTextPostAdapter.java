@@ -197,11 +197,30 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                             case R.id.edit_option_textposts:
 
-                                                Intent intent = new Intent(mContext, Edit_PC_Activity.class);
-                                                intent.putExtra("Type", "Comment");
-                                                intent.putExtra("PostKey", uploadCurrent2.getOldKey());
-                                                intent.putExtra("CommentKey", uploadCurrent2.getKey());
-                                                mContext.startActivity(intent);
+                                                if(uploadCurrent2.getUser_name().equals("[deleted_comment_user]") && uploadCurrent2.getContent().equals("[deleted_comment]")) {
+                                                    Intent intent = new Intent(mContext, Edit_PC_Activity.class);
+                                                    intent.putExtra("Type", "Comment");
+                                                    intent.putExtra("PostKey", uploadCurrent2.getOldKey());
+                                                    intent.putExtra("CommentKey", uploadCurrent2.getKey());
+                                                    mContext.startActivity(intent);
+                                                }
+                                                else{
+
+                                                    final AlertDialog.Builder dialog2 = new AlertDialog.Builder(mContext);
+                                                    dialog2.setTitle("Cannot be done!");
+                                                    dialog2.setMessage("You cannot edit comments that you have already deleted! If you have not deleted this comment, please contact us.");
+
+                                                    dialog2.setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            dialogInterface.dismiss();
+                                                        }
+                                                    });
+
+                                                    AlertDialog alertDialog2 = dialog2.create();
+                                                    alertDialog2.show();
+
+                                                }
 
                                                 break;
 
