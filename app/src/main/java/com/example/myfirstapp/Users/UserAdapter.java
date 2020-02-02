@@ -1,7 +1,6 @@
 package com.example.myfirstapp.Users;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +57,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (UserProfileToDatabase user : listFull) {
-                    if (user.getUserName().toLowerCase().contains(filterPattern)){
+                    if (user.getUserName().toLowerCase().contains(filterPattern) || user.getUserFullName().toLowerCase().contains(filterPattern)){
                         filteredList.add(user);
                     }
                 }
