@@ -1,7 +1,10 @@
 package com.example.myfirstapp.AccountActivities;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.myfirstapp.Chatroom.ChatPrivateWithUsers;
 import com.example.myfirstapp.PageAdapter_HisAccount;
 import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,6 +33,7 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
     private TextView RealName, UserName;
     private ImageView ProfilePicture;
+    private Button ChatWithUser;
 
     private String uid;
 
@@ -43,6 +48,7 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
     private void SetupUI() {
 
+        ChatWithUser = findViewById(R.id.btChatWithUserAccountInfo);
         RealName = findViewById(R.id.tvDisplayNameOtherUserAccountViewing);
         UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);
         ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoViewingOtherUser);
@@ -52,6 +58,15 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
+
+        ChatWithUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Account_Info_OtherUser_Activity_Users.this, ChatPrivateWithUsers.class);
+                intent.putExtra("UID", uid);
+                startActivity(intent);
+            }
+        });
 
         //user visit count
         final DatabaseReference UserVisitCount = FirebaseDatabase.getInstance().getReference("users").child(uid);

@@ -101,4 +101,14 @@
         app:layout_constraintTop_toTopOf="@+id/ivProfilePictureAccountInfoViewingOtherUser"
         app:layout_constraintVertical_bias="0.1" />
 
+    <Button
+        android:id="@+id/btChatWithUserAccountInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="9dp"
+        android:text="Chat"
+        app:layout_constraintStart_toEndOf="@+id/ivProfilePictureAccountInfoViewingOtherUser"
+        app:layout_constraintTop_toBottomOf="@+id/tvUsernameOtherUserAccountViewing" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
