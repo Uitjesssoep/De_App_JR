@@ -1,7 +1,5 @@
 package com.example.myfirstapp.Textposts;
 
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,6 +41,7 @@ public class Make_Comment_Activity extends AppCompatActivity {
     private String Date;
     private String CommentMessage, temp_key, Type;
 
+    private ImageView ImageContent;
     private EditText CommentSubstance;
     private ImageButton Exit;
     private TextView Title, Content, ShowMore;
@@ -165,10 +164,12 @@ public class Make_Comment_Activity extends AppCompatActivity {
         Title = findViewById(R.id.tvTitleOfTextPostForComment);
         Content = findViewById(R.id.tvContentPostForComment);
         ShowMore = findViewById(R.id.tvShowContentPostForComment);
+        ImageContent = findViewById(R.id.ivMakeCommentImage);
         Content.setVisibility(View.GONE);
+        ImageContent.setVisibility(View.GONE);
 
         final String PostKey = getIntent().getExtras().get("Key").toString();
-        DatabaseReference getTitle = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey);
+        final DatabaseReference getTitle = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey);
         getTitle.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -178,7 +179,37 @@ public class Make_Comment_Activity extends AppCompatActivity {
                 Type = dataSnapshot.child("type").getValue().toString();
 
                 String ContentPost = dataSnapshot.child("content").getValue().toString();
-                Content.setText(ContentPost);
+                if (Type.equals("Text")){
+                    Content.setText(ContentPost);
+                }
+                else {
+                    Picasso.get().load(ContentPost).into(ImageContent);
+                }
+
+                ShowMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        String WhatText = ShowMore.getText().toString();
+                        if (WhatText.equals("Show more")) {
+                            ShowMore.setText("Show less");
+                            if (Type.equals("Text")){
+                                Content.setVisibility(View.VISIBLE);
+                            }else {
+                                ImageContent.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            ShowMore.setText("Show more");
+                            if (Type.equals("Text")){
+                                Content.setVisibility(View.GONE);
+                            }else {
+                                ImageContent.setVisibility(View.GONE);
+                            }
+
+                        }
+
+                    }
+                });
             }
 
             @Override
@@ -187,22 +218,7 @@ public class Make_Comment_Activity extends AppCompatActivity {
             }
         });
 
-        ShowMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                String WhatText = ShowMore.getText().toString();
-                if (WhatText.equals("Show more")) {
-                    ShowMore.setText("Show less");
-                        Content.setVisibility(View.VISIBLE);
-                } else {
-                    ShowMore.setText("Show more");
-                    Content.setVisibility(View.GONE);
-
-                }
-
-            }
-        });
 
     }
 }
