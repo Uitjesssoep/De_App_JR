@@ -35,7 +35,6 @@ import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPost;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPostAdapter;
-import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.example.myfirstapp.Textposts.Make_Comment_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -229,7 +228,7 @@ public class Image_Post_Viewing_Activity extends AppCompatActivity {
         ContentRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Picasso.get().load(dataSnapshot.getValue().toString()).fit().centerCrop().into(Content);
+                Picasso.get().load(dataSnapshot.getValue().toString()).into(Content);
             }
 
             @Override
