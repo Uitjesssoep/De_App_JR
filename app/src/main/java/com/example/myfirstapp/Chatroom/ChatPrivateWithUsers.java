@@ -171,7 +171,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                             message = ChatInputText.getText().toString();
                             PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, MyUid, Username, Date);
 
-                            temp_key = myDatabase2.push().getKey();
+                            temp_key = myDatabase.push().getKey();
                             myDatabase.child(temp_key).setValue(postStuffForChatRoom);
                             Log.e(TAG, "gepushed");
                             ChatInputText.setText("");
