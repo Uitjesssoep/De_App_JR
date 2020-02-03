@@ -292,8 +292,10 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                                     if(MyUIdForCheck.equals(PostUIDForCheck)){
 
-                                        Intent GoToMyProfileAfterCheck = new Intent(Text_Post_Viewing_Activity.this, Account_Info_Activity.class);
-                                        startActivity(GoToMyProfileAfterCheck);
+                                        Intent GoToMyProfile = new Intent(Text_Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                                        GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        GoToMyProfile.putExtra("Type", "Account");
+                                        startActivity(GoToMyProfile);
 
                                     }
                                     else {
@@ -434,7 +436,9 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
                                             if(MyUIDCheck.equals(CommentUID)){
 
-                                                Intent GoToMyProfile = new Intent(Text_Post_Viewing_Activity.this, Account_Info_Activity.class);
+                                                Intent GoToMyProfile = new Intent(Text_Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                                                GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                GoToMyProfile.putExtra("Type", "Account");
                                                 startActivity(GoToMyProfile);
 
                                             }

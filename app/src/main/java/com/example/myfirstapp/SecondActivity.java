@@ -106,6 +106,7 @@ public class SecondActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
         Intent home = new Intent(SecondActivity.this, Layout_Manager_BottomNav_Activity.class);
+        home.putExtra("Type", "StartUp");
         startActivity(home);
         finish();
 
