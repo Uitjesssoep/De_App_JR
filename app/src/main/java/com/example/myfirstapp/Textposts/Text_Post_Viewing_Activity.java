@@ -57,7 +57,7 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase;
     private String key, MyUID, CommentMessage, temp_key;
-    private ImageButton Like, Dislike;
+    private ImageButton Like, Dislike, Exit;
     private EditText CommentSubstance;
 
     private boolean Liked = false;
@@ -888,18 +888,22 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.action_bar_textpostviewing);
         setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Exit = (ImageButton) toolbar.findViewById(R.id.exittextpostviewing);
+        Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        if("yeah".equals("yeah")){
-            inflater.inflate(R.menu.menu_actionbar_bookmark_settings, menu);
-        }
+        inflater.inflate(R.menu.menu_actionbar_bookmark_settings, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
