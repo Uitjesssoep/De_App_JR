@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +27,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUserComments_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.Edit_PC_Activity;
@@ -334,7 +334,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                                     if(MyUIdForCheck.equals(PostUIDForCheck)){
 
-                                        Intent GoToMyProfile = new Intent(Text_Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                                        Intent GoToMyProfile = new Intent(Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
                                         GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         GoToMyProfile.putExtra("Type", "Account");
                                         startActivity(GoToMyProfile);
@@ -478,7 +478,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                                             if(MyUIDCheck.equals(CommentUID)){
 
-                                                Intent GoToMyProfile = new Intent(Text_Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                                                Intent GoToMyProfile = new Intent(Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
                                                 GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 GoToMyProfile.putExtra("Type", "Account");
                                                 startActivity(GoToMyProfile);
