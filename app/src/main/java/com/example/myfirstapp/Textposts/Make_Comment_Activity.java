@@ -1,5 +1,6 @@
 package com.example.myfirstapp.Textposts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -89,9 +90,10 @@ public class Make_Comment_Activity extends AppCompatActivity {
                     DatabaseCommentStuff.child(temp_key).setValue(commentStuffForTextPost);
                     ToMyProfile.child(temp_key).setValue(commentStuffForTextPost);
 
-                    /*Intent intent = new Intent(Make_Comment_Activity.this, Text_Post_Viewing_Activity.class);
+                    Intent intent = new Intent(Make_Comment_Activity.this, Text_Post_Viewing_Activity.class);
                     intent.putExtra("Key", key);
-                    startActivity(intent);*/
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     finish();
                 }
 
@@ -217,8 +219,5 @@ public class Make_Comment_Activity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 }

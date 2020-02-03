@@ -1085,5 +1085,4 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
         });
 
     }
-
 }
