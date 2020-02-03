@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +22,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.myfirstapp.Imageposts.Image_Post_Viewing_Activity;
+import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -191,6 +195,11 @@ public class Edit_PC_Activity extends AppCompatActivity {
                 DatabaseReference AddEditsTextPost = FirebaseDatabase.getInstance().getReference("General_Posts").child(TextKey);
 
                 AddEditsTextPost.child("content").setValue(NewContent);
+
+                Intent intent = new Intent(Edit_PC_Activity.this, Text_Post_Viewing_Activity.class);
+                intent.putExtra("Key", TextKey);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
 
             finish();
@@ -207,6 +216,11 @@ public class Edit_PC_Activity extends AppCompatActivity {
                 DatabaseReference AddEditsTextPost = FirebaseDatabase.getInstance().getReference("General_Posts").child(TextKey);
 
                 AddEditsTextPost.child("title").setValue(NewTitle);
+
+                Intent intent = new Intent(Edit_PC_Activity.this, Text_Post_Viewing_Activity.class);
+                intent.putExtra("Key", TextKey);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
 
             finish();
@@ -221,9 +235,17 @@ public class Edit_PC_Activity extends AppCompatActivity {
 
                 String PostKey = getIntent().getExtras().get("PostKey").toString();
                 String CommentKey = getIntent().getExtras().get("CommentKey").toString();
+                String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 DatabaseReference AddEditsTextPost = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey);
+                DatabaseReference AddEditsInMyComments = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments").child(CommentKey);
 
                 AddEditsTextPost.child("content").setValue(NewComment);
+                AddEditsInMyComments.child("content").setValue(NewComment);
+
+                Intent intent = new Intent(Edit_PC_Activity.this, Text_Post_Viewing_Activity.class);
+                intent.putExtra("Key", PostKey);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
 
             finish();

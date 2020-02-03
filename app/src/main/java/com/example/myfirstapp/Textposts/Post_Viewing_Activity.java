@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -335,8 +334,10 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                                     if(MyUIdForCheck.equals(PostUIDForCheck)){
 
-                                        Intent GoToMyProfileAfterCheck = new Intent(Post_Viewing_Activity.this, Account_Info_Activity.class);
-                                        startActivity(GoToMyProfileAfterCheck);
+                                        Intent GoToMyProfile = new Intent(Text_Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                                        GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        GoToMyProfile.putExtra("Type", "Account");
+                                        startActivity(GoToMyProfile);
 
                                     }
                                     else {
@@ -477,7 +478,9 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                                             if(MyUIDCheck.equals(CommentUID)){
 
-                                                Intent GoToMyProfile = new Intent(Post_Viewing_Activity.this, Account_Info_Activity.class);
+                                                Intent GoToMyProfile = new Intent(Text_Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                                                GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                GoToMyProfile.putExtra("Type", "Account");
                                                 startActivity(GoToMyProfile);
 
                                             }
@@ -1035,6 +1038,31 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(getIntent().getExtras().get("Key").toString());
                         DeleteThePost.removeValue();
+
+                        String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+                        PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
+
+                                    String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
+                                    int PostCountInt = Integer.parseInt(PostCountString);
+                                    PostCountInt = Integer.valueOf(PostCountInt - 1);
+                                    String NewPostCountString = Integer.toString(PostCountInt);
+                                    PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                         Intent intent = new Intent(Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

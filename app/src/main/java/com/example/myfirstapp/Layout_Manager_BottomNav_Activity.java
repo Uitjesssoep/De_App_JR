@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,9 +30,23 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_manager);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
-                new HomeFragment()).commit();
 
+        String Type = getIntent().getExtras().get("Type").toString();
+        if(Type.equals("Account")) {
+            bottomNav.setSelectedItemId(R.id.navigation_account);
+        }
+        else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
+                    new HomeFragment()).commit();
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.e("Received", "Got to onNewIntent");
+        String Type = intent.getExtras().get("Type").toString();
+        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager, new AccountFragment()).commit();
     }
 
     private void SetupDesign() {

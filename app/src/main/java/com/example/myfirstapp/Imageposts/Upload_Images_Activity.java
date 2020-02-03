@@ -145,6 +145,34 @@ public class Upload_Images_Activity extends AppCompatActivity {
     }
 
     private void setDatabase() {
+
+        final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+        PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
+
+                    String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
+                    int PostCountInt = Integer.parseInt(PostCountString);
+                    PostCountInt = Integer.valueOf(PostCountInt + 1);
+                    String NewPostCountString = Integer.toString(PostCountInt);
+                    PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
+
+                }
+
+                else{
+                    PostCounter.child("Counters").child("PostCount").setValue("1");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
 
         databaseReference.addValueEventListener(new ValueEventListener() {

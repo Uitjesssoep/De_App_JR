@@ -132,9 +132,9 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
     private void VCheckedDNotChecked(){
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
+        final DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
@@ -142,6 +142,32 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
                 usernameString = user_name_gebruiker.getText().toString();
 
+                final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+                PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
+
+                            String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
+                            int PostCountInt = Integer.parseInt(PostCountString);
+                            PostCountInt = Integer.valueOf(PostCountInt + 1);
+                            String NewPostCountString = Integer.toString(PostCountInt);
+                            PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
+
+                        }
+
+                        else{
+                            PostCounter.child("Counters").child("PostCount").setValue("1");
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
                 temp_key = GeneralTextPosts.push().getKey();
                 StuffForPost StuffForPost = new StuffForPost(TitleContent, usernameString, TextContent, MyUID, temp_key, Date, "Text");
@@ -163,6 +189,33 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     private void VNotCheckedDChecked(){
 
         String anonString = "[anonymous]";
+
+        final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+        PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
+
+                    String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
+                    int PostCountInt = Integer.parseInt(PostCountString);
+                    PostCountInt = Integer.valueOf(PostCountInt + 1);
+                    String NewPostCountString = Integer.toString(PostCountInt);
+                    PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
+
+                }
+
+                else{
+                    PostCounter.child("Counters").child("PostCount").setValue("1");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         temp_key = GeneralTextPosts.push().getKey();
         StuffForPost StuffForPost = new StuffForPost(TitleContent, anonString, TextContent, MyUID, temp_key, Date, "Text");
