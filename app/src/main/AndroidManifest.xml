@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/launcher_s_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Chatroom.ChatPrivateWithUsers"></activity>
+        <activity android:name=".Imageposts.ImagePostViewing"></activity>
+        <activity android:name=".Chatroom.ChatPrivateWithUsers" />
         <activity android:name=".Edit_PC_Activity" />
         <activity android:name=".MySaved_Activity" />
         <activity
@@ -72,7 +73,7 @@
             android:name=".Imageposts.ImagesFeed"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Textposts.Text_Post_Viewing_Activity"
+            android:name=".Textposts.Post_Viewing_Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Textposts.Followers_Feed_Activity"

@@ -212,7 +212,7 @@ public class Followers_Feed_Activity extends AppCompatActivity
             public void onItemClick(int position) {
                 key = StuffForPostList.get(position).getKey().toString();
 
-                Intent Test2 = new Intent(getApplicationContext(), Text_Post_Viewing_Activity.class);
+                Intent Test2 = new Intent(getApplicationContext(), Post_Viewing_Activity.class);
                 Test2.putExtra("Key", key);
                 startActivity(Test2);
             }

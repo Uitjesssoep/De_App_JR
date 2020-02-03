@@ -33,7 +33,6 @@ import com.example.myfirstapp.App_Settings_Activity;
 import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity;
 import com.example.myfirstapp.GeneralAdapter;
-import com.example.myfirstapp.Imageposts.Image_Post_Viewing_Activity;
 import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
@@ -253,16 +252,10 @@ public class General_Feed_Activity extends AppCompatActivity
                     public void onItemClick(int position) {
                         key = StuffForPostList.get(position).getKey().toString();
 
-                        if (StuffForPostList.get(position).getType().equals("Image")) {
-                            Intent Test2 = new Intent(getApplicationContext(), Image_Post_Viewing_Activity.class);
-                            Test2.putExtra("Key", key);
-                            startActivity(Test2);
-                        } else {
-                            Intent Test2 = new Intent(getApplicationContext(), Text_Post_Viewing_Activity.class);
-                            Test2.putExtra("Key", key);
-                            startActivity(Test2);
-                        }
 
+                            Intent Test2 = new Intent(getApplicationContext(), Post_Viewing_Activity.class);
+                            Test2.putExtra("Key", key);
+                            startActivity(Test2);
 
                     }
 

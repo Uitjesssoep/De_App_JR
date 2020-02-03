@@ -4,41 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Textposts.Post_Viewing_Activity">
+    tools:context=".Imageposts.ImagePostViewing">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="6dp"
-        app:layout_constraintBottom_toTopOf="@+id/etAddCommentForTextPost"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/action_bar_textpostviewing">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/white">
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvUsernameForTextPost"
+                    android:id="@+id/tvUsernameForImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
                     android:text="Username"
                     android:textColor="#858585"
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/tvStreepjeTextPostViewing"
+                    android:id="@+id/tvStreepjeImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -47,7 +46,7 @@
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/tvDateOfPostTextPostViewing"
+                    android:id="@+id/tvDateOfPostImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -60,11 +59,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvTitleOfTextPost"
+                    android:id="@+id/tvTitleOfImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -75,32 +74,23 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/ivImageContentPostViewing"
+                    android:id="@+id/ivImageContentImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:srcCompat="@tools:sample/avatars[0]" />
-
-                <TextView
-                    android:id="@+id/tvContentOfTextPost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="32dp"
-                    android:text="Content"
-                    android:textColor="#696969"
-                    android:textSize="15sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="horizontal"
-                android:background="@color/white">
+
+                >
 
                 <ImageButton
-                    android:id="@+id/ibLikeUpForTextPostViewing"
+                    android:id="@+id/ibLikeUpForImage"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
@@ -111,7 +101,7 @@
                     app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
 
                 <TextView
-                    android:id="@+id/tvLikeCounterForTextPostViewing"
+                    android:id="@+id/tvLikeCounterForImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -121,7 +111,7 @@
                     android:textSize="14sp" />
 
                 <ImageButton
-                    android:id="@+id/ibLikeDownForTextPostViewing"
+                    android:id="@+id/ibLikeDownForImage"
                     android:layout_width="20dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
@@ -131,7 +121,7 @@
                     app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
 
                 <TextView
-                    android:id="@+id/tvDislikeCounterForTextPostViewing"
+                    android:id="@+id/tvDislikeCounterForImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -141,7 +131,7 @@
                     android:textSize="14sp" />
 
                 <ImageView
-                    android:id="@+id/ivCommentIconTextPostViewing"
+                    android:id="@+id/ivCommentIconImage"
                     android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="50dp"
@@ -160,42 +150,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvSortByTextTextPostViewing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="Sort by:"
-                    android:textColor="#858585"
-                    android:textSize="14sp" />
-
-                <Spinner
-                    android:id="@+id/spinnerDropDownSortByCommentsTextPostViewing"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="6dp"
-                    android:layout_weight="0"
-                    android:dropDownWidth="wrap_content" />
-
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCommentsTextPost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="5dp"
-                android:nestedScrollingEnabled="true">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -207,33 +161,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/etAddCommentForTextPost"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="6dp"
-        android:background="@drawable/edittext_roundedcorners_login"
-        android:capitalize="none"
-        android:clickable="true"
-        android:cursorVisible="false"
-        android:ems="10"
-        android:focusable="auto"
-        android:focusableInTouchMode="false"
-        android:fontFamily="sans-serif"
-        android:hint="Add a comment"
-        android:inputType="none"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:scrollHorizontally="false"
-        android:singleLine="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar_textpostviewing"
-        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
