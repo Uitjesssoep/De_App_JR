@@ -1,6 +1,5 @@
 package com.example.myfirstapp.Chatroom;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,9 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -41,7 +38,6 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     private EditText ChatInputText;
     private TextView Conversation_Content;
 
-    private PostStuffForChatRoomAdapter postStuffForChatRoomAdapter;
     private PostStuffForChatAdapter postStuffForChatAdapter;
     private PostStuffForChatRoomAdapterNúmeroDos postStuffForChatRoomAdapterNúmeroDos;
 

@@ -35,12 +35,13 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
         PostStuffForChatRoom uploadCurrent = mUploads.get(position);
         holder.Message.setText(uploadCurrent.getMessage());
         StringBuilder str = new StringBuilder(uploadCurrent.getDate());
-        str.replace(5, 12, "" );
-        str.replace(11,16, "");
-        str.replace(8,9, "-");
+        str.replace(5, 12, "");
+        str.replace(11, 16, "");
+        str.replace(8, 9, "-");
         String Date = str.toString();
         holder.Date.setText(Date);
-        holder.Username.setText(uploadCurrent.getUserName());
+      //  Log.e("Check", uploadCurrent.getmUserName());
+        holder.Username.setText(uploadCurrent.getmUserName());
     }
 
     @Override

@@ -37,7 +37,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     private EditText ChatInputText;
     private TextView Conversation_Content;
 
-    private PostStuffForChatRoomAdapter postStuffForChatRoomAdapter;
+
     private PostStuffForChatAdapter postStuffForChatAdapter;
     private PostStuffForChatRoomAdapterNúmeroDos postStuffForChatRoomAdapterNúmeroDos;
 
@@ -75,17 +75,22 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     }
 
     private void LoadMessages() {
-        myDatabase.addValueEventListener(new ValueEventListener() {
+        myDatabase2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clear();
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.child(MyUid + " + " + UID).child("messages").getChildren()) {
                     PostStuffForChatRoom postStuffForChatRoom = snapshot.getValue(PostStuffForChatRoom.class);
                     MessagesList.add(postStuffForChatRoom);
                     Log.e(TAG, MessagesList.toString());
                     Log.e(TAG, String.valueOf(MessagesList.size()));
-
+                }
+                for (DataSnapshot snapshot : dataSnapshot.child(UID + " + " + MyUid).child("messages").getChildren()) {
+                    PostStuffForChatRoom postStuffForChatRoom = snapshot.child(UID + " + " + MyUid).child("messages").getValue(PostStuffForChatRoom.class);
+                    MessagesList.add(postStuffForChatRoom);
+                    Log.e(TAG, MessagesList.toString());
+                    Log.e(TAG, String.valueOf(MessagesList.size()));
 
                 }
                 int position = 0;
@@ -148,7 +153,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         myDatabase = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(MyUid + " + " + UID).child("messages");
         // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
 
-        //myDatabase2 = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("messages");
+        myDatabase2 = FirebaseDatabase.getInstance().getReference("Private Chatrooms");
 
         message = ChatInputText.getText().toString();
     }
@@ -172,6 +177,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                             PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, MyUid, Username, Date);
 
                             temp_key = myDatabase.push().getKey();
+                            myDatabase2.child(MyUid + " + " + UID).child("key").setValue(MyUid + " + " + UID);
                             myDatabase.child(temp_key).setValue(postStuffForChatRoom);
                             Log.e(TAG, "gepushed");
                             ChatInputText.setText("");

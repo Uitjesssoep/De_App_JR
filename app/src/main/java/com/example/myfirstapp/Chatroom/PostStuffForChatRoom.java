@@ -4,38 +4,6 @@ public class PostStuffForChatRoom {
     private String mMessage, mUID, mUserName, mDate;
 
 
-    public String getmMessage() {
-        return mMessage;
-    }
-
-    public void setmMessage(String mMessage) {
-        this.mMessage = mMessage;
-    }
-
-    public String getmUID() {
-        return mUID;
-    }
-
-    public void setmUID(String mUID) {
-        this.mUID = mUID;
-    }
-
-    public String getmUserName() {
-        return mUserName;
-    }
-
-    public void setmUserName(String mUserName) {
-        this.mUserName = mUserName;
-    }
-
-    public String getmDate() {
-        return mDate;
-    }
-
-    public void setmDate(String mDate) {
-        this.mDate = mDate;
-    }
-
     public PostStuffForChatRoom(String Message, String UID, String User_name, String Date) {
         mMessage = Message;
         mUID = UID;
@@ -46,7 +14,7 @@ public class PostStuffForChatRoom {
     public PostStuffForChatRoom() {
     }
 
-    public String getMessage() {
+    public String getMessage()  {
         return mMessage;
     }
 
@@ -62,7 +30,7 @@ public class PostStuffForChatRoom {
         this.mUID = UID;
     }
 
-    public String getUserName() {
+    public String getmUserName() {
         return mUserName;
     }
 
