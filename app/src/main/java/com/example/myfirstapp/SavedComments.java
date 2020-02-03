@@ -193,7 +193,9 @@ public class SavedComments extends Fragment {
 
                                             if(MyUIDCheck.equals(CommentUID)){
 
-                                                Intent GoToMyProfile = new Intent(getActivity(), Account_Info_Activity.class);
+                                                Intent GoToMyProfile = new Intent(getActivity(), Layout_Manager_BottomNav_Activity.class);
+                                                GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                GoToMyProfile.putExtra("Type", "Account");
                                                 startActivity(GoToMyProfile);
 
                                             }

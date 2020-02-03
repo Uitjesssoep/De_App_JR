@@ -211,6 +211,30 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                                                                     DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
                                                                     DeleteThePost.removeValue();
 
+                                                                    String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                                                                    final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+                                                                    PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                        @Override
+                                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                                            if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
+
+                                                                                String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
+                                                                                int PostCountInt = Integer.parseInt(PostCountString);
+                                                                                PostCountInt = Integer.valueOf(PostCountInt - 1);
+                                                                                String NewPostCountString = Integer.toString(PostCountInt);
+                                                                                PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
+
+                                                                            }
+                                                                        }
+
+                                                                        @Override
+                                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                        }
+                                                                    });
+
                                                                     Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
                                                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                                     mContext.startActivity(intent);
