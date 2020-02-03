@@ -23,6 +23,18 @@
     </item>
 
     <item
+        android:id="@+id/action_delete"
+        android:title="Delete"
+        app:showAsAction = "never">
+    </item>
+
+    <item
+        android:id="@+id/action_edit"
+        android:title="Edit"
+        app:showAsAction = "never">
+    </item>
+
+    <item
         android:id="@+id/action_refresh_feed"
         android:title="Refresh"
         app:showAsAction = "never">

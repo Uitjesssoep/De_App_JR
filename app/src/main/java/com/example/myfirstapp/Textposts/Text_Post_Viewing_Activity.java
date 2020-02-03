@@ -2,6 +2,7 @@ package com.example.myfirstapp.Textposts;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -29,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUserComments_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
+import com.example.myfirstapp.Edit_PC_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
@@ -895,7 +897,9 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_actionbar_bookmark_settings, menu);
+        if("yeah".equals("yeah")){
+            inflater.inflate(R.menu.menu_actionbar_bookmark_settings, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -903,6 +907,30 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         final MenuItem notsaved = menu.findItem(R.id.action_bookmark_unselected);
         final MenuItem saved = menu.findItem(R.id.action_bookmark_selected);
+
+        final MenuItem Report = menu.findItem(R.id.action_settings);
+        final MenuItem Delete = menu.findItem(R.id.action_delete);
+        final MenuItem Edit = menu.findItem(R.id.action_edit);
+
+        String Key = getIntent().getExtras().get("Key").toString();
+        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(Key);
+        CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String PostUID = dataSnapshot.child("uid").getValue().toString();
+                String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                if(PostUID.equals(MyUID)){
+                    Report.setVisible(false);
+                }
+                else {
+                    Delete.setVisible(false);
+                    Edit.setVisible(false);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedPosts");
         CheckIfSaved.addValueEventListener(new ValueEventListener() {
@@ -947,6 +975,63 @@ public class Text_Post_Viewing_Activity extends AppCompatActivity {
             case R.id.action_refresh_feed:
 
                 ReloadComments();
+
+                break;
+
+            case R.id.action_delete:
+
+                final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+                dialog.setTitle("Delete your post?");
+                dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
+                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(getIntent().getExtras().get("Key").toString());
+                        DeleteThePost.removeValue();
+                        Intent intent = new Intent(Text_Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                android.app.AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
+
+                break;
+
+            case R.id.action_edit:
+
+                final String TheUltimatePostKey = getIntent().getExtras().get("Key").toString();
+                DatabaseReference GetType = FirebaseDatabase.getInstance().getReference("General_Posts").child(TheUltimatePostKey).child("type");
+                GetType.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        String Type = dataSnapshot.getValue().toString();
+                        Intent intent684 = new Intent(Text_Post_Viewing_Activity.this, Edit_PC_Activity.class);
+                        String Text = "Text";
+                        if(Text.equals(Type)){
+                            intent684.putExtra("Type", "TextPost");
+                            intent684.putExtra("Key", TheUltimatePostKey);
+                            startActivity(intent684);
+                        }
+                        String Image = "Image";
+                        if(Image.equals(Type)){
+                            intent684.putExtra("Type", "ImagePost");
+                            intent684.putExtra("Key", TheUltimatePostKey);
+                            startActivity(intent684);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
 
                 break;
 
