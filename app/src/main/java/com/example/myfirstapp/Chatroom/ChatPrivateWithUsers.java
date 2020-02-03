@@ -43,7 +43,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
     private String room_name, user_name;
     private String temp_key, TAG = "Test";
-    private String message, messageNummeroTwee, key;
+    private String message, messageNummeroTwee, UID;
 
     private String LayoutPosition = "ARGS_SCROLL_POS";
     private String LayoutFloat = "ARGS_SCROLL_OFFSET";
@@ -75,7 +75,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     }
 
     private void LoadMessages() {
-        myDatabase2.addValueEventListener(new ValueEventListener() {
+        myDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clear();
@@ -143,12 +143,12 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(getApplicationContext());
 
 
-        key = getIntent().getExtras().get("Key").toString();
+        UID = getIntent().getExtras().get("UID").toString();
 
-        myDatabase = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child("messages");
+        myDatabase = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(MyUid + " + " + UID).child("messages");
         // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
 
-        myDatabase2 = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("messages");
+        //myDatabase2 = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("messages");
 
         message = ChatInputText.getText().toString();
     }
@@ -172,7 +172,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                             PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, MyUid, Username, Date);
 
                             temp_key = myDatabase2.push().getKey();
-                            myDatabase2.child(temp_key).setValue(postStuffForChatRoom);
+                            myDatabase.child(temp_key).setValue(postStuffForChatRoom);
                             Log.e(TAG, "gepushed");
                             ChatInputText.setText("");
                         }

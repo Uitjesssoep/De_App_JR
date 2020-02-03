@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -47,7 +48,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class General_Feed_Activity extends AppCompatActivity
         //implements PopupMenu.OnMenuItemClickListener
@@ -55,9 +57,11 @@ public class General_Feed_Activity extends AppCompatActivity
 
 
     private RecyclerView GeneralFeed;
-    private List<StuffForPost> StuffForPostList;
+    private ArrayList<StuffForPost> StuffForPostList;
     private StuffForPostAdapter stuffForPostAdapter;
     private GeneralAdapter generalAdapter;
+
+    private Button SortByDate;
 
     private FloatingActionButton ImageFAB, TextFAB, ChatFAB;
     private Animation FABOpen, FABClose;
@@ -194,7 +198,20 @@ public class General_Feed_Activity extends AppCompatActivity
 
         StartOrReloadTextPosts();
 
+        Collections.sort(StuffForPostList, new CustomComparatorDate());
 
+    }
+
+    private class CustomComparatorDate implements Comparator<StuffForPost> {
+        @Override
+        public int compare(StuffForPost t1, StuffForPost t2) {
+            return t1.getDate().compareTo(t2.getDate());
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return false;
+        }
     }
 
     private void StartOrReloadImagePosts() {
@@ -253,9 +270,9 @@ public class General_Feed_Activity extends AppCompatActivity
                         key = StuffForPostList.get(position).getKey().toString();
 
 
-                            Intent Test2 = new Intent(getApplicationContext(), Post_Viewing_Activity.class);
-                            Test2.putExtra("Key", key);
-                            startActivity(Test2);
+                        Intent Test2 = new Intent(getApplicationContext(), Post_Viewing_Activity.class);
+                        Test2.putExtra("Key", key);
+                        startActivity(Test2);
 
                     }
 
@@ -615,6 +632,10 @@ public class General_Feed_Activity extends AppCompatActivity
             case R.id.action_follwers_feed:
                 Intent startFeed = new Intent(General_Feed_Activity.this, Followers_Feed_Activity.class);
                 startActivity(startFeed);
+
+                break;
+            case R.id.action_sort_by_date:
+                Collections.sort(StuffForPostList, new CustomComparatorDate());
 
                 break;
         }

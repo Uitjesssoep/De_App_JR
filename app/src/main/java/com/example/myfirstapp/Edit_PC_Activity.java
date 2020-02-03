@@ -1,17 +1,7 @@
 package com.example.myfirstapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.solver.widgets.ConstraintHorizontalLayout;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,8 +12,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.myfirstapp.Imageposts.Image_Post_Viewing_Activity;
-import com.example.myfirstapp.Textposts.Text_Post_Viewing_Activity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+
+import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -196,7 +190,7 @@ public class Edit_PC_Activity extends AppCompatActivity {
 
                 AddEditsTextPost.child("content").setValue(NewContent);
 
-                Intent intent = new Intent(Edit_PC_Activity.this, Text_Post_Viewing_Activity.class);
+                Intent intent = new Intent(Edit_PC_Activity.this, Post_Viewing_Activity.class);
                 intent.putExtra("Key", TextKey);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -217,7 +211,7 @@ public class Edit_PC_Activity extends AppCompatActivity {
 
                 AddEditsTextPost.child("title").setValue(NewTitle);
 
-                Intent intent = new Intent(Edit_PC_Activity.this, Text_Post_Viewing_Activity.class);
+                Intent intent = new Intent(Edit_PC_Activity.this, Post_Viewing_Activity.class);
                 intent.putExtra("Key", TextKey);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -242,7 +236,7 @@ public class Edit_PC_Activity extends AppCompatActivity {
                 AddEditsTextPost.child("content").setValue(NewComment);
                 AddEditsInMyComments.child("content").setValue(NewComment);
 
-                Intent intent = new Intent(Edit_PC_Activity.this, Text_Post_Viewing_Activity.class);
+                Intent intent = new Intent(Edit_PC_Activity.this, Post_Viewing_Activity.class);
                 intent.putExtra("Key", PostKey);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

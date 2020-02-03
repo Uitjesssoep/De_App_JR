@@ -90,7 +90,7 @@ public class Make_Comment_Activity extends AppCompatActivity {
                     DatabaseCommentStuff.child(temp_key).setValue(commentStuffForTextPost);
                     ToMyProfile.child(temp_key).setValue(commentStuffForTextPost);
 
-                    Intent intent = new Intent(Make_Comment_Activity.this, Text_Post_Viewing_Activity.class);
+                    Intent intent = new Intent(Make_Comment_Activity.this, Post_Viewing_Activity.class);
                     intent.putExtra("Key", key);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);

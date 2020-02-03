@@ -8,6 +8,12 @@
     </item>
 
     <item
+        android:id="@+id/action_sort_by_date"
+        android:title="Sort by date"
+        app:showAsAction = "never">
+    </item>
+
+    <item
         android:id="@+id/action_refresh_feed"
         android:title="Refresh"
         app:showAsAction = "never">

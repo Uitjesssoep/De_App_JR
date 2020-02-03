@@ -74,7 +74,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     private SimpleDateFormat dateFormat;
 
     private int LikeCount, DislikeCount, CommentCount;
-    private static final String TAG = "Text_Post_Viewing";
+    private String TAG = "Text_Post_Viewing";
 
 
     private void SetupUI() {
@@ -114,7 +114,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(MyUID3.equals(dataSnapshot.getValue().toString())){
+                if (MyUID3.equals(dataSnapshot.getValue().toString())) {
 
                     DatabaseReference GetMyUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID3).child("userName");
                     GetMyUsername.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -155,73 +155,61 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
         key = getIntent().getExtras().get("Key").toString();
 
-    final DatabaseReference CheckIfNotDeleted = FirebaseDatabase.getInstance().getReference("General_Posts");
+        final DatabaseReference CheckIfNotDeleted = FirebaseDatabase.getInstance().getReference("General_Posts");
         CheckIfNotDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-            if(dataSnapshot.hasChild(key)){
+                if (dataSnapshot.hasChild(key)) {
 
-                SetupUI();
+                    SetupUI();
 
-                SetupDesign();
+                    SetupDesign();
 
-                LikeDislikeCount();
+                    LikeDislikeCount();
 
-                CommentOnPost();
+                    CommentOnPost();
 
-                LookAtPostersProfile();
+                    LookAtPostersProfile();
 
-                FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("type").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.getValue(String.class).equals("Image")){
-                            OpenImageView();
+                    //OpenImageView();
+
+                    LoadData();
+
+                } else {
+
+                    final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Post_Viewing_Activity.this);
+                    dialog.setTitle("This post has been deleted");
+                    dialog.setMessage("This post has been deleted, you can no longer view it.");
+
+                    dialog.setPositiveButton("Understood", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            Intent intent = new Intent(Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                            startActivity(intent);
+                            finish();
+
                         }
-                    }
+                    });
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    android.app.AlertDialog alertDialog = dialog.create();
+                    alertDialog.show();
 
-                    }
-                });
-
-                LoadData();
+                }
 
             }
 
-            else{
-
-                final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(Post_Viewing_Activity.this);
-                dialog.setTitle("This post has been deleted");
-                dialog.setMessage("This post has been deleted, you can no longer view it.");
-
-                dialog.setPositiveButton("Understood", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        Intent intent = new Intent(Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
-                        startActivity(intent);
-                        finish();
-
-                    }
-                });
-
-                android.app.AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    });
-}
+        });
+    }
 
     private void LoadData() {
+
+        Log.e(TAG, "onDataChange: ");
 
         final DatabaseReference PostType = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("type");
 
@@ -246,10 +234,19 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                 PostType.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
-                        if (dataSnapshot2.getValue(String.class).equals("Text")){
+                        if (dataSnapshot2.getValue(String.class).equals("Text")) {
                             Content.setText(dataSnapshot.getValue(String.class));
-                        }else {
-                            Picasso.get().load(dataSnapshot.getValue(String.class)).into(ImageContent);
+                        } else {
+                            Picasso.get().load(dataSnapshot.getValue(String.class)).fit().into(ImageContent);
+                            Log.e(TAG, "onDataChange: ");
+                            ImageContent.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(Post_Viewing_Activity.this, ImagePostViewing.class);
+                                    intent.putExtra("key", key);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     }
 
@@ -294,9 +291,11 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
-    private void OpenImageView(){
+    private void OpenImageView() {
         ImageContent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -330,19 +329,18 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if(dataSnapshot.hasChild(PostUIDForCheck)){
+                                if (dataSnapshot.hasChild(PostUIDForCheck)) {
 
-                                    if(MyUIdForCheck.equals(PostUIDForCheck)){
+                                    if (MyUIdForCheck.equals(PostUIDForCheck)) {
 
                                         Intent GoToMyProfile = new Intent(Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
                                         GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         GoToMyProfile.putExtra("Type", "Account");
                                         startActivity(GoToMyProfile);
 
-                                    }
-                                    else {
+                                    } else {
 
-                                        if(AnonCheck.equals(AnonToCheck)){
+                                        if (AnonCheck.equals(AnonToCheck)) {
 
                                             final AlertDialog.Builder dialog = new AlertDialog.Builder(Post_Viewing_Activity.this);
                                             dialog.setTitle("This user has posted anonymously");
@@ -350,9 +348,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                                             AlertDialog alertDialog = dialog.create();
                                             alertDialog.show();
 
-                                        }
-
-                                        else{
+                                        } else {
 
                                             Intent GoToProfile = new Intent(Post_Viewing_Activity.this, Account_Info_OtherUser_Activity.class);
                                             GoToProfile.putExtra("Key", ThePostKey);
@@ -361,9 +357,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                                         }
                                     }
 
-                                }
-
-                                else{
+                                } else {
 
                                     final AlertDialog.Builder dialog = new AlertDialog.Builder(Post_Viewing_Activity.this);
                                     dialog.setTitle("This user has been deleted");
@@ -473,19 +467,17 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                        if(dataSnapshot.hasChild(CommentUID)){
+                                        if (dataSnapshot.hasChild(CommentUID)) {
 
 
-                                            if(MyUIDCheck.equals(CommentUID)){
+                                            if (MyUIDCheck.equals(CommentUID)) {
 
                                                 Intent GoToMyProfile = new Intent(Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
                                                 GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 GoToMyProfile.putExtra("Type", "Account");
                                                 startActivity(GoToMyProfile);
 
-                                            }
-
-                                            else{
+                                            } else {
 
                                                 DatabaseReference GetCommentUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey).child("user_name");
                                                 GetCommentUsername.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -493,15 +485,13 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                                         String CommentUsername = dataSnapshot.getValue().toString();
-                                                        if(CommentUsername.equals("[deleted_comment_user")){
+                                                        if (CommentUsername.equals("[deleted_comment_user")) {
                                                             final AlertDialog.Builder dialog = new AlertDialog.Builder(Post_Viewing_Activity.this);
                                                             dialog.setTitle("This comment has been deleted");
                                                             dialog.setMessage("You can no longer see who made this comment");
                                                             AlertDialog alertDialog = dialog.create();
                                                             alertDialog.show();
-                                                        }
-
-                                                        else {
+                                                        } else {
                                                             Intent GoToProfile = new Intent(Post_Viewing_Activity.this, Account_Info_OtherUserComments_Activity.class);
                                                             GoToProfile.putExtra("CommentKey", CommentKey);
                                                             GoToProfile.putExtra("PostKey", PostKey);
@@ -517,8 +507,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                                                 });
 
                                             }
-                                        }
-                                        else{
+                                        } else {
 
                                             final AlertDialog.Builder dialog = new AlertDialog.Builder(Post_Viewing_Activity.this);
                                             dialog.setTitle("This user has been deleted");
@@ -561,25 +550,20 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if(dataSnapshot.hasChild(MyUID)){
+                                if (dataSnapshot.hasChild(MyUID)) {
 
                                     DatabaseDislike.child(MyUID).removeValue();
                                     DatabaseLike.child(MyUID).setValue("RandomLike");
 
-                                }
-
-
-                                else{
+                                } else {
 
                                     DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            if(dataSnapshot.hasChild(MyUID)){
+                                            if (dataSnapshot.hasChild(MyUID)) {
                                                 DatabaseLike.child(MyUID).removeValue();
-                                            }
-
-                                            else{
+                                            } else {
                                                 DatabaseLike.child(MyUID).setValue("RandomLike");
                                             }
 
@@ -616,24 +600,20 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if(dataSnapshot.hasChild(MyUID)){
+                                if (dataSnapshot.hasChild(MyUID)) {
                                     DatabaseLike.child(MyUID).removeValue();
                                     DatabaseDislike.child(MyUID).setValue("RandomDislike");
-                                }
-
-                                else{
+                                } else {
 
                                     DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            if(dataSnapshot.hasChild(MyUID)){
+                                            if (dataSnapshot.hasChild(MyUID)) {
 
                                                 DatabaseDislike.child(MyUID).removeValue();
 
-                                            }
-
-                                            else{
+                                            } else {
 
                                                 DatabaseDislike.child(MyUID).setValue("RandomDislike");
 
@@ -674,7 +654,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     private void clear() {
 
         int size = commentStuffForTextPostList.size();
-        if(size > 0){
+        if (size > 0) {
             for (int i = 0; i < size; i++) {
                 commentStuffForTextPostList.remove(0);
 
@@ -699,7 +679,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(DislikedCheck){
+                if (DislikedCheck) {
                     DatabaseDislike.child(MyUID).removeValue();
                     Liked = true;
 
@@ -707,7 +687,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            if(Liked) {
+                            if (Liked) {
 
                                 if (dataSnapshot.hasChild(MyUID)) {
 
@@ -729,15 +709,14 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                         }
                     });
-                }
-                else{
+                } else {
                     Liked = true;
 
                     DatabaseLike.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            if(Liked) {
+                            if (Liked) {
 
                                 if (dataSnapshot.hasChild(MyUID)) {
 
@@ -768,7 +747,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(LikedCheck){
+                if (LikedCheck) {
                     DatabaseLike.child(MyUID).removeValue();
 
                     Disliked = true;
@@ -777,7 +756,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            if(Disliked) {
+                            if (Disliked) {
 
                                 if (dataSnapshot.hasChild(MyUID)) {
 
@@ -799,15 +778,14 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                         }
                     });
-                }
-                else{
+                } else {
                     Disliked = true;
 
                     DatabaseDislike.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            if(Disliked) {
+                            if (Disliked) {
 
                                 if (dataSnapshot.hasChild(MyUID)) {
 
@@ -845,9 +823,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                     Like.setImageResource(R.drawable.ic_keyboard_arrow_up_green_24dp);
                     LikedCheck = true;
 
-                }
-
-                else{
+                } else {
 
                     Like.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                     LikedCheck = false;
@@ -872,9 +848,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                     Dislike.setImageResource(R.drawable.ic_keyboard_arrow_down_green_24dp);
                     DislikedCheck = true;
 
-                }
-
-                else{
+                } else {
 
                     Dislike.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                     DislikedCheck = false;
@@ -893,8 +867,8 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         DatabaseLikeCount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    LikeCount = (int) dataSnapshot.getChildrenCount();
-                    LikeCountDisplay.setText("" + LikeCount);
+                LikeCount = (int) dataSnapshot.getChildrenCount();
+                LikeCountDisplay.setText("" + LikeCount);
             }
 
             @Override
@@ -969,14 +943,14 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String PostUID = dataSnapshot.child("uid").getValue().toString();
                 String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                if(PostUID.equals(MyUID)){
+                if (PostUID.equals(MyUID)) {
                     Report.setVisible(false);
-                }
-                else {
+                } else {
                     Delete.setVisible(false);
                     Edit.setVisible(false);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -987,11 +961,10 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild(getIntent().getExtras().get("Key").toString())){
+                if (dataSnapshot.hasChild(getIntent().getExtras().get("Key").toString())) {
                     notsaved.setVisible(false);
                     saved.setVisible(true);
-                }
-                else{
+                } else {
                     notsaved.setVisible(true);
                     saved.setVisible(false);
                 }
@@ -1010,7 +983,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_settings:
 
                 Intent intent = new Intent(Post_Viewing_Activity.this, Report_TextPost_Activity.class);
@@ -1046,7 +1019,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
+                                if (dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")) {
 
                                     String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
                                     int PostCountInt = Integer.parseInt(PostCountString);
@@ -1090,13 +1063,13 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                         String Type = dataSnapshot.getValue().toString();
                         Intent intent684 = new Intent(Post_Viewing_Activity.this, Edit_PC_Activity.class);
                         String Text = "Text";
-                        if(Text.equals(Type)){
+                        if (Text.equals(Type)) {
                             intent684.putExtra("Type", "TextPost");
                             intent684.putExtra("Key", TheUltimatePostKey);
                             startActivity(intent684);
                         }
                         String Image = "Image";
-                        if(Image.equals(Type)){
+                        if (Image.equals(Type)) {
                             intent684.putExtra("Type", "ImagePost");
                             intent684.putExtra("Key", TheUltimatePostKey);
                             startActivity(intent684);
@@ -1138,11 +1111,10 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.child("SavedPosts").hasChild(KeyPost)){
+                if (dataSnapshot.child("SavedPosts").hasChild(KeyPost)) {
                     Log.e("Bookmark", "Unsave bereikt");
                     SaveThePost.child("SavedPosts").child(KeyPost).removeValue();
-                }
-                else{
+                } else {
                     Log.e("Bookmark", "Save bereikt");
                     SaveThePost.child("SavedPosts").child(KeyPost).setValue("added");
                 }
@@ -1156,7 +1128,8 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         });
 
     }
-    public void onBackPressed(){
+
+    public void onBackPressed() {
         finish();
     }
 
