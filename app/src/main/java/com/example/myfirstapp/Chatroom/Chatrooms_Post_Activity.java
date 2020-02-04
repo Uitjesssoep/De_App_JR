@@ -140,7 +140,8 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 ChatroomDatabase.child(temp_key).setValue(postStuffForChat);
 
                 Intent intent = new Intent(Chatrooms_Post_Activity.this, Layout_Manager_BottomNav_Activity.class);
-                intent.putExtra("Type", "Chat");
+                intent.putExtra("Type", "ChatMake");
+                intent.putExtra("Key", temp_key);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
@@ -168,7 +169,8 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 ChatroomDatabase.child(temp_key).setValue(postStuffForChat);
 
                 Intent intent = new Intent(Chatrooms_Post_Activity.this, Layout_Manager_BottomNav_Activity.class);
-                intent.putExtra("Type", "Chat");
+                intent.putExtra("Type", "ChatMake");
+                intent.putExtra("Key", temp_key);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();

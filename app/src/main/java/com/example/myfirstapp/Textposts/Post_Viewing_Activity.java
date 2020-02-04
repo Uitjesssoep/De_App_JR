@@ -50,17 +50,19 @@ import java.util.List;
 public class Post_Viewing_Activity extends AppCompatActivity {
 
 
-    private TextView Title, Content, UserName, LikeCountDisplay, DislikeCountDisplay, NumberOfComments, Date;
+    private TextView Title, Content, UserName, LikeCountDisplay, DislikeCountDisplay, NumberOfComments, Date, SortCommentsBy, NoCommentsYet;
 
     private RecyclerView CommentView;
     private List<CommentStuffForTextPost> commentStuffForTextPostList;
     private CommentStuffForTextPostAdapter commentStuffForTextPostAdapter;
 
     private FirebaseDatabase firebaseDatabase;
-    private String key, MyUID, CommentMessage, temp_key;
+    private String key, MyUID;
     private ImageButton Like, Dislike, Exit;
     private EditText CommentSubstance;
     private ImageView ImageContent;
+
+    private Spinner SortByComments;
 
     private boolean Liked = false;
     private boolean Disliked = false;
@@ -69,9 +71,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
     private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
     private FirebaseAuth firebaseAuth;
-
-    private Calendar calendar;
-    private SimpleDateFormat dateFormat;
 
     private int LikeCount, DislikeCount, CommentCount;
     private String TAG = "Text_Post_Viewing";
@@ -87,8 +86,11 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         Like = findViewById(R.id.ibLikeUpForTextPostViewing);
         Dislike = findViewById(R.id.ibLikeDownForTextPostViewing);
         Date = findViewById(R.id.tvDateOfPostTextPostViewing);
+        SortCommentsBy = findViewById(R.id.tvSortByTextTextPostViewing);
+        NoCommentsYet = findViewById(R.id.tvThereAreNoCommentsYet);
+        NoCommentsYet.bringToFront();
 
-        Spinner SortByComments = findViewById(R.id.spinnerDropDownSortByCommentsTextPostViewing);
+        SortByComments = findViewById(R.id.spinnerDropDownSortByCommentsTextPostViewing);
         ArrayAdapter<String> sortAdapter = new ArrayAdapter<String>(Post_Viewing_Activity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sortnames));
         sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         SortByComments.setAdapter(sortAdapter);
@@ -104,7 +106,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         firebaseAuth = FirebaseAuth.getInstance();
-        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+        MyUID = firebaseAuth.getCurrentUser().getUid();
 
 
         final String ThePostKey = getIntent().getExtras().get("Key").toString();
@@ -166,6 +168,8 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                     SetupDesign();
 
+                    CheckIfHasComments();
+
                     LikeDislikeCount();
 
                     CommentOnPost();
@@ -203,6 +207,30 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void CheckIfHasComments() {
+
+        key = getIntent().getExtras().get("Key").toString();
+        DatabaseReference CheckIfComments = FirebaseDatabase.getInstance().getReference("General_Posts").child(key);
+        CheckIfComments.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild("Comments")){
+                    SortByComments.setVisibility(View.VISIBLE);
+                    SortCommentsBy.setVisibility(View.VISIBLE);
+                    NoCommentsYet.setVisibility(View.GONE);
+                }
+                else{
+                    SortByComments.setVisibility(View.GONE);
+                    SortCommentsBy.setVisibility(View.GONE);
+                    NoCommentsYet.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }

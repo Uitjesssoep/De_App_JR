@@ -177,7 +177,8 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                 StuffForPost StuffForPost = new StuffForPost(TitleContent, anonString, TextContent, MyUID, temp_key, Date, "Text");
                 GeneralTextPosts.child(temp_key).setValue(StuffForPost);
 
-                Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
+                Intent VNoD = new Intent(Upload_TextPost_Activity.this, Post_Viewing_Activity.class);
+                VNoD.putExtra("Key", temp_key);
                 startActivity(VNoD);
                 finish();
 
@@ -228,7 +229,8 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                 StuffForPost StuffForPost = new StuffForPost(TitleContent, usernameString, TextContent, MyUID, temp_key, Date, "Text");
                 GeneralTextPosts.child(temp_key).setValue(StuffForPost);
 
-                Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
+                Intent VNoD = new Intent(Upload_TextPost_Activity.this, Post_Viewing_Activity.class);
+                VNoD.putExtra("Key", temp_key);
                 startActivity(VNoD);
                 finish();
             }
@@ -276,7 +278,8 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         StuffForPost StuffForPost = new StuffForPost(TitleContent, anonString, TextContent, MyUID, temp_key, Date, "Text");
         GeneralTextPosts.child(temp_key).setValue(StuffForPost);
 
-        Intent VNoD = new Intent(Upload_TextPost_Activity.this, SecondActivity.class);
+        Intent VNoD = new Intent(Upload_TextPost_Activity.this, Post_Viewing_Activity.class);
+        VNoD.putExtra("Key", temp_key);
         startActivity(VNoD);
         finish();
 

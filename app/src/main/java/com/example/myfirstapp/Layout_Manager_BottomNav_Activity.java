@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.myfirstapp.Chatroom.Chat_With_Users_Activity;
 import com.example.myfirstapp.Textposts.Followers_Feed_Activity;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -36,8 +37,12 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
             if (Type.equals("Account")) {
                 bottomNav.setSelectedItemId(R.id.navigation_account);
             }
-            if (Type.equals("Chat")) {
+            if (Type.equals("ChatMake")) {
                 bottomNav.setSelectedItemId(R.id.navigation_chat);
+                String ChatRoomKey = getIntent().getExtras().get("Key").toString();
+                Intent intent = new Intent(Layout_Manager_BottomNav_Activity.this, Chat_With_Users_Activity.class);
+                intent.putExtra("Key", ChatRoomKey);
+                startActivity(intent);
             }
             else {
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,

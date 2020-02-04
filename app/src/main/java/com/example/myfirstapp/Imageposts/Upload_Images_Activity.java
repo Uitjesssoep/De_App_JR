@@ -34,6 +34,7 @@ import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
+import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.example.myfirstapp.Textposts.StuffForPost;
 import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -194,8 +195,9 @@ public class Upload_Images_Activity extends AppCompatActivity {
                     StuffForPost stuffForPost = new StuffForPost(Title.getText().toString().trim(),
                             usernameString, UriImage, MyUID, temp_key, Date, "Image");
                     mDatabaseRef.child(temp_key).setValue(stuffForPost);
-                    Intent VNoD = new Intent(Upload_Images_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                    Intent VNoD = new Intent(Upload_Images_Activity.this, Post_Viewing_Activity.class);
                     VNoD.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                    VNoD.putExtra("Key", temp_key);
                     startActivity(VNoD);
                     finish();
                 }
@@ -207,8 +209,9 @@ public class Upload_Images_Activity extends AppCompatActivity {
                     StuffForPost stuffForPost = new StuffForPost(Title.getText().toString().trim(),
                             usernameString, UriImage, MyUID, temp_key, Date, "Image");
                     mDatabaseRef.child(temp_key).setValue(stuffForPost);
-                    Intent VNoD = new Intent(Upload_Images_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                    Intent VNoD = new Intent(Upload_Images_Activity.this, Post_Viewing_Activity.class);
                     VNoD.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                    VNoD.putExtra("Key", temp_key);
                     startActivity(VNoD);
                     finish();
                 }
