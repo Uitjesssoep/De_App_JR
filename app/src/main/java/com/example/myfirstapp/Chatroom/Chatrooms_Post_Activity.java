@@ -2,12 +2,21 @@ package com.example.myfirstapp.Chatroom;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
@@ -28,13 +37,11 @@ import java.util.Calendar;
 public class Chatrooms_Post_Activity extends AppCompatActivity {
 
     private EditText Title;
-    private Button Post;
-
-    private String Date, MyUID;
-
+    private ImageButton Exit;
+    private String Date, MyUID, TitleContent;
     private Calendar calendar;
+    private CheckBox Anon;
     private SimpleDateFormat dateFormat;
-
     private DatabaseReference ChatroomDatabase;
 
     @Override
@@ -43,32 +50,85 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_chatrooms__post_);
 
         SetupUI();
+        SetupDesign();
+    }
 
-        Post.setOnClickListener(new View.OnClickListener() {
+    private void SetupUI() {
+        Title = findViewById(R.id.etTitleChatroom);
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        Date = dateFormat.format(calendar.getTime());
+        MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+        ChatroomDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms");
+        //Anon = findViewById(R.id.cbPostAnonChat);
+    }
+
+    private void SetupDesign() {
+
+        //voor het geven van kleur aan de status bar:
+        Window window = Chatrooms_Post_Activity.this.getWindow();
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(Chatrooms_Post_Activity.this, R.color.slighly_darker_mainGreen));
+
+        //action bar ding
+
+        Toolbar toolbar = findViewById(R.id.action_bar_makechatroom);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Exit = (ImageButton) toolbar.findViewById(R.id.exitmakecommenttextpost);
+        Exit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
-                String TitleString = Title.getText().toString().trim();
-
-                if(TitleString.isEmpty()){
-                    Toast.makeText(Chatrooms_Post_Activity.this, "You must have a title", Toast.LENGTH_LONG);
-                }
-                else{
-                    UploadChatroomToDatabase();
-                }
-
+            public void onClick(View view) {
+                finish();
             }
         });
     }
 
-    private void UploadChatroomToDatabase() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_actionbar_makecomment, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_post_comment:
+                PostTextPost();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void PostTextPost() {
+
+        TitleContent = Title.getText().toString().trim();
+
+        if(TitleContent.isEmpty()){
+            Toast.makeText(Chatrooms_Post_Activity.this, "Please enter a title", Toast.LENGTH_SHORT).show();
+        }
+
+        else{
+            if(Anon.isChecked()){
+                AnonChecked();
+            }
+
+            if((Anon.isChecked()==false)){
+                AnonNotChecked();
+            }
+        }
+    }
+
+    private void AnonNotChecked() {
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
-
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 UserProfileToDatabase userProfileToDatabase = dataSnapshot.getValue(UserProfileToDatabase.class);
 
                 String User_name = userProfileToDatabase.getUserName().toString();
@@ -81,29 +141,37 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 Intent intent = new Intent(Chatrooms_Post_Activity.this, SecondActivity.class);
                 startActivity(intent);
                 finish();
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
     }
 
-    private void SetupUI() {
+    private void AnonChecked() {
 
-        Title = findViewById(R.id.etTitleChatroom);
-        Post = findViewById(R.id.btnPostChatRoom);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserProfileToDatabase userProfileToDatabase = dataSnapshot.getValue(UserProfileToDatabase.class);
 
-        calendar = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
-        Date = dateFormat.format(calendar.getTime());
+                String User_name = userProfileToDatabase.getUserName().toString();
+                String temp_key = ChatroomDatabase.push().getKey();
+                String TitleDatabase = Title.getText().toString().trim();
 
-        MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+                PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, Date);
+                ChatroomDatabase.child(temp_key).setValue(postStuffForChat);
 
-        ChatroomDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms");
+                Intent intent = new Intent(Chatrooms_Post_Activity.this, SecondActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
     }
 }

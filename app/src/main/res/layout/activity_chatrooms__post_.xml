@@ -7,6 +7,10 @@
     tools:context=".Chatroom.Chatrooms_Post_Activity"
     android:background="@color/white">
 
+    <include
+        android:id="@+id/action_bar_makechatroom"
+        layout="@layout/action_bar_makecomment_textpost"/>
+
     <TextView
         android:id="@+id/tvMakeAChatRoom"
         android:layout_width="wrap_content"
