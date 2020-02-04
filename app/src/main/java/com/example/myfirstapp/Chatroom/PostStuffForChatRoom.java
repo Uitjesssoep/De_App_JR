@@ -14,7 +14,7 @@ public class PostStuffForChatRoom {
     public PostStuffForChatRoom() {
     }
 
-    public String getmMessage()  {
+    public String getMessage()  {
         return mMessage;
     }
 

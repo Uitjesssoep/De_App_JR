@@ -87,13 +87,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                     Log.e(TAG, MessagesList.toString());
                     Log.e(TAG, String.valueOf(MessagesList.size()));
                 }
-                for (DataSnapshot snapshot : dataSnapshot.child(key).child("messages").getChildren()) {
-                    PostStuffForChatRoom postStuffForChatRoom = snapshot.child(key).child("messages").getValue(PostStuffForChatRoom.class);
-                    MessagesList.add(postStuffForChatRoom);
-                    Log.e(TAG, MessagesList.toString());
-                    Log.e(TAG, String.valueOf(MessagesList.size()));
 
-                }
                 int position = 0;
                 LinearLayoutManager manager = (LinearLayoutManager) ChatWindow.getLayoutManager();
                 if (manager != null) {
