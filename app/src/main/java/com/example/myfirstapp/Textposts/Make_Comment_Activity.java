@@ -42,7 +42,6 @@ public class Make_Comment_Activity extends AppCompatActivity {
     private String Date;
     private String CommentMessage, temp_key, Type;
 
-    private ImageView ImageContent;
     private EditText CommentSubstance;
     private ImageButton Exit;
     private TextView Title, Content, ShowMore;
@@ -166,9 +165,7 @@ public class Make_Comment_Activity extends AppCompatActivity {
         Title = findViewById(R.id.tvTitleOfTextPostForComment);
         Content = findViewById(R.id.tvContentPostForComment);
         ShowMore = findViewById(R.id.tvShowContentPostForComment);
-        ImageContent = findViewById(R.id.ivMakeCommentImage);
         Content.setVisibility(View.GONE);
-        ImageContent.setVisibility(View.GONE);
 
         final String PostKey = getIntent().getExtras().get("Key").toString();
         final DatabaseReference getTitle = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey);
@@ -184,9 +181,6 @@ public class Make_Comment_Activity extends AppCompatActivity {
                 if (Type.equals("Text")){
                     Content.setText(ContentPost);
                 }
-                else {
-                    Picasso.get().load(ContentPost).into(ImageContent);
-                }
 
                 ShowMore.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -197,17 +191,12 @@ public class Make_Comment_Activity extends AppCompatActivity {
                             ShowMore.setText("Show less");
                             if (Type.equals("Text")){
                                 Content.setVisibility(View.VISIBLE);
-                            }else {
-                                ImageContent.setVisibility(View.VISIBLE);
                             }
                         } else {
                             ShowMore.setText("Show more");
                             if (Type.equals("Text")){
                                 Content.setVisibility(View.GONE);
-                            }else {
-                                ImageContent.setVisibility(View.GONE);
                             }
-
                         }
 
                     }
