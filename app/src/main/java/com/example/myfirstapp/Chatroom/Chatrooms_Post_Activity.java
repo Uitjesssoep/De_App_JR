@@ -60,7 +60,7 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
         Date = dateFormat.format(calendar.getTime());
         MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
         ChatroomDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms");
-        //Anon = findViewById(R.id.cbPostAnonChat);
+        Anon = findViewById(R.id.cbPostAnonChatroom);
     }
 
     private void SetupDesign() {
@@ -98,13 +98,13 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_post_comment:
-                PostTextPost();
+                PostChatroom();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void PostTextPost() {
+    private void PostChatroom() {
 
         TitleContent = Title.getText().toString().trim();
 
@@ -139,6 +139,8 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 ChatroomDatabase.child(temp_key).setValue(postStuffForChat);
 
                 Intent intent = new Intent(Chatrooms_Post_Activity.this, SecondActivity.class);
+                intent.putExtra("Type", "Chat");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
@@ -157,7 +159,7 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfileToDatabase = dataSnapshot.getValue(UserProfileToDatabase.class);
 
-                String User_name = userProfileToDatabase.getUserName().toString();
+                String User_name = "[anonymous]";
                 String temp_key = ChatroomDatabase.push().getKey();
                 String TitleDatabase = Title.getText().toString().trim();
 
@@ -165,6 +167,8 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 ChatroomDatabase.child(temp_key).setValue(postStuffForChat);
 
                 Intent intent = new Intent(Chatrooms_Post_Activity.this, SecondActivity.class);
+                intent.putExtra("Type", "Chat");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }

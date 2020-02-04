@@ -144,7 +144,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
     private void BothChecked() {
 
-                String anonString = "[anonymous]";
+        String anonString = "[anonymous]";
 
         final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
         PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {

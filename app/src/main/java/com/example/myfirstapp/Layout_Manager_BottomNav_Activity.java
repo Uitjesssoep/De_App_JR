@@ -36,6 +36,9 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
             if (Type.equals("Account")) {
                 bottomNav.setSelectedItemId(R.id.navigation_account);
             }
+            if (Type.equals("Chat")) {
+                bottomNav.setSelectedItemId(R.id.navigation_chat);
+            }
             else {
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                         new HomeFragment()).commit();
@@ -104,8 +107,8 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             break;
                     }
 
-                    /*getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
-                            selectedFragment).commit();*/
+                    getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
+                            selectedFragment).commit();
 
                     return true;
 
