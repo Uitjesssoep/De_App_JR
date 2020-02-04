@@ -121,7 +121,7 @@ public class PrivateChatsTab extends Fragment {
                     public void onItemClick(int position) {
                         String key = postStuffForChatList.get(position).getKey();
                         Intent Test2 = new Intent(getActivity().getApplicationContext(), ChatPrivateWithUsers.class);
-                        Test2.putExtra("Key", key);
+                        Test2.putExtra("UID", key);
                         startActivity(Test2);
                     }
 
@@ -193,8 +193,8 @@ public class PrivateChatsTab extends Fragment {
                     public void onUpvoteClick(int position) {
                         String key = postStuffForChatList.get(position).getKey().toString();
                         final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("Likes");
-                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("Dislikes");
+                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Likes");
+                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Dislikes");
                         final String TAGDownvote = "VoteCheck";
 
                         DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -246,8 +246,8 @@ public class PrivateChatsTab extends Fragment {
                     public void onDownvoteClick(int position) {
                         String key = postStuffForChatList.get(position).getKey().toString();
                         final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("Likes");
-                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("Dislikes");
+                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Likes");
+                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Dislikes");
                         final String TAGDownvote = "VoteCheck";
 
                         DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {

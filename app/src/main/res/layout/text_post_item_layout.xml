@@ -88,7 +88,7 @@
             android:id="@+id/tvTitleTextPostItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvUsernameTextPostItem"
+            android:layout_below="@id/tvPostDateTextPostItem"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="7dp"
             android:layout_marginRight="10dp"
