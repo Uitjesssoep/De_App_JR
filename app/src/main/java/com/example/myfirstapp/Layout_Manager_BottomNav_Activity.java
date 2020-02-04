@@ -31,9 +31,15 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_manager);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        String Type = getIntent().getExtras().get("Type").toString();
-        if(Type.equals("Account")) {
-            bottomNav.setSelectedItemId(R.id.navigation_account);
+        if(getIntent().hasExtra("Type")) {
+            String Type = getIntent().getExtras().get("Type").toString();
+            if (Type.equals("Account")) {
+                bottomNav.setSelectedItemId(R.id.navigation_account);
+            }
+            else {
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
+                        new HomeFragment()).commit();
+            }
         }
         else {
             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
