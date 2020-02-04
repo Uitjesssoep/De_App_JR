@@ -553,7 +553,9 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                                 if (dataSnapshot.hasChild(MyUID)) {
 
                                     DatabaseDislike.child(MyUID).removeValue();
+
                                     DatabaseLike.child(MyUID).setValue("RandomLike");
+
 
                                 } else {
 
@@ -563,8 +565,10 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                                             if (dataSnapshot.hasChild(MyUID)) {
                                                 DatabaseLike.child(MyUID).removeValue();
+
                                             } else {
                                                 DatabaseLike.child(MyUID).setValue("RandomLike");
+
                                             }
 
                                         }
@@ -602,7 +606,9 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                                 if (dataSnapshot.hasChild(MyUID)) {
                                     DatabaseLike.child(MyUID).removeValue();
+
                                     DatabaseDislike.child(MyUID).setValue("RandomDislike");
+
                                 } else {
 
                                     DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -692,6 +698,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                                 if (dataSnapshot.hasChild(MyUID)) {
 
                                     DatabaseLike.child(MyUID).removeValue();
+
                                     Liked = false;
 
                                 } else {
@@ -721,6 +728,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                                 if (dataSnapshot.hasChild(MyUID)) {
 
                                     DatabaseLike.child(MyUID).removeValue();
+
                                     Liked = false;
 
                                 } else {
@@ -765,6 +773,9 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                                 } else {
 
+                                    DatabaseDislike.child(MyUID).removeValue();
+                                    Disliked = false;
+
                                     DatabaseDislike.child(MyUID).setValue("RandomDislike");
                                     Disliked = false;
 
@@ -792,7 +803,13 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                                     DatabaseDislike.child(MyUID).removeValue();
                                     Disliked = false;
 
+                                    DatabaseDislike.child(MyUID).removeValue();
+                                    Disliked = false;
+
                                 } else {
+
+                                    DatabaseDislike.child(MyUID).removeValue();
+                                    Disliked = false;
 
                                     DatabaseDislike.child(MyUID).setValue("RandomDislike");
                                     Disliked = false;

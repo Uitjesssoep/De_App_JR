@@ -3,12 +3,15 @@ package com.example.myfirstapp.AccountActivities;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.myfirstapp.PageAdapter_HisAccount;
@@ -43,6 +46,12 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
 
 
     private void SetupUI() {
+
+        //voor het geven van kleur aan de status bar:
+        Window window = Account_Info_OtherUser_ActivityImagePostsTemporary.this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(Account_Info_OtherUser_ActivityImagePostsTemporary.this, R.color.slighly_darker_mainGreen));
 
         ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoViewingOtherUser);
         UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);
@@ -143,7 +152,7 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
 
         TabLayout tabLayout = findViewById(R.id.tab_layout_other_user_account);
         final ViewPager viewPager = findViewById(R.id.viewpager_tablayout_OtherUserAccount);
-        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount(), key);
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

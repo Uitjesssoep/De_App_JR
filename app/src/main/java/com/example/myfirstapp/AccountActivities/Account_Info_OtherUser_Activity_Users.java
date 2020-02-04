@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.myfirstapp.Chatroom.ChatPrivateWithUsers;
@@ -47,6 +50,12 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
 
     private void SetupUI() {
+
+        //voor het geven van kleur aan de status bar:
+        Window window = Account_Info_OtherUser_Activity_Users.this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(Account_Info_OtherUser_Activity_Users.this, R.color.slighly_darker_mainGreen));
 
         ChatWithUser = findViewById(R.id.btChatWithUserAccountInfo);
         RealName = findViewById(R.id.tvDisplayNameOtherUserAccountViewing);
@@ -137,7 +146,7 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tab_layout_other_user_account);
         final ViewPager viewPager = findViewById(R.id.viewpager_tablayout_OtherUserAccount);
-        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount(), uid);
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
