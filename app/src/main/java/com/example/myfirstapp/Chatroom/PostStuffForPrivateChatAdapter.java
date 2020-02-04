@@ -72,9 +72,16 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.getValue().equals(Username1)) {
                     Username = Username1;
+
                 }else {
                     Username = Username2;
                 }
+                holder.Username.setText(Username);
+                holder.Title.setVisibility(View.GONE);
+                holder.Date.setText(uploadCurrent.getDate());
+                holder.CommentCount.setVisibility(View.GONE);
+                holder.CommentLogo.setVisibility(View.GONE);
+                holder.Content.setVisibility(View.GONE);
             }
 
             @Override
@@ -84,12 +91,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
         });
 
 
-        holder.Username.setText(Username1);
-        holder.Title.setVisibility(View.GONE);
-        holder.Date.setText(uploadCurrent.getDate());
-        holder.CommentCount.setVisibility(View.GONE);
-        holder.CommentLogo.setVisibility(View.GONE);
-        holder.Content.setVisibility(View.GONE);
+
 
        /* holder.DeleteTextPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -366,7 +368,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
         String KeyYeah = uploadCurrent.getKey().toString();
 
         final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(KeyYeah).child("Likes");
-        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyYeah).child("Dislikes");
+        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(KeyYeah).child("Dislikes");
         LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -449,7 +451,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
         }*/
 
         //final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyYeah).child("Likes");
+        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(KeyYeah).child("Likes");
         CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -468,7 +470,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             }
         });
 
-        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyYeah).child("Dislikes");
+        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(KeyYeah).child("Dislikes");
         CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

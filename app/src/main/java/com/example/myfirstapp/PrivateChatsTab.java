@@ -90,6 +90,7 @@ public class PrivateChatsTab extends Fragment {
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         final String MyUid = user.getUid();
 
+
         rooms.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -106,7 +107,8 @@ public class PrivateChatsTab extends Fragment {
                             position = i;
                             postStuffForChatList.remove(position);
                             Log.e("list", postStuffForChatList.toString());
-                        }}
+                        }
+                    }
                 }
 
                 PostStuffForPrivateChatAdapter stuffForChatAdapter;
@@ -119,10 +121,19 @@ public class PrivateChatsTab extends Fragment {
 
                     @Override
                     public void onItemClick(int position) {
-                        String key = postStuffForChatList.get(position).getKey();
+                        String UID1 = postStuffForChatList.get(position).getUID1();
+                        String UID2 = postStuffForChatList.get(position).getUID2();
+                        String UID;
+                        if (MyUid.equals(UID1)) {
+                            UID = UID2;
+                        } else {
+                            UID = UID1;
+                        }
                         Intent Test2 = new Intent(getActivity().getApplicationContext(), ChatPrivateWithUsers.class);
-                        Test2.putExtra("Key", key);
+                        Test2.putExtra("UID", UID);
                         startActivity(Test2);
+
+
                     }
 
                     @Override
@@ -142,17 +153,16 @@ public class PrivateChatsTab extends Fragment {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                        if(dataSnapshot.hasChild(PostUID2)){
+                                        if (dataSnapshot.hasChild(PostUID2)) {
 
-                                            if(MyUIDCheck2.equals(PostUID2)){
+                                            if (MyUIDCheck2.equals(PostUID2)) {
 
                                                 Intent GoToMyProfile = new Intent(getActivity(), Layout_Manager_BottomNav_Activity.class);
                                                 GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 GoToMyProfile.putExtra("Type", "Account");
                                                 startActivity(GoToMyProfile);
 
-                                            }
-                                            else{
+                                            } else {
 
                                                 Intent GoToOtherProfile = new Intent(getActivity(), Account_Info_OtherUser_Chat.class);
                                                 GoToOtherProfile.putExtra("Key", PostKey);
@@ -160,9 +170,7 @@ public class PrivateChatsTab extends Fragment {
 
                                             }
 
-                                        }
-
-                                        else{
+                                        } else {
 
                                             final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                                             dialog.setTitle("This user has been deleted");
@@ -193,33 +201,28 @@ public class PrivateChatsTab extends Fragment {
                     public void onUpvoteClick(int position) {
                         String key = postStuffForChatList.get(position).getKey().toString();
                         final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("Likes");
-                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("Dislikes");
+                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Likes");
+                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Dislikes");
                         final String TAGDownvote = "VoteCheck";
 
                         DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if(dataSnapshot.hasChild(MyUID)){
+                                if (dataSnapshot.hasChild(MyUID)) {
 
                                     DatabaseDislike.child(MyUID).removeValue();
                                     DatabaseLike.child(MyUID).setValue("RandomLike");
 
-                                }
-
-
-                                else{
+                                } else {
 
                                     DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            if(dataSnapshot.hasChild(MyUID)){
+                                            if (dataSnapshot.hasChild(MyUID)) {
                                                 DatabaseLike.child(MyUID).removeValue();
-                                            }
-
-                                            else{
+                                            } else {
                                                 DatabaseLike.child(MyUID).setValue("RandomLike");
                                             }
 
@@ -246,32 +249,28 @@ public class PrivateChatsTab extends Fragment {
                     public void onDownvoteClick(int position) {
                         String key = postStuffForChatList.get(position).getKey().toString();
                         final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("Likes");
-                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("Dislikes");
+                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Likes");
+                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Dislikes");
                         final String TAGDownvote = "VoteCheck";
 
                         DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if(dataSnapshot.hasChild(MyUID)){
+                                if (dataSnapshot.hasChild(MyUID)) {
                                     DatabaseLike.child(MyUID).removeValue();
                                     DatabaseDislike.child(MyUID).setValue("RandomDislike");
-                                }
-
-                                else{
+                                } else {
 
                                     DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            if(dataSnapshot.hasChild(MyUID)){
+                                            if (dataSnapshot.hasChild(MyUID)) {
 
                                                 DatabaseDislike.child(MyUID).removeValue();
 
-                                            }
-
-                                            else{
+                                            } else {
 
                                                 DatabaseDislike.child(MyUID).setValue("RandomDislike");
 
