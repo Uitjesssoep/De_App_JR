@@ -22,10 +22,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Chat;
-import com.example.myfirstapp.Chatroom.Chat_With_Users_Activity;
-import com.example.myfirstapp.Chatroom.PostStuffForChat;
+import com.example.myfirstapp.Chatroom.ChatPrivateWithUsers;
 import com.example.myfirstapp.Chatroom.PostStuffForChatAdapter;
 import com.example.myfirstapp.Chatroom.PostStuffForPrivateChatAdapter;
+import com.example.myfirstapp.Chatroom.PostStuffMakePrivateChat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -82,8 +82,8 @@ public class PrivateChatsTab extends Fragment {
         RoomList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingPrivateChats_fragment);
-        final List<PostStuffForChat> postStuffForChatList = new ArrayList<>();
-        final PostStuffForChatAdapter postStuffForChatAdapter = null;
+        final List<PostStuffMakePrivateChat> postStuffForChatList = new ArrayList<>();
+        final PostStuffForPrivateChatAdapter postStuffForPrivateChatAdapter = null;
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final DatabaseReference rooms = FirebaseDatabase.getInstance().getReference("Private Chatrooms");
         registerForContextMenu(RoomList);
@@ -97,8 +97,8 @@ public class PrivateChatsTab extends Fragment {
                 clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    PostStuffForChat postStuffForChat = postSnapshot.getValue(PostStuffForChat.class);
-                    postStuffForChatList.add(postStuffForChat);
+                    PostStuffMakePrivateChat postStuffMakePrivateChat = postSnapshot.getValue(PostStuffMakePrivateChat.class);
+                    postStuffForChatList.add(postStuffMakePrivateChat);
                     for (int i = 0; i < postStuffForChatList.size(); i++) {
                         int position;
 
@@ -120,7 +120,7 @@ public class PrivateChatsTab extends Fragment {
                     @Override
                     public void onItemClick(int position) {
                         String key = postStuffForChatList.get(position).getKey();
-                        Intent Test2 = new Intent(getActivity().getApplicationContext(), Chat_With_Users_Activity.class);
+                        Intent Test2 = new Intent(getActivity().getApplicationContext(), ChatPrivateWithUsers.class);
                         Test2.putExtra("Key", key);
                         startActivity(Test2);
                     }
@@ -129,7 +129,7 @@ public class PrivateChatsTab extends Fragment {
                     public void onUserNameClick(int position) {
                         final String PostKey = postStuffForChatList.get(position).getKey();
 
-                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("Chatrooms").child(PostKey).child("uid");
+                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(PostKey).child("uid");
                         CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -307,7 +307,7 @@ public class PrivateChatsTab extends Fragment {
                     for (int i = 0; i < size; i++) {
                         postStuffForChatList.remove(0);
                     }
-                    postStuffForChatAdapter.notifyItemRangeRemoved(0, size);
+                    postStuffForPrivateChatAdapter.notifyItemRangeRemoved(0, size);
                 }
 
             }
