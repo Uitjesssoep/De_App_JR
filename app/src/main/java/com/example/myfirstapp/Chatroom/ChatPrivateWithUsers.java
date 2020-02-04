@@ -147,12 +147,14 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
-        key = getIntent().getExtras().get("Key").toString();
-        if (key == null){
-            key=MyUid + " + " + UID;
+        UID = getIntent().getExtras().get("UID").toString();
+        if (getIntent().getExtras().get("Key") == null) {
+            key = MyUid + " + " + UID;
+        } else {
+            key = getIntent().getExtras().get("Key").toString();
         }
 
-        UID = getIntent().getExtras().get("UID").toString();
+
 
         myDatabase = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("messages");
         // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
