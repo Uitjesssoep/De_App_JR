@@ -68,19 +68,41 @@
                 android:layout_marginEnd="16dp"
                 android:background="#949494" />
 
-            <Button
-                android:id="@+id/btnChooseImage"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="32dp"
-                android:text="Choose file"/>
+                android:layout_height="40dp"
+                android:layout_marginTop="11dp"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/ivChooseImageUpload"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="32dp"
+                    app:srcCompat="@drawable/ic_image_green_24dp" />
+
+                <TextView
+                    android:id="@+id/tvChooseImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="7.5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:textColor="#696969"
+                    android:text="Select image"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/ivUploadedImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:minHeight="200dp"
+                android:maxHeight="300dp"
+                android:layout_marginTop="11dp"
                 android:layout_marginBottom="64dp"
                 android:paddingBottom="64dp"
                 android:scaleType="centerCrop" />

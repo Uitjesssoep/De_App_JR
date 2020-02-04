@@ -58,9 +58,9 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth firebaseAuth;
-    private Button ChooseImage;
+    private TextView ChooseImage;
     private EditText Title;
-    private ImageView mImageView;
+    private ImageView mImageView, ChooseImageVIew;
     private String MyUID, usernameString, temp_key, UriImage, Date, key;
     private Uri mImageUri;
     private FirebaseDatabase firebaseDatabase;
@@ -79,7 +79,8 @@ public class Upload_Images_Activity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
         MyUID = user.getUid();
-        ChooseImage = findViewById(R.id.btnChooseImage);
+        ChooseImage = findViewById(R.id.tvChooseImage);
+        ChooseImageVIew = findViewById(R.id.ivChooseImageUpload);
         Title = findViewById(R.id.etImageName);
         mImageView = findViewById(R.id.ivUploadedImage);
         mStorageRef = FirebaseStorage.getInstance().getReference("General_Posts");
@@ -99,6 +100,12 @@ public class Upload_Images_Activity extends AppCompatActivity {
         SetupDesign();
 
         ChooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFileChooser();
+            }
+        });
+        ChooseImageVIew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openFileChooser();
