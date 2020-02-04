@@ -1,5 +1,6 @@
 package com.example.myfirstapp.Imageposts;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,12 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,9 +61,10 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth firebaseAuth;
-    private Button ChooseImage;
+    private TextView ChooseImage, LoadingUpload;
     private EditText Title;
-    private ImageView mImageView;
+    private LinearLayout SelectImage;
+    private ImageView mImageView, ChooseImageVIew;
     private String MyUID, usernameString, temp_key, UriImage, Date, key;
     private Uri mImageUri;
     private FirebaseDatabase firebaseDatabase;
@@ -68,6 +72,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;
     private ImageButton Exit;
     private CheckBox Anon;
+    private ProgressBar progressBar;
 
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
@@ -79,7 +84,9 @@ public class Upload_Images_Activity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
         MyUID = user.getUid();
-        ChooseImage = findViewById(R.id.btnChooseImage);
+        ChooseImage = findViewById(R.id.tvChooseImage);
+        ChooseImageVIew = findViewById(R.id.ivChooseImageUpload);
+        SelectImage = findViewById(R.id.linlayhorSelectImage);
         Title = findViewById(R.id.etImageName);
         mImageView = findViewById(R.id.ivUploadedImage);
         mStorageRef = FirebaseStorage.getInstance().getReference("General_Posts");
@@ -88,6 +95,10 @@ public class Upload_Images_Activity extends AppCompatActivity {
         dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
         Date = dateFormat.format(calendar.getTime());
         Anon = findViewById(R.id.cbPostAnonImage);
+        progressBar = findViewById(R.id.pbLoadingUploadingImage);
+        progressBar.setVisibility(View.GONE);
+        LoadingUpload = findViewById(R.id.tvLoadingUploadingImage);
+        LoadingUpload.setVisibility(View.GONE);
     }
 
     @Override
@@ -99,6 +110,18 @@ public class Upload_Images_Activity extends AppCompatActivity {
         SetupDesign();
 
         ChooseImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFileChooser();
+            }
+        });
+        ChooseImageVIew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFileChooser();
+            }
+        });
+        SelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openFileChooser();
@@ -281,11 +304,27 @@ public class Upload_Images_Activity extends AppCompatActivity {
                     }
                     else{
                         uploadFile();
+                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.bringToFront();
+                        LoadingUpload.setVisibility(View.VISIBLE);
+                        LoadingUpload.bringToFront();
+                        hideKeyboard(this);
                     }
                 }
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 
