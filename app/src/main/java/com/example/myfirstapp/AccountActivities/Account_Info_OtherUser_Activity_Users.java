@@ -38,7 +38,7 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
     private ImageView ProfilePicture;
     private Button ChatWithUser;
 
-    private String uid, MyUID;
+    private String uid, MyUID, key;
 
     public PageAdapter_HisAccount pagerAdapter;
 

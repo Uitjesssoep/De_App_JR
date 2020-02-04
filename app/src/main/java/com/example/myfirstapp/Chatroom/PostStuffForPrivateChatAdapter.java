@@ -365,7 +365,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             }
         });*/
 
-        String KeyYeah = uploadCurrent.getKey().toString();
+        String KeyYeah = uploadCurrent.getKey();
 
         final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(KeyYeah).child("Likes");
         final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(KeyYeah).child("Dislikes");

@@ -70,6 +70,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_private_with_users);
         SetupUI();
+        MakeChatroom();
         LoadMessages();
         SendChat();
     }
@@ -147,6 +148,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         key = getIntent().getExtras().get("Key").toString();
+        if (key == null){
+            key=MyUid + " + " + UID;
+        }
 
         UID = getIntent().getExtras().get("UID").toString();
 
@@ -178,7 +182,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                             message = ChatInputText.getText().toString();
                             PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, MyUid, Username, Date);
                             temp_key = myDatabase.push().getKey();
-                            myDatabase2.child(key).child(temp_key).setValue(postStuffForChatRoom);
+                            myDatabase.child(temp_key).setValue(postStuffForChatRoom);
                             Log.e(TAG, "gepushed");
                             ChatInputText.setText("");
                         }
@@ -231,12 +235,6 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MakeChatroom();
     }
 
     @Override
