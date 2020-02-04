@@ -48,7 +48,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     private String LayoutPosition = "ARGS_SCROLL_POS";
     private String LayoutFloat = "ARGS_SCROLL_OFFSET";
 
-    private String MyUid, Username, Date;
+    private String MyUid, Username, Date, key;
     private FirebaseAuth firebaseAuth;
 
     private List<PostStuffForChatRoom> MessagesList;
@@ -168,17 +168,53 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                 if (messageNummeroTwee.isEmpty()) {
                     Toast.makeText(ChatPrivateWithUsers.this, "Can't send an empty message", Toast.LENGTH_SHORT).show();
                 } else {
-                    FirebaseDatabase.getInstance().getReference("users").child(MyUid).addValueEventListener(new ValueEventListener() {
+                    FirebaseDatabase.getInstance().getReference("users").child(MyUid).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            key = MyUid + " + " + UID;
+                            FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (!dataSnapshot.hasChild("messages")) ;
+                                    {
+                                        Log.e(TAG, "TRUE");
+                                        FirebaseDatabase.getInstance().getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                String Username1 = dataSnapshot.child(UID).child("userName").getValue().toString();
+                                                String Username2 = dataSnapshot.child(MyUid).child("userName").getValue().toString();
+                                                Calendar calendar = Calendar.getInstance();
+                                                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
+                                                String Date = dateFormat.format(calendar.getTime());
+                                                PostStuffMakePrivateChat postStuffMakePrivateChat = new PostStuffMakePrivateChat(Username1, Username2, UID, MyUid, key, Date);
+
+                                                myDatabase2.child(key).setValue(postStuffMakePrivateChat);
+
+
+                                            }
+
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
                             Username = dataSnapshot.child("userName").getValue().toString();
                             Log.e(TAG, Username);
                             message = ChatInputText.getText().toString();
+                            key = MyUid + " + " + UID;
                             PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, MyUid, Username, Date);
-
                             temp_key = myDatabase.push().getKey();
-                            myDatabase2.child(MyUid + " + " + UID).child("key").setValue(MyUid + " + " + UID);
-                            myDatabase.child(temp_key).setValue(postStuffForChatRoom);
+                            myDatabase2.child(key).child(temp_key).setValue(postStuffForChatRoom);
                             Log.e(TAG, "gepushed");
                             ChatInputText.setText("");
                         }

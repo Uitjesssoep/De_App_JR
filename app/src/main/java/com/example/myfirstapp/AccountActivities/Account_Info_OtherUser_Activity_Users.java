@@ -38,11 +38,12 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
     private ImageView ProfilePicture;
     private Button ChatWithUser;
 
-    private String uid;
+    private String uid, MyUID;
 
     public PageAdapter_HisAccount pagerAdapter;
 
     private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference myDatabase;
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage firebaseStorage;
 
@@ -64,9 +65,12 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
         uid = getIntent().getExtras().get("UID").toString();
 
+        MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
+        myDatabase = FirebaseDatabase.getInstance().getReference("Private Chatrooms");
 
         ChatWithUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,14 +87,13 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("AccountVisits")) {
+                if (dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("AccountVisits")) {
                     String VisitCountString = dataSnapshot.child("Counters").child("AccountVisits").getValue().toString();
                     int VisitCountInt = Integer.parseInt(VisitCountString);
                     VisitCountInt = Integer.valueOf(VisitCountInt + 1);
                     String NewVisitCountString = Integer.toString(VisitCountInt);
                     UserVisitCount.child("Counters").child("AccountVisits").setValue(NewVisitCountString);
-                }
-                else{
+                } else {
                     UserVisitCount.child("Counters").child("AccountVisits").setValue("1");
                 }
 
@@ -155,13 +158,11 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
                 viewPager.setCurrentItem(tab.getPosition());
 
-                if(tab.getPosition() == 0){
+                if (tab.getPosition() == 0) {
                     pagerAdapter.notifyDataSetChanged();
-                }
-                else if(tab.getPosition() == 1){
+                } else if (tab.getPosition() == 1) {
                     pagerAdapter.notifyDataSetChanged();
-                }
-                else if(tab.getPosition() == 2){
+                } else if (tab.getPosition() == 2) {
                     pagerAdapter.notifyDataSetChanged();
                 }
 

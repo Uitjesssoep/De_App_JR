@@ -22,27 +22,32 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStuffForPrivateChatAdapter.ViewHolder>{
+public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStuffForPrivateChatAdapter.ViewHolder> {
 
+    private String Username;
     public Context mContext;
-    public List<PostStuffForChat> mPost;
+    public List<PostStuffMakePrivateChat> mPost;
     public int LikeCountAdapter, DislikeCountAdapter;
 
     private PostStuffForChatAdapter.OnItemClickListener mListener;
+
     public interface OnItemClickListener {
         void onItemClick(int position);
-        void onUserNameClick (int position);
-        void onUpvoteClick (int position);
-        void onDownvoteClick (int position);
+
+        void onUserNameClick(int position);
+
+        void onUpvoteClick(int position);
+
+        void onDownvoteClick(int position);
     }
 
-    public void setOnItemClickListener(PostStuffForChatAdapter.OnItemClickListener listener){
+    public void setOnItemClickListener(PostStuffForChatAdapter.OnItemClickListener listener) {
         mListener = listener;
     }
 
     private FirebaseUser firebaseUser;
 
-    public PostStuffForPrivateChatAdapter(Context mContext, List<PostStuffForChat> mPost) {
+    public PostStuffForPrivateChatAdapter(Context mContext, List<PostStuffMakePrivateChat> mPost) {
         this.mContext = mContext;
         this.mPost = mPost;
     }
@@ -56,10 +61,31 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
     @Override
     public void onBindViewHolder(@NonNull final PostStuffForPrivateChatAdapter.ViewHolder holder, int position) {
-        final PostStuffForChat uploadCurrent = mPost.get(position);
-        holder.Username.setText(uploadCurrent.getUser_name());
-        holder.Title.setText(uploadCurrent.getTitle());
-        holder.KeyHolder.setText(uploadCurrent.getKey());
+        final PostStuffMakePrivateChat uploadCurrent = mPost.get(position);
+        final String UID1 = uploadCurrent.getUID1();
+        final String UID2 = uploadCurrent.getUID2();
+        final String Username1 = uploadCurrent.getUser_name1();
+        final String Username2 = uploadCurrent.getUser_name2();
+        final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("userName").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.getValue().equals(Username1)) {
+                    Username = Username1;
+                }else {
+                    Username = Username2;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        holder.Username.setText(Username1);
+        holder.Title.setVisibility(View.GONE);
         holder.Date.setText(uploadCurrent.getDate());
         holder.CommentCount.setVisibility(View.GONE);
         holder.CommentLogo.setVisibility(View.GONE);
@@ -422,7 +448,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
         }*/
 
-        final String MyUID = FirebaseAuth.getInstance().getUid();
+        //final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyYeah).child("Likes");
         CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
             @Override
@@ -476,11 +502,11 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
         public ViewHolder(@NonNull View itemView, final PostStuffForChatAdapter.OnItemClickListener listener) {
             super(itemView);
 
-            Username = itemView.findViewById(R.id.tvUsernameTextPostItem);
+            Username = itemView.findViewById(R.id.tvTitleTextPostItem);
             LikeCount = itemView.findViewById(R.id.tvLikeCounterTextPostItem);
             DislikeCount = itemView.findViewById(R.id.tvDislikeCounterTextPostItem);
             CommentCount = itemView.findViewById(R.id.tvCommentCountTextPostItem);
-            Title = itemView.findViewById(R.id.tvTitleTextPostItem);
+            Title = itemView.findViewById(R.id.tvUsernameTextPostItem);
             KeyHolder = itemView.findViewById(R.id.tvKeyHiddenTextPostItem);
             Date = itemView.findViewById(R.id.tvPostDateTextPostItem);
             Upvote = itemView.findViewById(R.id.ibLikeUpTextPostItem);
@@ -492,9 +518,9 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
                         }
                     }
@@ -504,9 +530,9 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             Username.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onUserNameClick(position);
                         }
                     }
@@ -516,9 +542,9 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             Upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onUpvoteClick(position);
                         }
                     }
@@ -528,9 +554,9 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             Downvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onDownvoteClick(position);
                         }
                     }
