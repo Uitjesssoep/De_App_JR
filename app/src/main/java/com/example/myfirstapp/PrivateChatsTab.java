@@ -129,6 +129,7 @@ public class PrivateChatsTab extends Fragment {
                         }
                         Intent Test2 = new Intent(getActivity().getApplicationContext(), ChatPrivateWithUsers.class);
                         Test2.putExtra("UID", UID);
+                        Test2.putExtra("Key", postStuffForChatList.get(position).getKey());
                         startActivity(Test2);
 
 
