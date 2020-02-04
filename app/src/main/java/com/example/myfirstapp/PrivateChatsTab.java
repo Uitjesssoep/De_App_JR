@@ -25,6 +25,7 @@ import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Chat;
 import com.example.myfirstapp.Chatroom.Chat_With_Users_Activity;
 import com.example.myfirstapp.Chatroom.PostStuffForChat;
 import com.example.myfirstapp.Chatroom.PostStuffForChatAdapter;
+import com.example.myfirstapp.Chatroom.PostStuffForPrivateChatAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -108,8 +109,8 @@ public class PrivateChatsTab extends Fragment {
                         }}
                 }
 
-                PostStuffForChatAdapter stuffForChatAdapter;
-                stuffForChatAdapter = new PostStuffForChatAdapter(getActivity(), postStuffForChatList);
+                PostStuffForPrivateChatAdapter stuffForChatAdapter;
+                stuffForChatAdapter = new PostStuffForPrivateChatAdapter(getActivity(), postStuffForChatList);
                 RoomList.setAdapter(stuffForChatAdapter);
 
                 progressBar.setVisibility(View.GONE);

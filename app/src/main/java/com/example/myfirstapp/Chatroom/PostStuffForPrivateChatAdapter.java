@@ -1,24 +1,17 @@
 package com.example.myfirstapp.Chatroom;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.Report_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -72,14 +65,14 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
         holder.CommentLogo.setVisibility(View.GONE);
         holder.Content.setVisibility(View.GONE);
 
-        holder.DeleteTextPost.setOnClickListener(new View.OnClickListener() {
+       /* holder.DeleteTextPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
 
                 final String KeyPost = uploadCurrent.getKey().toString();
-                DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("Chatrooms");
+                DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("Private_Chatrooms");
                 DeleteIconCheck.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -115,7 +108,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
                                                             dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyPost);
+                                                                    DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyPost);
                                                                     DeleteThePost.removeValue();
 
                                                                     Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
@@ -180,7 +173,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
                                                             dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyPost);
+                                                                    DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyPost);
                                                                     DeleteThePost.removeValue();
 
                                                                     Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
@@ -342,12 +335,12 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
                 });
 
             }
-        });
+        });*/
 
         String KeyYeah = uploadCurrent.getKey().toString();
 
         final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(KeyYeah).child("Likes");
-        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Dislikes");
+        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyYeah).child("Dislikes");
         LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -375,9 +368,9 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
 
         //kijken of de user deleted is
-        final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
-        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("user_name");
-        final String PostUID = uploadCurrent.getUID().toString();
+       /* final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
+        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyYeah).child("user_name");
+        final String PostUID = uploadCurrent.getUID();
 
         UserUIDCheck.addValueEventListener(new ValueEventListener() {
             @Override
@@ -398,11 +391,11 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
         //kijken als user anonymous is dat de username voor de anon zelf wel zichtbaar is
 
-        String MyUID2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
+       /* String MyUID2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String PostUID2 = uploadCurrent.getUID();
 
         if (MyUID2.equals(PostUID2)) {
@@ -427,10 +420,10 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
         } else {
 
-        }
+        }*/
 
-        final String MyUID = FirebaseAuth.getInstance().getUid().toString();
-        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Likes");
+        final String MyUID = FirebaseAuth.getInstance().getUid();
+        DatabaseReference CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyYeah).child("Likes");
         CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -449,7 +442,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             }
         });
 
-        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Dislikes");
+        DatabaseReference CheckIfDownvoted = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyYeah).child("Dislikes");
         CheckIfDownvoted.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

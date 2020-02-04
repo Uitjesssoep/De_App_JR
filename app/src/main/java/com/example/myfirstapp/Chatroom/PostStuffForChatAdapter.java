@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
-import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -378,7 +377,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
         //kijken of de user deleted is
         final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
         final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("user_name");
-        final String PostUID = uploadCurrent.getUID().toString();
+        final String PostUID = uploadCurrent.getUID();
 
         UserUIDCheck.addValueEventListener(new ValueEventListener() {
             @Override
