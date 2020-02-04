@@ -175,8 +175,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                             FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if (!dataSnapshot.hasChild("messages")) ;
-                                    {
+                                    if (!dataSnapshot.hasChild("message")) {
                                         Log.e(TAG, "TRUE");
                                         FirebaseDatabase.getInstance().getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
