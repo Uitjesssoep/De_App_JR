@@ -161,7 +161,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
         DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -176,7 +176,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
                     startActivity(VNoD);
                     finish();
                 }
-                else{
+                if(!Anon.isChecked()) {
                     UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
                     usernameString = userProfile.getUserName();
 
@@ -216,9 +216,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Toast.makeText(Upload_Images_Activity.this, "Post successful", Toast.LENGTH_SHORT).show();
                                     UriImage = uri.toString();
-
                                     setDatabase();
                                 }
                             });
@@ -274,13 +272,14 @@ public class Upload_Images_Activity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_post_comment:
                 if (mUploadTask != null) {
-                    Toast.makeText(Upload_Images_Activity.this, "Waiting to start uploading the file", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Upload_Images_Activity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    if(mUploadTask.isInProgress()){
-                        Toast.makeText(Upload_Images_Activity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
+                    String TitleString = Title.getText().toString();
+                    if(TitleString.isEmpty()){
+                        Toast.makeText(Upload_Images_Activity.this, "Please enter a title", Toast.LENGTH_SHORT).show();
                     }
-                    else {
+                    else{
                         uploadFile();
                     }
                 }
