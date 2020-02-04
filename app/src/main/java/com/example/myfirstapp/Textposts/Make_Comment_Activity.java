@@ -143,18 +143,11 @@ public class Make_Comment_Activity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()) {
-
-
             case R.id.action_post_comment:
-
                 PostComment();
-
                 break;
-
         }
-
         return super.onOptionsItemSelected(item);
     }
 

@@ -7,87 +7,84 @@
     tools:context=".Textposts.Upload_TextPost_Activity"
     android:background="@color/white">
 
-    <TextView
-        android:id="@+id/tvMakeATextPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Make a text post"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.07999998" />
+    <include
+        android:id="@+id/action_bar_maketextpost"
+        layout="@layout/action_bar_makecomment_textpost"/>
 
-    <EditText
-        android:id="@+id/etTitleTextPost"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Title"
-        android:inputType="textCapSentences"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMakeATextPost"
-        app:layout_constraintVertical_bias="0.060000002" />
+        app:layout_constraintTop_toBottomOf="@+id/action_bar_maketextpost">
 
-    <EditText
-        android:id="@+id/etContentTextPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Content"
-        android:inputType="textCapSentences"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTitleTextPost"
-        app:layout_constraintVertical_bias="0.06999999" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <CheckBox
-        android:id="@+id/cbPostAnonText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Post anonymously"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etContentTextPost"
-        app:layout_constraintVertical_bias="0.13999999" />
+            <TextView
+                android:id="@+id/tvMakeTextPostHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:text="Make a text post:"
+                android:textColor="#4CAF50"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btnPostTextPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Post"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbOnlyFollowersText" />
+            <CheckBox
+                android:id="@+id/cbPostAnonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:buttonTint="#4CAF50"
+                android:text="Post anonymously"
+                android:textSize="14sp" />
 
-    <CheckBox
-        android:id="@+id/cbOnlyFollowersText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Only to followers"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbPostAnonText"
-        app:layout_constraintVertical_bias="0.07999998" />
+            <EditText
+                android:id="@+id/etTitleTextPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_addcomment"
+                android:ems="10"
+                android:hint="Your title"
+                android:maxLength="250"
+                android:inputType="textMultiLine"
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/tvUserNameHiddenDing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#00FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+            <View
+                android:id="@+id/divider"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:background="#949494" />
+
+            <EditText
+                android:id="@+id/etContentTextPost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="64dp"
+                android:paddingBottom="64dp"
+                android:background="@drawable/edittext_addcomment"
+                android:ems="10"
+                android:hint="Your text post content (optional)"
+                android:maxLength="5000"
+                android:inputType="textMultiLine"
+                android:textColor="#696969"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

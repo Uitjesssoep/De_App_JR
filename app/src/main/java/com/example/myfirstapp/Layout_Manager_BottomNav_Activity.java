@@ -41,14 +41,6 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Log.e("Received", "Got to onNewIntent");
-        String Type = intent.getExtras().get("Type").toString();
-        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager, new AccountFragment()).commit();
-    }
-
     private void SetupDesign() {
 
         Window window = Layout_Manager_BottomNav_Activity.this.getWindow();
@@ -106,8 +98,8 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             break;
                     }
 
-                    getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
-                            selectedFragment).commit();
+                    /*getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
+                            selectedFragment).commit();*/
 
                     return true;
 

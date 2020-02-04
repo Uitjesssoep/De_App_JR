@@ -2,15 +2,23 @@ package com.example.myfirstapp.Textposts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.R;
@@ -30,15 +38,14 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
 
     private EditText Title, Content;
-    private CheckBox Anon, Followers;
-    private Button Post;
+    private CheckBox Anon;
     private String TitleContent, TextContent, usernameString;
+    private ImageButton Exit;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference GeneralTextPosts, PersonalTextPosts;
     private String MyUID, temp_key, Date;
-    private TextView user_name_gebruiker;
 
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
@@ -49,8 +56,6 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         Title = findViewById(R.id.etTitleTextPost);
         Content = findViewById(R.id.etContentTextPost);
         Anon = findViewById(R.id.cbPostAnonText);
-        Followers = findViewById(R.id.cbOnlyFollowersText);
-        Post = findViewById(R.id.btnPostTextPost);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -60,8 +65,6 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
         GeneralTextPosts = FirebaseDatabase.getInstance().getReference("General_Posts");
         PersonalTextPosts = FirebaseDatabase.getInstance().getReference("Personal_Text_Posts").child(MyUID);
-
-        user_name_gebruiker = findViewById(R.id.tvUserNameHiddenDing);
 
         calendar = Calendar.getInstance();
         dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
@@ -75,46 +78,100 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_upload__text_post);
 
         SetupUI();
+        SetupDesign();
+    }
 
-        Post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    private void SetupDesign() {
 
-                TitleContent = Title.getText().toString().trim();
-                TextContent = Content.getText().toString().trim();
+            //voor het geven van kleur aan de status bar:
+            Window window = Upload_TextPost_Activity.this.getWindow();
 
-                if(TitleContent.isEmpty() || TextContent.isEmpty()){
-                    Toast.makeText(Upload_TextPost_Activity.this, "Please fill in a title and the content", Toast.LENGTH_SHORT).show();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(Upload_TextPost_Activity.this, R.color.slighly_darker_mainGreen));
+
+            //action bar ding
+
+            Toolbar toolbar = findViewById(R.id.action_bar_maketextpost);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+            Exit = (ImageButton) toolbar.findViewById(R.id.exitmakecommenttextpost);
+            Exit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
                 }
+            });
+    }
 
-                else{
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_actionbar_makecomment, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-                    if(Followers.isChecked() && Anon.isChecked()){
-                        BothChecked();
-                    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_post_comment:
+                PostTextPost();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-                    if((Followers.isChecked()==false) && (Anon.isChecked()==false)){
-                        BothNotChecked();
-                    }
+    private void PostTextPost() {
 
-                    if(Followers.isChecked() && (Anon.isChecked()==false)){
-                        VCheckedDNotChecked();
-                    }
+        TitleContent = Title.getText().toString().trim();
+        TextContent = Content.getText().toString().trim();
 
-                    if((Followers.isChecked()==false) && Anon.isChecked()){
-                        VNotCheckedDChecked();
-                    }
+        if(TitleContent.isEmpty()){
+            Toast.makeText(Upload_TextPost_Activity.this, "Please enter a title", Toast.LENGTH_SHORT).show();
+        }
 
-                }
-
+        else{
+            if(Anon.isChecked()){
+                BothChecked();
             }
-        });
 
+            if((Anon.isChecked()==false)){
+                BothNotChecked();
+            }
+        }
     }
 
     private void BothChecked() {
 
                 String anonString = "[anonymous]";
+
+        final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+        PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
+
+                    String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
+                    int PostCountInt = Integer.parseInt(PostCountString);
+                    PostCountInt = Integer.valueOf(PostCountInt + 1);
+                    String NewPostCountString = Integer.toString(PostCountInt);
+                    PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
+
+                }
+
+                else{
+                    PostCounter.child("Counters").child("PostCount").setValue("1");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
                 temp_key = GeneralTextPosts.push().getKey();
                 StuffForPost StuffForPost = new StuffForPost(TitleContent, anonString, TextContent, MyUID, temp_key, Date, "Text");
@@ -138,9 +195,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-                user_name_gebruiker.setText(userProfile.getUserName());
-
-                usernameString = user_name_gebruiker.getText().toString();
+                usernameString = userProfile.getUserName();
 
                 final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
                 PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
