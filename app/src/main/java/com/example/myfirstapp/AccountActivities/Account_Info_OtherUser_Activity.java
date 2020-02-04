@@ -42,6 +42,9 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
 
     public PageAdapter_HisAccount pagerAdapter;
 
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+
     private static final String TAG = "Account_Info_Other_User";
 
 
@@ -142,15 +145,18 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
         SetupUI();
 
         SetupTabView();
-
     }
 
     private void SetupTabView() {
 
-        TabLayout tabLayout = findViewById(R.id.tab_layout_other_user_account);
-        final ViewPager viewPager = findViewById(R.id.viewpager_tablayout_OtherUserAccount);
-         pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount());
-         viewPager.setAdapter(pagerAdapter);
+        tabLayout = findViewById(R.id.tab_layout_other_user_account);
+        viewPager = findViewById(R.id.viewpager_tablayout_OtherUserAccount);
+
+        key = getIntent().getExtras().get("Key").toString();
+
+        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount(), key);
+
+        viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

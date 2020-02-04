@@ -7,13 +7,14 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class PageAdapter_HisAccount extends FragmentPagerAdapter {
 
-
+    private String Key;
     private int numoftabs;
 
 
-    public PageAdapter_HisAccount(@NonNull FragmentManager fm, int numOfTabs) {
+    public PageAdapter_HisAccount(@NonNull FragmentManager fm, int numOfTabs, String TheKey) {
         super(fm);
         this.numoftabs = numOfTabs;
+        this.Key = TheKey;
     }
 
     @NonNull

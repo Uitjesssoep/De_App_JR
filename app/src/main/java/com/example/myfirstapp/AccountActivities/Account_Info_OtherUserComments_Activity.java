@@ -144,7 +144,7 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tab_layout_other_user_account);
         final ViewPager viewPager = findViewById(R.id.viewpager_tablayout_OtherUserAccount);
-        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount(), PostKey);
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
