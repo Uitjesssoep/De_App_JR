@@ -5,9 +5,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,11 +24,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
+import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
 import com.example.myfirstapp.Textposts.StuffForPost;
+import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,31 +52,22 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class Upload_Images_Activity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth firebaseAuth;
-    private Button ChooseImage, Post;
+    private Button ChooseImage;
     private EditText Title;
     private ImageView mImageView;
-    private ProgressBar mProgressbar;
     private String MyUID, usernameString, temp_key, UriImage, Date, key;
-    private TextView user_name_gebruiker;
     private Uri mImageUri;
     private FirebaseDatabase firebaseDatabase;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
-    private ImageButton Like, Dislike;
-
-    private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
-    private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
-    private TextView LikeCountDisplay, DislikeCountDisplay;
-
-    private int LikeCount, DislikeCount, CommentCount;
-
-    private boolean Liked = false;
-    private boolean Disliked = false;
-    private boolean LikedCheck = false, DislikedCheck = false;
+    private ImageButton Exit;
+    private CheckBox Anon;
 
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
@@ -79,20 +80,14 @@ public class Upload_Images_Activity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         MyUID = user.getUid();
         ChooseImage = findViewById(R.id.btnChooseImage);
-        Post = findViewById(R.id.btPostImage);
         Title = findViewById(R.id.etImageName);
         mImageView = findViewById(R.id.ivUploadedImage);
-        user_name_gebruiker = findViewById(R.id.tvUserNameHiddenDing);
-        mProgressbar = findViewById(R.id.pbUploadingImage);
         mStorageRef = FirebaseStorage.getInstance().getReference("General_Posts");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("General_Posts");
         calendar = Calendar.getInstance();
         dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
         Date = dateFormat.format(calendar.getTime());
-        LikeCountDisplay = findViewById(R.id.tvLikeCounterImageItem2);
-        DislikeCountDisplay = findViewById(R.id.tvDislikeCounterImageItem);
-        Like = findViewById(R.id.ibLikeUpImageItem);
-        Dislike = findViewById(R.id.ibLikeDownImageItem);
+        Anon = findViewById(R.id.cbPostAnonImage);
     }
 
     @Override
@@ -101,21 +96,12 @@ public class Upload_Images_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_upload_images);
 
         SetupUI();
+        SetupDesign();
 
         ChooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openFileChooser();
-            }
-        });
-
-        Post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mUploadTask != null && mUploadTask.isInProgress()) {
-                    Toast.makeText(Upload_Images_Activity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
-                } else
-                    uploadFile();
             }
         });
     }
@@ -178,16 +164,31 @@ public class Upload_Images_Activity extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-                usernameString = userProfile.getUserName();
 
-                temp_key = mDatabaseRef.push().getKey();
-                StuffForPost stuffForPost = new StuffForPost(Title.getText().toString().trim(),
-                        usernameString, UriImage, MyUID, temp_key, Date, "Image");
-                mDatabaseRef.child(temp_key).setValue(stuffForPost);
-                Intent VNoD = new Intent(Upload_Images_Activity.this, SecondActivity.class);
-                startActivity(VNoD);
-                finish();
+                if(Anon.isChecked()){
+                    usernameString = "[anonymous]";
+                    temp_key = mDatabaseRef.push().getKey();
+                    StuffForPost stuffForPost = new StuffForPost(Title.getText().toString().trim(),
+                            usernameString, UriImage, MyUID, temp_key, Date, "Image");
+                    mDatabaseRef.child(temp_key).setValue(stuffForPost);
+                    Intent VNoD = new Intent(Upload_Images_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                    VNoD.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(VNoD);
+                    finish();
+                }
+                else{
+                    UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
+                    usernameString = userProfile.getUserName();
+
+                    temp_key = mDatabaseRef.push().getKey();
+                    StuffForPost stuffForPost = new StuffForPost(Title.getText().toString().trim(),
+                            usernameString, UriImage, MyUID, temp_key, Date, "Image");
+                    mDatabaseRef.child(temp_key).setValue(stuffForPost);
+                    Intent VNoD = new Intent(Upload_Images_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                    VNoD.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(VNoD);
+                    finish();
+                }
             }
 
             @Override
@@ -208,7 +209,6 @@ public class Upload_Images_Activity extends AppCompatActivity {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mProgressbar.setProgress(0);
                                 }
                             }, 500);
 
@@ -233,13 +233,60 @@ public class Upload_Images_Activity extends AppCompatActivity {
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            mProgressbar.setProgress((int) progress);
                         }
                     });
         } else {
             Toast.makeText(this, "No file selected", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void SetupDesign() {
+
+        //voor het geven van kleur aan de status bar:
+        Window window = Upload_Images_Activity.this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(Upload_Images_Activity.this, R.color.slighly_darker_mainGreen));
+
+        //action bar ding
+        Toolbar toolbar = findViewById(R.id.action_bar_makeimagepost);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Exit = (ImageButton) toolbar.findViewById(R.id.exitmakecommenttextpost);
+        Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_actionbar_makecomment, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_post_comment:
+                if (mUploadTask != null) {
+                    Toast.makeText(Upload_Images_Activity.this, "Waiting to start uploading the file", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    if(mUploadTask.isInProgress()){
+                        Toast.makeText(Upload_Images_Activity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        uploadFile();
+                    }
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

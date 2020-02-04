@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
+import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.Notifications.Data;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
@@ -138,7 +139,7 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, Date);
                 ChatroomDatabase.child(temp_key).setValue(postStuffForChat);
 
-                Intent intent = new Intent(Chatrooms_Post_Activity.this, SecondActivity.class);
+                Intent intent = new Intent(Chatrooms_Post_Activity.this, Layout_Manager_BottomNav_Activity.class);
                 intent.putExtra("Type", "Chat");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -166,7 +167,7 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, Date);
                 ChatroomDatabase.child(temp_key).setValue(postStuffForChat);
 
-                Intent intent = new Intent(Chatrooms_Post_Activity.this, SecondActivity.class);
+                Intent intent = new Intent(Chatrooms_Post_Activity.this, Layout_Manager_BottomNav_Activity.class);
                 intent.putExtra("Type", "Chat");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
