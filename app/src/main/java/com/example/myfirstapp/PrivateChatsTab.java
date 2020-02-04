@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Chat;
 import com.example.myfirstapp.Chatroom.ChatPrivateWithUsers;
 import com.example.myfirstapp.Chatroom.PostStuffForChatAdapter;
 import com.example.myfirstapp.Chatroom.PostStuffForPrivateChatAdapter;
@@ -102,7 +101,6 @@ public class PrivateChatsTab extends Fragment {
                     postStuffForChatList.add(postStuffMakePrivateChat);
                     for (int i = 0; i < postStuffForChatList.size(); i++) {
                         int position;
-
                         if (!postSnapshot.getValue().toString().contains(MyUid)) {
                             position = i;
                             postStuffForChatList.remove(position);
@@ -137,65 +135,7 @@ public class PrivateChatsTab extends Fragment {
                     }
 
                     @Override
-                    public void onUserNameClick(int position) {
-                        final String PostKey = postStuffForChatList.get(position).getKey();
-
-                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(PostKey).child("uid");
-                        CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                final String MyUIDCheck2 = FirebaseAuth.getInstance().getUid();
-                                final String PostUID2 = dataSnapshot.getValue().toString();
-
-                                DatabaseReference CheckIfDeleted = FirebaseDatabase.getInstance().getReference("users");
-                                CheckIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                        if (dataSnapshot.hasChild(PostUID2)) {
-
-                                            if (MyUIDCheck2.equals(PostUID2)) {
-
-                                                Intent GoToMyProfile = new Intent(getActivity(), Layout_Manager_BottomNav_Activity.class);
-                                                GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                GoToMyProfile.putExtra("Type", "Account");
-                                                startActivity(GoToMyProfile);
-
-                                            } else {
-
-                                                Intent GoToOtherProfile = new Intent(getActivity(), Account_Info_OtherUser_Chat.class);
-                                                GoToOtherProfile.putExtra("Key", PostKey);
-                                                startActivity(GoToOtherProfile);
-
-                                            }
-
-                                        } else {
-
-                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                                            dialog.setTitle("This user has been deleted");
-                                            dialog.setMessage("You can no longer view this user");
-                                            AlertDialog alertDialog = dialog.create();
-                                            alertDialog.show();
-
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-
-                    }
+                    public void onUserNameClick(int position) {}
 
                     @Override
                     public void onUpvoteClick(int position) {
