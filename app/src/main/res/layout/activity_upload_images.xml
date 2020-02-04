@@ -11,7 +11,42 @@
         android:id="@+id/action_bar_makeimagepost"
         layout="@layout/action_bar_makecomment_textpost"/>
 
+    <ProgressBar
+        android:id="@+id/pbLoadingUploadingImage"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:background="@color/white"
+        android:paddingTop="20dp"
+        android:paddingEnd="80dp"
+        android:paddingStart="80dp"
+        android:paddingBottom="8dp"
+        android:indeterminateDrawable="@drawable/progressbar_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/action_bar_makeimagepost" />
+
+
+    <TextView
+        android:id="@+id/tvLoadingUploadingImage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Uploading... Please wait"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/pbLoadingUploadingImage"
+        app:layout_constraintStart_toStartOf="@+id/pbLoadingUploadingImage"
+        app:layout_constraintTop_toBottomOf="@+id/pbLoadingUploadingImage"
+        app:layout_constraintVertical_bias="0.0"
+        android:textColor="#696969"
+        android:textSize="14sp"
+        android:background="@color/white"
+        android:paddingBottom="8dp"/>
+
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,8 +89,8 @@
                 android:background="@drawable/edittext_addcomment"
                 android:ems="10"
                 android:hint="Your title"
-                android:maxLength="250"
                 android:inputType="textMultiLine"
+                android:maxLength="250"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
@@ -69,6 +104,7 @@
                 android:background="#949494" />
 
             <LinearLayout
+                android:id="@+id/linlayhorSelectImage"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginTop="11dp"
@@ -79,19 +115,19 @@
                     android:id="@+id/ivChooseImageUpload"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginTop="5dp"
                     android:layout_marginStart="32dp"
+                    android:layout_marginTop="5dp"
                     app:srcCompat="@drawable/ic_image_green_24dp" />
 
                 <TextView
                     android:id="@+id/tvChooseImage"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
-                    android:layout_marginTop="7.5dp"
                     android:layout_marginStart="5dp"
+                    android:layout_marginTop="7.5dp"
                     android:layout_weight="1"
-                    android:textColor="#696969"
                     android:text="Select image"
+                    android:textColor="#696969"
                     android:textSize="18sp" />
 
             </LinearLayout>
@@ -100,10 +136,10 @@
                 android:id="@+id/ivUploadedImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="200dp"
-                android:maxHeight="300dp"
                 android:layout_marginTop="11dp"
                 android:layout_marginBottom="64dp"
+                android:maxHeight="300dp"
+                android:minHeight="200dp"
                 android:paddingBottom="64dp"
                 android:scaleType="centerCrop" />
         </LinearLayout>
