@@ -2,11 +2,14 @@ package com.example.myfirstapp.AccountActivities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +44,12 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
 
 
     private void SetupUI() {
+
+        //voor het geven van kleur aan de status bar:
+        Window window = Account_Info_OtherUserComments_Activity.this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(Account_Info_OtherUserComments_Activity.this, R.color.slighly_darker_mainGreen));
 
         RealName = findViewById(R.id.tvDisplayNameOtherUserAccountViewing);
         UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);
