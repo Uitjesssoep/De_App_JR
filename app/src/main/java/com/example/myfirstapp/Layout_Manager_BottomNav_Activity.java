@@ -2,6 +2,7 @@ package com.example.myfirstapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -19,8 +20,16 @@ import com.example.myfirstapp.Chatroom.Chat_With_Users_Activity;
 import com.example.myfirstapp.Textposts.Followers_Feed_Activity;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
+
+    private String CurrentFrag = "Home";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,14 +88,14 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                         case R.id.navigation_home:
 
                             selectedFragment = new HomeFragment();
-                            getSupportActionBar().show();
+                            CurrentFrag = "Home";
 
                             break;
 
                         case R.id.navigation_chat:
 
                             selectedFragment = new ChatFragment();
-                            getSupportActionBar().show();
+                            CurrentFrag = "Chat";
 
                             break;
 
@@ -100,14 +109,14 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                         case R.id.navigation_search:
 
                             selectedFragment = new SearchFragment();
-                            getSupportActionBar().show();
+                            CurrentFrag = "Search";
 
                             break;
 
                         case R.id.navigation_account:
 
                             selectedFragment = new AccountFragment();
-                            getSupportActionBar().show();
+                            CurrentFrag = "Account";
 
                             break;
                     }

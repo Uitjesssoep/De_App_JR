@@ -42,7 +42,7 @@ public class AccountFragment extends Fragment {
         TabItem MyPosts = getView().findViewById(R.id.tab_layout_MyPosts);
         final ViewPager viewPager = getView().findViewById(R.id.viewpager_tablayout_MyAccount);
 
-        pagerAdapter = new PageAdapter_MyAccount(getFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new PageAdapter_MyAccount(getChildFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

@@ -33,7 +33,7 @@ public class ChatFragment extends Fragment {
         TabItem PrivateChats = getView().findViewById(R.id.tab_layout_PrivateChats_Chat);
         final ViewPager viewPager = getView().findViewById(R.id.viewpager_tablayout_chat);
 
-        pagerAdapter = new PageAdapter_ChatRooms(getFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new PageAdapter_ChatRooms(getChildFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

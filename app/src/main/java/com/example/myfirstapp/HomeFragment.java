@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment {
         TabItem FollowingFeed = getView().findViewById(R.id.tab_layout_followingFeed_home);
         final ViewPager viewPager = getView().findViewById(R.id.viewpager_tablayout_home);
 
-        pagerAdapter = new PageAdapter(getFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new PageAdapter(getChildFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -65,6 +65,5 @@ public class HomeFragment extends Fragment {
         });
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
     }
 }

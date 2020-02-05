@@ -58,8 +58,6 @@ public class AllFeedTab extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        CheckInternet();
-        StartOrReloadTextPosts();
 
         final SwipeRefreshLayout swipeRefreshLayout = getView().findViewById(R.id.swipe_container_AllFeed_fragment);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -70,6 +68,12 @@ public class AllFeedTab extends Fragment {
             }
         });
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+    }
+
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        CheckInternet();
+        StartOrReloadTextPosts();
     }
 
     private void CheckInternet() {
