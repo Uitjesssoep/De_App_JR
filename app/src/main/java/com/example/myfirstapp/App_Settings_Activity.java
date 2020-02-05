@@ -196,14 +196,8 @@ public class App_Settings_Activity extends AppCompatActivity {
         ReportBug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String EmailTo = "jul.rob.app@gmail.com";
-                String Subject = "Bug Report";
-                String Content = "PLEASE DO NOT CHANGE THE FORMAT OR THE SUBJECT! \n \n My username: \n \n \n Describe the bug you encountered: \n \n \n Have you been able to recreate it? \n \n \n Can we contact you for any further questions? \n \n \n Thank you very much for taking the effort to report this bug! All feedback is always appreciated and will only make Strimbula better! \n \n The Strimbula Team";
-
-                Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + EmailTo));
-                intent2.putExtra(Intent.EXTRA_SUBJECT, Subject);
-                intent2.putExtra(Intent.EXTRA_TEXT, Content);
-                startActivity(intent2);
+                Intent intent = new Intent(App_Settings_Activity.this, Send_Bug_Report_Activity.class);
+                startActivity(intent);
             }
         });
 
