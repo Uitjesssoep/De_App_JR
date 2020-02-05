@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,11 +40,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MyChatroomsTab extends Fragment {
 
+    private RecyclerView RoomList;
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private static Bundle mBundleRecyclerViewState;
+    private Parcelable mListState = null;
 
     public MyChatroomsTab() {
         // Required empty public constructor
@@ -105,7 +108,7 @@ public class MyChatroomsTab extends Fragment {
 
     private void StartOrReloadChatRooms() {
 
-        final RecyclerView RoomList = getView().findViewById(R.id.rvMyChatsFragment);
+        RoomList = getView().findViewById(R.id.rvMyChatsFragment);
         RoomList.setItemViewCacheSize(20);
         RoomList.setHasFixedSize(true);
         RoomList.setDrawingCacheEnabled(true);
@@ -348,6 +351,33 @@ public class MyChatroomsTab extends Fragment {
             }
         });
 
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        if (mBundleRecyclerViewState != null) {
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    mListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+                    RoomList.getLayoutManager().onRestoreInstanceState(mListState);
+
+                }
+            }, 50);
+        }
+    }
+
+
+    public void onPause() {
+        super.onPause();
+
+        mBundleRecyclerViewState = new Bundle();
+
+        mListState = RoomList.getLayoutManager().onSaveInstanceState();
+
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
     }
 
 }

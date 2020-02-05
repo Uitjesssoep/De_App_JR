@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,11 +39,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class PrivateChatsTab extends Fragment {
 
+    private RecyclerView RoomList;
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private static Bundle mBundleRecyclerViewState;
+    private Parcelable mListState = null;
 
     public PrivateChatsTab() {
         // Required empty public constructor
@@ -73,7 +76,7 @@ public class PrivateChatsTab extends Fragment {
 
     private void StartOrReloadChatRooms() {
 
-        final RecyclerView RoomList = getView().findViewById(R.id.rvPrivateChatsFragment);
+        RoomList = getView().findViewById(R.id.rvPrivateChatsFragment);
         RoomList.setItemViewCacheSize(20);
         RoomList.setHasFixedSize(true);
         RoomList.setDrawingCacheEnabled(true);
@@ -289,6 +292,33 @@ public class PrivateChatsTab extends Fragment {
             AlertDialog alertDialog = dialog.create();
             alertDialog.show();
         }
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        if (mBundleRecyclerViewState != null) {
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    mListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+                    RoomList.getLayoutManager().onRestoreInstanceState(mListState);
+
+                }
+            }, 50);
+        }
+    }
+
+
+    public void onPause() {
+        super.onPause();
+
+        mBundleRecyclerViewState = new Bundle();
+
+        mListState = RoomList.getLayoutManager().onSaveInstanceState();
+
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
     }
 
 }

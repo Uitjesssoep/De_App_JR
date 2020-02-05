@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +41,10 @@ import java.util.List;
 
 public class HisCommentsTab extends Fragment {
 
+    private RecyclerView CommentView;
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private static Bundle mBundleRecyclerViewState;
+    private Parcelable mListState = null;
 
     public HisCommentsTab() {
         // Required empty public constructor
@@ -101,7 +107,7 @@ public class HisCommentsTab extends Fragment {
 
     private void StartOrReload() {
 
-        final RecyclerView CommentView = getView().findViewById(R.id.rvHisCommentsFragment);
+        CommentView = getView().findViewById(R.id.rvHisCommentsFragment);
         CommentView.setItemViewCacheSize(20);
         CommentView.setHasFixedSize(true);
         CommentView.setDrawingCacheEnabled(true);
@@ -401,6 +407,33 @@ public class HisCommentsTab extends Fragment {
             }
         });
 
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        if (mBundleRecyclerViewState != null) {
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    mListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+                    CommentView.getLayoutManager().onRestoreInstanceState(mListState);
+
+                }
+            }, 50);
+        }
+    }
+
+
+    public void onPause() {
+        super.onPause();
+
+        mBundleRecyclerViewState = new Bundle();
+
+        mListState = CommentView.getLayoutManager().onSaveInstanceState();
+
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
     }
 
 }

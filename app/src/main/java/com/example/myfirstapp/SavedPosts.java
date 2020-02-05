@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +41,10 @@ import java.util.List;
 
 public class SavedPosts extends Fragment {
 
+    private RecyclerView GeneralFeed;
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private static Bundle mBundleRecyclerViewState;
+    private Parcelable mListState = null;
 
     public SavedPosts() {
         // Required empty public constructor
@@ -101,7 +107,7 @@ public class SavedPosts extends Fragment {
 
     private void StartOrReload() {
 
-        final RecyclerView GeneralFeed = getView().findViewById(R.id.rvSavedPostsFragment);
+        GeneralFeed = getView().findViewById(R.id.rvSavedPostsFragment);
         GeneralFeed.setItemViewCacheSize(20);
         GeneralFeed.setHasFixedSize(true);
         GeneralFeed.setDrawingCacheEnabled(true);
@@ -377,6 +383,35 @@ public class SavedPosts extends Fragment {
         });
 
     }
+
+    public void onResume() {
+        super.onResume();
+
+        if (mBundleRecyclerViewState != null) {
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    mListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+                    GeneralFeed.getLayoutManager().onRestoreInstanceState(mListState);
+
+                }
+            }, 50);
+        }
+    }
+
+
+    public void onPause() {
+        super.onPause();
+
+        mBundleRecyclerViewState = new Bundle();
+
+        mListState = GeneralFeed.getLayoutManager().onSaveInstanceState();
+
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
+    }
+
+
 
 
 }

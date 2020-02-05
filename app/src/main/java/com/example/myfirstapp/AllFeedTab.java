@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +41,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AllFeedTab extends Fragment {
 
+    private List<StuffForPost> StuffForPostList;
+    private RecyclerView GeneralFeed;
+    private StuffForPostAdapter stuffForPostAdapter;
+
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private static Bundle mBundleRecyclerViewState;
+    private Parcelable mListState = null;
 
     public AllFeedTab() {
         // Required empty public constructor
@@ -109,7 +116,7 @@ public class AllFeedTab extends Fragment {
 
     private void StartOrReloadTextPosts() {
 
-        final RecyclerView GeneralFeed = getView().findViewById(R.id.rvAllFeedFragment);
+        GeneralFeed = getView().findViewById(R.id.rvAllFeedFragment);
         GeneralFeed.setItemViewCacheSize(20);
         GeneralFeed.setHasFixedSize(true);
         GeneralFeed.setDrawingCacheEnabled(true);
@@ -117,8 +124,7 @@ public class AllFeedTab extends Fragment {
         GeneralFeed.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingAllFeed_fragment);
-        final List<StuffForPost> StuffForPostList = new ArrayList<>();
-        final StuffForPostAdapter stuffForPostAdapter = null;
+        StuffForPostList = new ArrayList<>();
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final DatabaseReference Textposts = FirebaseDatabase.getInstance().getReference("General_Posts");
         final DatabaseReference Imageposts = FirebaseDatabase.getInstance().getReference("General_Posts");
@@ -363,4 +369,33 @@ public class AllFeedTab extends Fragment {
         });
 
     }
+
+    public void onResume() {
+        super.onResume();
+
+        if (mBundleRecyclerViewState != null) {
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    mListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+                    GeneralFeed.getLayoutManager().onRestoreInstanceState(mListState);
+
+                }
+            }, 50);
+        }
+    }
+
+
+    public void onPause() {
+        super.onPause();
+
+        mBundleRecyclerViewState = new Bundle();
+
+        mListState = GeneralFeed.getLayoutManager().onSaveInstanceState();
+
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
+    }
+
+
 }

@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +40,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MyCommentsTab extends Fragment {
 
+    private RecyclerView CommentView;
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private static Bundle mBundleRecyclerViewState;
+    private Parcelable mListState = null;
 
     public MyCommentsTab() {
         // Required empty public constructor
@@ -105,7 +108,7 @@ public class MyCommentsTab extends Fragment {
 
     private void StartOrReload() {
 
-        final RecyclerView CommentView = getView().findViewById(R.id.rvMyCommentsFragment);
+        CommentView = getView().findViewById(R.id.rvMyCommentsFragment);
         CommentView.setItemViewCacheSize(20);
         CommentView.setHasFixedSize(true);
         CommentView.setDrawingCacheEnabled(true);
@@ -403,6 +406,33 @@ public class MyCommentsTab extends Fragment {
             }
         });
 
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        if (mBundleRecyclerViewState != null) {
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    mListState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+                    CommentView.getLayoutManager().onRestoreInstanceState(mListState);
+
+                }
+            }, 50);
+        }
+    }
+
+
+    public void onPause() {
+        super.onPause();
+
+        mBundleRecyclerViewState = new Bundle();
+
+        mListState = CommentView.getLayoutManager().onSaveInstanceState();
+
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, mListState);
     }
 
 }
