@@ -162,14 +162,16 @@ public class App_Settings_Activity extends AppCompatActivity {
         DataPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(App_Settings_Activity.this, Data_Policy_Activity.class);
+                startActivity(intent);
             }
         });
 
         ContentPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(App_Settings_Activity.this, Content_Policy_Activity.class);
+                startActivity(intent);
             }
         });
 
