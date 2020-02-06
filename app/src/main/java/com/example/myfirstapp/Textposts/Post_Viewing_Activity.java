@@ -89,6 +89,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         SortCommentsBy = findViewById(R.id.tvSortByTextTextPostViewing);
         NoCommentsYet = findViewById(R.id.tvThereAreNoCommentsYet);
         NoCommentsYet.bringToFront();
+        ImageContent = findViewById(R.id.ivImageContentPostViewing);
 
         SortByComments = findViewById(R.id.spinnerDropDownSortByCommentsTextPostViewing);
         ArrayAdapter<String> sortAdapter = new ArrayAdapter<String>(Post_Viewing_Activity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sortnames));
@@ -146,6 +147,25 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
+        DatabaseReference PostType = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("type");
+        PostType.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Type = dataSnapshot.getValue().toString();
+
+                if(Type.equals("Text")){
+                    ImageContent.setVisibility(View.GONE);
+                    Content.setVisibility(View.VISIBLE);
+                }
+                else{
+                    ImageContent.setVisibility(View.VISIBLE);
+                    Content.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
     }
 
@@ -236,8 +256,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     }
 
     private void LoadData() {
-
-        Log.e(TAG, "onDataChange: ");
 
         final DatabaseReference PostType = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("type");
 

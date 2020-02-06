@@ -137,6 +137,8 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                                 selectedFragment = new MakeFragment();
                                 CurrentFrag = "Make";
 
+                                FrameLayout frameLayout = findViewById(R.id.framelayout_manager_makepost);
+
                                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
                                         selectedFragment).commit();
 

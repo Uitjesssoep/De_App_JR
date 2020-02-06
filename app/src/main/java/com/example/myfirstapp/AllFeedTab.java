@@ -154,16 +154,9 @@ public class AllFeedTab extends Fragment {
                     public void onItemClick(int position) {
                         String key = StuffForPostList.get(position).getKey().toString();
 
-                        if (StuffForPostList.get(position).getType().equals("Image")) {
-                            Intent Test2 = new Intent(getActivity().getApplicationContext(), Image_Post_Viewing_Activity.class);
-                            Test2.putExtra("Key", key);
-                            startActivity(Test2);
-                        } else {
                             Intent Test2 = new Intent(getActivity().getApplicationContext(), Post_Viewing_Activity.class);
                             Test2.putExtra("Key", key);
                             startActivity(Test2);
-                        }
-
 
                     }
 
