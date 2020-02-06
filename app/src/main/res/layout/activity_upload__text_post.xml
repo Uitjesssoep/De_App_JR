@@ -55,7 +55,7 @@
                 android:ems="10"
                 android:hint="Your title"
                 android:maxLength="250"
-                android:inputType="textMultiLine"
+                android:inputType="textMultiLine|textCapSentences"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
@@ -81,7 +81,7 @@
                 android:ems="10"
                 android:hint="Your text post content (optional)"
                 android:maxLength="5000"
-                android:inputType="textMultiLine"
+                android:inputType="textMultiLine|textCapSentences"
                 android:textColor="#696969"
                 android:textSize="15sp" />
         </LinearLayout>

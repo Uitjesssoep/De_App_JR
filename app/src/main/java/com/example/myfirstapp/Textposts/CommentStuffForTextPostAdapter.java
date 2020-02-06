@@ -67,6 +67,27 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         holder.Content.setText(uploadCurrent2.getContent());
 
 
+        //Check if exists
+        final String ThePostKey684 = uploadCurrent2.getOldKey();
+        final String TheCommentKey684 = uploadCurrent2.getKey();
+        final DatabaseReference CheckIfExists = FirebaseDatabase.getInstance().getReference("General_Posts");
+        CheckIfExists.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.hasChild(ThePostKey684)){
+                    String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    DatabaseReference DeleteAtMyComments = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments");
+                    DeleteAtMyComments.child(TheCommentKey684).removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         //kijken of de user deleted is
         final String KeyComments2 = uploadCurrent2.getKey();
         final String KeyOGPosts2 = uploadCurrent2.getOldKey();
@@ -167,15 +188,12 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                                         final DatabaseReference RemoveComment = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost).child("Comments").child(KeyComment);
                                                         RemoveComment.removeValue();
-                                                        notifyDataSetChanged();
-                                                       // RemoveComment.child("user_name").setValue("[deleted_comment_user]");
 
                                                         final DatabaseReference RemoveCommentFromMyProfile = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments").child(KeyComment);
                                                         RemoveCommentFromMyProfile.removeValue();
 
-                                                      //  Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
-                                                     //   intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                     //   mContext.startActivity(intent);
+                                                        notifyDataSetChanged();
+
                                                     }
                                                 });
                                                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -259,15 +277,13 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                                                     public void onClick(DialogInterface dialogInterface, int i) {
 
                                                         final DatabaseReference RemoveComment = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost).child("Comments").child(KeyComment);
-                                                        RemoveComment.child("").setValue("[deleted_comment]");
-                                                       // RemoveComment.child("user_name").setValue("[deleted_comment_user]");
+                                                        RemoveComment.removeValue();
 
                                                         final DatabaseReference RemoveCommentFromMyProfile = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments").child(KeyComment);
                                                         RemoveCommentFromMyProfile.removeValue();
 
-                                                        Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
-                                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                        mContext.startActivity(intent);
+                                                        notifyDataSetChanged();
+
                                                     }
                                                 });
                                                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

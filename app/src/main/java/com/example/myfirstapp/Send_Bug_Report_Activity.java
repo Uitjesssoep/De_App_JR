@@ -1,10 +1,12 @@
 package com.example.myfirstapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +50,9 @@ public class Send_Bug_Report_Activity extends AppCompatActivity {
             HowOftenString = "User did not answer this question";
         }
 
+        final DatabaseReference Report = FirebaseDatabase.getInstance().getReference("BugReports");
+        final String temp_key = Report.push().getKey();
+
         if(Username.isChecked()){
             if(AllowContact.isChecked()){
 
@@ -57,11 +62,24 @@ public class Send_Bug_Report_Activity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String UserName = dataSnapshot.getValue().toString();
 
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + "jul.rob.app@gmail.com"));
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "bug report");
-                        intent.putExtra(Intent.EXTRA_TEXT, "Where:\n" + WhereString + "\n\n\n" + "More than once / recreate it?\n" + HowOftenString + "\n\n\n" + "Description:\n" + DecribeString + "\n\n\n" + "Username\n" + UserName + "\n\n\n" + "Allow contact?\n" + "yes");
+                        Report.child(temp_key).child("Where").setValue(WhereString);
+                        Report.child(temp_key).child("HowOften_Recreate").setValue(HowOftenString);
+                        Report.child(temp_key).child("Description").setValue(DecribeString);
+                        Report.child(temp_key).child("Username").setValue(UserName);
+                        Report.child(temp_key).child("Allow_Contact").setValue("yes");
 
-                        startActivity(intent);
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(Send_Bug_Report_Activity.this);
+                        dialog.setTitle("Success!");
+                        dialog.setMessage("Thank you for your feedback! We will try to fix any problem as soon as possible.");
+                        dialog.setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        });
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
+
                     }
 
                     @Override
@@ -78,11 +96,23 @@ public class Send_Bug_Report_Activity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String UserName = dataSnapshot.getValue().toString();
 
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + "jul.rob.app@gmail.com"));
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "bug report");
-                        intent.putExtra(Intent.EXTRA_TEXT, "Where:\n" + WhereString + "\n\n\n" + "More than once / recreate it?\n" + HowOftenString + "\n\n\n" + "Description:\n" + DecribeString + "\n\n\n" + "Username\n" + UserName + "\n\n\n" + "Allow contact?\n" + "no");
+                        Report.child(temp_key).child("Where").setValue(WhereString);
+                        Report.child(temp_key).child("HowOften_Recreate").setValue(HowOftenString);
+                        Report.child(temp_key).child("Description").setValue(DecribeString);
+                        Report.child(temp_key).child("Username").setValue(UserName);
+                        Report.child(temp_key).child("Allow_Contact").setValue("no");
 
-                        startActivity(intent);
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(Send_Bug_Report_Activity.this);
+                        dialog.setTitle("Success!");
+                        dialog.setMessage("Thank you for your feedback! We will try to fix any problem as soon as possible.");
+                        dialog.setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        });
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
                     }
 
                     @Override
@@ -96,20 +126,44 @@ public class Send_Bug_Report_Activity extends AppCompatActivity {
         else{
             if(AllowContact.isChecked()){
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + "jul.rob.app@gmail.com"));
-                intent.putExtra(Intent.EXTRA_SUBJECT, "bug report");
-                intent.putExtra(Intent.EXTRA_TEXT, "Where:\n" + WhereString + "\n\n\n" + "More than once / recreate it?\n" + HowOftenString + "\n\n\n" + "Description:\n" + DecribeString + "\n\n\n" + "Username\n" + "Username not given" + "\n\n\n" + "Allow contact?\n" + "yes");
+                Report.child(temp_key).child("Where").setValue(WhereString);
+                Report.child(temp_key).child("HowOften_Recreate").setValue(HowOftenString);
+                Report.child(temp_key).child("Description").setValue(DecribeString);
+                Report.child(temp_key).child("Username").setValue("not given");
+                Report.child(temp_key).child("Allow_Contact").setValue("yes");
 
-                startActivity(intent);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(Send_Bug_Report_Activity.this);
+                dialog.setTitle("Success!");
+                dialog.setMessage("Thank you for your feedback! We will try to fix any problem as soon as possible.");
+                dialog.setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
 
             }
             else{
 
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + "jul.rob.app@gmail.com"));
-                intent.putExtra(Intent.EXTRA_SUBJECT, "bug report");
-                intent.putExtra(Intent.EXTRA_TEXT, "Where:\n" + WhereString + "\n\n\n" + "More than once / recreate it?\n" + HowOftenString + "\n\n\n" + "Description:\n" + DecribeString + "\n\n\n" + "Username\n" + "Username not given" + "\n\n\n" + "Allow contact?\n" + "no");
+                Report.child(temp_key).child("Where").setValue(WhereString);
+                Report.child(temp_key).child("HowOften_Recreate").setValue(HowOftenString);
+                Report.child(temp_key).child("Description").setValue(DecribeString);
+                Report.child(temp_key).child("Username").setValue("not given");
+                Report.child(temp_key).child("Allow_Contact").setValue("no");
 
-                startActivity(intent);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(Send_Bug_Report_Activity.this);
+                dialog.setTitle("Success!");
+                dialog.setMessage("Thank you for your feedback! We will try to fix any problem as soon as possible.");
+                dialog.setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
 
             }
         }

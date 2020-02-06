@@ -158,6 +158,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                     Content.setVisibility(View.VISIBLE);
                 }
                 else{
+                    Log.e("Check", "Type = Image");
                     ImageContent.setVisibility(View.VISIBLE);
                     Content.setVisibility(View.GONE);
                 }
@@ -283,8 +284,8 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                         if (dataSnapshot2.getValue(String.class).equals("Text")) {
                             Content.setText(dataSnapshot.getValue(String.class));
                         } else {
-                            Picasso.get().load(dataSnapshot.getValue(String.class)).fit().into(ImageContent);
-                            Log.e(TAG, "onDataChange: ");
+                            Log.e("Check", "else bereikt");
+                            Picasso.get().load(dataSnapshot.getValue().toString()).into(ImageContent);
                             ImageContent.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {

@@ -69,7 +69,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final StuffForPost uploadCurrent = mPost.get(position);
-        if (uploadCurrent.getType().equals("Image")) {
+        if (uploadCurrent.getType().toString().equals("Image")) {
             Picasso.get().load(uploadCurrent.getContent()).placeholder(R.color.white).into(holder.Image);
             holder.Content.setVisibility(View.GONE);
         } else {

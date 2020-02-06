@@ -63,7 +63,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth firebaseAuth;
-    private TextView ChooseImage, LoadingUpload;
+    private TextView ChooseImage;
     private EditText Title;
     private LinearLayout SelectImage;
     private ImageView mImageView, ChooseImageVIew;
@@ -74,7 +74,6 @@ public class Upload_Images_Activity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;
     private ImageButton Exit;
     private CheckBox Anon;
-    private ProgressBar progressBar;
 
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
@@ -97,10 +96,6 @@ public class Upload_Images_Activity extends AppCompatActivity {
         dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
         Date = dateFormat.format(calendar.getTime());
         Anon = findViewById(R.id.cbPostAnonImage);
-        progressBar = findViewById(R.id.pbLoadingUploadingImage);
-        progressBar.setVisibility(View.GONE);
-        LoadingUpload = findViewById(R.id.tvLoadingUploadingImage);
-        LoadingUpload.setVisibility(View.GONE);
     }
 
     @Override
@@ -249,11 +244,6 @@ public class Upload_Images_Activity extends AppCompatActivity {
                                     dialog.setTitle("Uploading image");
                                     dialog.setMessage("Please wait");
                                     dialog.show();
-
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    progressBar.bringToFront();
-                                    LoadingUpload.setVisibility(View.VISIBLE);
-                                    LoadingUpload.bringToFront();
                                     hideKeyboard(Upload_Images_Activity.this);
 
                                     setDatabase();

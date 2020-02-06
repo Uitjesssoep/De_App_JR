@@ -173,27 +173,33 @@ public class Make_Comment_Activity extends AppCompatActivity {
                 String ContentPost = dataSnapshot.child("content").getValue().toString();
                 if (Type.equals("Text")){
                     Content.setText(ContentPost);
+
+                    ShowMore.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            String WhatText = ShowMore.getText().toString();
+                            if (WhatText.equals("Show more")) {
+                                ShowMore.setText("Show less");
+                                if (Type.equals("Text")){
+                                    Content.setVisibility(View.VISIBLE);
+                                }
+                            } else {
+                                ShowMore.setText("Show more");
+                                if (Type.equals("Text")){
+                                    Content.setVisibility(View.GONE);
+                                }
+                            }
+
+                        }
+                    });
                 }
 
-                ShowMore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                else{
 
-                        String WhatText = ShowMore.getText().toString();
-                        if (WhatText.equals("Show more")) {
-                            ShowMore.setText("Show less");
-                            if (Type.equals("Text")){
-                                Content.setVisibility(View.VISIBLE);
-                            }
-                        } else {
-                            ShowMore.setText("Show more");
-                            if (Type.equals("Text")){
-                                Content.setVisibility(View.GONE);
-                            }
-                        }
+                    ShowMore.setVisibility(View.GONE);
 
-                    }
-                });
+                }
             }
 
             @Override

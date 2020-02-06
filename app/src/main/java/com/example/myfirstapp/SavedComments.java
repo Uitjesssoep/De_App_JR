@@ -65,6 +65,7 @@ public class SavedComments extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                StartOrReload();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -144,33 +145,32 @@ public class SavedComments extends Fragment {
 
                         final String PostKey = commentStuffForTextPostList.get(position).getOldKey();
 
-                        DatabaseReference CheckType = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey);
-                        CheckType.addListenerForSingleValueEvent(new ValueEventListener() {
+                        DatabaseReference CheckIfExists = FirebaseDatabase.getInstance().getReference("General_Posts");
+                        CheckIfExists.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                String Type = dataSnapshot.child("type").getValue().toString();
-
-                                if(Type.equals("Text")){
-
-                                    Intent ToTextPost = new Intent(getActivity(), Post_Viewing_Activity.class);
-                                    ToTextPost.putExtra("Key", PostKey);
-                                    startActivity(ToTextPost);
-
+                                if (dataSnapshot.hasChild(PostKey)){
+                                    Intent Test2 = new Intent(getActivity().getApplicationContext(), Post_Viewing_Activity.class);
+                                    Test2.putExtra("Key", PostKey);
+                                    startActivity(Test2);
                                 }
-                                else if(Type.equals("Image")){
+                                else{
+                                    android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(getActivity());
+                                    dialog.setTitle("This post has been deleted");
+                                    dialog.setMessage("This post has been deleted, you can no longer view it.");
 
-                                    Intent ToImagePost = new Intent(getActivity(), Image_Post_Viewing_Activity.class);
-                                    ToImagePost.putExtra("Key", PostKey);
-                                    startActivity(ToImagePost);
-
+                                    dialog.setPositiveButton("Understood", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    android.app.AlertDialog alertDialog = dialog.create();
+                                    alertDialog.show();
                                 }
-
                             }
-
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-
                             }
                         });
                     }

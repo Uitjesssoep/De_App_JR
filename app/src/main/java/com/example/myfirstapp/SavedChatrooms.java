@@ -69,6 +69,7 @@ public class SavedChatrooms extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                StartOrReload();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
