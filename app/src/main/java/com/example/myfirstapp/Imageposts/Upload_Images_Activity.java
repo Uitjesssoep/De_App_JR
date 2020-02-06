@@ -1,6 +1,7 @@
 package com.example.myfirstapp.Imageposts;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -243,6 +244,18 @@ public class Upload_Images_Activity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     UriImage = uri.toString();
+
+                                    final ProgressDialog dialog = new ProgressDialog(Upload_Images_Activity.this);
+                                    dialog.setTitle("Sending Email");
+                                    dialog.setMessage("Please wait");
+                                    dialog.show();
+
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    progressBar.bringToFront();
+                                    LoadingUpload.setVisibility(View.VISIBLE);
+                                    LoadingUpload.bringToFront();
+                                    hideKeyboard(Upload_Images_Activity.this);
+
                                     setDatabase();
                                 }
                             });
@@ -307,11 +320,6 @@ public class Upload_Images_Activity extends AppCompatActivity {
                     }
                     else{
                         uploadFile();
-                        progressBar.setVisibility(View.VISIBLE);
-                        progressBar.bringToFront();
-                        LoadingUpload.setVisibility(View.VISIBLE);
-                        LoadingUpload.bringToFront();
-                        hideKeyboard(this);
                     }
                 }
                 break;

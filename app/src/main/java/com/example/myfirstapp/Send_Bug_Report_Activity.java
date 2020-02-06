@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +19,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.myfirstapp.Textposts.Make_Comment_Activity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Send_Bug_Report_Activity extends AppCompatActivity {
 
@@ -35,19 +43,73 @@ public class Send_Bug_Report_Activity extends AppCompatActivity {
     }
 
     private void SendReport() {
+
+        if(HowOftenString.isEmpty()){
+            HowOftenString = "User did not answer this question";
+        }
+
         if(Username.isChecked()){
             if(AllowContact.isChecked()){
 
+                DatabaseReference GetUsername = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userName");
+                GetUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String UserName = dataSnapshot.getValue().toString();
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + "jul.rob.app@gmail.com"));
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "bug report");
+                        intent.putExtra(Intent.EXTRA_TEXT, "Where:\n" + WhereString + "\n\n\n" + "More than once / recreate it?\n" + HowOftenString + "\n\n\n" + "Description:\n" + DecribeString + "\n\n\n" + "Username\n" + UserName + "\n\n\n" + "Allow contact?\n" + "yes");
+
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
             else{
+
+                DatabaseReference GetUsername = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userName");
+                GetUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String UserName = dataSnapshot.getValue().toString();
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + "jul.rob.app@gmail.com"));
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "bug report");
+                        intent.putExtra(Intent.EXTRA_TEXT, "Where:\n" + WhereString + "\n\n\n" + "More than once / recreate it?\n" + HowOftenString + "\n\n\n" + "Description:\n" + DecribeString + "\n\n\n" + "Username\n" + UserName + "\n\n\n" + "Allow contact?\n" + "no");
+
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
             }
         }
         else{
             if(AllowContact.isChecked()){
 
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + "jul.rob.app@gmail.com"));
+                intent.putExtra(Intent.EXTRA_SUBJECT, "bug report");
+                intent.putExtra(Intent.EXTRA_TEXT, "Where:\n" + WhereString + "\n\n\n" + "More than once / recreate it?\n" + HowOftenString + "\n\n\n" + "Description:\n" + DecribeString + "\n\n\n" + "Username\n" + "Username not given" + "\n\n\n" + "Allow contact?\n" + "yes");
+
+                startActivity(intent);
+
             }
             else{
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:" + "jul.rob.app@gmail.com"));
+                intent.putExtra(Intent.EXTRA_SUBJECT, "bug report");
+                intent.putExtra(Intent.EXTRA_TEXT, "Where:\n" + WhereString + "\n\n\n" + "More than once / recreate it?\n" + HowOftenString + "\n\n\n" + "Description:\n" + DecribeString + "\n\n\n" + "Username\n" + "Username not given" + "\n\n\n" + "Allow contact?\n" + "no");
+
+                startActivity(intent);
 
             }
         }
