@@ -246,7 +246,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
                                     UriImage = uri.toString();
 
                                     final ProgressDialog dialog = new ProgressDialog(Upload_Images_Activity.this);
-                                    dialog.setTitle("Sending Email");
+                                    dialog.setTitle("Uploading image");
                                     dialog.setMessage("Please wait");
                                     dialog.show();
 

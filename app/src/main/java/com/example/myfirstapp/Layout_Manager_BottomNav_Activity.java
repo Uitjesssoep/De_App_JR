@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 import com.example.myfirstapp.Chatroom.Chat_With_Users_Activity;
 import com.example.myfirstapp.Textposts.Followers_Feed_Activity;
@@ -30,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
     private String CurrentFrag = "Home";
+    private Boolean MakingSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
             String Type = getIntent().getExtras().get("Type").toString();
             if (Type.equals("Account")) {
                 bottomNav.setSelectedItemId(R.id.navigation_account);
+                MakingSelected = false;
             }
             if (Type.equals("ChatMake")) {
                 bottomNav.setSelectedItemId(R.id.navigation_chat);
@@ -56,11 +59,13 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
             else {
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                         new HomeFragment()).commit();
+                MakingSelected = false;
             }
         }
         else {
             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                     new HomeFragment()).commit();
+            MakingSelected = false;
         }
     }
 
@@ -90,6 +95,15 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             selectedFragment = new HomeFragment();
                             CurrentFrag = "Home";
 
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
+                                    selectedFragment).commit();
+
+                            selectedFragment = new EmptyMakeFragment();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
+                                    selectedFragment).commit();
+
+                            MakingSelected = false;
+
                             break;
 
                         case R.id.navigation_chat:
@@ -97,12 +111,37 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             selectedFragment = new ChatFragment();
                             CurrentFrag = "Chat";
 
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
+                                    selectedFragment).commit();
+
+                            selectedFragment = new EmptyMakeFragment();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
+                                    selectedFragment).commit();
+
+                            MakingSelected = false;
+
                             break;
 
                         case R.id.navigation_make:
 
-                            Intent intent = new Intent(Layout_Manager_BottomNav_Activity.this, Choose_PostType_Activity.class);
-                            startActivity(intent);
+                            if(MakingSelected){
+
+                                selectedFragment = new EmptyMakeFragment();
+                                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
+                                        selectedFragment).commit();
+
+                                MakingSelected = false;
+
+                            }
+                            else{
+                                selectedFragment = new MakeFragment();
+                                CurrentFrag = "Make";
+
+                                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
+                                        selectedFragment).commit();
+
+                                MakingSelected = true;
+                            }
 
                             break;
 
@@ -111,6 +150,15 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             selectedFragment = new SearchFragment();
                             CurrentFrag = "Search";
 
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
+                                    selectedFragment).commit();
+
+                            selectedFragment = new EmptyMakeFragment();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
+                                    selectedFragment).commit();
+
+                            MakingSelected = false;
+
                             break;
 
                         case R.id.navigation_account:
@@ -118,11 +166,17 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             selectedFragment = new AccountFragment();
                             CurrentFrag = "Account";
 
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
+                                    selectedFragment).commit();
+
+                            selectedFragment = new EmptyMakeFragment();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
+                                    selectedFragment).commit();
+
+                            MakingSelected = false;
+
                             break;
                     }
-
-                    getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
-                            selectedFragment).commit();
 
                     return true;
 
