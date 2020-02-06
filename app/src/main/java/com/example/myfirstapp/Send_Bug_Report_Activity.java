@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.myfirstapp.Textposts.Make_Comment_Activity;
@@ -19,16 +21,71 @@ import com.example.myfirstapp.Textposts.Make_Comment_Activity;
 public class Send_Bug_Report_Activity extends AppCompatActivity {
 
     private ImageButton Exit;
+    private EditText Where, HowOften, Describe;
+    private CheckBox Username, AllowContact;
+    private String WhereString, HowOftenString, DecribeString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send__bug__report_);
 
+        SetupUI();
         SetupDesign();
     }
 
     private void SendReport() {
+        if(Username.isChecked()){
+            if(AllowContact.isChecked()){
+
+            }
+            else{
+
+            }
+        }
+        else{
+            if(AllowContact.isChecked()){
+
+            }
+            else{
+
+            }
+        }
+    }
+
+    private void CheckIfAllIsGood() {
+        Where.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+        Describe.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+
+        WhereString = Where.getText().toString();
+        HowOftenString = HowOften.getText().toString();
+        DecribeString = Describe.getText().toString();
+
+        if(WhereString.isEmpty() && DecribeString.isEmpty()){
+            Describe.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+            Where.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+        }
+        else{
+            if(WhereString.isEmpty()){
+                Where.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+            }
+            else{
+                if(DecribeString.isEmpty()){
+                    Describe.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                }
+                else {
+                    SendReport();
+                }
+            }
+        }
+    }
+
+    private void SetupUI() {
+        Where = findViewById(R.id.etWhatPageProblem);
+        HowOften = findViewById(R.id.etAbleToRecreate);
+        Describe = findViewById(R.id.etDescripeBug);
+        Username = findViewById(R.id.cbSendUsernameBug);
+        AllowContact = findViewById(R.id.cbAllowContactBug);
     }
 
     private void SetupDesign() {
@@ -61,9 +118,11 @@ public class Send_Bug_Report_Activity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_send_report:
-                SendReport();
+                CheckIfAllIsGood();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

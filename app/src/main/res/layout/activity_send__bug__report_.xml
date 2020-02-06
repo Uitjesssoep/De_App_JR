@@ -46,7 +46,113 @@
                 android:textIsSelectable="true"
                 android:textSize="15sp" />
 
+            <TextView
+                android:id="@+id/tvWhatPageProblem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="24dp"
+                android:textColor="#696969"
+                android:text="* Where did the bug occur? (e.g. your account page or the all-feed)" />
 
+            <EditText
+                android:id="@+id/etWhatPageProblem"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:minHeight="45dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_roundedcorners_login"
+                android:capitalize="none"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:hint="Your answer"
+                android:inputType="textMultiLine"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:scrollHorizontally="false" />
+
+            <TextView
+                android:id="@+id/tvAbleToRecreate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="32dp"
+                android:textColor="#696969"
+                android:text="Has the bug occured more than once or have you been able to recreate it?" />
+
+            <EditText
+                android:id="@+id/etAbleToRecreate"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:minHeight="45dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_roundedcorners_login"
+                android:capitalize="none"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:hint="Your answer"
+                android:inputType="textMultiLine"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:scrollHorizontally="false" />
+
+            <TextView
+                android:id="@+id/tvDescribeBug"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="32dp"
+                android:textColor="#696969"
+                android:text="* Please describe the bug and what you were doing / trying to do when the bug occured." />
+
+            <EditText
+                android:id="@+id/etDescripeBug"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:minHeight="45dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/edittext_roundedcorners_login"
+                android:capitalize="none"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:hint="Your answer"
+                android:inputType="textMultiLine"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:scrollHorizontally="false" />
+
+            <CheckBox
+                android:id="@+id/cbSendUsernameBug"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="#4CAF50"
+                android:textColor="#696969"
+                android:text="Send my username with the report"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="32dp"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cbAllowContactBug"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:buttonTint="#4CAF50"
+                android:text="Allow us to contact you"
+                android:textColor="#696969"
+                android:textSize="14sp" />
 
         </LinearLayout>
     </ScrollView>
