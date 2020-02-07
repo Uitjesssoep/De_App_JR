@@ -47,8 +47,12 @@ public class HisPostsTab extends Fragment {
     private static Bundle mBundleRecyclerViewState;
     private Parcelable mListState = null;
 
-    public HisPostsTab() {
+    private String HisUID;
+
+    public HisPostsTab(String TheKey) {
         // Required empty public constructor
+        Log.e("Test", TheKey);
+        HisUID = TheKey;
     }
 
     @Override
@@ -106,6 +110,8 @@ public class HisPostsTab extends Fragment {
 
     private void StartOrReload() {
 
+        Log.e("Test2", HisUID);
+
         GeneralFeed = getView().findViewById(R.id.rvHisPostsFragment);
         GeneralFeed.setItemViewCacheSize(20);
         GeneralFeed.setHasFixedSize(true);
@@ -132,12 +138,9 @@ public class HisPostsTab extends Fragment {
                     for (int i = 0; i < StuffForPostList.size(); i++) {
                         int position;
 
-                        String HisUID = "???";
-
                         if (!HisUID.equals(StuffForPostList.get(i).getUID())){
                             position = i;
                             StuffForPostList.remove(position);
-                            Log.e("list", StuffForPostList.toString());
                         }}
                     StuffForPostAdapter stuffForPostAdapter;
                     stuffForPostAdapter = new StuffForPostAdapter(getActivity(), StuffForPostList);

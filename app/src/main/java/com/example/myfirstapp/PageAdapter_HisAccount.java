@@ -1,5 +1,7 @@
 package com.example.myfirstapp;
 
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -7,14 +9,13 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class PageAdapter_HisAccount extends FragmentPagerAdapter {
 
-    private String Key;
     private int numoftabs;
-
+    private String key;
 
     public PageAdapter_HisAccount(@NonNull FragmentManager fm, int numOfTabs, String TheKey) {
         super(fm);
         this.numoftabs = numOfTabs;
-        this.Key = TheKey;
+        this.key = TheKey;
     }
 
     @NonNull
@@ -24,7 +25,7 @@ public class PageAdapter_HisAccount extends FragmentPagerAdapter {
         switch (position){
 
             case 0:
-                return new HisPostsTab();
+                return new HisPostsTab(key);
 
             case 1:
                 return new HisCommentsTab();
