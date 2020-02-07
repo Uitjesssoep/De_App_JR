@@ -191,8 +191,9 @@ public class Upload_Images_Activity extends AppCompatActivity {
                     StuffForPost stuffForPost = new StuffForPost(Title.getText().toString().trim(),
                             usernameString, UriImage, MyUID, temp_key, Date, "Image");
                     mDatabaseRef.child(temp_key).setValue(stuffForPost);
-                    Intent VNoD = new Intent(Upload_Images_Activity.this, Post_Viewing_Activity.class);
+                    Intent VNoD = new Intent(Upload_Images_Activity.this, Layout_Manager_BottomNav_Activity.class);
                     VNoD.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                    VNoD.putExtra("Type", "TextMake");
                     VNoD.putExtra("Key", temp_key);
                     startActivity(VNoD);
                     finish();
@@ -205,8 +206,9 @@ public class Upload_Images_Activity extends AppCompatActivity {
                     StuffForPost stuffForPost = new StuffForPost(Title.getText().toString().trim(),
                             usernameString, UriImage, MyUID, temp_key, Date, "Image");
                     mDatabaseRef.child(temp_key).setValue(stuffForPost);
-                    Intent VNoD = new Intent(Upload_Images_Activity.this, Post_Viewing_Activity.class);
+                    Intent VNoD = new Intent(Upload_Images_Activity.this, Layout_Manager_BottomNav_Activity.class);
                     VNoD.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                    VNoD.putExtra("Type", "TextMake");
                     VNoD.putExtra("Key", temp_key);
                     startActivity(VNoD);
                     finish();

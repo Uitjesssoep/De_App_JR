@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
+import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -177,8 +178,10 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                 StuffForPost StuffForPost = new StuffForPost(TitleContent, anonString, TextContent, MyUID, temp_key, Date, "Text");
                 GeneralTextPosts.child(temp_key).setValue(StuffForPost);
 
-                Intent VNoD = new Intent(Upload_TextPost_Activity.this, Post_Viewing_Activity.class);
+                Intent VNoD = new Intent(Upload_TextPost_Activity.this, Layout_Manager_BottomNav_Activity.class);
                 VNoD.putExtra("Key", temp_key);
+                VNoD.putExtra("Type", "TextMake");
+                VNoD.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(VNoD);
                 finish();
 
@@ -229,8 +232,10 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                 StuffForPost StuffForPost = new StuffForPost(TitleContent, usernameString, TextContent, MyUID, temp_key, Date, "Text");
                 GeneralTextPosts.child(temp_key).setValue(StuffForPost);
 
-                Intent VNoD = new Intent(Upload_TextPost_Activity.this, Post_Viewing_Activity.class);
+                Intent VNoD = new Intent(Upload_TextPost_Activity.this, Layout_Manager_BottomNav_Activity.class);
                 VNoD.putExtra("Key", temp_key);
+                VNoD.putExtra("Type", "TextMake");
+                VNoD.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(VNoD);
                 finish();
             }
@@ -278,8 +283,10 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         StuffForPost StuffForPost = new StuffForPost(TitleContent, anonString, TextContent, MyUID, temp_key, Date, "Text");
         GeneralTextPosts.child(temp_key).setValue(StuffForPost);
 
-        Intent VNoD = new Intent(Upload_TextPost_Activity.this, Post_Viewing_Activity.class);
+        Intent VNoD = new Intent(Upload_TextPost_Activity.this, Layout_Manager_BottomNav_Activity.class);
         VNoD.putExtra("Key", temp_key);
+        VNoD.putExtra("Type", "TextMake");
+        VNoD.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(VNoD);
         finish();
 

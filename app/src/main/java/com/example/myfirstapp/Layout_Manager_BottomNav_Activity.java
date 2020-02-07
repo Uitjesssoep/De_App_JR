@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import com.example.myfirstapp.Chatroom.Chat_With_Users_Activity;
 import com.example.myfirstapp.Textposts.Followers_Feed_Activity;
 import com.example.myfirstapp.Textposts.General_Feed_Activity;
+import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -54,6 +55,13 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                 String ChatRoomKey = getIntent().getExtras().get("Key").toString();
                 Intent intent = new Intent(Layout_Manager_BottomNav_Activity.this, Chat_With_Users_Activity.class);
                 intent.putExtra("Key", ChatRoomKey);
+                startActivity(intent);
+            }
+            if (Type.equals("TextMake")) {
+                bottomNav.setSelectedItemId(R.id.navigation_home);
+                String PostKey = getIntent().getExtras().get("Key").toString();
+                Intent intent = new Intent(Layout_Manager_BottomNav_Activity.this, Post_Viewing_Activity.class);
+                intent.putExtra("Key", PostKey);
                 startActivity(intent);
             }
             else {
@@ -208,5 +216,20 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onBackPressed(){
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_manager);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        if(MakingSelected){
+            Fragment selectedFragment = new EmptyMakeFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
+                    selectedFragment).commit();
+            MakingSelected = false;
+        }
+        else{
+            finish();
+        }
     }
 }
