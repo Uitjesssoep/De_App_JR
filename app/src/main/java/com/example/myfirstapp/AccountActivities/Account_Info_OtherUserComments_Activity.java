@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.myfirstapp.PageAdapter_HisAccount;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -151,41 +152,58 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
 
     private void SetupTabView() {
 
-        TabLayout tabLayout = findViewById(R.id.tab_layout_other_user_account);
+        final TabLayout tabLayout = findViewById(R.id.tab_layout_other_user_account);
         final ViewPager viewPager = findViewById(R.id.viewpager_tablayout_OtherUserAccount);
-        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount(), PostKey);
-        viewPager.setAdapter(pagerAdapter);
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        PostKey = getIntent().getExtras().get("PostKey").toString();
+        CommentKey = getIntent().getExtras().get("CommentKey").toString();
+        DatabaseReference GetUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey).child("uid");
+        GetUID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                viewPager.setCurrentItem(tab.getPosition());
+                String HisUID = dataSnapshot.getValue().toString();
 
-                if(tab.getPosition() == 0){
-                    pagerAdapter.notifyDataSetChanged();
-                }
-                else if(tab.getPosition() == 1){
-                    pagerAdapter.notifyDataSetChanged();
-                }
-                else if(tab.getPosition() == 2){
-                    pagerAdapter.notifyDataSetChanged();
-                }
+                pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount(), HisUID);
+                viewPager.setAdapter(pagerAdapter);
+
+                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+
+                        viewPager.setCurrentItem(tab.getPosition());
+
+                        if(tab.getPosition() == 0){
+                            pagerAdapter.notifyDataSetChanged();
+                        }
+                        else if(tab.getPosition() == 1){
+                            pagerAdapter.notifyDataSetChanged();
+                        }
+                        else if(tab.getPosition() == 2){
+                            pagerAdapter.notifyDataSetChanged();
+                        }
+
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+
+                viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
     }
 }

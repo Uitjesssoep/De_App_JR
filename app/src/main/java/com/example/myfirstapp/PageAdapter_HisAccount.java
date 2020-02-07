@@ -10,12 +10,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 public class PageAdapter_HisAccount extends FragmentPagerAdapter {
 
     private int numoftabs;
-    private String key;
+    private String uid;
 
-    public PageAdapter_HisAccount(@NonNull FragmentManager fm, int numOfTabs, String TheKey) {
+    public PageAdapter_HisAccount(@NonNull FragmentManager fm, int numOfTabs, String TheUID) {
         super(fm);
         this.numoftabs = numOfTabs;
-        this.key = TheKey;
+        this.uid = TheUID;
     }
 
     @NonNull
@@ -25,13 +25,13 @@ public class PageAdapter_HisAccount extends FragmentPagerAdapter {
         switch (position){
 
             case 0:
-                return new HisPostsTab(key);
+                return new HisPostsTab(uid);
 
             case 1:
-                return new HisCommentsTab();
+                return new HisCommentsTab(uid);
 
             case 2:
-                return new HisAboutTab();
+                return new HisAboutTab(uid);
 
             default:
                 return null;

@@ -49,10 +49,9 @@ public class HisPostsTab extends Fragment {
 
     private String HisUID;
 
-    public HisPostsTab(String TheKey) {
+    public HisPostsTab(String TheUID) {
         // Required empty public constructor
-        Log.e("Test", TheKey);
-        HisUID = TheKey;
+        HisUID = TheUID;
     }
 
     @Override

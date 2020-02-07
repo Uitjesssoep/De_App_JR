@@ -22,9 +22,11 @@ import com.google.firebase.database.ValueEventListener;
 
 public class HisAboutTab extends Fragment {
 
+    private String HisUID;
 
-    public HisAboutTab() {
+    public HisAboutTab(String TheUID) {
         // Required empty public constructor
+        HisUID = TheUID;
     }
 
 
@@ -35,8 +37,6 @@ public class HisAboutTab extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
-        final String HisUID = "???";
 
         final DatabaseReference LoadCounters = FirebaseDatabase.getInstance().getReference("users").child(HisUID);
         LoadCounters.addListenerForSingleValueEvent(new ValueEventListener() {

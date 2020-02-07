@@ -37,7 +37,7 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
     private TextView DisplayName, UserName;
     private ImageView ProfilePicture;
 
-    private String key, OtherUserUID;
+    private String key, OtherUserUID, TheirUID;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
@@ -162,42 +162,53 @@ public class Account_Info_OtherUser_Activity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewpager_tablayout_OtherUserAccount);
 
         key = getIntent().getExtras().get("Key").toString();
-
-        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount(), key);
-
-        viewPager.setAdapter(pagerAdapter);
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        DatabaseReference GetUID = firebaseDatabase.getReference("General_Posts").child(key).child("uid");
+        GetUID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                TheirUID = dataSnapshot.getValue().toString();
 
-                viewPager.setCurrentItem(tab.getPosition());
+                pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount(), TheirUID);
 
-                if(tab.getPosition() == 0){
-                    pagerAdapter.notifyDataSetChanged();
-                }
-                else if(tab.getPosition() == 1){
-                    pagerAdapter.notifyDataSetChanged();
-                }
-                else if(tab.getPosition() == 2){
-                    pagerAdapter.notifyDataSetChanged();
-                }
+                viewPager.setAdapter(pagerAdapter);
 
+                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+
+                        viewPager.setCurrentItem(tab.getPosition());
+
+                        if(tab.getPosition() == 0){
+                            pagerAdapter.notifyDataSetChanged();
+                        }
+                        else if(tab.getPosition() == 1){
+                            pagerAdapter.notifyDataSetChanged();
+                        }
+                        else if(tab.getPosition() == 2){
+                            pagerAdapter.notifyDataSetChanged();
+                        }
+
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
+
+                viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
     }
 
 

@@ -46,8 +46,11 @@ public class HisCommentsTab extends Fragment {
     private static Bundle mBundleRecyclerViewState;
     private Parcelable mListState = null;
 
-    public HisCommentsTab() {
+    private String HisUID;
+
+    public HisCommentsTab(String TheUID) {
         // Required empty public constructor
+        HisUID = TheUID;
     }
 
 
@@ -119,8 +122,6 @@ public class HisCommentsTab extends Fragment {
         final List<CommentStuffForTextPost> commentStuffForTextPostList = new ArrayList<>();
         final CommentStuffForTextPostAdapter commentStuffForTextPostAdapter = null;
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
-        final String HisUID = "???";
 
         final DatabaseReference comments = FirebaseDatabase.getInstance().getReference("users").child(HisUID).child("MyComments");
         registerForContextMenu(CommentView);
