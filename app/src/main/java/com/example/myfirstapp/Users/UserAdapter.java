@@ -145,12 +145,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 UsernameToFollow2 = holder.Username.getText().toString();
 
                 if (dataSnapshot.hasChild(UIDToFollow2)) {
-                    Log.e(TAGTEST, "Following");
                     holder.FollowButton.setBackgroundResource(R.drawable.button_roundedcorners_following);
                     holder.FollowButton.setText("Following");
                     holder.FollowButton.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
                 }
-                else {Log.e(TAGTEST, "Follow" );
+                else {
                     holder.FollowButton.setText("Follow");
                     holder.FollowButton.setBackgroundResource(R.drawable.button_roundedcorners_follow);
                     holder.FollowButton.setTextColor(mContext.getResources().getColor(R.color.white));

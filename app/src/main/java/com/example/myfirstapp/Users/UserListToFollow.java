@@ -239,7 +239,6 @@ public class UserListToFollow extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.hasChild(UIDOtherUser)) {
-                                    Log.e("Check", "TRUEE");
                                     final AlertDialog.Builder dialog = new AlertDialog.Builder(UserListToFollow.this);
                                     dialog.setTitle("Unfollow");
                                     dialog.setMessage("Are you sure you want to unfollow this user?");
@@ -248,8 +247,6 @@ public class UserListToFollow extends AppCompatActivity {
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             datarefUID.child(UIDOtherUser).removeValue();
                                             datarefOtherUID.child(MyUID).removeValue();
-                                            //setBackgroundColor(Color.rgb(151, 189, 240));
-                                            //Follow.setText("Follow");
                                             dialogInterface.dismiss();
                                         }
                                     });
@@ -261,19 +258,9 @@ public class UserListToFollow extends AppCompatActivity {
                                     });
                                     AlertDialog alertDialog = dialog.create();
                                     alertDialog.show();
-                                    // dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
-                                    // AlertDialog alertDialog = dialog.create();
-                                    // alertDialog.show();
-                                    //   holder.Follow.setEnabled(false);
                                 } else {
-                                    //  FollowersList followerslist = new FollowersList(userNameFollower, MyUID);
-
-                                    //  Log.e(TAGTEST, UIDToFollow);
-                                    //   Log.e(TAGTEST, userNameFollower);
-                                    //  FollowersList followingList = new FollowersList(UsernameOtherUser, UIDOtherUser);
                                     datarefFollowing.child(MyUID).child("following").child(UIDOtherUser).setValue(UsernameOtherUser);
                                     datarefFollowing.child(UIDOtherUser).child("followers").child(MyUID).setValue(userNameFollower);
-                                    Log.e("Check", "FALSEEE");
                                 }
                             }
 

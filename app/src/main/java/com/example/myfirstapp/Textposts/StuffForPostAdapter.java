@@ -74,7 +74,13 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
             holder.Content.setVisibility(View.GONE);
         } else {
             holder.Image.setVisibility(View.GONE);
-            holder.Content.setText(uploadCurrent.getContent());
+            String TheContent = uploadCurrent.getContent();
+            if(TheContent.equals("")){
+                holder.Content.setVisibility(View.GONE);
+            }
+            else{
+                holder.Content.setText(uploadCurrent.getContent());
+            }
         }
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());

@@ -150,18 +150,24 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
-        DatabaseReference PostType = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("type");
+        DatabaseReference PostType = FirebaseDatabase.getInstance().getReference("General_Posts").child(key);
         PostType.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String Type = dataSnapshot.getValue().toString();
+                String Type = dataSnapshot.child("type").getValue().toString();
 
                 if(Type.equals("Text")){
                     ImageContent.setVisibility(View.GONE);
-                    Content.setVisibility(View.VISIBLE);
+
+                    String TheContent = dataSnapshot.child("content").getValue().toString();
+                    if(TheContent.equals("")){
+                        Content.setVisibility(View.GONE);
+                    }
+                    else{
+                        Content.setVisibility(View.VISIBLE);
+                    }
                 }
                 else{
-                    Log.e("Check", "Type = Image");
                     ImageContent.setVisibility(View.VISIBLE);
                     Content.setVisibility(View.GONE);
                 }

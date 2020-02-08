@@ -84,7 +84,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tvDisplayNameOtherUserAccountViewing"
         app:layout_constraintTop_toBottomOf="@+id/tvDisplayNameOtherUserAccountViewing"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0." />
 
     <TextView
         android:id="@+id/tvDisplayNameOtherUserAccountViewing"
@@ -103,12 +103,21 @@
 
     <Button
         android:id="@+id/btChatWithUserAccountInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="9dp"
-        android:text="Chat"
-        app:layout_constraintStart_toEndOf="@+id/ivProfilePictureAccountInfoViewingOtherUser"
-        app:layout_constraintTop_toBottomOf="@+id/tvUsernameOtherUserAccountViewing" />
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_roundedcorners_follow"
+        android:scrollbarSize="0dp"
+        android:shadowColor="#00FFFFFF"
+        android:shadowDy="0"
+        android:text="Follow"
+        android:textColor="#FFFFFF"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ivProfilePictureAccountInfoViewingOtherUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvUsernameOtherUserAccountViewing"
+        app:layout_constraintTop_toBottomOf="@+id/tvUsernameOtherUserAccountViewing"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

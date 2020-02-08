@@ -1,8 +1,10 @@
 package com.example.myfirstapp.AccountActivities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -19,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.myfirstapp.Chatroom.ChatPrivateWithUsers;
 import com.example.myfirstapp.PageAdapter_HisAccount;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +40,7 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
     private TextView RealName, UserName;
     private ImageView ProfilePicture;
-    private Button ChatWithUser;
+    private Button Follow;
 
     private String uid, MyUID, key;
 
@@ -58,7 +62,7 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(Account_Info_OtherUser_Activity_Users.this, R.color.slighly_darker_mainGreen));
 
-        ChatWithUser = findViewById(R.id.btChatWithUserAccountInfo);
+        Follow = findViewById(R.id.btChatWithUserAccountInfo);
         RealName = findViewById(R.id.tvDisplayNameOtherUserAccountViewing);
         UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);
         ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoViewingOtherUser);
@@ -72,14 +76,108 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         myDatabase = FirebaseDatabase.getInstance().getReference("Private Chatrooms");
 
-        ChatWithUser.setOnClickListener(new View.OnClickListener() {
+
+        //check if following
+
+        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
+
+        dataref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChild(uid)) {
+                    Follow.setBackgroundResource(R.drawable.button_roundedcorners_following);
+                    Follow.setText("Following");
+                    Follow.setTextColor(getResources().getColor(R.color.colorAccent));
+                }
+                else {
+                    Follow.setText("Follow");
+                    Follow.setBackgroundResource(R.drawable.button_roundedcorners_follow);
+                    Follow.setTextColor(getResources().getColor(R.color.white));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        Follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseReference datarefFollower = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("userName");
+                datarefFollower.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        final String userNameFollower = dataSnapshot.getValue().toString();
+
+                        final DatabaseReference datarefUID = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
+                        final DatabaseReference datarefFollowing = FirebaseDatabase.getInstance().getReference().child("users");
+
+                        datarefFollowing.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                final String UsernameOtherUser = dataSnapshot.child(uid).child("userName").getValue().toString();
+
+                                final DatabaseReference datarefOtherUID = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("followers");
+                                datarefUID.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChild(uid)) {
+                                            Log.e("Check", "TRUEE");
+                                            AlertDialog.Builder dialog = new AlertDialog.Builder(Account_Info_OtherUser_Activity_Users.this);
+                                            dialog.setTitle("Unfollow");
+                                            dialog.setMessage("Are you sure you want to unfollow this user?");
+                                            dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    datarefUID.child(uid).removeValue();
+                                                    datarefOtherUID.child(MyUID).removeValue();;
+                                                    dialogInterface.dismiss();
+                                                }
+                                            });
+                                            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            });
+                                            AlertDialog alertDialog = dialog.create();
+                                            alertDialog.show();
+                                        } else {
+                                            datarefFollowing.child(MyUID).child("following").child(uid).setValue(UsernameOtherUser);
+                                            datarefFollowing.child(uid).child("followers").child(MyUID).setValue(userNameFollower);
+                                        }
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
+                        });
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+            }
+        });
+
+        /*ChatWithUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Account_Info_OtherUser_Activity_Users.this, ChatPrivateWithUsers.class);
                 intent.putExtra("UID", uid);
                 startActivity(intent);
             }
-        });
+        });*/
 
         //user visit count
         final DatabaseReference UserVisitCount = FirebaseDatabase.getInstance().getReference("users").child(uid);
