@@ -79,6 +79,30 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
                 final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 final String uid = dataSnapshot.getValue(String.class).toString();
 
+                DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
+
+                dataref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        if (dataSnapshot.hasChild(uid)) {
+                            Follow.setBackgroundResource(R.drawable.button_roundedcorners_following);
+                            Follow.setText("Following");
+                            Follow.setTextColor(getResources().getColor(R.color.colorAccent));
+                        }
+                        else {
+                            Follow.setText("Follow");
+                            Follow.setBackgroundResource(R.drawable.button_roundedcorners_follow);
+                            Follow.setTextColor(getResources().getColor(R.color.white));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
                 Follow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
