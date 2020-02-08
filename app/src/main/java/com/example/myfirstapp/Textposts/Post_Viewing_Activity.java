@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -36,6 +37,7 @@ import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -74,7 +76,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     private int LikeCount, DislikeCount, CommentCount;
-    private String TAG = "Text_Post_Viewing";
 
 
     private void SetupUI() {
@@ -110,6 +111,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         MyUID = firebaseAuth.getCurrentUser().getUid();
 
+        CheckIfMineGetsDeleted();
 
         final String ThePostKey = getIntent().getExtras().get("Key").toString();
         final String MyUID3 = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
@@ -169,6 +171,31 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void CheckIfMineGetsDeleted() {
+        String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference Check = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments");
+        Check.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                CheckIfHasComments();
+                ReloadComments();
+                Log.e("Child changed", "Een comment is deleted");
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     @Override
@@ -1104,6 +1131,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                         Intent intent = new Intent(Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
+                        finish();
                     }
                 });
                 dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

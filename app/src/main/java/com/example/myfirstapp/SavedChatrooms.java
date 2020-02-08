@@ -156,11 +156,37 @@ public class SavedChatrooms extends Fragment {
 
                                 @Override
                                 public void onItemClick(int position) {
-                                    final String key = StuffForPostList.get(position).getKey().toString();
+                                    final String key = StuffForPostList.get(position).getKey();
 
-                                    Intent Test2 = new Intent(getActivity().getApplicationContext(), Chat_With_Users_Activity.class);
-                                    Test2.putExtra("Key", key);
-                                    startActivity(Test2);
+                                    DatabaseReference CheckIfExists = FirebaseDatabase.getInstance().getReference("Chatrooms");
+                                    CheckIfExists.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            if(dataSnapshot.hasChild(key)){
+                                                Intent Test2 = new Intent(getActivity().getApplicationContext(), Chat_With_Users_Activity.class);
+                                                Test2.putExtra("Key", key);
+                                                startActivity(Test2);
+                                            }
+                                            else{
+                                                android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(getActivity());
+                                                dialog.setTitle("This chatroom has been deleted");
+                                                dialog.setMessage("This chatroom has been deleted, you can no longer view it.");
+
+                                                dialog.setPositiveButton("Understood", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                });
+                                                android.app.AlertDialog alertDialog = dialog.create();
+                                                alertDialog.show();
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        }
+                                    });
                                 }
 
                                 @Override

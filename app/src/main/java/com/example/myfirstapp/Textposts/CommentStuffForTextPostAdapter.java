@@ -59,8 +59,13 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         return new CommentStuffForTextPostAdapter.ViewHolder(view, mListener);
     }
 
+    public void delete(int position) {
+        mComment.remove(position);
+        notifyDataSetChanged();
+    }
+
     @Override
-    public void onBindViewHolder(@NonNull final CommentStuffForTextPostAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CommentStuffForTextPostAdapter.ViewHolder holder, final int position) {
         final CommentStuffForTextPost uploadCurrent2 = mComment.get(position);
         holder.Username.setText(uploadCurrent2.getUser_name());
         holder.Date.setText(uploadCurrent2.getDate());
@@ -192,7 +197,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                                                         final DatabaseReference RemoveCommentFromMyProfile = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments").child(KeyComment);
                                                         RemoveCommentFromMyProfile.removeValue();
 
-                                                        notifyDataSetChanged();
+                                                        delete(position);
 
                                                     }
                                                 });

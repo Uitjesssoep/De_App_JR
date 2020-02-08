@@ -31,6 +31,7 @@ import com.example.myfirstapp.Textposts.CommentStuffForTextPost;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPostAdapter;
 import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -63,6 +64,7 @@ public class MyCommentsTab extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+        CheckIfMineGetsDeleted();
         CheckInternet();
         StartOrReload();
 
@@ -75,6 +77,29 @@ public class MyCommentsTab extends Fragment {
             }
         });
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+    }
+
+    private void CheckIfMineGetsDeleted() {
+        String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference Check = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments");
+        Check.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                StartOrReload();
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     private void CheckInternet() {
