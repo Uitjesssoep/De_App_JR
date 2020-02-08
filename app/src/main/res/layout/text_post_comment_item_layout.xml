@@ -55,6 +55,7 @@
             android:layout_marginBottom="0dp"
             android:layout_weight="1"
             android:text="Content"
+            android:autoLink="web"
             android:textColor="#161616"
             android:textSize="16sp" />
 
