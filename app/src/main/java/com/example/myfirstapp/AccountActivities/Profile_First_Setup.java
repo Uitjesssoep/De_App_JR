@@ -1,6 +1,7 @@
 package com.example.myfirstapp.AccountActivities;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -10,6 +11,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -26,7 +31,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.myfirstapp.Content_Policy_Activity;
+import com.example.myfirstapp.Data_Policy_Activity;
+import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.Terms_of_Use_Activity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -113,21 +122,39 @@ public class Profile_First_Setup extends AppCompatActivity {
         ErrorFullName = findViewById(R.id.tvFullNameErrorFirstSetup);
         TermsAndDataPolicy = findViewById(R.id.tvBySigningUpYouAgree);
 
-        TermsAndDataPolicy.setPaintFlags(TermsAndDataPolicy.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        TermsAndDataPolicy.setOnClickListener(new View.OnClickListener() {
+        //set terms en data enzo underline ook en meer gebeurens
+        String TheText = "By signing up you agree to our Terms and that you have read our Data Policy and Content Policy";
+        SpannableString spannebleString = new SpannableString(TheText);
+        ClickableSpan TermsSpan = new ClickableSpan() {
             @Override
-            public void onClick(View view) {
-
+            public void onClick(@NonNull View view) {
+                Intent intent = new Intent(Profile_First_Setup.this, Terms_of_Use_Activity.class);
+                startActivity(intent);
             }
-        });
-
-        TermsAndDataPolicy.setOnClickListener(new View.OnClickListener() {
+        };
+        ClickableSpan DataSpan = new ClickableSpan() {
             @Override
-            public void onClick(View view) {
-
+            public void onClick(@NonNull View view) {
+                Intent intent = new Intent(Profile_First_Setup.this, Data_Policy_Activity.class);
+                startActivity(intent);
             }
-        });
+        };
+        ClickableSpan ContentSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                Intent intent = new Intent(Profile_First_Setup.this, Content_Policy_Activity.class);
+                startActivity(intent);
+            }
+        };
+
+        spannebleString.setSpan(TermsSpan, 31, 36, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannebleString.setSpan(DataSpan, 64, 75, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannebleString.setSpan(ContentSpan, 80, 94, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        TermsAndDataPolicy.setText(spannebleString);
+        TermsAndDataPolicy.setMovementMethod(LinkMovementMethod.getInstance());
+
 
         ErrorFullName.setVisibility(View.INVISIBLE);
 
@@ -153,6 +180,11 @@ public class Profile_First_Setup extends AppCompatActivity {
                 if (validateData()) {
 
                     Log.e(TAGTEST, "Validate = true");
+
+                    final ProgressDialog dialog = new ProgressDialog(Profile_First_Setup.this);
+                    dialog.setTitle("Creating your account!");
+                    dialog.setMessage("Please wait");
+                    dialog.show();
 
                     MakeProfileAuth();
 
@@ -210,8 +242,8 @@ public class Profile_First_Setup extends AppCompatActivity {
         }
         else {
 
-                if (!userfullnameToDatabase.matches("[a-zA-Z ]*")) {
-                    ErrorFullName.setText("Make sure your display name contains only alphabetic characters and spaces");
+                if (userfullnameToDatabase.length() < 3) {
+                    ErrorFullName.setText("Make sure your display name is at least 3 characters long");
                     ErrorFullName.setVisibility(View.VISIBLE);
                     FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                 }

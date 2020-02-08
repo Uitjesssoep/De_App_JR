@@ -68,7 +68,12 @@ public class Edit_PC_Activity extends AppCompatActivity {
                     CurrentTitle.setText(NowTitle);
 
                     String NowContent = dataSnapshot.child("content").getValue().toString();
-                    CurrentContent.setText(NowContent);
+                    if(NowContent.equals("")){
+                        CurrentContent.setText("[No content]");
+                    }
+                    else {
+                        CurrentContent.setText(NowContent);
+                    }
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {

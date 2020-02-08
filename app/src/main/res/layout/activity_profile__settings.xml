@@ -26,33 +26,42 @@
         tools:srcCompat="@drawable/neutral_profile_picture_nobackground" />
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="300dp"
+    <EditText
         android:id="@+id/inputlayoutDisplayNameUpdate"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_roundedcorners_login"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 "
+        android:ems="10"
+        android:hint="Display name"
+        android:inputType="textCapWords"
+        android:maxLength="25"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:scrollHorizontally="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivProfilePictureChange"
-        app:layout_constraintVertical_bias="0.25"
-        app:counterEnabled="true"
-        app:counterMaxLength="25"
-        app:hintEnabled="false">
+        app:layout_constraintVertical_bias="0.2" />
 
-        <EditText
-            android:id="@+id/etDisplayName"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:ems="10"
-            android:hint="Display name"
-            android:inputType="textCapWords"
-            android:maxLength="25"
-            android:paddingLeft="10dp"
-            android:background="@drawable/edittext_roundedcorners_login"
-            android:paddingRight="10dp"
-            android:scrollHorizontally="false" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/tvFullNameErrorProfileSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:text="Error"
+        android:textColor="#D32F2F"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputlayoutDisplayNameUpdate"
+        app:layout_constraintVertical_bias="0.005" />
 
     <TextView
         android:id="@+id/textView7"

@@ -58,7 +58,8 @@ public class Profile_Settings_Activity extends AppCompatActivity {
     private EditText ChangeFullName;
     private ImageView ChangeProfilePicture;
     private ImageButton Exit;
-    private TextInputLayout DisplayNameLayout;
+    private EditText DisplayNameLayout;
+    private TextView ErrorDisplayName;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
@@ -101,10 +102,12 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         final StorageReference storageReference = firebaseStorage.getReference();
         StorageReference myRef1 = storageReference.child(firebaseAuth.getUid());
+        ErrorDisplayName = findViewById(R.id.tvFullNameErrorProfileSettings);
+
+        ErrorDisplayName.setVisibility(View.GONE);
 
         DisplayNameLayout = findViewById(R.id.inputlayoutDisplayNameUpdate);
 
-        ChangeFullName = (EditText)findViewById(R.id.etDisplayName);
         ChangeProfilePicture = (ImageView) findViewById(R.id.ivProfilePictureChange);
 
         SetupDesign();
@@ -150,7 +153,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
     private void ClickSave() {
 
-        DisplayNameLayout.setError(null);
+        ErrorDisplayName.setVisibility(View.GONE);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -163,19 +166,23 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
         UID = firebaseAuth.getUid();
         ChangeFullNameString = ChangeFullName.getText().toString();
+        int DNLength = ChangeFullNameString.length();
         ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
         if (ChangeFullNameString.isEmpty()) {
-            DisplayNameLayout.setError("Please enter a display name");
+            ErrorDisplayName.setVisibility(View.VISIBLE);
+            ErrorDisplayName.setText("Please enter a display name");
             ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
         }
 
         else {
-            if (!ChangeFullNameString.matches("[a-zA-Z ]*")) {
-                DisplayNameLayout.setError("Please make sure your display name contains only alphabetic characters and spaces");
-                ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
-            } else {
 
+            if(DNLength < 3){
+                ErrorDisplayName.setVisibility(View.VISIBLE);
+                ErrorDisplayName.setText("Make sure your display name is at least 3 characters long");
+                ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+            }
+            else{
                 if (imagePath != null) {
 
                     StorageReference imageReference = storageReference.child("ProfilePictures").child(firebaseAuth.getUid());
@@ -242,7 +249,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                         }
                     });
                 }
-
             }
         }
 

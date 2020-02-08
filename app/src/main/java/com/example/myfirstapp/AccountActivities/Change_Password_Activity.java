@@ -28,10 +28,11 @@ import com.google.firebase.auth.FirebaseUser;
 public class Change_Password_Activity extends AppCompatActivity {
 
 
-    private EditText NewPasswordPasswordChange;
+    private EditText Repeat;
     private FirebaseUser firebaseUser;
     private ImageButton Exit;
-    private TextInputLayout NewPWLayout;
+    private EditText NewPWLayout;
+    private TextView Error, ErrorRepeat;
 
 
     @Override
@@ -39,8 +40,11 @@ public class Change_Password_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change__password);
 
-        NewPasswordPasswordChange = (EditText)findViewById(R.id.etNewChangePassword);
+        Repeat = findViewById(R.id.inputlayoutPasswordUpdateRepeat);
         NewPWLayout = findViewById(R.id.inputlayoutPasswordUpdate);
+
+        Error = findViewById(R.id.tvPasswordErrorChange);
+        ErrorRepeat = findViewById(R.id.tvPasswordErrorChangeRepeat);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -102,43 +106,62 @@ public class Change_Password_Activity extends AppCompatActivity {
 
     private void ClickSave() {
 
-        NewPWLayout.setError(null);
 
-        NewPasswordPasswordChange.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+        Error.setVisibility(View.GONE);
+        ErrorRepeat.setVisibility(View.GONE);
 
-        String NewPasswordString = NewPasswordPasswordChange.getText().toString().trim();
+        NewPWLayout.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+        Repeat.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+
+        String NewPasswordString = NewPWLayout.getText().toString().trim();
         int NewPasswordLength = NewPasswordString.length();
 
+        String RepeatPW = Repeat.getText().toString().trim();
 
         if(NewPasswordString.isEmpty()){
 
-            NewPasswordPasswordChange.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
-            NewPWLayout.setError("This field cannot be empty");
+            NewPWLayout.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+            Error.setText("This field cannot be empty");
+            Error.setVisibility(View.VISIBLE);
 
         }
         else {
 
-            if(NewPasswordLength < 6){
-                NewPasswordPasswordChange.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
-                NewPWLayout.setError("Make sure your password is at least 6 characters long");
+            if(RepeatPW.isEmpty()){
+                Repeat.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                ErrorRepeat.setText("This field cannot be empty");
+                ErrorRepeat.setVisibility(View.VISIBLE);
             }
-
             else{
+                if(NewPasswordLength < 6){
+                    NewPWLayout.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                    NewPWLayout.setError("Make sure your password is at least 6 characters long");
+                }
 
-                firebaseUser.updatePassword(NewPasswordString).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(Change_Password_Activity.this, "Password succesfully updated", Toast.LENGTH_SHORT);
-                            finish();
-                        }
+                else{
 
-                        else{
-                            Toast.makeText(Change_Password_Activity.this, "Couldn't update password, please try again later", Toast.LENGTH_SHORT);
-                        }
-
+                    if(!NewPasswordString.equals(RepeatPW)){
+                        Repeat.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                        ErrorRepeat.setText("The two passwords do not match");
+                        ErrorRepeat.setVisibility(View.VISIBLE);
                     }
-                });
+                    else{
+                        firebaseUser.updatePassword(NewPasswordString).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(Change_Password_Activity.this, "Password succesfully updated", Toast.LENGTH_SHORT);
+                                    finish();
+                                }
+
+                                else{
+                                    Toast.makeText(Change_Password_Activity.this, "Couldn't update password, please try again later", Toast.LENGTH_SHORT);
+                                }
+
+                            }
+                        });
+                    }
+                }
             }
 
         }
