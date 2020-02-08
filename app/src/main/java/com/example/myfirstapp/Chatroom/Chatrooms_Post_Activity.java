@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,11 +21,13 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
+import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.Notifications.Data;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
 import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -115,10 +118,18 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
 
         else{
             if(Anon.isChecked()){
+                final ProgressDialog dialog = new ProgressDialog(Chatrooms_Post_Activity.this);
+                dialog.setTitle("Uploading chatroom");
+                dialog.setMessage("Please wait");
+                dialog.show();
                 AnonChecked();
             }
 
             if((Anon.isChecked()==false)){
+                final ProgressDialog dialog = new ProgressDialog(Chatrooms_Post_Activity.this);
+                dialog.setTitle("Uploading chatroom");
+                dialog.setMessage("Please wait");
+                dialog.show();
                 AnonNotChecked();
             }
         }
@@ -133,18 +144,21 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 UserProfileToDatabase userProfileToDatabase = dataSnapshot.getValue(UserProfileToDatabase.class);
 
                 String User_name = userProfileToDatabase.getUserName().toString();
-                String temp_key = ChatroomDatabase.push().getKey();
+                final String temp_key = ChatroomDatabase.push().getKey();
                 String TitleDatabase = Title.getText().toString().trim();
 
                 PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, Date);
-                ChatroomDatabase.child(temp_key).setValue(postStuffForChat);
-
-                Intent intent = new Intent(Chatrooms_Post_Activity.this, Layout_Manager_BottomNav_Activity.class);
-                intent.putExtra("Type", "ChatMake");
-                intent.putExtra("Key", temp_key);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                ChatroomDatabase.child(temp_key).setValue(postStuffForChat).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Intent intent = new Intent(Chatrooms_Post_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                        intent.putExtra("Type", "ChatMake");
+                        intent.putExtra("Key", temp_key);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -162,18 +176,21 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 UserProfileToDatabase userProfileToDatabase = dataSnapshot.getValue(UserProfileToDatabase.class);
 
                 String User_name = "[anonymous]";
-                String temp_key = ChatroomDatabase.push().getKey();
+                final String temp_key = ChatroomDatabase.push().getKey();
                 String TitleDatabase = Title.getText().toString().trim();
 
                 PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, Date);
-                ChatroomDatabase.child(temp_key).setValue(postStuffForChat);
-
-                Intent intent = new Intent(Chatrooms_Post_Activity.this, Layout_Manager_BottomNav_Activity.class);
-                intent.putExtra("Type", "ChatMake");
-                intent.putExtra("Key", temp_key);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                ChatroomDatabase.child(temp_key).setValue(postStuffForChat).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Intent intent = new Intent(Chatrooms_Post_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                        intent.putExtra("Type", "ChatMake");
+                        intent.putExtra("Key", temp_key);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

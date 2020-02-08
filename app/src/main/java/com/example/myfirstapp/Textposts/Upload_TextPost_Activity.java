@@ -1,5 +1,6 @@
 package com.example.myfirstapp.Textposts;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,9 +22,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
+import com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -134,10 +137,18 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
         else{
             if(Anon.isChecked()){
+                final ProgressDialog dialog = new ProgressDialog(Upload_TextPost_Activity.this);
+                dialog.setTitle("Uploading post");
+                dialog.setMessage("Please wait");
+                dialog.show();
                 BothChecked();
             }
 
             if((Anon.isChecked()==false)){
+                final ProgressDialog dialog = new ProgressDialog(Upload_TextPost_Activity.this);
+                dialog.setTitle("Uploading post");
+                dialog.setMessage("Please wait");
+                dialog.show();
                 BothNotChecked();
             }
         }
@@ -176,15 +187,17 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
                 temp_key = GeneralTextPosts.push().getKey();
                 StuffForPost StuffForPost = new StuffForPost(TitleContent, anonString, TextContent, MyUID, temp_key, Date, "Text");
-                GeneralTextPosts.child(temp_key).setValue(StuffForPost);
-
-                Intent VNoD = new Intent(Upload_TextPost_Activity.this, Layout_Manager_BottomNav_Activity.class);
-                VNoD.putExtra("Key", temp_key);
-                VNoD.putExtra("Type", "TextMake");
-                VNoD.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(VNoD);
-                finish();
-
+                GeneralTextPosts.child(temp_key).setValue(StuffForPost).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Intent VNoD = new Intent(Upload_TextPost_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                        VNoD.putExtra("Key", temp_key);
+                        VNoD.putExtra("Type", "TextMake");
+                        VNoD.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(VNoD);
+                        finish();
+                    }
+                });
     }
 
     private void BothNotChecked(){
@@ -230,14 +243,17 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
                 temp_key = GeneralTextPosts.push().getKey();
                 StuffForPost StuffForPost = new StuffForPost(TitleContent, usernameString, TextContent, MyUID, temp_key, Date, "Text");
-                GeneralTextPosts.child(temp_key).setValue(StuffForPost);
-
-                Intent VNoD = new Intent(Upload_TextPost_Activity.this, Layout_Manager_BottomNav_Activity.class);
-                VNoD.putExtra("Key", temp_key);
-                VNoD.putExtra("Type", "TextMake");
-                VNoD.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(VNoD);
-                finish();
+                GeneralTextPosts.child(temp_key).setValue(StuffForPost).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Intent VNoD = new Intent(Upload_TextPost_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                        VNoD.putExtra("Key", temp_key);
+                        VNoD.putExtra("Type", "TextMake");
+                        VNoD.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(VNoD);
+                        finish();
+                    }
+                });
             }
 
             @Override
@@ -247,49 +263,4 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
         });
 
     }
-
-    private void VNotCheckedDChecked(){
-
-        String anonString = "[anonymous]";
-
-        final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
-        PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
-
-                    String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
-                    int PostCountInt = Integer.parseInt(PostCountString);
-                    PostCountInt = Integer.valueOf(PostCountInt + 1);
-                    String NewPostCountString = Integer.toString(PostCountInt);
-                    PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
-
-                }
-
-                else{
-                    PostCounter.child("Counters").child("PostCount").setValue("1");
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        temp_key = GeneralTextPosts.push().getKey();
-        StuffForPost StuffForPost = new StuffForPost(TitleContent, anonString, TextContent, MyUID, temp_key, Date, "Text");
-        GeneralTextPosts.child(temp_key).setValue(StuffForPost);
-
-        Intent VNoD = new Intent(Upload_TextPost_Activity.this, Layout_Manager_BottomNav_Activity.class);
-        VNoD.putExtra("Key", temp_key);
-        VNoD.putExtra("Type", "TextMake");
-        VNoD.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(VNoD);
-        finish();
-
-    }
-
 }
