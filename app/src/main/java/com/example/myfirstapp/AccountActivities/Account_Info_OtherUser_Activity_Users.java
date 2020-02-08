@@ -146,7 +146,6 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     datarefUID.child(uid).removeValue();
                                                     datarefOtherUID.child(MyUID).removeValue();
-                                                    ;
                                                     dialogInterface.dismiss();
                                                 }
                                             });
