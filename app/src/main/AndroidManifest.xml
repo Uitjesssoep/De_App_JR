@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/launcher_s_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".Data_Policy_Activity"></activity>
+        <activity android:name=".Terms_of_Use_Activity"></activity>
+        <activity android:name=".Data_Policy_Activity" />
         <activity android:name=".Content_Policy_Activity" />
         <activity android:name=".Send_Bug_Report_Activity" />
         <activity android:name=".Imageposts.ImagePostViewing" />

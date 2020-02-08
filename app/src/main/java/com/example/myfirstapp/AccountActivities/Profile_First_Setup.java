@@ -42,6 +42,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Profile_First_Setup extends AppCompatActivity {
@@ -51,7 +52,7 @@ public class Profile_First_Setup extends AppCompatActivity {
 
     private EditText FullNameSetup;
     private ImageView ProfilePictureSetup;
-    private TextView BirthdatePickSetup, PlaceHolderUNameSetup, PlaceHolderEmailSetup, ErrorFullName, ErrorBirthDate, TermsAndDataPolicy,TermsAndDataPolicy2;
+    private TextView PlaceHolderUNameSetup, PlaceHolderEmailSetup, ErrorFullName, TermsAndDataPolicy;
     private Button ContinueSetup;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
 
@@ -64,6 +65,9 @@ public class Profile_First_Setup extends AppCompatActivity {
     private static int PICK_IMAGE = 234;
     private Uri imagePath;
     private StorageReference imageReference;
+
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
 
     private Boolean PickedImage = false;
 
@@ -104,17 +108,14 @@ public class Profile_First_Setup extends AppCompatActivity {
         FullNameSetup = (EditText) findViewById(R.id.etFullNameSetup);
         ContinueSetup = (Button) findViewById(R.id.btnContinueSetupProfile);
         ProfilePictureSetup = (ImageView) findViewById(R.id.ivProfilePictureFirstSetup);
-        BirthdatePickSetup = (TextView) findViewById(R.id.tvSelectBirthdateSetup);
         PlaceHolderEmailSetup = (TextView) findViewById(R.id.tvPlaceHolderEmailSetup);
         PlaceHolderUNameSetup = (TextView) findViewById(R.id.tvPlaceHolderUserNameSetup);
         ErrorFullName = findViewById(R.id.tvFullNameErrorFirstSetup);
-        ErrorBirthDate = findViewById(R.id.tvBirthdayErrorFirstSetup);
-        TermsAndDataPolicy = findViewById(R.id.tvTermsAndDataPolicy);
-        TermsAndDataPolicy2 = findViewById(R.id.tvBySigningUpYouAgree);
+        TermsAndDataPolicy = findViewById(R.id.tvBySigningUpYouAgree);
 
         TermsAndDataPolicy.setPaintFlags(TermsAndDataPolicy.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
-        TermsAndDataPolicy2.setOnClickListener(new View.OnClickListener() {
+        TermsAndDataPolicy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -129,7 +130,6 @@ public class Profile_First_Setup extends AppCompatActivity {
         });
 
         ErrorFullName.setVisibility(View.INVISIBLE);
-        ErrorBirthDate.setVisibility(View.INVISIBLE);
 
         FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
@@ -144,35 +144,6 @@ public class Profile_First_Setup extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select image"), PICK_IMAGE);
             }
         });
-
-
-        //date picker deel
-
-        BirthdatePickSetup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(Profile_First_Setup.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener, year, month, day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-
-            }
-        });
-
-        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                Log.d(TAG, "onDateSet: dd/mm/yy: " + day + month + year);
-
-                String date = day + "/" + month + "/" + year;
-                BirthdatePickSetup.setText(date);
-            }
-        };
 
         //continue knop
 
@@ -220,7 +191,6 @@ public class Profile_First_Setup extends AppCompatActivity {
         useremailToDatabase = PlaceHolderEmailSetup.getText().toString().trim();
 
         userfullnameToDatabase = FullNameSetup.getText().toString().trim();
-        userbirthdateToDatabase = BirthdatePickSetup.getText().toString();
 
         int FullnameLength = userfullnameToDatabase.length();
 
@@ -230,7 +200,6 @@ public class Profile_First_Setup extends AppCompatActivity {
         int dayCheck = cal2.get(Calendar.DAY_OF_MONTH);
 
         ErrorFullName.setVisibility(View.INVISIBLE);
-        ErrorBirthDate.setVisibility(View.INVISIBLE);
 
         FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
@@ -241,36 +210,14 @@ public class Profile_First_Setup extends AppCompatActivity {
         }
         else {
 
-            if (userbirthdateToDatabase.equals("Select day of birth")) {
-                ErrorBirthDate.setText("Please enter your birthday");
-                ErrorBirthDate.setVisibility(View.VISIBLE);
-            }
-            else {
-
                 if (!userfullnameToDatabase.matches("[a-zA-Z ]*")) {
                     ErrorFullName.setText("Make sure your display name contains only alphabetic characters and spaces");
                     ErrorFullName.setVisibility(View.VISIBLE);
                     FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                 }
                 else {
-
-                    if(FullnameLength > 31){
-                        ErrorFullName.setText("Make sure your entered display name is not longer than 30 characters");
-                        ErrorFullName.setVisibility(View.VISIBLE);
-                        FullNameSetup.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
-                    }
-                    else{
-
-                        if(userbirthdateToDatabase.contains("2021")){
-                            ErrorBirthDate.setText("Please enter a possible birthday");
-                            ErrorBirthDate.setVisibility(View.VISIBLE);
-                        }
-                        else{
-                            result = true;
-                        }
-                    }
+                    result = true;
                 }
-            }
         }
 
         return result;
@@ -387,12 +334,16 @@ public class Profile_First_Setup extends AppCompatActivity {
         String password = getIntent().getExtras().get("password").toString();
         String email = getIntent().getExtras().get("email").toString();
 
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        String Date = dateFormat.format(calendar.getTime());
+
         //username apart in database zetten om te controleren of die al bestaat
         DatabaseReference UploadUsername = firebaseDatabase.getReference("Usernames").child(username);
         UploadUsername.setValue("exists");
 
         //uploaden naar database
-        UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, userbirthdateToDatabase);
+        UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, Date);
         myRef684.setValue(userProfile);
         Log.e(TAGTEST, "usertodatabase bereikt!");
     }

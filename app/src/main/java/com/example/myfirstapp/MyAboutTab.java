@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MyAboutTab extends Fragment {
 
+    private TextView AccountCreated;
 
     public MyAboutTab() {
         // Required empty public constructor
@@ -36,6 +37,8 @@ public class MyAboutTab extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        AccountCreatedVoid();
 
         final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -87,5 +90,23 @@ public class MyAboutTab extends Fragment {
 
             }
         });
+    }
+
+    private void AccountCreatedVoid() {
+
+        AccountCreated = getView().findViewById(R.id.tvAccountCreatedOnDate2);
+        String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference GetCreated = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("userBirthdate");
+        GetCreated.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Date = dataSnapshot.getValue().toString();
+                AccountCreated.setText(Date);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
     }
 }
