@@ -2,6 +2,7 @@ package com.example.myfirstapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -66,12 +67,29 @@ public class Edit_PC_Activity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String NowTitle = dataSnapshot.child("title").getValue().toString();
                     CurrentTitle.setText(NowTitle);
+                    int CurrentTitleLength = NowTitle.length();
+
+                    int maxLength = 245 - CurrentTitleLength;
+                    InputFilter[] fArray = new InputFilter[1];
+                    fArray[0] = new InputFilter.LengthFilter(maxLength);
+                    EditTitle.setFilters(fArray);
 
                     String NowContent = dataSnapshot.child("content").getValue().toString();
+                    int NowContentLength = NowContent.length();
                     if(NowContent.equals("")){
+                        int maxLengthContent = 4995;
+                        InputFilter[] fArray2 = new InputFilter[1];
+                        fArray2[0] = new InputFilter.LengthFilter(maxLengthContent);
+                        EditContent.setFilters(fArray2);
+
                         CurrentContent.setText("[No content]");
                     }
                     else {
+                        int maxLengthContent = 4995 - NowContentLength;
+                        InputFilter[] fArray2 = new InputFilter[1];
+                        fArray2[0] = new InputFilter.LengthFilter(maxLengthContent);
+                        EditContent.setFilters(fArray2);
+
                         CurrentContent.setText(NowContent);
                     }
                 }
@@ -95,6 +113,13 @@ public class Edit_PC_Activity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String NowTitle = dataSnapshot.child("title").getValue().toString();
+                    int CurrentTitleLength = NowTitle.length();
+
+                    int maxLength = 245 - CurrentTitleLength;
+                    InputFilter[] fArray = new InputFilter[1];
+                    fArray[0] = new InputFilter.LengthFilter(maxLength);
+                    EditTitle.setFilters(fArray);
+
                     CurrentTitle.setText(NowTitle);
                 }
                 @Override
@@ -118,6 +143,13 @@ public class Edit_PC_Activity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     String NowComment = dataSnapshot.child("content").getValue().toString();
+                    int NowCommentLength = NowComment.length();
+
+                    int maxLength = 245 - NowCommentLength;
+                    InputFilter[] fArray = new InputFilter[1];
+                    fArray[0] = new InputFilter.LengthFilter(maxLength);
+                    EditTitle.setFilters(fArray);
+
                     CurrentTitle.setText(NowComment);
                 }
                 @Override

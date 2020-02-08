@@ -14,19 +14,19 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/edittext_roundedcorners_login"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_. "
         android:ems="10"
         android:hint="Username"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_. "
+        android:inputType="textPersonName"
         android:maxLength="25"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:scrollHorizontally="false"
-        android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSignUpReg"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintVertical_bias="0.08" />
 
     <EditText
         android:id="@+id/etUserEmail"
@@ -71,6 +71,43 @@
         app:layout_constraintTop_toBottomOf="@+id/etUserEmail"
         app:layout_constraintVertical_bias="0" />
 
+    <EditText
+        android:id="@+id/etUserPasswordRepeat"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/edittext_roundedcorners_login"
+        android:ems="10"
+        android:hint="Repeat password"
+        android:maxLength="30"
+        android:inputType="textPassword"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:scrollHorizontally="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etUserPassword"
+        app:layout_constraintVertical_bias="0" />
+
+    <TextView
+        android:id="@+id/tvPasswordErrorRegRepeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:text="Error"
+        android:layout_marginEnd="40dp"
+        android:textColor="#D32F2F"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etUserPasswordRepeat"
+        app:layout_constraintVertical_bias="0.005" />
+
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="100dp"
@@ -87,8 +124,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUserPassword"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintTop_toBottomOf="@+id/etUserPasswordRepeat"
+        app:layout_constraintVertical_bias="0.3" />
 
     <TextView
         android:id="@+id/tvUserLogin"
@@ -116,7 +153,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.16" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <TextView
         android:id="@+id/tvAlreadyAccountReg"
@@ -129,7 +166,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRegister"
-        app:layout_constraintVertical_bias="0.635" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <TextView
         android:id="@+id/tvUsernameErrorReg"

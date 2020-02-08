@@ -29,9 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 public class RegistrationActivity extends AppCompatActivity {
 
 
-    private EditText userName, userPassword, userEmail;
+    private EditText userName, userPassword, userEmail, userPasswordRepeat;
     private Button regButton;
-    private TextView userLogin, alreadyAccountText, ErrorUsername, ErrorEmail, ErrorPassword;
+    private TextView userLogin, alreadyAccountText, ErrorUsername, ErrorEmail, ErrorPassword, ErrorPasswordRepeat;
 
     String protoname, password, emailget, UID;
 
@@ -57,10 +57,12 @@ public class RegistrationActivity extends AppCompatActivity {
                 ErrorUsername.setVisibility(View.INVISIBLE);
                 ErrorEmail.setVisibility(View.INVISIBLE);
                 ErrorPassword.setVisibility(View.INVISIBLE);
+                ErrorPasswordRepeat.setVisibility(View.INVISIBLE);
 
                 userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
                 userPassword.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
                 userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+                userPasswordRepeat.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
                 validate();
 
@@ -95,6 +97,8 @@ public class RegistrationActivity extends AppCompatActivity {
         ErrorUsername = findViewById(R.id.tvUsernameErrorReg);
         ErrorEmail = findViewById(R.id.tvEmailErrorReg);
         ErrorPassword = findViewById(R.id.tvPasswordErrorReg);
+        ErrorPasswordRepeat = findViewById(R.id.tvPasswordErrorRegRepeat);
+        userPasswordRepeat = findViewById(R.id.etUserPasswordRepeat);
 
         //voor het geven van kleur aan de status bar:
 
@@ -118,6 +122,7 @@ public class RegistrationActivity extends AppCompatActivity {
         ErrorUsername.setVisibility(View.INVISIBLE);
         ErrorEmail.setVisibility(View.INVISIBLE);
         ErrorPassword.setVisibility(View.INVISIBLE);
+        ErrorPasswordRepeat.setVisibility(View.INVISIBLE);
 
     }
 
@@ -128,100 +133,119 @@ public class RegistrationActivity extends AppCompatActivity {
         password = userPassword.getText().toString().trim();
         emailget = userEmail.getText().toString().trim();
 
+        String passwordRepeat = userPasswordRepeat.getText().toString().trim();
+
         int passwordlength = password.length();
         int usernamelength = protoname.length();
 
-        if(name.isEmpty() || password.isEmpty() || emailget.isEmpty()){
+        if(name.isEmpty()){
             userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
-            userPassword.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
-            userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
-
             ErrorUsername.setVisibility(View.VISIBLE);
-            ErrorEmail.setVisibility(View.VISIBLE);
-            ErrorPassword.setVisibility(View.VISIBLE);
-
             ErrorUsername.setText("Please fill in all the details");
-            ErrorEmail.setText("Please fill in all the details");
-            ErrorPassword.setText("Please fill in all the details");
         }
 
         else{
-            if(!isEmailValid(emailget)){
-                userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
-                ErrorEmail.setVisibility(View.VISIBLE);
-                ErrorEmail.setText("Please enter a valid email adress");
-            }
 
+            if(emailget.isEmpty()){
+                userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                ErrorEmail.setText("Please fill in all the details");
+                ErrorEmail.setVisibility(View.VISIBLE);
+            }
             else{
                 if(passwordlength < 6 ){
                     ErrorPassword.setVisibility(View.VISIBLE);
                     userPassword.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                     ErrorPassword.setText("Make sure your password is at least 6 characters long");
                 }
+                else {
 
-                else{
-                    if(usernamelength < 3 ){
-                        ErrorUsername.setText("Make sure your username is at least 3 characters long");
-                        ErrorUsername.setVisibility(View.VISIBLE);
-                        userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                    if(passwordRepeat.isEmpty()){
+                        userPasswordRepeat.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                        ErrorPasswordRepeat.setVisibility(View.VISIBLE);
+                        ErrorPasswordRepeat.setText("Please fill in all the details");
                     }
-
                     else{
-                        if(usernamelength > 31 ){
-                            ErrorUsername.setText("Make sure your username does not exceed the 30 character limit");
-                            ErrorUsername.setVisibility(View.VISIBLE);
-                            userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+
+                        if(!passwordRepeat.equals(password)){
+                            userPasswordRepeat.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                            ErrorPasswordRepeat.setVisibility(View.VISIBLE);
+                            ErrorPasswordRepeat.setText("The two passwords do not match");
                         }
-
                         else{
-                            if(!protoname.matches("[a-zA-Z._0-9]*")){
-                                ErrorUsername.setText("Make sure your username does not contain weird symbols");
-                                ErrorUsername.setVisibility(View.VISIBLE);
-                                userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+
+                            if(!isEmailValid(emailget)){
+                                userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                                ErrorEmail.setVisibility(View.VISIBLE);
+                                ErrorEmail.setText("Please enter a valid email adress");
                             }
+
                             else{
+                                if(usernamelength < 3 ){
+                                    ErrorUsername.setText("Make sure your username is at least 3 characters long");
+                                    ErrorUsername.setVisibility(View.VISIBLE);
+                                    userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                                }
 
-                                DatabaseReference CheckIfUsernameExists = FirebaseDatabase.getInstance().getReference("Usernames");
+                                else{
+                                    if(usernamelength > 31 ){
+                                        ErrorUsername.setText("Make sure your username does not exceed the 30 character limit");
+                                        ErrorUsername.setVisibility(View.VISIBLE);
+                                        userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                                    }
 
-                                CheckIfUsernameExists.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                        if(dataSnapshot.hasChild(name)){
-                                            ErrorUsername.setText("This username is already in use");
+                                    else{
+                                        if(!protoname.matches("[a-zA-Z._0-9]*")){
+                                            ErrorUsername.setText("Make sure your username does not contain weird symbols");
                                             ErrorUsername.setVisibility(View.VISIBLE);
                                             userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                                         }
                                         else{
 
-                                            firebaseAuth.fetchSignInMethodsForEmail(emailget).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                                            DatabaseReference CheckIfUsernameExists = FirebaseDatabase.getInstance().getReference("Usernames");
+
+                                            CheckIfUsernameExists.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
-                                                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                                                    if(task.getResult().getSignInMethods().size() == 0){
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                        AllGood();
-
+                                                    if(dataSnapshot.hasChild(name)){
+                                                        ErrorUsername.setText("This username is already in use");
+                                                        ErrorUsername.setVisibility(View.VISIBLE);
+                                                        userName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
                                                     }
                                                     else{
-                                                        userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
-                                                        ErrorEmail.setVisibility(View.VISIBLE);
-                                                        ErrorEmail.setText("This email has already been used to register an account");
+
+                                                        firebaseAuth.fetchSignInMethodsForEmail(emailget).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                                                                if(task.getResult().getSignInMethods().size() == 0){
+
+                                                                    AllGood();
+
+                                                                }
+                                                                else{
+                                                                    userEmail.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                                                                    ErrorEmail.setVisibility(View.VISIBLE);
+                                                                    ErrorEmail.setText("This email has already been used to register an account");
+                                                                }
+                                                            }
+                                                        });
                                                     }
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    Toast.makeText(RegistrationActivity.this, "Couldn't collect data from database, please try again later", Toast.LENGTH_LONG).show();
+
                                                 }
                                             });
                                         }
-
                                     }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        Toast.makeText(RegistrationActivity.this, "Couldn't collect data from database, please try again later", Toast.LENGTH_LONG).show();
-
-                                    }
-                                });
+                                }
                             }
                         }
+
                     }
                 }
             }
