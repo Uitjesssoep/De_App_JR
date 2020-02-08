@@ -41,7 +41,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     private PostStuffForChatAdapter postStuffForChatAdapter;
     private PostStuffForChatRoomAdapterNúmeroDos postStuffForChatRoomAdapterNúmeroDos;
 
-    private String room_name, user_name;
+    private String room_name, user_name, Key;
     private String temp_key, TAG = "Test";
     private String message, messageNummeroTwee, UID;
 
@@ -81,11 +81,15 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clear();
 
-                for (DataSnapshot snapshot : dataSnapshot.child(key).child("messages").getChildren()) {
-                    PostStuffForChatRoom postStuffForChatRoom = snapshot.getValue(PostStuffForChatRoom.class);
-                    MessagesList.add(postStuffForChatRoom);
-                    Log.e(TAG, MessagesList.toString());
-                    Log.e(TAG, String.valueOf(MessagesList.size()));
+                if (dataSnapshot.getValue().toString().contains(MyUid) && dataSnapshot.getValue().toString().contains(UID))
+                {
+                    Key = dataSnapshot.getValue().toString();
+                    for (DataSnapshot snapshot : dataSnapshot.child(key).child("messages").getChildren()) {
+                        PostStuffForChatRoom postStuffForChatRoom = snapshot.getValue(PostStuffForChatRoom.class);
+                        MessagesList.add(postStuffForChatRoom);
+                        Log.e(TAG, MessagesList.toString());
+                        Log.e(TAG, String.valueOf(MessagesList.size()));
+                    }
                 }
 
                 int position = 0;

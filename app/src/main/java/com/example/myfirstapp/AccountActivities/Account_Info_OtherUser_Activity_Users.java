@@ -1,7 +1,6 @@
 package com.example.myfirstapp.AccountActivities;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,10 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.myfirstapp.Chatroom.ChatPrivateWithUsers;
 import com.example.myfirstapp.PageAdapter_HisAccount;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,7 +37,7 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
     private TextView RealName, UserName;
     private ImageView ProfilePicture;
-    private Button Follow;
+    private Button Follow, Chat;
 
     private String uid, MyUID, key;
 
@@ -79,6 +76,19 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
 
         //check if following
 
+
+        myDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
 
         dataref.addValueEventListener(new ValueEventListener() {
@@ -89,8 +99,7 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
                     Follow.setBackgroundResource(R.drawable.button_roundedcorners_following);
                     Follow.setText("Following");
                     Follow.setTextColor(getResources().getColor(R.color.colorAccent));
-                }
-                else {
+                } else {
                     Follow.setText("Follow");
                     Follow.setBackgroundResource(R.drawable.button_roundedcorners_follow);
                     Follow.setTextColor(getResources().getColor(R.color.white));
@@ -136,7 +145,8 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     datarefUID.child(uid).removeValue();
-                                                    datarefOtherUID.child(MyUID).removeValue();;
+                                                    datarefOtherUID.child(MyUID).removeValue();
+                                                    ;
                                                     dialogInterface.dismiss();
                                                 }
                                             });
@@ -153,16 +163,19 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
                                             datarefFollowing.child(uid).child("followers").child(MyUID).setValue(userNameFollower);
                                         }
                                     }
+
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
                                     }
                                 });
                             }
+
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
                             }
                         });
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
