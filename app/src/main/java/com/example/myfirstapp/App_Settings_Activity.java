@@ -34,7 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class App_Settings_Activity extends AppCompatActivity {
 
     private ImageButton Exit;
-    private TextView ChangeDisplay, ChangePassword, LogOut, Delete, DataPolicy, ContentPolicy, Credits, SendEmail, ReportBug, BuildInfo;
+    private TextView ChangeDisplay, ChangePassword, LogOut, Delete, DataPolicy, ContentPolicy, TermsOfUse, Credits, SendEmail, ReportBug, BuildInfo;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private Switch nightMode;
 
@@ -175,6 +175,14 @@ public class App_Settings_Activity extends AppCompatActivity {
             }
         });
 
+        TermsOfUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(App_Settings_Activity.this, Terms_of_Use_Activity.class);
+                startActivity(intent);
+            }
+        });
+
         Credits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -255,6 +263,7 @@ public class App_Settings_Activity extends AppCompatActivity {
         Delete = findViewById(R.id.tvDeleteAccountOptionSettingsAccount);
         DataPolicy = findViewById(R.id.tvDataPolicySettingsAbout);
         ContentPolicy = findViewById(R.id.tvContentPolicySettingsAbout);
+        TermsOfUse = findViewById(R.id.tvTermsOfUseSettingsAbout);
         Credits = findViewById(R.id.tvCreditsSettingsAbout);
         SendEmail = findViewById(R.id.tvSendAMailSupportSettings);
         ReportBug = findViewById(R.id.tvReportABugSupportSettings);

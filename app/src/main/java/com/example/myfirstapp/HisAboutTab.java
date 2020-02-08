@@ -27,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 public class HisAboutTab extends Fragment {
 
     private String HisUID;
-    private TextView tvChatWithUser;
+    private TextView tvChatWithUser, AccountCreated;
     private ImageView btnChatWithUser;
 
     public HisAboutTab(String TheUID) {
@@ -45,6 +45,7 @@ public class HisAboutTab extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         ChatWithUserVoid();
+        UserAccountCreated();
 
         final DatabaseReference LoadCounters = FirebaseDatabase.getInstance().getReference("users").child(HisUID);
         LoadCounters.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -92,6 +93,22 @@ public class HisAboutTab extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void UserAccountCreated() {
+
+        AccountCreated = getView().findViewById(R.id.tvAccountCreatedOnDate);
+        DatabaseReference GetCreated = FirebaseDatabase.getInstance().getReference("users").child(HisUID).child("userBirthdate");
+        GetCreated.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Date = dataSnapshot.getValue().toString();
+                AccountCreated.setText(Date);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
