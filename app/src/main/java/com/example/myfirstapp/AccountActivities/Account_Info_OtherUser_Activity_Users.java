@@ -170,15 +170,6 @@ public class Account_Info_OtherUser_Activity_Users extends AppCompatActivity {
             }
         });
 
-        /*ChatWithUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Account_Info_OtherUser_Activity_Users.this, ChatPrivateWithUsers.class);
-                intent.putExtra("UID", uid);
-                startActivity(intent);
-            }
-        });*/
-
         //user visit count
         final DatabaseReference UserVisitCount = FirebaseDatabase.getInstance().getReference("users").child(uid);
         UserVisitCount.addListenerForSingleValueEvent(new ValueEventListener() {

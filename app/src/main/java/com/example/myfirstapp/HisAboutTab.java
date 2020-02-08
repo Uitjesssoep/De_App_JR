@@ -1,6 +1,7 @@
 package com.example.myfirstapp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,8 +11,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity_Users;
+import com.example.myfirstapp.Chatroom.ChatPrivateWithUsers;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 public class HisAboutTab extends Fragment {
 
     private String HisUID;
+    private TextView tvChatWithUser;
+    private ImageView btnChatWithUser;
 
     public HisAboutTab(String TheUID) {
         // Required empty public constructor
@@ -37,6 +43,8 @@ public class HisAboutTab extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        ChatWithUserVoid();
 
         final DatabaseReference LoadCounters = FirebaseDatabase.getInstance().getReference("users").child(HisUID);
         LoadCounters.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -84,6 +92,30 @@ public class HisAboutTab extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void ChatWithUserVoid() {
+
+        tvChatWithUser = getView().findViewById(R.id.tvChatWithOtherUser);
+        btnChatWithUser = getView().findViewById(R.id.ivChatWithOtherUser);
+
+        btnChatWithUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ChatPrivateWithUsers.class);
+                intent.putExtra("UID", HisUID);
+                startActivity(intent);
+            }
+        });
+
+        tvChatWithUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ChatPrivateWithUsers.class);
+                intent.putExtra("UID", HisUID);
+                startActivity(intent);
             }
         });
     }
