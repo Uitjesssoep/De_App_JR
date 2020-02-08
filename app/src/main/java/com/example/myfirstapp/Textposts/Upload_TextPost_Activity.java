@@ -1,5 +1,6 @@
 package com.example.myfirstapp.Textposts;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -23,6 +25,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity;
+import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
@@ -141,6 +144,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                 dialog.setTitle("Uploading post");
                 dialog.setMessage("Please wait");
                 dialog.show();
+                hideKeyboard(Upload_TextPost_Activity.this);
                 BothChecked();
             }
 
@@ -149,6 +153,7 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                 dialog.setTitle("Uploading post");
                 dialog.setMessage("Please wait");
                 dialog.show();
+                hideKeyboard(Upload_TextPost_Activity.this);
                 BothNotChecked();
             }
         }
@@ -262,5 +267,16 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
