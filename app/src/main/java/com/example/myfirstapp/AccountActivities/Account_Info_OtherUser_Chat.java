@@ -1,15 +1,19 @@
 package com.example.myfirstapp.AccountActivities;
 
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -37,6 +41,8 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
     private String key, OtherUserUID;
 
     public PageAdapter_HisAccount pagerAdapter;
+
+    private Button Follow;
 
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
@@ -123,6 +129,8 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
         UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);
         ProfilePicture = findViewById(R.id.ivProfilePictureAccountInfoViewingOtherUser);
 
+        Follow = findViewById(R.id.btChatWithUserAccountInfo);
+
         key = getIntent().getExtras().get("Key").toString();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -134,7 +142,74 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 OtherUserUID = dataSnapshot.getValue(String.class).toString();
-                Log.e(TAG, OtherUserUID);
+                final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                final String uid = dataSnapshot.getValue(String.class).toString();
+
+                Follow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DatabaseReference datarefFollower = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("userName");
+                        datarefFollower.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                final String userNameFollower = dataSnapshot.getValue().toString();
+
+                                final DatabaseReference datarefUID = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
+                                final DatabaseReference datarefFollowing = FirebaseDatabase.getInstance().getReference().child("users");
+
+                                datarefFollowing.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        final String UsernameOtherUser = dataSnapshot.child(uid).child("userName").getValue().toString();
+
+                                        final DatabaseReference datarefOtherUID = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("followers");
+                                        datarefUID.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                if (dataSnapshot.hasChild(uid)) {
+                                                    Log.e("Check", "TRUEE");
+                                                    AlertDialog.Builder dialog = new AlertDialog.Builder(Account_Info_OtherUser_Chat.this);
+                                                    dialog.setTitle("Unfollow");
+                                                    dialog.setMessage("Are you sure you want to unfollow this user?");
+                                                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            datarefUID.child(uid).removeValue();
+                                                            datarefOtherUID.child(MyUID).removeValue();;
+                                                            dialogInterface.dismiss();
+                                                        }
+                                                    });
+                                                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                            dialogInterface.dismiss();
+                                                        }
+                                                    });
+                                                    AlertDialog alertDialog = dialog.create();
+                                                    alertDialog.show();
+                                                } else {
+                                                    datarefFollowing.child(MyUID).child("following").child(uid).setValue(UsernameOtherUser);
+                                                    datarefFollowing.child(uid).child("followers").child(MyUID).setValue(userNameFollower);
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                            }
+                                        });
+                                    }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    }
+                                });
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
+                        });
+                    }
+                });
 
                 //user visit count
                 final DatabaseReference UserVisitCount = FirebaseDatabase.getInstance().getReference("users").child(OtherUserUID);
