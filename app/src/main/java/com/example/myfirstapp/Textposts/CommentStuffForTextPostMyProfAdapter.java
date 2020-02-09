@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.Edit_PC_Activity;
-import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,15 +27,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<CommentStuffForTextPostAdapter.ViewHolder>{
+public class CommentStuffForTextPostMyProfAdapter extends RecyclerView.Adapter<CommentStuffForTextPostMyProfAdapter.ViewHolder>{
 
     public Context mContext;
-    public List<CommentStuffForTextPost> mComment;
-    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    public List<CommentStuffForTextPostMyProf> mComment;
     private int LikeCountAdapter, DislikeCountAdapter;
 
 
     private OnItemClickListener mListener;
+
     public interface OnItemClickListener {
         void onItemClick(int position);
         void onUserNameClick(int position);
@@ -49,14 +48,14 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
     }
 
 
-    public CommentStuffForTextPostAdapter(Context mContext, List<CommentStuffForTextPost> mComment){
+    public CommentStuffForTextPostMyProfAdapter(Context mContext, List<CommentStuffForTextPostMyProf> mComment){
         this.mContext = mContext;
         this.mComment = mComment;
     }
 
-    public CommentStuffForTextPostAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CommentStuffForTextPostMyProfAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.text_post_comment_item_layout, parent, false);
-        return new CommentStuffForTextPostAdapter.ViewHolder(view, mListener);
+        return new CommentStuffForTextPostMyProfAdapter.ViewHolder(view, mListener);
     }
 
     public void delete(int position) {
@@ -65,12 +64,10 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CommentStuffForTextPostAdapter.ViewHolder holder, final int position) {
-        final CommentStuffForTextPost uploadCurrent2 = mComment.get(position);
-        holder.Username.setText(uploadCurrent2.getUser_name());
-        holder.Date.setText(uploadCurrent2.getDate());
-        holder.Content.setText(uploadCurrent2.getContent());
-
+    public void onBindViewHolder(@NonNull final CommentStuffForTextPostMyProfAdapter.ViewHolder holder, final int position) {
+        final CommentStuffForTextPostMyProf uploadCurrent2 = mComment.get(position);
+        String PostKey = uploadCurrent2.getOldKey();
+        String CommentKey = uploadCurrent2.getKey();
 
         //Check if exists
         final String ThePostKey684 = uploadCurrent2.getOldKey();
@@ -85,10 +82,26 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                     DeleteAtMyComments.child(TheCommentKey684).removeValue();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
+        //de data laden
+        DatabaseReference LoadTheData = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey);
+        LoadTheData.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Username = dataSnapshot.child("user_name").getValue().toString();
+                String Date = dataSnapshot.child("date").getValue().toString();
+                String Content = dataSnapshot.child("content").getValue().toString();
+
+                holder.Username.setText(Username);
+                holder.Date.setText(Date);
+                holder.Content.setText(Content);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
 
@@ -98,39 +111,28 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         final String KeyOGPosts2 = uploadCurrent2.getOldKey();
         final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
         final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("user_name");
-        final String CommentUID = uploadCurrent2.getUID().toString();
+        final String CommentUID = uploadCurrent2.getUID();
 
         UserUIDCheck.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 if(dataSnapshot.hasChild(CommentUID)){
-
                 }
-
                 else{
-
                     ChangeUsername.setValue("[deleted_user]");
                     holder.Username.setText("[deleted_user]");
-
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
         final String PostUID = uploadCurrent2.getUID();
         final String MyUID684 = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final String PostUsername = uploadCurrent2.getUser_name();
-
+        final String PostUsername = holder.Username.getText().toString();
         if(PostUID.equals(MyUID684)){
-
             if(PostUsername.equals("[deleted_comment_user]")){
-
                 DatabaseReference GetMyUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID684).child("userName");
                 GetMyUsername.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -141,13 +143,10 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                         holder.Username.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
 
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
                     }
                 });
-
             }
             else{
                 holder.Username.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
@@ -296,16 +295,13 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                             case R.id.savepost_option_textposts:
 
-                                                String CommentMessage = uploadCurrent2.getContent();
-                                                String Date = uploadCurrent2.getDate();
-                                                String userName = uploadCurrent2.getUser_name();
                                                 String CommentKey = uploadCurrent2.getKey();
                                                 String TheUID = uploadCurrent2.getUID();
                                                 String PostKey = uploadCurrent2.getOldKey();
 
                                                 DatabaseReference SaveComment = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("SavedComments");
-                                                CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, CommentKey, TheUID, PostKey);
-                                                SaveComment.child(CommentKey).setValue(commentStuffForTextPost);
+                                                CommentStuffForTextPostMyProf commentStuffForTextPostMyProf = new CommentStuffForTextPostMyProf(CommentKey, TheUID, PostKey);
+                                                SaveComment.child(CommentKey).setValue(commentStuffForTextPostMyProf);
 
                                                 break;
 
@@ -350,8 +346,8 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                                             case R.id.reportpost_option_textposts:
 
                                                 Intent intent= new Intent(mContext, Report_TextPost_Activity.class);
-                                                intent.putExtra("Titel", uploadCurrent2.getContent());
-                                                intent.putExtra("User", uploadCurrent2.getUser_name());
+                                                intent.putExtra("Titel", holder.Content.getText().toString());
+                                                intent.putExtra("User", holder.Username.getText().toString());
                                                 intent.putExtra("Key", uploadCurrent2.getKey());
                                                 intent.putExtra("Soort", "comment");
                                                 mContext.startActivity(intent);
@@ -360,7 +356,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                             case R.id.unsavepost_option_textposts:
 
-                                                final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                                                 SaveThePost.child("SavedComments").child(KeyComment).removeValue();
 
                                                 break;
@@ -390,8 +386,8 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                                             case R.id.reportpost_option_textposts:
 
                                                 Intent intent= new Intent(mContext, Report_TextPost_Activity.class);
-                                                intent.putExtra("Titel", uploadCurrent2.getContent());
-                                                intent.putExtra("User", uploadCurrent2.getUser_name());
+                                                intent.putExtra("Titel", holder.Content.getText().toString());
+                                                intent.putExtra("User", holder.Username.getText().toString());
                                                 intent.putExtra("Key", uploadCurrent2.getKey());
                                                 intent.putExtra("Soort", "comment");
                                                 mContext.startActivity(intent);
@@ -400,16 +396,13 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                             case R.id.savepost_option_textposts:
 
-                                                String CommentMessage = uploadCurrent2.getContent();
-                                                String Date = uploadCurrent2.getDate();
-                                                String userName = uploadCurrent2.getUser_name();
                                                 String CommentKey = uploadCurrent2.getKey();
                                                 String TheUID = uploadCurrent2.getUID();
                                                 String PostKey = uploadCurrent2.getOldKey();
 
                                                 DatabaseReference SaveComment = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("SavedComments");
-                                                CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, CommentKey, TheUID, PostKey);
-                                                SaveComment.child(CommentKey).setValue(commentStuffForTextPost);
+                                                CommentStuffForTextPostMyProf commentStuffForTextPostMyProf = new CommentStuffForTextPostMyProf(CommentKey, TheUID, PostKey);
+                                                SaveComment.child(CommentKey).setValue(commentStuffForTextPostMyProf);
 
                                                 break;
 

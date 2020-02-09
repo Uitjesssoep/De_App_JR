@@ -86,8 +86,9 @@ public class Make_Comment_Activity extends AppCompatActivity {
 
                     temp_key = DatabaseCommentStuff.push().getKey();
                     CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, temp_key, MyUID, key);
+                    CommentStuffForTextPostMyProf commentStuffForTextPostMyProf = new CommentStuffForTextPostMyProf(temp_key, MyUID, key);
                     DatabaseCommentStuff.child(temp_key).setValue(commentStuffForTextPost);
-                    ToMyProfile.child(temp_key).setValue(commentStuffForTextPost);
+                    ToMyProfile.child(temp_key).setValue(commentStuffForTextPostMyProf);
 
                     Intent intent = new Intent(Make_Comment_Activity.this, Post_Viewing_Activity.class);
                     intent.putExtra("Key", key);
