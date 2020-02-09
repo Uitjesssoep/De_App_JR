@@ -269,6 +269,8 @@ public class Chat_Room_MakeOrSearch_Activity extends AppCompatActivity {
 
     private void SetupDesign() {
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
 
         Window window = Chat_Room_MakeOrSearch_Activity.this.getWindow();

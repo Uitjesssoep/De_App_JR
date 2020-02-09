@@ -287,6 +287,8 @@ public class UserListToFollow extends AppCompatActivity {
 
     private void SetupDesign() {
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
 
         Window window = UserListToFollow.this.getWindow();

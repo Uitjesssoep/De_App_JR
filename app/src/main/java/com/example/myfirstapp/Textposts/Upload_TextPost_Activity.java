@@ -60,6 +60,8 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
     private void SetupUI() {
 
+        setTheme(R.style.AppTheme);
+
         Title = findViewById(R.id.etTitleTextPost);
         Content = findViewById(R.id.etContentTextPost);
         Anon = findViewById(R.id.cbPostAnonText);

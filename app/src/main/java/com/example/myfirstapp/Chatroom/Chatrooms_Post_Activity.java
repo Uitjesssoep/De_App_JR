@@ -70,6 +70,7 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
+        setTheme(R.style.AppTheme);
 
         //voor het geven van kleur aan de status bar:
         Window window = Chatrooms_Post_Activity.this.getWindow();

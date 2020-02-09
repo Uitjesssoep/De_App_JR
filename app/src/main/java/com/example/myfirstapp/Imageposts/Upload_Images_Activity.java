@@ -272,6 +272,8 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
     private void SetupDesign() {
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
         Window window = Upload_Images_Activity.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

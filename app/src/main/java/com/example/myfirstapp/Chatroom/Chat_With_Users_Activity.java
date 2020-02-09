@@ -129,6 +129,8 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     }
 
     private void SetupUI() {
+        setTheme(R.style.AppTheme);
+
         SendChatButton = findViewById(R.id.btnSendMessageChat);
         ChatInputText = findViewById(R.id.etChatInput);
         //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
