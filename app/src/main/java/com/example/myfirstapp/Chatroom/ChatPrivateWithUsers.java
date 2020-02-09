@@ -87,14 +87,14 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
                 }
 
-                int position = 0;
+             /*   int position = 0;
                 LinearLayoutManager manager = (LinearLayoutManager) ChatWindow.getLayoutManager();
                 if (manager != null) {
                     scrollPosition = manager.findFirstVisibleItemPosition();
                 }
                 if (manager != null) {
                     ChatWindow.scrollToPosition(scrollPosition);
-                }
+                }*/
                 postStuffForChatRoomAdapterNúmeroDos = new PostStuffForChatRoomAdapterNúmeroDos(ChatPrivateWithUsers.this, MessagesList);
                 ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
 
