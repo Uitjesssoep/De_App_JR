@@ -1,7 +1,6 @@
 package com.example.myfirstapp.Chatroom;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,7 +47,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     private String LayoutPosition = "ARGS_SCROLL_POS";
     private String LayoutFloat = "ARGS_SCROLL_OFFSET";
 
-    private String MyUid, Username, Date, key;
+    private String MyUid, Username, Date;
     private FirebaseAuth firebaseAuth;
 
     private List<PostStuffForChatRoom> MessagesList;
@@ -80,17 +79,14 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clear();
-                if (dataSnapshot.exists()){
-                    if (dataSnapshot.getValue().toString().contains(MyUid) && dataSnapshot.getValue().toString().contains(UID))
-                {
-                    Key = dataSnapshot.getValue().toString();
-                    for (DataSnapshot snapshot : dataSnapshot.child(Key).child("messages").getChildren()) {
-                        PostStuffForChatRoom postStuffForChatRoom = snapshot.getValue(PostStuffForChatRoom.class);
-                        MessagesList.add(postStuffForChatRoom);
-                        Log.e(TAG, MessagesList.toString());
-                        Log.e(TAG, String.valueOf(MessagesList.size()));
-                    }
-                }}
+
+                for (DataSnapshot snapshot : dataSnapshot.child(Key).child("messages").getChildren()) {
+                    PostStuffForChatRoom postStuffForChatRoom = snapshot.getValue(PostStuffForChatRoom.class);
+                    MessagesList.add(postStuffForChatRoom);
+                    Log.e(TAG, MessagesList.toString());
+                    Log.e(TAG, String.valueOf(MessagesList.size()));
+
+                }
 
                 int position = 0;
                 LinearLayoutManager manager = (LinearLayoutManager) ChatWindow.getLayoutManager();
@@ -102,13 +98,6 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                 }
                 postStuffForChatRoomAdapterNúmeroDos = new PostStuffForChatRoomAdapterNúmeroDos(ChatPrivateWithUsers.this, MessagesList);
                 ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
-
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                }, 500);
 
 
             }
@@ -146,15 +135,14 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         UID = getIntent().getExtras().get("UID").toString();
-        if (getIntent().getExtras().get("Key") == null) {
+       /* if (getIntent().getExtras().get("Key") == null) {
             key = MyUid + " + " + UID;
         } else {
             key = getIntent().getExtras().get("Key").toString();
-        }
+        }*/
 
 
-
-        myDatabase = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("messages");
+        myDatabase = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(Key).child("messages");
         // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
 
         myDatabase2 = FirebaseDatabase.getInstance().getReference("Private Chatrooms");
@@ -175,8 +163,6 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference("users").child(MyUid).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
                             Username = dataSnapshot.child("userName").getValue().toString();
                             Log.e(TAG, Username);
                             message = ChatInputText.getText().toString();
@@ -200,53 +186,68 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
     }
 
-    private void MakeChatroom() {
-        FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void FindIntel() {
+
+        myDatabase2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.hasChild("messages")) {
-                    Log.e(TAG, "TRUE");
-                    FirebaseDatabase.getInstance().getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String Username1 = dataSnapshot.child(UID).child("userName").getValue().toString();
-                            String Username2 = dataSnapshot.child(MyUid).child("userName").getValue().toString();
-                            Calendar calendar = Calendar.getInstance();
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
-                            String Date = dateFormat.format(calendar.getTime());
-                            PostStuffMakePrivateChat postStuffMakePrivateChat = new PostStuffMakePrivateChat(Username1, Username2, UID, MyUid, key, Date);
-
-                            myDatabase2.child(key).setValue(postStuffMakePrivateChat);
-
-
-                        }
-
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+                clear();
+                if (dataSnapshot.exists()) {
+                    if (dataSnapshot.getValue().toString().contains(MyUid) && dataSnapshot.getValue().toString().contains(UID)) {
+                        Key = dataSnapshot.getValue().toString();
+                        LoadMessages();
+                    } else {
+                        Key = MyUid + " + " + UID;
+                        MakeChatroom();
+                    }
+                }else {
+                    Key = MyUid + " + " + UID;
+                    MakeChatroom();
                 }
             }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+    private void MakeChatroom() {
+        FirebaseDatabase.getInstance().getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Username1 = dataSnapshot.child(UID).child("userName").getValue().toString();
+                String Username2 = dataSnapshot.child(MyUid).child("userName").getValue().toString();
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
+                String Date = dateFormat.format(calendar.getTime());
+                PostStuffMakePrivateChat postStuffMakePrivateChat = new PostStuffMakePrivateChat(Username1, Username2, UID, MyUid, Key, Date);
+
+                myDatabase2.child(Key).setValue(postStuffMakePrivateChat);
+
+
+            }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(Key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.hasChild("messages")) {
                     Log.e(TAG, "FALSE");
 
-                    myDatabase2.child(key).removeValue();
+                    myDatabase2.child(Key).removeValue();
                 }
             }
 
