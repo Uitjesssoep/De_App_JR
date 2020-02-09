@@ -13,8 +13,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
 import com.example.myfirstapp.Chatroom.Chat_With_Users_Activity;
@@ -38,6 +41,9 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout__manager__bottom_nav_);
+
+        FrameLayout frameLayout = findViewById(R.id.framelayout_manager_makepost);
+        frameLayout.setVisibility(View.GONE);
 
         SetupDesign();
 
@@ -92,7 +98,6 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.action_bar_feed_manager);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -111,9 +116,12 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                                     selectedFragment).commit();
 
-                            selectedFragment = new EmptyMakeFragment();
-                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
-                                    selectedFragment).commit();
+                            if(MakingSelected){
+                                FrameLayout frameLayout = findViewById(R.id.framelayout_manager_makepost);
+                                Animation animation = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
+                                frameLayout.startAnimation(animation);
+                                frameLayout.setVisibility(View.GONE);
+                            }
 
                             MakingSelected = false;
 
@@ -127,9 +135,12 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                                     selectedFragment).commit();
 
-                            selectedFragment = new EmptyMakeFragment();
-                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
-                                    selectedFragment).commit();
+                            if(MakingSelected) {
+                                FrameLayout frameLayout2 = findViewById(R.id.framelayout_manager_makepost);
+                                Animation animation2 = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
+                                frameLayout2.startAnimation(animation2);
+                                frameLayout2.setVisibility(View.GONE);
+                            }
 
                             MakingSelected = false;
 
@@ -139,21 +150,27 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
                             if(MakingSelected){
 
-                                selectedFragment = new EmptyMakeFragment();
-                                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
-                                        selectedFragment).commit();
+                                FrameLayout frameLayout3 = findViewById(R.id.framelayout_manager_makepost);
+                                Animation animation3 = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
+                                frameLayout3.startAnimation(animation3);
+                                frameLayout3.setVisibility(View.GONE);
 
                                 MakingSelected = false;
 
                             }
                             else{
+
+                                FrameLayout frameLayout4 = findViewById(R.id.framelayout_manager_makepost);
+                                frameLayout4.setVisibility(View.VISIBLE);
+
                                 selectedFragment = new MakeFragment();
                                 CurrentFrag = "Make";
 
-                                FrameLayout frameLayout = findViewById(R.id.framelayout_manager_makepost);
-
                                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
                                         selectedFragment).commit();
+
+                                Animation animation4 = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_open);
+                                frameLayout4.startAnimation(animation4);
 
                                 MakingSelected = true;
                             }
@@ -168,9 +185,13 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                                     selectedFragment).commit();
 
-                            selectedFragment = new EmptyMakeFragment();
-                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
-                                    selectedFragment).commit();
+                            if(MakingSelected){
+
+                                FrameLayout frameLayout5 = findViewById(R.id.framelayout_manager_makepost);
+                                Animation animation5 = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
+                                frameLayout5.startAnimation(animation5);
+                                frameLayout5.setVisibility(View.GONE);
+                            }
 
                             MakingSelected = false;
 
@@ -184,9 +205,12 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                                     selectedFragment).commit();
 
-                            selectedFragment = new EmptyMakeFragment();
-                            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
-                                    selectedFragment).commit();
+                            if(MakingSelected){
+                                FrameLayout frameLayout6 = findViewById(R.id.framelayout_manager_makepost);
+                                Animation animation6 = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
+                                frameLayout6.startAnimation(animation6);
+                                frameLayout6.setVisibility(View.GONE);
+                            }
 
                             MakingSelected = false;
 
@@ -228,10 +252,11 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         if(MakingSelected){
-            Fragment selectedFragment = new EmptyMakeFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager_makepost,
-                    selectedFragment).commit();
+            FrameLayout frameLayout7 = findViewById(R.id.framelayout_manager_makepost);
+            Animation animation7 = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
+            frameLayout7.startAnimation(animation7);
             MakingSelected = false;
+            frameLayout7.setVisibility(View.GONE);
         }
         else{
             finish();
