@@ -1,6 +1,7 @@
 package com.example.myfirstapp.Chatroom;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,10 +79,14 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
                 }
                 holder.Username.setText(Username);
                 holder.Title.setVisibility(View.GONE);
-                holder.Date.setText(uploadCurrent.getDate());
+                StringBuilder str = new StringBuilder(uploadCurrent.getDate());
+                str.replace(5, 12, "");
+                String Date = str.toString();
+                holder.Date.setText(Date);
                 holder.CommentCount.setVisibility(View.GONE);
                 holder.CommentLogo.setVisibility(View.GONE);
                 holder.Content.setVisibility(View.GONE);
+                holder.Streepje.setTextColor(Color.WHITE);
             }
 
             @Override
@@ -93,277 +98,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
 
 
-       /* holder.DeleteTextPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                //gaan kijken of post van jou is om te kijken of ie delete icon moet laten zien:
-
-                final String KeyPost = uploadCurrent.getKey().toString();
-                DatabaseReference DeleteIconCheck = FirebaseDatabase.getInstance().getReference("Private_Chatrooms");
-                DeleteIconCheck.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        if (dataSnapshot.hasChild(KeyPost)) {
-
-                            final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
-                            final String PostUIDCheck = dataSnapshot.child(KeyPost).child("uid").getValue().toString();
-
-                            if (MyUIDCheck.equals(PostUIDCheck)) {
-
-                                DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedChatrooms");
-                                CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                        if (dataSnapshot.hasChild(KeyPost)) {
-
-                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
-                                            popupMenu.inflate(R.menu.popup_menu_textposts_withunsave);
-                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                                @Override
-                                                public boolean onMenuItemClick(MenuItem menuItem) {
-
-                                                    switch (menuItem.getItemId()) {
-
-                                                        case R.id.delete_option_textposts:
-
-                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-                                                            dialog.setTitle("Delete your chatroom?");
-                                                            dialog.setMessage("Deleting this chatroom cannot be undone! Are you sure you want to delete it?");
-
-                                                            dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyPost);
-                                                                    DeleteThePost.removeValue();
-
-                                                                    Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
-                                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                    mContext.startActivity(intent);
-
-                                                                }
-                                                            });
-
-                                                            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                                                    dialogInterface.dismiss();
-
-                                                                }
-                                                            });
-
-                                                            AlertDialog alertDialog = dialog.create();
-                                                            alertDialog.show();
-
-                                                            break;
-
-                                                        case R.id.edit_option_textposts:
-
-                                                            break;
-
-
-                                                        case R.id.unsavepost_option_textposts:
-
-                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                                            SaveThePost.child("SavedChatrooms").child(KeyPost).removeValue();
-
-                                                            break;
-
-                                                        default:
-                                                            break;
-
-                                                    }
-
-                                                    return false;
-                                                }
-                                            });
-                                            popupMenu.show();
-
-                                        } else {
-
-                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
-                                            popupMenu.inflate(R.menu.popup_menu_textposts);
-                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                                @Override
-                                                public boolean onMenuItemClick(MenuItem menuItem) {
-
-                                                    switch (menuItem.getItemId()) {
-
-                                                        case R.id.delete_option_textposts:
-
-                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-                                                            dialog.setTitle("Delete your chatroom?");
-                                                            dialog.setMessage("Deleting this chatroom cannot be undone! Are you sure you want to delete it?");
-
-                                                            dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("Private_Chatrooms").child(KeyPost);
-                                                                    DeleteThePost.removeValue();
-
-                                                                    Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
-                                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                    mContext.startActivity(intent);
-
-                                                                }
-                                                            });
-
-                                                            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                                                    dialogInterface.dismiss();
-
-                                                                }
-                                                            });
-
-                                                            AlertDialog alertDialog = dialog.create();
-                                                            alertDialog.show();
-
-                                                            break;
-
-                                                        case R.id.edit_option_textposts:
-
-                                                            break;
-
-
-                                                        case R.id.savepost_option_textposts:
-
-                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-                                                            SaveThePost.child("SavedChatrooms").child(KeyPost).setValue("added");
-
-                                                            break;
-
-                                                        default:
-                                                            break;
-
-                                                    }
-
-                                                    return false;
-                                                }
-                                            });
-                                            popupMenu.show();
-
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                            } else {
-
-                                DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedChatrooms");
-                                CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                        if (dataSnapshot.hasChild(uploadCurrent.getKey())) {
-
-                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
-                                            popupMenu.inflate(R.menu.popup_menu_textposts_without_delete_withunsave);
-                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                                @Override
-                                                public boolean onMenuItemClick(MenuItem menuItem) {
-
-                                                    switch (menuItem.getItemId()) {
-
-                                                        case R.id.reportpost_option_textposts:
-
-                                                            Intent intent = new Intent(mContext, Report_TextPost_Activity.class);
-                                                            intent.putExtra("Titel", uploadCurrent.getTitle());
-                                                            intent.putExtra("User", uploadCurrent.getUser_name());
-                                                            intent.putExtra("Key", uploadCurrent.getKey());
-                                                            intent.putExtra("Soort", "chatroom");
-                                                            mContext.startActivity(intent);
-
-                                                            break;
-
-                                                        case R.id.unsavepost_option_textposts:
-
-                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                                            SaveThePost.child("SavedChatrooms").child(KeyPost).removeValue();
-
-                                                            break;
-
-                                                        default:
-                                                            break;
-
-                                                    }
-
-                                                    return false;
-                                                }
-                                            });
-                                            popupMenu.show();
-
-                                        } else {
-
-                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
-                                            popupMenu.inflate(R.menu.popup_menu_textposts_without_delete);
-                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                                @Override
-                                                public boolean onMenuItemClick(MenuItem menuItem) {
-
-                                                    switch (menuItem.getItemId()) {
-
-                                                        case R.id.reportpost_option_textposts:
-
-                                                            Intent intent = new Intent(mContext, Report_TextPost_Activity.class);
-                                                            intent.putExtra("Titel", uploadCurrent.getTitle());
-                                                            intent.putExtra("User", uploadCurrent.getUser_name());
-                                                            intent.putExtra("Key", uploadCurrent.getKey());
-                                                            intent.putExtra("Soort", "chatroom");
-                                                            mContext.startActivity(intent);
-
-                                                            break;
-
-                                                        case R.id.savepost_option_textposts:
-
-                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                                            SaveThePost.child("SavedChatrooms").child(KeyPost).setValue("added");
-
-                                                            break;
-
-                                                        default:
-                                                            break;
-
-                                                    }
-
-                                                    return false;
-                                                }
-                                            });
-                                            popupMenu.show();
-
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                            }
-
-                        } else {
-                            //post is gedelete als het goed is
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-            }
-        });*/
 
         String KeyYeah = uploadCurrent.getKey();
 
@@ -497,12 +232,14 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, Content, KeyHolder, Date;
+        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, Content, KeyHolder, Date, Streepje;
         public ImageButton Upvote, Downvote, DeleteTextPost;
         public ImageView CommentLogo;
 
         public ViewHolder(@NonNull View itemView, final PostStuffForChatAdapter.OnItemClickListener listener) {
             super(itemView);
+
+            Streepje=itemView.findViewById(R.id.tvStreepjeTextPostItem);
 
             Username = itemView.findViewById(R.id.tvTitleTextPostItem);
             LikeCount = itemView.findViewById(R.id.tvLikeCounterTextPostItem);

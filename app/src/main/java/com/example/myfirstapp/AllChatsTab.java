@@ -7,6 +7,12 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,22 +22,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.Handler;
-import android.os.Parcelable;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
-import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Chat;
-import com.example.myfirstapp.Chatroom.Chat_Room_MakeOrSearch_Activity;
 import com.example.myfirstapp.Chatroom.Chat_With_Users_Activity;
 import com.example.myfirstapp.Chatroom.PostStuffForChat;
 import com.example.myfirstapp.Chatroom.PostStuffForChatAdapter;
-import com.example.myfirstapp.Textposts.StuffForPost;
-import com.example.myfirstapp.Textposts.StuffForPostAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -109,13 +103,13 @@ public class AllChatsTab extends Fragment {
                     postStuffForChatList.add(postStuffForChat);
                 }
 
-                PostStuffForChatAdapter stuffForChatAdapter;
-                stuffForChatAdapter = new PostStuffForChatAdapter(getActivity(), postStuffForChatList);
-                RoomList.setAdapter(stuffForChatAdapter);
+
+                postStuffForChatAdapter = new PostStuffForChatAdapter(getActivity(), postStuffForChatList);
+                RoomList.setAdapter(postStuffForChatAdapter);
 
                 progressBar.setVisibility(View.GONE);
 
-                stuffForChatAdapter.setOnItemClickListener(new PostStuffForChatAdapter.OnItemClickListener() {
+                postStuffForChatAdapter.setOnItemClickListener(new PostStuffForChatAdapter.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(int position) {

@@ -73,6 +73,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         SendChat();
     }
 
+    private void PositionManager(){
+    }
+
     private void LoadMessages() {
         myDatabase2.addValueEventListener(new ValueEventListener() {
             @Override
