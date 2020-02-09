@@ -47,27 +47,32 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         if(getIntent().hasExtra("Type")) {
             String Type = getIntent().getExtras().get("Type").toString();
             if (Type.equals("Account")) {
+                Log.e("Intent", "Account");
                 bottomNav.setSelectedItemId(R.id.navigation_account);
                 MakingSelected = false;
             }
-            if (Type.equals("ChatMake")) {
-                bottomNav.setSelectedItemId(R.id.navigation_chat);
-                String ChatRoomKey = getIntent().getExtras().get("Key").toString();
-                Intent intent = new Intent(Layout_Manager_BottomNav_Activity.this, Chat_With_Users_Activity.class);
-                intent.putExtra("Key", ChatRoomKey);
-                startActivity(intent);
-            }
-            if (Type.equals("TextMake")) {
-                bottomNav.setSelectedItemId(R.id.navigation_home);
-                String PostKey = getIntent().getExtras().get("Key").toString();
-                Intent intent = new Intent(Layout_Manager_BottomNav_Activity.this, Post_Viewing_Activity.class);
-                intent.putExtra("Key", PostKey);
-                startActivity(intent);
-            }
-            else {
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
-                        new HomeFragment()).commit();
-                MakingSelected = false;
+            else{
+                if (Type.equals("ChatMake")) {
+                    bottomNav.setSelectedItemId(R.id.navigation_chat);
+                    String ChatRoomKey = getIntent().getExtras().get("Key").toString();
+                    Intent intent = new Intent(Layout_Manager_BottomNav_Activity.this, Chat_With_Users_Activity.class);
+                    intent.putExtra("Key", ChatRoomKey);
+                    startActivity(intent);
+                }
+                else {
+                    if (Type.equals("TextMake")) {
+                        bottomNav.setSelectedItemId(R.id.navigation_home);
+                        String PostKey = getIntent().getExtras().get("Key").toString();
+                        Intent intent = new Intent(Layout_Manager_BottomNav_Activity.this, Post_Viewing_Activity.class);
+                        intent.putExtra("Key", PostKey);
+                        startActivity(intent);
+                    }
+                    else {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
+                                new HomeFragment()).commit();
+                        MakingSelected = false;
+                    }
+                }
             }
         }
         else {
