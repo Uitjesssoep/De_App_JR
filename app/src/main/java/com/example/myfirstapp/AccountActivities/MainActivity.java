@@ -41,16 +41,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //voor het geven van kleur aan de status bar:
-
         Window window = MainActivity.this.getWindow();
-
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
         window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.statusBarColorLogin));
-
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
+        setTheme(R.style.AppTheme);
 
 
 
@@ -172,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
         if(verificationemail){
             MainActivity.this.finish();
             startActivity(new Intent(MainActivity.this, SecondActivity.class));
-            Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
         }
 
         else{

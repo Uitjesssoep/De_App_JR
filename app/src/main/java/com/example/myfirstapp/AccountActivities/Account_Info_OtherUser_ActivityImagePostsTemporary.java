@@ -53,6 +53,8 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
 
     private void SetupUI() {
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
         Window window = Account_Info_OtherUser_ActivityImagePostsTemporary.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

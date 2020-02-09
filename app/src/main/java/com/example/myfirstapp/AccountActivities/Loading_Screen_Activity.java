@@ -16,6 +16,7 @@ public class Loading_Screen_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading__screen_);
 
+        setTheme(R.style.AppTheme);
 
             final Handler h = new Handler();
 

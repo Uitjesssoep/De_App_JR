@@ -119,6 +119,8 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
 
     private void SetupUI() {
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
         Window window = Account_Info_OtherUser_Chat.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

@@ -34,6 +34,8 @@ public class Forgot_Password_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot__password_);
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
 
         Window window = Forgot_Password_Activity.this.getWindow();

@@ -200,6 +200,8 @@ public class Profile_First_Setup extends AppCompatActivity {
 
     private void SetupDesign() {
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
 
         Window window = Profile_First_Setup.this.getWindow();

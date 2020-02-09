@@ -33,6 +33,8 @@ public class Deleting_Account_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deleting__account_);
 
+        setTheme(R.style.AppTheme);
+
 
         SetupUI();
 

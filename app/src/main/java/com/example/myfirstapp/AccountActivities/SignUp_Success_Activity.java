@@ -21,6 +21,8 @@ public class SignUp_Success_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up__success_);
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
 
         Window window = SignUp_Success_Activity.this.getWindow();

@@ -100,6 +100,8 @@ public class RegistrationActivity extends AppCompatActivity {
         ErrorPasswordRepeat = findViewById(R.id.tvPasswordErrorRegRepeat);
         userPasswordRepeat = findViewById(R.id.etUserPasswordRepeat);
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
 
         Window window = RegistrationActivity.this.getWindow();

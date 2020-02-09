@@ -60,6 +60,8 @@ public class Change_Password_Activity extends AppCompatActivity {
 
     private void SetupDesign() {
 
+        setTheme(R.style.AppTheme);
+
             //voor het geven van kleur aan de status bar:
 
             Window window = Change_Password_Activity.this.getWindow();
