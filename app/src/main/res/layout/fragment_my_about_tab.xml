@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDownvoteCount"
+        app:layout_constraintTop_toBottomOf="@+id/tvCommentCount"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -119,39 +119,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvFollowersCount"
-        app:layout_constraintTop_toBottomOf="@+id/tvPostCount"
-        app:layout_constraintVertical_bias="0.005"
-        tools:layout_conversion_absoluteHeight="19dp"
-        tools:layout_conversion_absoluteWidth="135dp" />
-
-    <TextView
-        android:id="@+id/tvUpvoteCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upvotes: 0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintStart_toStartOf="@+id/tvAccountVisitCount"
         app:layout_constraintTop_toBottomOf="@+id/tvAccountVisitCount"
         app:layout_constraintVertical_bias="0.005"
         tools:layout_conversion_absoluteHeight="19dp"
-        tools:layout_conversion_absoluteWidth="99dp" />
-
-    <TextView
-        android:id="@+id/tvDownvoteCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Downvotes: 0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/tvUpvoteCount"
-        app:layout_constraintVertical_bias="0.005"
-        tools:layout_conversion_absoluteHeight="19dp"
-        tools:layout_conversion_absoluteWidth="118dp" />
+        tools:layout_conversion_absoluteWidth="135dp" />
 
     <View
         android:id="@+id/divider684"

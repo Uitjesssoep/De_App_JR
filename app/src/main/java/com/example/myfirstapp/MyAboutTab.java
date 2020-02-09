@@ -1,6 +1,7 @@
 package com.example.myfirstapp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,8 +11,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.myfirstapp.Chatroom.ChatPrivateWithUsers;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 public class MyAboutTab extends Fragment {
 
     private TextView AccountCreated;
+    private TextView tvToMySaved;
+    private ImageView btnToMySaved;
 
     public MyAboutTab() {
         // Required empty public constructor
@@ -39,6 +44,7 @@ public class MyAboutTab extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         AccountCreatedVoid();
+        ToMySaved();
 
         final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -78,6 +84,29 @@ public class MyAboutTab extends Fragment {
 
             }
         });
+    }
+
+    private void ToMySaved() {
+
+        tvToMySaved = getView().findViewById(R.id.tvToMySavedAccountViewing);
+        btnToMySaved = getView().findViewById(R.id.ivToMySavedAccountViewing);
+
+        btnToMySaved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MySaved_Activity.class);
+                startActivity(intent);
+            }
+        });
+
+        tvToMySaved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MySaved_Activity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void AccountCreatedVoid() {

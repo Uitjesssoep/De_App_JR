@@ -137,41 +137,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvHisFollowersCount"
-        app:layout_constraintTop_toBottomOf="@+id/tvHisPostCount"
-        app:layout_constraintVertical_bias="0.005"
-        tools:layout_conversion_absoluteHeight="19dp"
-        tools:layout_conversion_absoluteWidth="85dp" />
-
-    <TextView
-        android:id="@+id/tvHisUpvoteCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Upvotes: 0"
-        android:textColor="#696969"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvAccountNumbersHisAbout"
+        app:layout_constraintStart_toStartOf="@+id/tvHisAccountVisitCount"
         app:layout_constraintTop_toBottomOf="@+id/tvHisAccountVisitCount"
         app:layout_constraintVertical_bias="0.005"
         tools:layout_conversion_absoluteHeight="19dp"
-        tools:layout_conversion_absoluteWidth="67dp" />
-
-    <TextView
-        android:id="@+id/tvHisDownvoteCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Downvotes: 0"
-        android:textColor="#696969"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvAccountNumbersHisAbout"
-        app:layout_constraintTop_toBottomOf="@+id/tvHisUpvoteCount"
-        app:layout_constraintVertical_bias="0.005"
-        tools:layout_conversion_absoluteHeight="19dp"
-        tools:layout_conversion_absoluteWidth="86dp" />
+        tools:layout_conversion_absoluteWidth="85dp" />
 
     <View
         android:id="@+id/divider3"
@@ -184,7 +154,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvHisDownvoteCount"
+        app:layout_constraintTop_toBottomOf="@+id/tvHisCommentCount"
         app:layout_constraintVertical_bias="0.0" />
 
     <View
