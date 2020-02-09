@@ -84,23 +84,6 @@ public class Make_Comment_Activity extends AppCompatActivity {
 
                     DatabaseReference ToMyProfile = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments");
 
-                    final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
-                    PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if(!dataSnapshot.child("Counters").hasChild("UpvoteCount")){
-                                PostCounter.child("Counters").child("UpvoteCount").setValue(0);
-                            }
-                            if(!dataSnapshot.child("Counters").hasChild("DownvoteCount")){
-                                PostCounter.child("Counters").child("DownvoteCount").setValue(0);
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
-
-
                     temp_key = DatabaseCommentStuff.push().getKey();
                     CommentStuffForTextPost commentStuffForTextPost = new CommentStuffForTextPost(CommentMessage, Date, userName, temp_key, MyUID, key);
                     CommentStuffForTextPostMyProf commentStuffForTextPostMyProf = new CommentStuffForTextPostMyProf(temp_key, MyUID, key);

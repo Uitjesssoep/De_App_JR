@@ -151,22 +151,6 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 final String temp_key = ChatroomDatabase.push().getKey();
                 String TitleDatabase = Title.getText().toString().trim();
 
-                final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
-                PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(!dataSnapshot.child("Counters").hasChild("UpvoteCount")){
-                            PostCounter.child("Counters").child("UpvoteCount").setValue(0);
-                        }
-                        if(!dataSnapshot.child("Counters").hasChild("DownvoteCount")){
-                            PostCounter.child("Counters").child("DownvoteCount").setValue(0);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-
                 PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, Date);
                 ChatroomDatabase.child(temp_key).setValue(postStuffForChat).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -198,22 +182,6 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 String User_name = "[anonymous]";
                 final String temp_key = ChatroomDatabase.push().getKey();
                 String TitleDatabase = Title.getText().toString().trim();
-
-                final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
-                PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(!dataSnapshot.child("Counters").hasChild("UpvoteCount")){
-                            PostCounter.child("Counters").child("UpvoteCount").setValue(0);
-                        }
-                        if(!dataSnapshot.child("Counters").hasChild("DownvoteCount")){
-                            PostCounter.child("Counters").child("DownvoteCount").setValue(0);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
 
                 PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, Date);
                 ChatroomDatabase.child(temp_key).setValue(postStuffForChat).addOnSuccessListener(new OnSuccessListener<Void>() {
