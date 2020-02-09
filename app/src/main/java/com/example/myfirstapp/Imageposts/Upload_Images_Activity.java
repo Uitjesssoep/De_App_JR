@@ -179,6 +179,21 @@ public class Upload_Images_Activity extends AppCompatActivity {
             }
         });
 
+        PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.child("Counters").hasChild("UpvoteCount")){
+                    PostCounter.child("Counters").child("UpvoteCount").setValue(0);
+                }
+                if(!dataSnapshot.child("Counters").hasChild("DownvoteCount")){
+                    PostCounter.child("Counters").child("DownvoteCount").setValue(0);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
         DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(MyUID);
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

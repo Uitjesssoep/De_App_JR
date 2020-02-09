@@ -55,7 +55,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
     private static final String TAG = "Profile_Settings_Act";
 
-    private EditText ChangeFullName;
     private ImageView ChangeProfilePicture;
     private ImageButton Exit;
     private EditText DisplayNameLayout;
@@ -139,8 +138,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
-                ChangeFullName.setText(userProfile.getUserFullName());
+                DisplayNameLayout.setText(dataSnapshot.child("userFullName").getValue().toString());
             }
 
             @Override
@@ -165,14 +163,14 @@ public class Profile_Settings_Activity extends AppCompatActivity {
         final DatabaseReference databaseReference = firebaseDatabase.getReference("users").child(firebaseAuth.getUid());
 
         UID = firebaseAuth.getUid();
-        ChangeFullNameString = ChangeFullName.getText().toString();
+        ChangeFullNameString = DisplayNameLayout.getText().toString();
         int DNLength = ChangeFullNameString.length();
-        ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
+        DisplayNameLayout.setBackgroundResource(R.drawable.edittext_roundedcorners_login);
 
         if (ChangeFullNameString.isEmpty()) {
             ErrorDisplayName.setVisibility(View.VISIBLE);
             ErrorDisplayName.setText("Please enter a display name");
-            ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+            DisplayNameLayout.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
         }
 
         else {
@@ -180,7 +178,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
             if(DNLength < 3){
                 ErrorDisplayName.setVisibility(View.VISIBLE);
                 ErrorDisplayName.setText("Make sure your display name is at least 3 characters long");
-                ChangeFullName.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
+                DisplayNameLayout.setBackgroundResource(R.drawable.edittext_roundedcorners_login_error);
             }
             else{
                 if (imagePath != null) {

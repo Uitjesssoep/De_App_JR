@@ -16,6 +16,7 @@
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:background="@drawable/imageview_profilepicture_edge"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

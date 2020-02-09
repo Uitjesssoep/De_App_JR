@@ -60,7 +60,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     private CommentStuffForTextPostAdapter commentStuffForTextPostAdapter;
 
     private FirebaseDatabase firebaseDatabase;
-    private String key, MyUID;
+    private String key, MyUID, PosterUID;
     private ImageButton Like, Dislike, Exit;
     private EditText CommentSubstance;
     private ImageView ImageContent;
@@ -119,6 +119,8 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         GetPostUID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                PosterUID = dataSnapshot.getValue().toString();
 
                 if (MyUID3.equals(dataSnapshot.getValue().toString())) {
 
@@ -759,6 +761,8 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
         key = getIntent().getExtras().get("Key").toString();
 
+        final DatabaseReference GetCount = FirebaseDatabase.getInstance().getReference("users").child(PosterUID).child("Counters");
+
         DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
         DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
 
@@ -768,6 +772,9 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                 if (DislikedCheck) {
                     DatabaseDislike.child(MyUID).removeValue();
+
+
+
                     Liked = true;
 
                     DatabaseLike.addValueEventListener(new ValueEventListener() {

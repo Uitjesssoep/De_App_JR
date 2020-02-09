@@ -177,7 +177,6 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                     PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
 
                 }
-
                 else{
                     PostCounter.child("Counters").child("PostCount").setValue("1");
                 }
@@ -187,6 +186,21 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.child("Counters").hasChild("UpvoteCount")){
+                    PostCounter.child("Counters").child("UpvoteCount").setValue(0);
+                }
+                if(!dataSnapshot.child("Counters").hasChild("DownvoteCount")){
+                    PostCounter.child("Counters").child("DownvoteCount").setValue(0);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
 
@@ -243,6 +257,21 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                    }
+                });
+
+                PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(!dataSnapshot.child("Counters").hasChild("UpvoteCount")){
+                            PostCounter.child("Counters").child("UpvoteCount").setValue(0);
+                        }
+                        if(!dataSnapshot.child("Counters").hasChild("DownvoteCount")){
+                            PostCounter.child("Counters").child("DownvoteCount").setValue(0);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
 
