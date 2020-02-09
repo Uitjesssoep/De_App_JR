@@ -58,18 +58,6 @@ public class HisAboutTab extends Fragment {
                     AccountVisits.setText("Account visits: " + VisitCountString);
                 }
 
-                if(dataSnapshot.child("Counters").hasChild("UpvoteCount")){
-                    TextView UpvoteCount = getView().findViewById(R.id.tvHisUpvoteCount);
-                    String UpvoteCountString = dataSnapshot.child("Counters").child("UpvoteCount").getValue().toString();
-                    UpvoteCount.setText("Upvotes: " + UpvoteCountString);
-                }
-
-                if(dataSnapshot.child("Counters").hasChild("DownvoteCount")){
-                    TextView DownvoteCount = getView().findViewById(R.id.tvHisDownvoteCount);
-                    String DownvoteCountString = dataSnapshot.child("Counters").child("DownvoteCount").getValue().toString();
-                    DownvoteCount.setText("Downvotes: " + DownvoteCountString);
-                }
-
                 if(dataSnapshot.hasChild("followers")){
                     TextView Followers = getView().findViewById(R.id.tvHisFollowersCount);
                     int FollowersCountString = (int) dataSnapshot.child("followers").getChildrenCount();
