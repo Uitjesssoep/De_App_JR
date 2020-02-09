@@ -23,6 +23,8 @@ public class Content_Policy_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
+        setTheme(R.style.AppTheme);
+
         Window window = Content_Policy_Activity.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

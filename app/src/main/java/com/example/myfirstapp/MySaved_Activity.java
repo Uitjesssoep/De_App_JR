@@ -74,6 +74,7 @@ public class MySaved_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
+        setTheme(R.style.AppTheme);
 
         Window window = MySaved_Activity.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

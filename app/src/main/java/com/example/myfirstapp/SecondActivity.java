@@ -72,6 +72,8 @@ public class SecondActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
 
         Window window = SecondActivity.this.getWindow();

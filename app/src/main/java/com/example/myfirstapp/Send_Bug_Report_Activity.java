@@ -205,6 +205,8 @@ public class Send_Bug_Report_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
+        setTheme(R.style.AppTheme);
+
         Window window = Send_Bug_Report_Activity.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

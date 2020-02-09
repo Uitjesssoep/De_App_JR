@@ -19,6 +19,8 @@ public class Credits_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credits_);
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
 
         Window window = Credits_Activity.this.getWindow();

@@ -232,6 +232,8 @@ public class App_Settings_Activity extends AppCompatActivity {
 
     private void SetupDesign() {
 
+        setTheme(R.style.AppTheme);
+
         //voor het geven van kleur aan de status bar:
 
         Window window = App_Settings_Activity.this.getWindow();

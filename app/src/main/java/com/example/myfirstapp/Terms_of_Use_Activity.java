@@ -24,6 +24,8 @@ public class Terms_of_Use_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
+        setTheme(R.style.AppTheme);
+
         Window window = Terms_of_Use_Activity.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
