@@ -25,6 +25,8 @@ import com.squareup.picasso.Picasso;
 public class AccountFragment extends Fragment {
 
     public PageAdapter_MyAccount pagerAdapter;
+    private TextView UserName, DisplayName;
+    private ImageView ProfilePicture;
 
     @Nullable
     @Override
@@ -35,9 +37,13 @@ public class AccountFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        
-        AccountInfoLoading();
-        
+
+        SetupUI();
+        SetupTabs();
+    }
+
+    private void SetupTabs() {
+
         TabLayout tabLayout = getView().findViewById(R.id.tab_layout_personal_account);
         TabItem MyPosts = getView().findViewById(R.id.tab_layout_MyPosts);
         final ViewPager viewPager = getView().findViewById(R.id.viewpager_tablayout_MyAccount);
@@ -78,6 +84,15 @@ public class AccountFragment extends Fragment {
 
     }
 
+    private void SetupUI() {
+
+        ProfilePicture = getView().findViewById(R.id.ivProfilePictureAccountInfoViewing);
+        DisplayName = getView().findViewById(R.id.tvDisplayNameMyAccountViewing);
+        UserName = getView().findViewById(R.id.tvUsernameMyAccountViewing);
+
+        AccountInfoLoading();
+    }
+
     private void AccountInfoLoading() {
 
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -86,10 +101,6 @@ public class AccountFragment extends Fragment {
         GetAccountInfo.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                ImageView ProfilePicture = getView().findViewById(R.id.ivProfilePictureAccountInfoViewing);
-                TextView DisplayName = getView().findViewById(R.id.tvDisplayNameMyAccountViewing);
-                TextView UserName = getView().findViewById(R.id.tvUsernameMyAccountViewing);
 
                 String DN = dataSnapshot.child("userFullName").getValue().toString();
                 DisplayName.setText(DN);
