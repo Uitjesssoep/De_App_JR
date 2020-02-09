@@ -120,8 +120,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                PosterUID = dataSnapshot.getValue().toString();
-
                 if (MyUID3.equals(dataSnapshot.getValue().toString())) {
 
                     DatabaseReference GetMyUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID3).child("userName");
@@ -628,7 +626,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                         DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
                         final String TAGDownvote = "VoteCheck";
 
-
                         DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -761,161 +758,154 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
         key = getIntent().getExtras().get("Key").toString();
 
-        final DatabaseReference GetCount = FirebaseDatabase.getInstance().getReference("users").child(PosterUID).child("Counters");
+                DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
+                DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
 
-        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
-        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
+                Like.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-        Like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                        if (DislikedCheck) {
+                            DatabaseDislike.child(MyUID).removeValue();
 
-                if (DislikedCheck) {
-                    DatabaseDislike.child(MyUID).removeValue();
+                            Liked = true;
 
+                            DatabaseLike.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                                    if (Liked) {
 
-                    Liked = true;
+                                        if (dataSnapshot.hasChild(MyUID)) {
 
-                    DatabaseLike.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            DatabaseLike.child(MyUID).removeValue();
 
-                            if (Liked) {
+                                            Liked = false;
 
-                                if (dataSnapshot.hasChild(MyUID)) {
+                                        } else {
 
-                                    DatabaseLike.child(MyUID).removeValue();
+                                            DatabaseLike.child(MyUID).setValue("RandomLike");
 
-                                    Liked = false;
+                                            Liked = false;
 
-                                } else {
-
-                                    DatabaseLike.child(MyUID).setValue("RandomLike");
-                                    Liked = false;
-
-                                }
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                } else {
-                    Liked = true;
-
-                    DatabaseLike.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            if (Liked) {
-
-                                if (dataSnapshot.hasChild(MyUID)) {
-
-                                    DatabaseLike.child(MyUID).removeValue();
-
-                                    Liked = false;
-
-                                } else {
-
-                                    DatabaseLike.child(MyUID).setValue("RandomLike");
-                                    Liked = false;
+                                        }
+                                    }
 
                                 }
-                            }
 
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-
-            }
-        });
-
-        Dislike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (LikedCheck) {
-                    DatabaseLike.child(MyUID).removeValue();
-
-                    Disliked = true;
-
-                    DatabaseDislike.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            if (Disliked) {
-
-                                if (dataSnapshot.hasChild(MyUID)) {
-
-                                    DatabaseDislike.child(MyUID).removeValue();
-                                    Disliked = false;
-
-                                } else {
-
-                                    DatabaseDislike.child(MyUID).removeValue();
-                                    Disliked = false;
-
-                                    DatabaseDislike.child(MyUID).setValue("RandomDislike");
-                                    Disliked = false;
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                 }
-                            }
+                            });
+                        } else {
+                            Liked = true;
 
-                        }
+                            DatabaseLike.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    if (Liked) {
 
-                        }
-                    });
-                } else {
-                    Disliked = true;
+                                        if (dataSnapshot.hasChild(MyUID)) {
 
-                    DatabaseDislike.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            DatabaseLike.child(MyUID).removeValue();
 
-                            if (Disliked) {
+                                            Liked = false;
 
-                                if (dataSnapshot.hasChild(MyUID)) {
+                                        } else {
 
-                                    DatabaseDislike.child(MyUID).removeValue();
-                                    Disliked = false;
+                                            DatabaseLike.child(MyUID).setValue("RandomLike");
 
-                                    DatabaseDislike.child(MyUID).removeValue();
-                                    Disliked = false;
+                                            Liked = false;
 
-                                } else {
-
-                                    DatabaseDislike.child(MyUID).removeValue();
-                                    Disliked = false;
-
-                                    DatabaseDislike.child(MyUID).setValue("RandomDislike");
-                                    Disliked = false;
+                                        }
+                                    }
 
                                 }
-                            }
 
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
 
+                Dislike.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (LikedCheck) {
+                            DatabaseLike.child(MyUID).removeValue();
+
+                            Disliked = true;
+
+                            DatabaseDislike.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    if (Disliked) {
+
+                                        if (dataSnapshot.hasChild(MyUID)) {
+
+                                            DatabaseDislike.child(MyUID).removeValue();
+
+                                            Disliked = false;
+
+                                        } else {
+
+                                            DatabaseDislike.child(MyUID).setValue("RandomDislike");
+
+                                            Disliked = false;
+
+                                        }
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        } else {
+                            Disliked = true;
+
+                            DatabaseDislike.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    if (Disliked) {
+
+                                        if (dataSnapshot.hasChild(MyUID)) {
+
+                                            DatabaseDislike.child(MyUID).removeValue();
+
+                                            Disliked = false;
+
+                                        } else {
+
+                                            DatabaseDislike.child(MyUID).setValue("RandomDislike");
+
+                                            Disliked = false;
+
+                                        }
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                         }
-                    });
-                }
 
-            }
-        });
+                    }
+                });
 
         DatabaseIsItLiked = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
         DatabaseIsItLiked.keepSynced(true);

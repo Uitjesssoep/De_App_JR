@@ -189,21 +189,6 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
             }
         });
 
-        PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.child("Counters").hasChild("UpvoteCount")){
-                    PostCounter.child("Counters").child("UpvoteCount").setValue(0);
-                }
-                if(!dataSnapshot.child("Counters").hasChild("DownvoteCount")){
-                    PostCounter.child("Counters").child("DownvoteCount").setValue(0);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
                 temp_key = GeneralTextPosts.push().getKey();
                 StuffForPost StuffForPost = new StuffForPost(TitleContent, anonString, TextContent, MyUID, temp_key, Date, "Text");
                 GeneralTextPosts.child(temp_key).setValue(StuffForPost).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -257,21 +242,6 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
-
-                PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(!dataSnapshot.child("Counters").hasChild("UpvoteCount")){
-                            PostCounter.child("Counters").child("UpvoteCount").setValue(0);
-                        }
-                        if(!dataSnapshot.child("Counters").hasChild("DownvoteCount")){
-                            PostCounter.child("Counters").child("DownvoteCount").setValue(0);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
                     }
                 });
 
