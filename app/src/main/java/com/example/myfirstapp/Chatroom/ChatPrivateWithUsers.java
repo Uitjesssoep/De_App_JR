@@ -69,8 +69,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_private_with_users);
         SetupUI();
-        MakeChatroom();
-        LoadMessages();
+        FindIntel();
         SendChat();
     }
 
@@ -142,7 +141,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         }*/
 
 
-        myDatabase = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(Key).child("messages");
+        // myDatabase = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(Key).child("messages");
         // myDatabase = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key);
 
         myDatabase2 = FirebaseDatabase.getInstance().getReference("Private Chatrooms");
@@ -167,8 +166,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                             Log.e(TAG, Username);
                             message = ChatInputText.getText().toString();
                             PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, MyUid, Username, Date);
+                            myDatabase = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(Key);
                             temp_key = myDatabase.push().getKey();
-                            myDatabase.child(temp_key).setValue(postStuffForChatRoom);
+                            myDatabase.child("messages").child(temp_key).setValue(postStuffForChatRoom);
                             Log.e(TAG, "gepushed");
                             ChatInputText.setText("");
                         }
@@ -200,7 +200,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                         Key = MyUid + " + " + UID;
                         MakeChatroom();
                     }
-                }else {
+
+                } else {
                     Key = MyUid + " + " + UID;
                     MakeChatroom();
                 }

@@ -173,9 +173,9 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
                 if (messageNummeroTwee.isEmpty()) {
                     Toast.makeText(Chat_With_Users_Activity.this, "Can't send an empty message", Toast.LENGTH_SHORT).show();
-                    LoadMessages();
+                //    LoadMessages();
                 } else {
-                    LoadMessages();
+                  //  LoadMessages();
                     FirebaseDatabase.getInstance().getReference("users").child(MyUid).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
