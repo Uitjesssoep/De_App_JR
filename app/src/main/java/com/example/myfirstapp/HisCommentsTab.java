@@ -27,6 +27,8 @@ import com.example.myfirstapp.AccountActivities.Account_Info_OtherUserComments_A
 import com.example.myfirstapp.Imageposts.Image_Post_Viewing_Activity;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPost;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPostAdapter;
+import com.example.myfirstapp.Textposts.CommentStuffForTextPostMyProf;
+import com.example.myfirstapp.Textposts.CommentStuffForTextPostMyProfAdapter;
 import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -119,8 +121,8 @@ public class HisCommentsTab extends Fragment {
         CommentView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingHisComments_fragment);
-        final List<CommentStuffForTextPost> commentStuffForTextPostList = new ArrayList<>();
-        final CommentStuffForTextPostAdapter commentStuffForTextPostAdapter = null;
+        final List<CommentStuffForTextPostMyProf> commentStuffForTextPostMyProfList = new ArrayList<>();
+        final CommentStuffForTextPostMyProfAdapter commentStuffForTextPostMyProfAdapter = null;
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
         final DatabaseReference comments = FirebaseDatabase.getInstance().getReference("users").child(HisUID).child("MyComments");
@@ -134,22 +136,21 @@ public class HisCommentsTab extends Fragment {
 
 
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    CommentStuffForTextPost commentStuffForTextPost = dataSnapshot1.getValue(CommentStuffForTextPost.class);
-                    commentStuffForTextPostList.add(commentStuffForTextPost);
+                    CommentStuffForTextPostMyProf commentStuffForTextPostMyProf = dataSnapshot1.getValue(CommentStuffForTextPostMyProf.class);
+                    commentStuffForTextPostMyProfList.add(commentStuffForTextPostMyProf);
                 }
 
-                CommentStuffForTextPostAdapter commentStuffForTextPostAdapter;
+                CommentStuffForTextPostMyProfAdapter commentStuffForTextPostMyProfAdapter1;
 
-                commentStuffForTextPostAdapter = new CommentStuffForTextPostAdapter(getActivity(), commentStuffForTextPostList);
-                CommentView.setAdapter(commentStuffForTextPostAdapter);
+                commentStuffForTextPostMyProfAdapter1 = new CommentStuffForTextPostMyProfAdapter(getActivity(), commentStuffForTextPostMyProfList);
+                CommentView.setAdapter(commentStuffForTextPostMyProfAdapter1);
                 progressBar.setVisibility(View.GONE);
 
-                commentStuffForTextPostAdapter.setOnItemClickListener(new CommentStuffForTextPostAdapter.OnItemClickListener() {
+                commentStuffForTextPostMyProfAdapter1.setOnItemClickListener(new CommentStuffForTextPostMyProfAdapter.OnItemClickListener() {
 
                     @Override
                     public void onItemClick(int position) {
-
-                        final String PostKey = commentStuffForTextPostList.get(position).getOldKey();
+                        final String PostKey = commentStuffForTextPostMyProfList.get(position).getOldKey();
 
                         DatabaseReference CheckIfExists = FirebaseDatabase.getInstance().getReference("General_Posts");
                         CheckIfExists.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -183,8 +184,8 @@ public class HisCommentsTab extends Fragment {
 
                     @Override
                     public void onUserNameClick(int position) {
-                        final String CommentKey = commentStuffForTextPostList.get(position).getKey();
-                        final String PostKey = commentStuffForTextPostList.get(position).getOldKey();
+                        final String CommentKey = commentStuffForTextPostMyProfList.get(position).getKey();
+                        final String PostKey = commentStuffForTextPostMyProfList.get(position).getOldKey();
 
                         DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey).child("uid");
                         CheckIfMyUID.addValueEventListener(new ValueEventListener() {
@@ -274,13 +275,11 @@ public class HisCommentsTab extends Fragment {
 
                     @Override
                     public void onUpvoteClick(int position) {
-                        String key = commentStuffForTextPostList.get(position).getKey().toString();
-                        String Postkey = commentStuffForTextPostList.get(position).getOldKey();
-                        final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                        String key = commentStuffForTextPostMyProfList.get(position).getKey();
+                        String Postkey = commentStuffForTextPostMyProfList.get(position).getOldKey();
+                        final String MyUID = firebaseAuth.getCurrentUser().getUid();
                         final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Likes");
                         final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
-                        final String TAGDownvote = "VoteCheck";
-
 
                         DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -329,13 +328,11 @@ public class HisCommentsTab extends Fragment {
 
                     @Override
                     public void onDownvoteClick(int position) {
-                        String key = commentStuffForTextPostList.get(position).getKey().toString();
-                        final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        String Postkey = commentStuffForTextPostList.get(position).getOldKey();
+                        String key = commentStuffForTextPostMyProfList.get(position).getKey();
+                        final String MyUID = firebaseAuth.getCurrentUser().getUid();
+                        String Postkey = commentStuffForTextPostMyProfList.get(position).getOldKey();
                         final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Likes");
                         final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
-                        final String TAGDownvote = "VoteCheck";
-
 
                         DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -389,16 +386,16 @@ public class HisCommentsTab extends Fragment {
             }
 
             private void clear() {
-                int size = commentStuffForTextPostList.size();
+                int size = commentStuffForTextPostMyProfList.size();
                 if (size > 0) {
                     for (int i = 0; i < size; i++) {
-                        commentStuffForTextPostList.remove(0);
+                        commentStuffForTextPostMyProfList.remove(0);
 
                         String TAGTest = "ListEmpty";
                         // Log.e(TAGTest, "tot 'for' gekomen");
                     }
 
-                    commentStuffForTextPostAdapter.notifyItemRangeRemoved(0, size);
+                    commentStuffForTextPostMyProfAdapter.notifyItemRangeRemoved(0, size);
                 }
             }
 
