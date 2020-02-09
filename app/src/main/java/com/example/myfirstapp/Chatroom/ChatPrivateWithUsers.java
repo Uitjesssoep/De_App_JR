@@ -80,17 +80,17 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clear();
-
-                if (dataSnapshot.getValue().toString().contains(MyUid) && dataSnapshot.getValue().toString().contains(UID))
+                if (dataSnapshot.exists()){
+                    if (dataSnapshot.getValue().toString().contains(MyUid) && dataSnapshot.getValue().toString().contains(UID))
                 {
                     Key = dataSnapshot.getValue().toString();
-                    for (DataSnapshot snapshot : dataSnapshot.child(key).child("messages").getChildren()) {
+                    for (DataSnapshot snapshot : dataSnapshot.child(Key).child("messages").getChildren()) {
                         PostStuffForChatRoom postStuffForChatRoom = snapshot.getValue(PostStuffForChatRoom.class);
                         MessagesList.add(postStuffForChatRoom);
                         Log.e(TAG, MessagesList.toString());
                         Log.e(TAG, String.valueOf(MessagesList.size()));
                     }
-                }
+                }}
 
                 int position = 0;
                 LinearLayoutManager manager = (LinearLayoutManager) ChatWindow.getLayoutManager();
