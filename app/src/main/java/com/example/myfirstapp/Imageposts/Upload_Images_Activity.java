@@ -224,6 +224,13 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
     private void uploadFile() {
         if (mImageUri != null) {
+
+            final ProgressDialog dialog = new ProgressDialog(Upload_Images_Activity.this);
+            dialog.setTitle("Uploading image");
+            dialog.setMessage("Please wait");
+            dialog.show();
+            hideKeyboard(Upload_Images_Activity.this);
+
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -241,12 +248,6 @@ public class Upload_Images_Activity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     UriImage = uri.toString();
-
-                                    final ProgressDialog dialog = new ProgressDialog(Upload_Images_Activity.this);
-                                    dialog.setTitle("Uploading image");
-                                    dialog.setMessage("Please wait");
-                                    dialog.show();
-                                    hideKeyboard(Upload_Images_Activity.this);
 
                                     setDatabase();
                                 }
