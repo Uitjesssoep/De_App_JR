@@ -104,7 +104,7 @@ public class PrivateChatsTab extends Fragment {
                     postStuffForChatList.add(postStuffMakePrivateChat);
                     for (int i = 0; i < postStuffForChatList.size(); i++) {
                         int position;
-                        if (!postSnapshot.getValue().toString().contains(MyUid)) {
+                        if (!postStuffForChatList.get(i).getKey().contains(MyUid)) {
                             position = i;
                             postStuffForChatList.remove(position);
                             Log.e("list", postStuffForChatList.toString());
