@@ -44,6 +44,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -82,114 +83,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
 
     private void SetupUI() {
-
-        SortCommentsBy = findViewById(R.id.tvSortByTextTextPostViewing);
-        SortByCommentsIV = findViewById(R.id.ivSortByComments);
-
-        sharedPreferences = getSharedPreferences("SortSettings", MODE_PRIVATE);
-        String Sorting = sharedPreferences.getString("Sort", "Newest");
-
-        if(Sorting.equals("Newest")){
-
-            SortCommentsBy.setText("Sort by: new");
-
-            linearLayoutManager = new LinearLayoutManager(this);
-            linearLayoutManager.setReverseLayout(true);
-            linearLayoutManager.setStackFromEnd(true);
-        }
-        if(Sorting.equals("Oldest")){
-
-            SortCommentsBy.setText("Sort by: old");
-
-            linearLayoutManager = new LinearLayoutManager(this);
-            linearLayoutManager.setReverseLayout(false);
-            linearLayoutManager.setStackFromEnd(false);
-        }
-        if(Sorting.equals("Top")){
-
-            SortCommentsBy.setText("Sort by: top");
-
-            linearLayoutManager = new LinearLayoutManager(this);
-
-        }
-
-        SortCommentsBy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] sortOptions = {"Newest", "Oldest", "Top"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(Post_Viewing_Activity.this);
-                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if(i==0){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Newest");
-                            editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
-                        }
-                        else if(i==1){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Oldest");
-                            editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
-                        }
-                        else if(i==2){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Top");
-                            editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                });
-                builder.show();
-            }
-        });
-
-        SortByCommentsIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] sortOptions = {"Newest", "Oldest", "Top"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(Post_Viewing_Activity.this);
-                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if(i==0){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Newest");
-                            editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
-                        }
-                        else if(i==1){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Oldest");
-                            editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
-                        }
-                        else if(i==2){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Top");
-                            editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
-                });
-                builder.show();
-            }
-        });
-
-
         Title = findViewById(R.id.tvTitleOfTextPost);
         Content = findViewById(R.id.tvContentOfTextPost);
         UserName = findViewById(R.id.tvUsernameForTextPost);
@@ -281,6 +174,119 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
+        SortCommentsBy = findViewById(R.id.tvSortByTextTextPostViewing);
+        SortByCommentsIV = findViewById(R.id.ivSortByComments);
+
+        sharedPreferences = getSharedPreferences("SortSettings", MODE_PRIVATE);
+        String Sorting = sharedPreferences.getString("Sort", "Newest");
+
+        if(Sorting.equals("Newest")){
+
+            SortCommentsBy.setText("Sort by: new");
+
+            ReloadComments();
+
+            linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setReverseLayout(true);
+            linearLayoutManager.setStackFromEnd(true);
+        }
+        if(Sorting.equals("Oldest")){
+
+            SortCommentsBy.setText("Sort by: old");
+
+            ReloadComments();
+
+            linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setReverseLayout(false);
+            linearLayoutManager.setStackFromEnd(false);
+        }
+        if(Sorting.equals("Top")){
+
+            SortCommentsBy.setText("Sort by: top");
+
+            linearLayoutManager = new LinearLayoutManager(this);
+            ReloadCommentsTop();
+            linearLayoutManager.setReverseLayout(true);
+            linearLayoutManager.setStackFromEnd(true);
+
+        }
+
+        SortCommentsBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] sortOptions = {"Newest", "Oldest", "Top"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(i==0){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Newest");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                        else if(i==1){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Oldest");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                        else if(i==2){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Top");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        SortByCommentsIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] sortOptions = {"Newest", "Oldest", "Top"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(i==0){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Newest");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                        else if(i==1){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Oldest");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                        else if(i==2){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Top");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+
     }
 
     private void CheckIfMineGetsDeleted() {
@@ -296,7 +302,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 CheckIfHasComments();
-                ReloadComments();
+                SetupUI();
                 Log.e("Child changed", "Een comment is deleted");
             }
             @Override
@@ -577,8 +583,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
         DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Comments");
 
-        ReloadComments();
-
         CommentSubstance.setInputType(InputType.TYPE_NULL);
 
         CommentSubstance.setOnClickListener(new View.OnClickListener() {
@@ -605,6 +609,238 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         });
     }
 
+    private void ReloadCommentsTop() {
+
+        DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Comments");
+
+
+        DatabaseCommentStuff.orderByChild("LikeCount").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                clear();
+
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    CommentStuffForTextPost commentStuffForTextPost = dataSnapshot1.getValue(CommentStuffForTextPost.class);
+                    commentStuffForTextPostList.add(commentStuffForTextPost);
+                }
+
+                commentStuffForTextPostAdapter = new CommentStuffForTextPostAdapter(Post_Viewing_Activity.this, commentStuffForTextPostList);
+                CommentView.setAdapter(commentStuffForTextPostAdapter);
+
+                commentStuffForTextPostAdapter.setOnItemClickListener(new CommentStuffForTextPostAdapter.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(int position) {
+                        //hier hoeft nu niks
+                    }
+
+                    @Override
+                    public void onUserNameClick(int position) {
+                        final String CommentKey = commentStuffForTextPostList.get(position).getKey().toString();
+                        final String PostKey = commentStuffForTextPostList.get(position).getOldKey().toString();
+
+                        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey).child("uid");
+                        CheckIfMyUID.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
+                                final String CommentUID = dataSnapshot.getValue().toString();
+
+                                DatabaseReference UserIfDeleted = firebaseDatabase.getReference("users");
+                                UserIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                        if (dataSnapshot.hasChild(CommentUID)) {
+
+
+                                            if (MyUIDCheck.equals(CommentUID)) {
+
+                                                Intent GoToMyProfile = new Intent(Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
+                                                GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                GoToMyProfile.putExtra("Type", "Account");
+                                                startActivity(GoToMyProfile);
+
+                                            } else {
+
+                                                DatabaseReference GetCommentUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey).child("user_name");
+                                                GetCommentUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                        String CommentUsername = dataSnapshot.getValue().toString();
+                                                        if (CommentUsername.equals("[deleted_comment_user")) {
+                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                                                            dialog.setTitle("This comment has been deleted");
+                                                            dialog.setMessage("You can no longer see who made this comment");
+                                                            AlertDialog alertDialog = dialog.create();
+                                                            alertDialog.show();
+                                                        } else {
+                                                            Intent GoToProfile = new Intent(Post_Viewing_Activity.this, Account_Info_OtherUserComments_Activity.class);
+                                                            GoToProfile.putExtra("CommentKey", CommentKey);
+                                                            GoToProfile.putExtra("PostKey", PostKey);
+                                                            startActivity(GoToProfile);
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                            }
+                                        } else {
+
+                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                                            dialog.setTitle("This user has been deleted");
+                                            dialog.setMessage("You can no longer view this user");
+                                            AlertDialog alertDialog = dialog.create();
+                                            alertDialog.show();
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onUpvoteClick(int position) {
+                        key = commentStuffForTextPostList.get(position).getKey().toString();
+                        String Postkey = commentStuffForTextPostList.get(position).getOldKey();
+                        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
+                        final String TAGDownvote = "VoteCheck";
+
+                        DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if (dataSnapshot.hasChild(MyUID)) {
+
+                                    DatabaseDislike.child(MyUID).removeValue();
+
+                                    DatabaseLike.child(MyUID).setValue("RandomLike");
+
+
+                                } else {
+
+                                    DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            if (dataSnapshot.hasChild(MyUID)) {
+                                                DatabaseLike.child(MyUID).removeValue();
+
+                                            } else {
+                                                DatabaseLike.child(MyUID).setValue("RandomLike");
+
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onDownvoteClick(int position) {
+                        key = commentStuffForTextPostList.get(position).getKey().toString();
+                        MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                        String Postkey = commentStuffForTextPostList.get(position).getOldKey();
+                        DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Likes");
+                        DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(Postkey).child("Comments").child(key).child("Dislikes");
+                        final String TAGDownvote = "VoteCheck";
+
+
+                        DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                if (dataSnapshot.hasChild(MyUID)) {
+                                    DatabaseLike.child(MyUID).removeValue();
+
+                                    DatabaseDislike.child(MyUID).setValue("RandomDislike");
+
+                                } else {
+
+                                    DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            if (dataSnapshot.hasChild(MyUID)) {
+
+                                                DatabaseDislike.child(MyUID).removeValue();
+
+                                            } else {
+
+                                                DatabaseDislike.child(MyUID).setValue("RandomDislike");
+
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+
+
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     private void ReloadComments() {
 
         DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Comments");
@@ -614,9 +850,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
                 clear();
-
 
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     CommentStuffForTextPost commentStuffForTextPost = dataSnapshot1.getValue(CommentStuffForTextPost.class);
