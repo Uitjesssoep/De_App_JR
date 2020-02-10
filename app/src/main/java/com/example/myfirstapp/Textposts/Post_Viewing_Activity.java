@@ -184,8 +184,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
             SortCommentsBy.setText("Sort by: new");
 
-            ReloadComments();
-
             linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setReverseLayout(true);
             linearLayoutManager.setStackFromEnd(true);
@@ -193,8 +191,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         if(Sorting.equals("Oldest")){
 
             SortCommentsBy.setText("Sort by: old");
-
-            ReloadComments();
 
             linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setReverseLayout(false);
@@ -205,7 +201,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             SortCommentsBy.setText("Sort by: top");
 
             linearLayoutManager = new LinearLayoutManager(this);
-            ReloadCommentsTop();
             linearLayoutManager.setReverseLayout(true);
             linearLayoutManager.setStackFromEnd(true);
 
@@ -302,7 +297,15 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 CheckIfHasComments();
-                SetupUI();
+
+                String SortedBy = SortCommentsBy.getText().toString();
+                if(SortedBy.equals("Sort by: top")){
+                    ReloadCommentsTop();
+                }
+                else {
+                    ReloadComments();
+                }
+
                 Log.e("Child changed", "Een comment is deleted");
             }
             @Override
@@ -578,6 +581,14 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
 
     private void CommentOnPost() {
+
+        String SortedBy = SortCommentsBy.getText().toString();
+        if(SortedBy.equals("Sort by: top")){
+            ReloadCommentsTop();
+        }
+        else {
+            ReloadComments();
+        }
 
         key = getIntent().getExtras().get("Key").toString();
 
