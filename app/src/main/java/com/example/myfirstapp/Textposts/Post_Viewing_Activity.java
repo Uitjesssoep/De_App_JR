@@ -83,96 +83,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
 
     private void SetupUI() {
-        Title = findViewById(R.id.tvTitleOfTextPost);
-        Content = findViewById(R.id.tvContentOfTextPost);
-        UserName = findViewById(R.id.tvUsernameForTextPost);
-        LikeCountDisplay = findViewById(R.id.tvLikeCounterForTextPostViewing);
-        DislikeCountDisplay = findViewById(R.id.tvDislikeCounterForTextPostViewing);
-        Like = findViewById(R.id.ibLikeUpForTextPostViewing);
-        Dislike = findViewById(R.id.ibLikeDownForTextPostViewing);
-        Date = findViewById(R.id.tvDateOfPostTextPostViewing);
-        NoCommentsYet = findViewById(R.id.tvThereAreNoCommentsYet);
-        NoCommentsYet.bringToFront();
-        ImageContent = findViewById(R.id.ivImageContentPostViewing);
-
-        CommentView = findViewById(R.id.rvCommentsTextPost);
-        CommentView.setNestedScrollingEnabled(false);
-        CommentView.setLayoutManager(linearLayoutManager);
-        commentStuffForTextPostList = new ArrayList<>();
-
-        NumberOfComments = findViewById(R.id.tvNumberOfCommentsForTextPosts);
-        CommentSubstance = findViewById(R.id.etAddCommentForTextPost);
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        MyUID = firebaseAuth.getCurrentUser().getUid();
-
-        CheckIfMineGetsDeleted();
-
-        final String ThePostKey = getIntent().getExtras().get("Key").toString();
-        final String MyUID3 = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-        DatabaseReference GetPostUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(ThePostKey).child("uid");
-        GetPostUID.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (MyUID3.equals(dataSnapshot.getValue().toString())) {
-
-                    DatabaseReference GetMyUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID3).child("userName");
-                    GetMyUsername.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            String MyUserName = dataSnapshot.getValue().toString();
-
-                            UserName.setTextColor(getResources().getColor(R.color.colorAccent));
-                            UserName.setText(MyUserName);
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        DatabaseReference PostType = FirebaseDatabase.getInstance().getReference("General_Posts").child(key);
-        PostType.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String Type = dataSnapshot.child("type").getValue().toString();
-
-                if(Type.equals("Text")){
-                    ImageContent.setVisibility(View.GONE);
-
-                    String TheContent = dataSnapshot.child("content").getValue().toString();
-                    if(TheContent.equals("")){
-                        Content.setVisibility(View.GONE);
-                    }
-                    else{
-                        Content.setVisibility(View.VISIBLE);
-                    }
-                }
-                else{
-                    ImageContent.setVisibility(View.VISIBLE);
-                    Content.setVisibility(View.GONE);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
 
         SortCommentsBy = findViewById(R.id.tvSortByTextTextPostViewing);
         SortByCommentsIV = findViewById(R.id.ivSortByComments);
@@ -282,6 +192,97 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             }
         });
 
+        Title = findViewById(R.id.tvTitleOfTextPost);
+        Content = findViewById(R.id.tvContentOfTextPost);
+        UserName = findViewById(R.id.tvUsernameForTextPost);
+        LikeCountDisplay = findViewById(R.id.tvLikeCounterForTextPostViewing);
+        DislikeCountDisplay = findViewById(R.id.tvDislikeCounterForTextPostViewing);
+        Like = findViewById(R.id.ibLikeUpForTextPostViewing);
+        Dislike = findViewById(R.id.ibLikeDownForTextPostViewing);
+        Date = findViewById(R.id.tvDateOfPostTextPostViewing);
+        NoCommentsYet = findViewById(R.id.tvThereAreNoCommentsYet);
+        NoCommentsYet.bringToFront();
+        ImageContent = findViewById(R.id.ivImageContentPostViewing);
+
+        CommentView = findViewById(R.id.rvCommentsTextPost);
+        CommentView.setNestedScrollingEnabled(false);
+        CommentView.setLayoutManager(linearLayoutManager);
+        commentStuffForTextPostList = new ArrayList<>();
+
+        NumberOfComments = findViewById(R.id.tvNumberOfCommentsForTextPosts);
+        CommentSubstance = findViewById(R.id.etAddCommentForTextPost);
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        MyUID = firebaseAuth.getCurrentUser().getUid();
+
+        CheckIfMineGetsDeleted();
+
+        final String ThePostKey = getIntent().getExtras().get("Key").toString();
+        final String MyUID3 = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+        DatabaseReference GetPostUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(ThePostKey).child("uid");
+        GetPostUID.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (MyUID3.equals(dataSnapshot.getValue().toString())) {
+
+                    DatabaseReference GetMyUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID3).child("userName");
+                    GetMyUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            String MyUserName = dataSnapshot.getValue().toString();
+
+                            UserName.setTextColor(getResources().getColor(R.color.colorAccent));
+                            UserName.setText(MyUserName);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference PostType = FirebaseDatabase.getInstance().getReference("General_Posts").child(key);
+        PostType.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Type = dataSnapshot.child("type").getValue().toString();
+
+                if(Type.equals("Text")){
+                    ImageContent.setVisibility(View.GONE);
+
+                    String TheContent = dataSnapshot.child("content").getValue().toString();
+                    if(TheContent.equals("")){
+                        Content.setVisibility(View.GONE);
+                    }
+                    else{
+                        Content.setVisibility(View.VISIBLE);
+                    }
+                }
+                else{
+                    ImageContent.setVisibility(View.VISIBLE);
+                    Content.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
     }
 
     private void CheckIfMineGetsDeleted() {
@@ -387,10 +388,12 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.hasChild("Comments")){
+                    SortByCommentsIV.setVisibility(View.VISIBLE);
                     SortCommentsBy.setVisibility(View.VISIBLE);
                     NoCommentsYet.setVisibility(View.GONE);
                 }
                 else{
+                    SortByCommentsIV.setVisibility(View.GONE);
                     SortCommentsBy.setVisibility(View.GONE);
                     NoCommentsYet.setVisibility(View.VISIBLE);
                 }
@@ -583,6 +586,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     private void CommentOnPost() {
 
         String SortedBy = SortCommentsBy.getText().toString();
+        Log.e("SortedBy", SortedBy);
         if(SortedBy.equals("Sort by: top")){
             ReloadCommentsTop();
         }
@@ -621,6 +625,8 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     }
 
     private void ReloadCommentsTop() {
+
+        Log.e("RC", "Top");
 
         DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Comments");
 
@@ -853,6 +859,8 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     }
 
     private void ReloadComments() {
+
+        Log.e("RC", "Normal");
 
         DatabaseCommentStuff = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Comments");
 
