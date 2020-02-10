@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -129,6 +130,24 @@ public class SearchFragment extends Fragment {
                 UserAdapter adapter;
 
                 adapter = new UserAdapter(getActivity(), list);
+
+                final UserAdapter userAdapter = new UserAdapter(getActivity(), list);
+                SearchView searchView = getView().findViewById(R.id.svSearchUsers);
+                searchView.setIconifiedByDefault(false);
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                    @Override
+                    public boolean onQueryTextSubmit(String s) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String s) {
+                        userAdapter.getFilter().filter(s);
+                        return false;
+                    }
+                });
+
                 recyclerView.setAdapter(adapter);
                 ProgressCircle.setVisibility(View.INVISIBLE);
 

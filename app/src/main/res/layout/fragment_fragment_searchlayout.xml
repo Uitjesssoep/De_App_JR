@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
 
+    <SearchView
+        android:id="@+id/svSearchUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <ProgressBar
         android:id="@+id/pbLoadingUserListToFollow_fragment"
         style="?android:attr/progressBarStyle"
@@ -16,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/svSearchUsers" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_viewUserList_fragment"
@@ -25,6 +35,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/svSearchUsers" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
