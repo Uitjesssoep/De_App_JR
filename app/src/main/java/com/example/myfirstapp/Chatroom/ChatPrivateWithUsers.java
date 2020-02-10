@@ -137,6 +137,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         UID = getIntent().getExtras().get("UID").toString();
+        Log.e("UID", UID);
        /* if (getIntent().getExtras().get("Key") == null) {
             key = MyUid + " + " + UID;
         } else {
