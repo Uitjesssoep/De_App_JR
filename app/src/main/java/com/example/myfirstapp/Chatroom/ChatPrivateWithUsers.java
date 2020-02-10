@@ -74,7 +74,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         setContentView(R.layout.activity_chat_private_with_users);
         SetupUI();
         FindIntel();
-        //     LoadMessages();
+        LoadMessages();
         SendChat();
     }
 
@@ -157,6 +157,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         myDatabase2 = FirebaseDatabase.getInstance().getReference("Private Chatrooms");
 
         message = ChatInputText.getText().toString();
+
+        listRoom = new ArrayList<>();
     }
 
     private void SendChat() {
@@ -211,21 +213,24 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                         PostStuffMakePrivateChat postStuffMakePrivateChat = snapshot.getValue(PostStuffMakePrivateChat.class);
                         Keyold = postStuffMakePrivateChat.getKey();
                         listRoom.add(postStuffMakePrivateChat);
+                        Log.e(TAG, "add bereikt");
 
                         for (int i = 0; i < listRoom.size(); i++) {
                             int position;
 
-                            if (!listRoom.get(i).getKey().contains(MyUid)&&listRoom.get(i).getKey().contains(UID)) {
+                            if (listRoom.get(i).getKey().contains(MyUid) && listRoom.get(i).getKey().contains(UID)) {
                                 position = i;
-                                listRoom.remove(position);
+                                Key= listRoom.get(position).getKey();
+                                Log.e(TAG, "remove bereikt");
                                 Log.e("list", listRoom.toString());
-                                if (listRoom.isEmpty()){
-                                    Key = MyUid + " + " + UID;
-                                    MakeChatroom();
-                                }else {
-                                    Key = listRoom.get(0).getKey();
-                                }
+
                             }
+                            if (Key == null){
+                                Key = MyUid + " + " + UID;
+                                MakeChatroom();
+                                Log.e(TAG, "if listroom.isEmpty bereikt");
+                            }
+
                         }
 
 
