@@ -4,6 +4,8 @@ package com.example.myfirstapp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.media.Image;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -22,7 +24,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
@@ -46,6 +50,12 @@ public class AllFeedTab extends Fragment {
     private List<StuffForPost> StuffForPostList;
     private RecyclerView GeneralFeed;
     private StuffForPostAdapter stuffForPostAdapter;
+
+    private TextView SortCommentsBy;
+    private ImageView SortByCommentsIV;
+
+    private LinearLayoutManager linearLayoutManager; //voor sorteren
+    private SharedPreferences sharedPreferences; //saven sorteer setting
 
     private final String KEY_RECYCLER_STATE = "recycler_state";
     private static Bundle mBundleRecyclerViewState;
@@ -116,12 +126,120 @@ public class AllFeedTab extends Fragment {
 
     private void StartOrReloadTextPosts() {
 
+
+        SortCommentsBy = getView().findViewById(R.id.tvSortByTextAllFeed);
+        SortByCommentsIV = getView().findViewById(R.id.ivSortByAllFeed);
+
+        sharedPreferences = getContext().getSharedPreferences("SortSettings", Context.MODE_PRIVATE);
+        String Sorting = sharedPreferences.getString("Sort", "Newest");
+
+        if(Sorting.equals("Newest")){
+
+            SortCommentsBy.setText("Sort by: new");
+
+            linearLayoutManager = new LinearLayoutManager(getContext());
+            linearLayoutManager.setReverseLayout(true);
+            linearLayoutManager.setStackFromEnd(true);
+        }
+        if(Sorting.equals("Oldest")){
+
+            SortCommentsBy.setText("Sort by: old");
+
+            linearLayoutManager = new LinearLayoutManager(getContext());
+            linearLayoutManager.setReverseLayout(false);
+            linearLayoutManager.setStackFromEnd(false);
+        }
+        if(Sorting.equals("Top")){
+
+            SortCommentsBy.setText("Sort by: top");
+
+            linearLayoutManager = new LinearLayoutManager(getContext());
+
+        }
+
+        SortCommentsBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] sortOptions = {"Newest", "Oldest", "Top"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(i==0){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Newest");
+                            editor.apply();
+                            Intent intent = new Intent(getActivity().getIntent());
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                        else if(i==1){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Oldest");
+                            editor.apply();
+                            Intent intent = new Intent(getActivity().getIntent());
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                        else if(i==2){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Top");
+                            editor.apply();
+                            Intent intent = new Intent(getActivity().getIntent());
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        SortByCommentsIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] sortOptions = {"Newest", "Oldest", "Top"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(i==0){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Newest");
+                            editor.apply();
+                            Intent intent = new Intent(getActivity().getIntent());
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                        else if(i==1){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Oldest");
+                            editor.apply();
+                            Intent intent = new Intent(getActivity().getIntent());
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                        else if(i==2){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Top");
+                            editor.apply();
+                            Intent intent = new Intent(getActivity().getIntent());
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+
+
         GeneralFeed = getView().findViewById(R.id.rvAllFeedFragment);
         GeneralFeed.setItemViewCacheSize(20);
         GeneralFeed.setHasFixedSize(true);
         GeneralFeed.setDrawingCacheEnabled(true);
         GeneralFeed.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        GeneralFeed.setLayoutManager(new LinearLayoutManager(getActivity()));
+        GeneralFeed.setLayoutManager(linearLayoutManager);
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingAllFeed_fragment);
         StuffForPostList = new ArrayList<>();

@@ -434,7 +434,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
             }
         });
 
-        String KeyYeah = uploadCurrent.getKey().toString();
+        final String KeyYeah = uploadCurrent.getKey().toString();
         CommentCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Comments");
 
 
@@ -456,6 +456,10 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+
+                DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah);
+                SetLikeCount.child("LikeCount").setValue(LikeCountAdapter);
+
                 holder.LikeCount.setText("" + LikeCountAdapter);
             }
 
@@ -468,6 +472,10 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+
+                DatabaseReference SetDislikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah);
+                SetDislikeCount.child("DislikeCount").setValue(DislikeCountAdapter);
+
                 holder.DislikeCount.setText("" + DislikeCountAdapter);
             }
 

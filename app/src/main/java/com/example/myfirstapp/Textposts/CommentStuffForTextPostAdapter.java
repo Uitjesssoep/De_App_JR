@@ -100,7 +100,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("user_name");
         final String CommentUID = uploadCurrent2.getUID().toString();
 
-        UserUIDCheck.addValueEventListener(new ValueEventListener() {
+        UserUIDCheck.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -443,6 +443,10 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+
+                DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2);
+                SetLikeCount.child("LikeCount").setValue(LikeCountAdapter);
+
                 holder.LikeCount.setText("" + LikeCountAdapter);
             }
 
@@ -455,6 +459,10 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+
+                DatabaseReference SetDislikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2);
+                SetDislikeCount.child("DislikeCount").setValue(DislikeCountAdapter);
+
                 holder.DislikeCount.setText("" + DislikeCountAdapter);
             }
 
