@@ -2,6 +2,7 @@ package com.example.myfirstapp.Textposts;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.LinkMovementMethod;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -59,13 +61,14 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     private List<CommentStuffForTextPost> commentStuffForTextPostList;
     private CommentStuffForTextPostAdapter commentStuffForTextPostAdapter;
 
+    LinearLayoutManager linearLayoutManager; //voor sorteren
+    SharedPreferences sharedPreferences; //saven sorteer setting
+
     private FirebaseDatabase firebaseDatabase;
     private String key, MyUID, PosterUID;
     private ImageButton Like, Dislike, Exit;
     private EditText CommentSubstance;
-    private ImageView ImageContent;
-
-    private Spinner SortByComments;
+    private ImageView ImageContent, SortByCommentsIV;
 
     private boolean Liked = false;
     private boolean Disliked = false;
@@ -80,6 +83,113 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
     private void SetupUI() {
 
+        SortCommentsBy = findViewById(R.id.tvSortByTextTextPostViewing);
+        SortByCommentsIV = findViewById(R.id.ivSortByComments);
+
+        sharedPreferences = getSharedPreferences("SortSettings", MODE_PRIVATE);
+        String Sorting = sharedPreferences.getString("Sort", "Newest");
+
+        if(Sorting.equals("Newest")){
+
+            SortCommentsBy.setText("Sort by: new");
+
+            linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setReverseLayout(true);
+            linearLayoutManager.setStackFromEnd(true);
+        }
+        if(Sorting.equals("Oldest")){
+
+            SortCommentsBy.setText("Sort by: old");
+
+            linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setReverseLayout(false);
+            linearLayoutManager.setStackFromEnd(false);
+        }
+        if(Sorting.equals("Top")){
+
+            SortCommentsBy.setText("Sort by: top");
+
+            linearLayoutManager = new LinearLayoutManager(this);
+
+        }
+
+        SortCommentsBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] sortOptions = {"Newest", "Oldest", "Top"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(i==0){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Newest");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                        else if(i==1){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Oldest");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                        else if(i==2){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Top");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        SortByCommentsIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] sortOptions = {"Newest", "Oldest", "Top"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(i==0){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Newest");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                        else if(i==1){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Oldest");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                        else if(i==2){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Top");
+                            editor.apply();
+                            Intent intent = new Intent(getIntent());
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+
+
         Title = findViewById(R.id.tvTitleOfTextPost);
         Content = findViewById(R.id.tvContentOfTextPost);
         UserName = findViewById(R.id.tvUsernameForTextPost);
@@ -88,19 +198,13 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         Like = findViewById(R.id.ibLikeUpForTextPostViewing);
         Dislike = findViewById(R.id.ibLikeDownForTextPostViewing);
         Date = findViewById(R.id.tvDateOfPostTextPostViewing);
-        SortCommentsBy = findViewById(R.id.tvSortByTextTextPostViewing);
         NoCommentsYet = findViewById(R.id.tvThereAreNoCommentsYet);
         NoCommentsYet.bringToFront();
         ImageContent = findViewById(R.id.ivImageContentPostViewing);
 
-        SortByComments = findViewById(R.id.spinnerDropDownSortByCommentsTextPostViewing);
-        ArrayAdapter<String> sortAdapter = new ArrayAdapter<String>(Post_Viewing_Activity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.sortnames));
-        sortAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        SortByComments.setAdapter(sortAdapter);
-
         CommentView = findViewById(R.id.rvCommentsTextPost);
         CommentView.setNestedScrollingEnabled(false);
-        CommentView.setLayoutManager(new LinearLayoutManager(this));
+        CommentView.setLayoutManager(linearLayoutManager);
         commentStuffForTextPostList = new ArrayList<>();
 
         NumberOfComments = findViewById(R.id.tvNumberOfCommentsForTextPosts);
@@ -274,12 +378,10 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.hasChild("Comments")){
-                    SortByComments.setVisibility(View.VISIBLE);
                     SortCommentsBy.setVisibility(View.VISIBLE);
                     NoCommentsYet.setVisibility(View.GONE);
                 }
                 else{
-                    SortByComments.setVisibility(View.GONE);
                     SortCommentsBy.setVisibility(View.GONE);
                     NoCommentsYet.setVisibility(View.VISIBLE);
                 }
@@ -1230,5 +1332,4 @@ public class Post_Viewing_Activity extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
-
 }
