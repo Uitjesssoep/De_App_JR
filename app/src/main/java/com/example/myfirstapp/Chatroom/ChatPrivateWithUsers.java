@@ -60,6 +60,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
     private List<String> list;
 
+    private List<PostStuffMakePrivateChat> listRoom;
+
     boolean notify = false;
     private int ItemCount;
     private int scrollPosition;
@@ -72,7 +74,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         setContentView(R.layout.activity_chat_private_with_users);
         SetupUI();
         FindIntel();
-   //     LoadMessages();
+        //     LoadMessages();
         SendChat();
     }
 
@@ -208,22 +210,41 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         PostStuffMakePrivateChat postStuffMakePrivateChat = snapshot.getValue(PostStuffMakePrivateChat.class);
                         Keyold = postStuffMakePrivateChat.getKey();
-                        Log.e(TAG, Keyold);
-                //        LoadMessages();
-                    }
-                    if (Keyold.contains(MyUid) && Keyold.contains(UID)) {
-                        list.add(Keyold);
-                        if (list.isEmpty()) {
-                            Key = MyUid + " + " + UID;
-                            MakeChatroom();
-                            Log.e("else", Key);
-                        } else {
-                            Key = list.get(0);
-                            Log.e("IF", Key);
+                        listRoom.add(postStuffMakePrivateChat);
+
+                        for (int i = 0; i < listRoom.size(); i++) {
+                            int position;
+
+                            if (!listRoom.get(i).getKey().contains(MyUid)&&listRoom.get(i).getKey().contains(UID)) {
+                                position = i;
+                                listRoom.remove(position);
+                                Log.e("list", listRoom.toString());
+                                if (listRoom.isEmpty()){
+                                    Key = MyUid + " + " + UID;
+                                    MakeChatroom();
+                                }else {
+                                    Key = listRoom.get(0).getKey();
+                                }
+                            }
                         }
-                        Log.e("IF", Key);
+
+
+                        Log.e(TAG, Keyold);
+                        //        LoadMessages();
+                    }
+                  /*  if (Keyold.contains(MyUid) && Keyold.contains(UID)) {
+                        list.add(Keyold);
+
+                        Key = list.get(0);
+                        Log.e("else", Key);
+
 
                     }
+                    if (list.isEmpty()) {
+                        Key = MyUid + " + " + UID;
+                        MakeChatroom();
+                        Log.e("IF", Key);
+                    }*/
 
                 } else {
                     Key = MyUid + " + " + UID;
