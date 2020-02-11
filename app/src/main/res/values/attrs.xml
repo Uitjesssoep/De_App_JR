@@ -7,6 +7,7 @@
         <attr name="maintextcolor" format="color"/>
         <attr name="maingreytextcolor" format="color"/>
         <attr name="lichtgreytextcolor" format="color"/>
+        <attr name="warningtextcolor" format="color"/>
     </declare-styleable>
     
 </resources>

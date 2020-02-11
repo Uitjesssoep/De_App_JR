@@ -12,10 +12,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -232,8 +234,6 @@ public class App_Settings_Activity extends AppCompatActivity {
 
     private void SetupDesign() {
 
-        setTheme(R.style.AppTheme);
-
         //voor het geven van kleur aan de status bar:
 
         Window window = App_Settings_Activity.this.getWindow();
@@ -272,5 +272,20 @@ public class App_Settings_Activity extends AppCompatActivity {
         nightMode = findViewById(R.id.switchNightMode);
         BuildInfo = findViewById(R.id.tvBuildInfoSettingsBuild);
 
+        if(nightMode != null){
+            nightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if(isChecked) {
+                        Log.e("Switch", "IsChecked");
+                        setTheme(R.style.AppTheme_Night);
+                    } else {
+                        setTheme(R.style.AppTheme);
+                    }
+                }
+            });
+        }
+
     }
+
 }

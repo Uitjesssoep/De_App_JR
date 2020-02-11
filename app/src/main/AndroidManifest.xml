@@ -11,7 +11,7 @@
         android:label="Strimbula"
         android:roundIcon="@mipmap/launcher_s_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.Design.Light.NoActionBar">
         <activity android:name=".Terms_of_Use_Activity"></activity>
         <activity android:name=".Data_Policy_Activity" />
         <activity android:name=".Content_Policy_Activity" />
@@ -65,8 +65,7 @@
         <activity
             android:name=".Users.UserListToFollow"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/noAnimationTheme" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Choose_FeedType_Activity"
             android:screenOrientation="portrait" />
@@ -81,13 +80,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Textposts.Followers_Feed_Activity"
-            android:screenOrientation="portrait"
-            android:theme="@style/noAnimationTheme" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Textposts.General_Feed_Activity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/noAnimationTheme" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Textposts.Upload_TextPost_Activity"
             android:screenOrientation="portrait" />
@@ -100,8 +97,7 @@
         <activity
             android:name=".Chatroom.Chat_Room_MakeOrSearch_Activity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/noAnimationTheme" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Chatroom.Chat_With_Users_Activity"
             android:screenOrientation="portrait" />
@@ -126,8 +122,7 @@
         <activity
             android:name=".AccountActivities.Account_Info_Activity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/noAnimationTheme" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivities.RegistrationActivity"
             android:screenOrientation="portrait" />
@@ -136,8 +131,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Splash_Screen_Activity"
-            android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
