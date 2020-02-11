@@ -128,25 +128,19 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Newest");
                             editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
+                            SetupUI();
                         }
                         else if(i==1){
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Oldest");
                             editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
+                            SetupUI();
                         }
                         else if(i==2){
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Top");
                             editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
+                            SetupUI();
                         }
                     }
                 });
@@ -166,25 +160,19 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Newest");
                             editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
+                            SetupUI();
                         }
                         else if(i==1){
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Oldest");
                             editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
+                            SetupUI();
                         }
                         else if(i==2){
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Top");
                             editor.apply();
-                            Intent intent = new Intent(getIntent());
-                            startActivity(intent);
-                            finish();
+                            SetupUI();
                         }
                     }
                 });

@@ -4,6 +4,7 @@ package com.example.myfirstapp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -22,7 +23,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
@@ -47,6 +50,11 @@ public class FollowingFeedTab extends Fragment {
     private static Bundle mBundleRecyclerViewState;
     private Parcelable mListState = null;
 
+    private TextView SortCommentsBy;
+    private ImageView SortByCommentsIV;
+    private LinearLayoutManager linearLayoutManager; //voor sorteren
+    private SharedPreferences sharedPreferences; //saven sorteer setting
+
     public FollowingFeedTab() {
         // Required empty public constructor
     }
@@ -61,6 +69,7 @@ public class FollowingFeedTab extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         CheckInternet();
         StartOrReload();
 
@@ -107,6 +116,417 @@ public class FollowingFeedTab extends Fragment {
     }
 
     private void StartOrReload() {
+
+        SortCommentsBy = getView().findViewById(R.id.tvSortByTextFollowingFeed);
+        SortByCommentsIV = getView().findViewById(R.id.ivSortByFollowingFeed);
+
+        sharedPreferences = getContext().getSharedPreferences("SortSettings3", Context.MODE_PRIVATE);
+        String Sorting = sharedPreferences.getString("Sort", "Newest");
+
+        if(Sorting.equals("Newest")){
+
+            SortCommentsBy.setText("Sort by: new");
+
+            linearLayoutManager = new LinearLayoutManager(getContext());
+            linearLayoutManager.setReverseLayout(true);
+            linearLayoutManager.setStackFromEnd(true);
+
+            Normal();
+        }
+        if(Sorting.equals("Oldest")){
+
+            SortCommentsBy.setText("Sort by: old");
+
+            linearLayoutManager = new LinearLayoutManager(getContext());
+            linearLayoutManager.setReverseLayout(false);
+            linearLayoutManager.setStackFromEnd(false);
+
+            Normal();
+        }
+        if(Sorting.equals("Top")){
+
+            SortCommentsBy.setText("Sort by: top");
+
+            linearLayoutManager = new LinearLayoutManager(getContext());
+            linearLayoutManager.setReverseLayout(true);
+            linearLayoutManager.setStackFromEnd(true);
+
+            Top();
+
+        }
+
+        SortCommentsBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] sortOptions = {"Newest", "Oldest", "Top"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(i==0){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Newest");
+                            editor.apply();
+                            StartOrReload();
+                        }
+                        else if(i==1){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Oldest");
+                            editor.apply();
+                            StartOrReload();
+                        }
+                        else if(i==2){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Top");
+                            editor.apply();
+                            StartOrReload();
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+
+        SortByCommentsIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] sortOptions = {"Newest", "Oldest", "Top"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(i==0){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Newest");
+                            editor.apply();
+                            StartOrReload();
+                        }
+                        else if(i==1){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Oldest");
+                            editor.apply();
+                            StartOrReload();
+                        }
+                        else if(i==2){
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Sort", "Top");
+                            editor.apply();
+                            StartOrReload();
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
+    }
+
+    private void Top() {
+
+
+        GeneralFeed = getView().findViewById(R.id.rvFollowingFeedFragment);
+        GeneralFeed.setItemViewCacheSize(20);
+        GeneralFeed.setHasFixedSize(true);
+        GeneralFeed.setDrawingCacheEnabled(true);
+        GeneralFeed.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        GeneralFeed.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingFollowingFeed_fragment);
+        final List<StuffForPost> StuffForPostList = new ArrayList<>();
+        final StuffForPostAdapter stuffForPostAdapter = null;
+        final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        final DatabaseReference posts = FirebaseDatabase.getInstance().getReference("General_Posts");
+        final DatabaseReference following = FirebaseDatabase.getInstance().getReference("users");
+        registerForContextMenu(GeneralFeed);
+
+        posts.orderByChild("LikeCount").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                clear();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    StuffForPost StuffForPost = postSnapshot.getValue(StuffForPost.class);
+                    StuffForPostList.add(StuffForPost);
+                    final String MyUID = firebaseAuth.getCurrentUser().getUid();
+                    following.child(MyUID).child("following").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (int i = 0; i < StuffForPostList.size(); i++) {
+                                int position;
+
+                                if (!dataSnapshot.hasChild(StuffForPostList.get(i).getUID())) {
+                                    position = i;
+                                    StuffForPostList.remove(position);
+                                    Log.e("list", StuffForPostList.toString());
+                                }}
+                            StuffForPostAdapter stuffForPostAdapter;
+                            stuffForPostAdapter = new StuffForPostAdapter(getActivity(), StuffForPostList);
+                            GeneralFeed.setAdapter(stuffForPostAdapter);
+                            progressBar.setVisibility(View.GONE);
+
+
+
+                            stuffForPostAdapter.setOnItemClickListener(new StuffForPostAdapter.OnItemClickListener() {
+
+                                @Override
+                                public void onItemClick(int position) {
+                                    final String key = StuffForPostList.get(position).getKey().toString();
+
+                                    DatabaseReference CheckIfExists = FirebaseDatabase.getInstance().getReference("General_Posts");
+                                    CheckIfExists.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.hasChild(key)){
+                                                Intent Test2 = new Intent(getActivity().getApplicationContext(), Post_Viewing_Activity.class);
+                                                Test2.putExtra("Key", key);
+                                                startActivity(Test2);
+                                            }
+                                            else{
+                                                android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(getActivity());
+                                                dialog.setTitle("This post has been deleted");
+                                                dialog.setMessage("This post has been deleted, you can no longer view it.");
+
+                                                dialog.setPositiveButton("Understood", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                });
+                                                android.app.AlertDialog alertDialog = dialog.create();
+                                                alertDialog.show();
+                                            }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onUserNameClick(int position) {
+                                    final String PostKey = StuffForPostList.get(position).getKey().toString();
+
+                                    DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey);
+                                    CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            final String MyUIDCheck2 = FirebaseAuth.getInstance().getUid().toString();
+                                            final String PostUID2 = dataSnapshot.child("uid").getValue().toString();
+                                            final String AnonToCheck = dataSnapshot.child("user_name").getValue().toString();
+                                            final String AnonCheck = "[anonymous]";
+
+                                            DatabaseReference CheckIfDeleted = FirebaseDatabase.getInstance().getReference("users");
+                                            CheckIfDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                    if(dataSnapshot.hasChild(PostUID2)){
+
+                                                        if(MyUIDCheck2.equals(PostUID2)){
+
+                                                            Intent GoToMyProfile = new Intent(getActivity(), Layout_Manager_BottomNav_Activity.class);
+                                                            GoToMyProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                            GoToMyProfile.putExtra("Type", "Account");
+                                                            startActivity(GoToMyProfile);
+
+                                                        }
+                                                        else{
+
+                                                            if(AnonCheck.equals(AnonToCheck)){
+
+                                                                final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                                                                dialog.setTitle("This user has posted anonymously");
+                                                                dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
+                                                                AlertDialog alertDialog = dialog.create();
+                                                                alertDialog.show();
+
+                                                            }
+
+                                                            else{
+
+                                                                Intent GoToProfile = new Intent(getActivity(), Account_Info_OtherUser_Activity.class);
+                                                                GoToProfile.putExtra("Key", PostKey);
+                                                                startActivity(GoToProfile);
+
+                                                            }
+                                                        }
+
+                                                    }
+
+                                                    else{
+
+                                                        final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                                                        dialog.setTitle("This user has been deleted");
+                                                        dialog.setMessage("You can no longer view this user");
+                                                        AlertDialog alertDialog = dialog.create();
+                                                        alertDialog.show();
+
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onUpvoteClick(int position) {
+                                    final String key = StuffForPostList.get(position).getKey().toString();
+                                    final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                                    final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
+                                    final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
+                                    final String TAGDownvote = "VoteCheck";
+
+
+                                    DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            if(dataSnapshot.hasChild(MyUID)){
+
+                                                DatabaseDislike.child(MyUID).removeValue();
+                                                DatabaseLike.child(MyUID).setValue("RandomLike");
+
+                                            }
+
+
+                                            else{
+
+                                                DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                        if(dataSnapshot.hasChild(MyUID)){
+                                                            DatabaseLike.child(MyUID).removeValue();
+                                                        }
+
+                                                        else{
+                                                            DatabaseLike.child(MyUID).setValue("RandomLike");
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onDownvoteClick(int position) {
+                                    final String key = StuffForPostList.get(position).getKey().toString();
+                                    final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
+                                    final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
+                                    final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
+                                    final String TAGDownvote = "VoteCheck";
+
+
+                                    DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            if(dataSnapshot.hasChild(MyUID)){
+                                                DatabaseLike.child(MyUID).removeValue();
+                                                DatabaseDislike.child(MyUID).setValue("RandomDislike");
+                                            }
+
+                                            else{
+
+                                                DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                        if(dataSnapshot.hasChild(MyUID)){
+
+                                                            DatabaseDislike.child(MyUID).removeValue();
+
+                                                        }
+
+                                                        else{
+
+                                                            DatabaseDislike.child(MyUID).setValue("RandomDislike");
+
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+                            });
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            private void clear() {
+                int size = StuffForPostList.size();
+                if (size > 0) {
+                    for (int i = 0; i < size; i++) {
+                        StuffForPostList.remove(0);
+
+                        String TAGTest = "ListEmpty";
+                        // Log.e(TAGTest, "tot 'for' gekomen");
+                    }
+
+                    stuffForPostAdapter.notifyItemRangeRemoved(0, size);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void Normal() {
+
 
         GeneralFeed = getView().findViewById(R.id.rvFollowingFeedFragment);
         GeneralFeed.setItemViewCacheSize(20);
