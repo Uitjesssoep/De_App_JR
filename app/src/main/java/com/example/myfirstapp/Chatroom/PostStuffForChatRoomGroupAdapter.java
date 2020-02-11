@@ -1,7 +1,6 @@
 package com.example.myfirstapp.Chatroom;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.R;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
 
     private List<PostStuffForChatRoom> mUploads;
     private Context mContext;
+    private String Username;
 
     public PostStuffForChatRoomGroupAdapter(Context context, List<PostStuffForChatRoom> uploads) {
         mContext = context;
@@ -33,9 +36,8 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
         PostStuffForChatRoom uploadCurrent = mUploads.get(position);
-        String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         holder.Message.setText(uploadCurrent.getmMessage());
         StringBuilder str = new StringBuilder(uploadCurrent.getmDate());
         str.replace(5, 12, "");
@@ -43,13 +45,26 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
         str.replace(8, 9, "-");
         String Date = str.toString();
         holder.Date.setText(Date);
+        String UID = uploadCurrent.getmUID();
+
+
         //  Log.e("Check", uploadCurrent.getmUserName());
-        holder.Username.setVisibility(View.GONE);
-        if (uploadCurrent.getmUID().equals(MyUID)){
-            holder.itemView.setBackgroundColor(Color.CYAN);
-        }else{
-            holder.itemView.setBackgroundColor(Color.GRAY);
-        }
+        FirebaseDatabase.getInstance().getReference("users").child(UID).child("userName").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                Username = dataSnapshot.getValue().toString();
+                holder.Username.setText(Username);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     @Override
@@ -68,6 +83,5 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
             Date = itemView.findViewById(R.id.tvDateMessage);
         }
     }
-
 
 }

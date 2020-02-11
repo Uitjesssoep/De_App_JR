@@ -29,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ChatPrivateWithUsers extends AppCompatActivity {
@@ -78,6 +80,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         TakeCareOfThings();
         LoadMessages();
         SendChat();
+        sortDate();
+       Collections.sort(MessagesList, new ChatPrivateWithUsers.CustomComparatorDate());
+
     }
 
     private void PositionManager() {
@@ -118,8 +123,34 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         message = ChatInputText.getText().toString();
 
         listRoom = new ArrayList<>();
-
         postStuffForChatRoomAdapterNúmeroDos = new PostStuffForChatRoomAdapterNúmeroDos(ChatPrivateWithUsers.this, MessagesList);
+        ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
+
+
+    }
+
+    public void sortDate(){
+        Collections.sort(MessagesList, new Comparator<PostStuffForChatRoom>() {
+            @Override
+            public int compare(PostStuffForChatRoom t1, PostStuffForChatRoom t2) {
+                return t1.getmDate().compareTo(t2.getmDate());
+            }
+        });
+        postStuffForChatRoomAdapterNúmeroDos = new PostStuffForChatRoomAdapterNúmeroDos(ChatPrivateWithUsers.this, MessagesList);
+        ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
+
+    }
+
+   private class CustomComparatorDate implements Comparator<PostStuffForChatRoom> {
+        @Override
+        public int compare(PostStuffForChatRoom t1, PostStuffForChatRoom t2) {
+            return t1.getmDate().compareTo(t2.getmDate());
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return false;
+        }
     }
 
     private void LoadMessages() {
@@ -130,6 +161,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
              MessagesList.add(postStuffForChatRoom);
              postStuffForChatRoomAdapterNúmeroDos.notifyDataSetChanged();
+
 
             }
 
@@ -155,30 +187,28 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         });
 
 
-        MessageDatabase.child(MyUid).child(UID).addValueEventListener(new ValueEventListener() {
+        MessageDatabase.child(UID).child(MyUid).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                clear();
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                PostStuffForChatRoom postStuffForChatRoom = dataSnapshot.getValue(PostStuffForChatRoom.class);
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    PostStuffForChatRoom postStuffForChatRoom = snapshot.getValue(PostStuffForChatRoom.class);
-                    MessagesList.add(postStuffForChatRoom);
-                    Log.e(TAG, MessagesList.toString());
-                    Log.e(TAG, String.valueOf(MessagesList.size()));
+                MessagesList.add(postStuffForChatRoom);
+                postStuffForChatRoomAdapterNúmeroDos.notifyDataSetChanged();
 
-                }
+            }
 
-             /*   int position = 0;
-                LinearLayoutManager manager = (LinearLayoutManager) ChatWindow.getLayoutManager();
-                if (manager != null) {
-                    scrollPosition = manager.findFirstVisibleItemPosition();
-                }
-                if (manager != null) {
-                    ChatWindow.scrollToPosition(scrollPosition);
-                }*/
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
+            }
 
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
             }
 
@@ -187,6 +217,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
             }
         });
+
+        sortDate();
 
     }
 

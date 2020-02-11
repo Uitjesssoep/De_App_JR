@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.myfirstapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,7 +40,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     private TextView Conversation_Content;
 
     private PostStuffForChatAdapter postStuffForChatAdapter;
-    private PostStuffForChatRoomAdapterNúmeroDos postStuffForChatRoomAdapterNúmeroDos;
+    private PostStuffForChatRoomGroupAdapter postStuffForChatRoomGroupAdapter;
 
     private String room_name, user_name;
     private String temp_key, TAG = "Test";
@@ -92,7 +94,38 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     }*/
 
     private void LoadMessages() {
-        myDatabase2.addValueEventListener(new ValueEventListener() {
+        myDatabase2.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                PostStuffForChatRoom postStuffForChatRoom = dataSnapshot.getValue(PostStuffForChatRoom.class);
+                MessagesList.add(postStuffForChatRoom);
+                postStuffForChatRoomGroupAdapter = new PostStuffForChatRoomGroupAdapter(Chat_With_Users_Activity.this, MessagesList);
+                ChatWindow.setAdapter(postStuffForChatRoomGroupAdapter);
+                postStuffForChatRoomGroupAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        /*myDatabase2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clear();
@@ -112,9 +145,9 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                 }
                 if (manager != null) {
                     ChatWindow.scrollToPosition(scrollPosition);
-                }*/
-                postStuffForChatRoomAdapterNúmeroDos = new PostStuffForChatRoomAdapterNúmeroDos(Chat_With_Users_Activity.this, MessagesList);
-                ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
+                }
+                postStuffForChatRoomGroupAdapter = new PostStuffForChatRoomGroupAdapter(Chat_With_Users_Activity.this, MessagesList);
+                ChatWindow.setAdapter(postStuffForChatRoomGroupAdapter);
 
 
             }
@@ -123,7 +156,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
     }
 
@@ -183,7 +216,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                             Username = dataSnapshot.child("userName").getValue().toString();
                             Log.e(TAG, Username);
                             message = ChatInputText.getText().toString();
-                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, MyUid, Date);
+                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Date, MyUid);
 
                             temp_key = myDatabase2.push().getKey();
                             myDatabase2.child(temp_key).setValue(postStuffForChatRoom);
@@ -215,7 +248,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                 // Log.e(TAGTest, "tot 'for' gekomen");
             }
 
-            postStuffForChatRoomAdapterNúmeroDos.notifyItemRangeRemoved(0, size);
+            postStuffForChatRoomGroupAdapter.notifyItemRangeRemoved(0, size);
         }
     }
 
