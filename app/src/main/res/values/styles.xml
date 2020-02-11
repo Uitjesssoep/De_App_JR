@@ -16,6 +16,7 @@
         <item name="android:textColorSecondary">#FFFFFF</item>
         <item name="warningtextcolor">#FF0000</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
+        <item name="android:navigationBarColor">#FFFFFF</item>
 
     </style>
 
