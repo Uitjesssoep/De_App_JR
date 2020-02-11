@@ -9,7 +9,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,7 @@ public class PrivateChatsTab extends Fragment {
     private final String KEY_RECYCLER_STATE = "recycler_state";
     private static Bundle mBundleRecyclerViewState;
     private Parcelable mListState = null;
-
+    private PostStuffForPrivateChatAdapter stuffForChatAdapter;
     public PrivateChatsTab() {
         // Required empty public constructor
     }
@@ -85,7 +84,7 @@ public class PrivateChatsTab extends Fragment {
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingPrivateChats_fragment);
         final List<PostStuffMakePrivateChat> postStuffForChatList = new ArrayList<>();
-        final PostStuffForPrivateChatAdapter postStuffForPrivateChatAdapter = null;
+        //final PostStuffForPrivateChatAdapter postStuffForPrivateChatAdapter = null;
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         final DatabaseReference rooms = FirebaseDatabase.getInstance().getReference("Private Chatrooms");
         registerForContextMenu(RoomList);
@@ -93,7 +92,7 @@ public class PrivateChatsTab extends Fragment {
         final String MyUid = user.getUid();
 
 
-        rooms.addListenerForSingleValueEvent(new ValueEventListener() {
+        rooms.child(MyUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -102,17 +101,9 @@ public class PrivateChatsTab extends Fragment {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     PostStuffMakePrivateChat postStuffMakePrivateChat = postSnapshot.getValue(PostStuffMakePrivateChat.class);
                     postStuffForChatList.add(postStuffMakePrivateChat);
-                    for (int i = 0; i < postStuffForChatList.size(); i++) {
-                        int position;
-                        if (!postStuffForChatList.get(i).getKey().contains(MyUid)) {
-                            position = i;
-                            postStuffForChatList.remove(position);
-                            Log.e("list", postStuffForChatList.toString());
-                        }
-                    }
                 }
 
-                PostStuffForPrivateChatAdapter stuffForChatAdapter;
+
                 stuffForChatAdapter = new PostStuffForPrivateChatAdapter(getActivity(), postStuffForChatList);
                 RoomList.setAdapter(stuffForChatAdapter);
 
@@ -122,17 +113,9 @@ public class PrivateChatsTab extends Fragment {
 
                     @Override
                     public void onItemClick(int position) {
-                        String UID1 = postStuffForChatList.get(position).getUID1();
-                        String UID2 = postStuffForChatList.get(position).getUID2();
-                        String UID;
-                        if (MyUid.equals(UID1)) {
-                            UID = UID2;
-                        } else {
-                            UID = UID1;
-                        }
+                        String UID = postStuffForChatList.get(position).getmUID();
                         Intent Test2 = new Intent(getActivity().getApplicationContext(), ChatPrivateWithUsers.class);
                         Test2.putExtra("UID", UID);
-                        Test2.putExtra("Key", postStuffForChatList.get(position).getKey());
                         startActivity(Test2);
 
 
@@ -143,100 +126,12 @@ public class PrivateChatsTab extends Fragment {
 
                     @Override
                     public void onUpvoteClick(int position) {
-                        String key = postStuffForChatList.get(position).getKey().toString();
-                        final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Likes");
-                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Dislikes");
-                        final String TAGDownvote = "VoteCheck";
 
-                        DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                if (dataSnapshot.hasChild(MyUID)) {
-
-                                    DatabaseDislike.child(MyUID).removeValue();
-                                    DatabaseLike.child(MyUID).setValue("RandomLike");
-
-                                } else {
-
-                                    DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                            if (dataSnapshot.hasChild(MyUID)) {
-                                                DatabaseLike.child(MyUID).removeValue();
-                                            } else {
-                                                DatabaseLike.child(MyUID).setValue("RandomLike");
-                                            }
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    });
-
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
                     }
 
                     @Override
                     public void onDownvoteClick(int position) {
-                        String key = postStuffForChatList.get(position).getKey().toString();
-                        final String MyUID = firebaseAuth.getCurrentUser().getUid().toString();
-                        final DatabaseReference DatabaseLike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Likes");
-                        final DatabaseReference DatabaseDislike = FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(key).child("Dislikes");
-                        final String TAGDownvote = "VoteCheck";
 
-                        DatabaseLike.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                if (dataSnapshot.hasChild(MyUID)) {
-                                    DatabaseLike.child(MyUID).removeValue();
-                                    DatabaseDislike.child(MyUID).setValue("RandomDislike");
-                                } else {
-
-                                    DatabaseDislike.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                            if (dataSnapshot.hasChild(MyUID)) {
-
-                                                DatabaseDislike.child(MyUID).removeValue();
-
-                                            } else {
-
-                                                DatabaseDislike.child(MyUID).setValue("RandomDislike");
-
-                                            }
-
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    });
-
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
                     }
 
                 });
@@ -250,7 +145,7 @@ public class PrivateChatsTab extends Fragment {
                     for (int i = 0; i < size; i++) {
                         postStuffForChatList.remove(0);
                     }
-                    postStuffForPrivateChatAdapter.notifyItemRangeRemoved(0, size);
+                    stuffForChatAdapter.notifyItemRangeRemoved(0, size);
                 }
 
             }

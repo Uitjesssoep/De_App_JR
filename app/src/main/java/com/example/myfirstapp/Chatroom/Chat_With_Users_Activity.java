@@ -117,7 +117,6 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                 ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
 
 
-
             }
 
             @Override
@@ -175,16 +174,16 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
                 if (messageNummeroTwee.isEmpty()) {
                     Toast.makeText(Chat_With_Users_Activity.this, "Can't send an empty message", Toast.LENGTH_SHORT).show();
-                //    LoadMessages();
+                    //    LoadMessages();
                 } else {
-                  //  LoadMessages();
+                    //  LoadMessages();
                     FirebaseDatabase.getInstance().getReference("users").child(MyUid).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Username = dataSnapshot.child("userName").getValue().toString();
                             Log.e(TAG, Username);
                             message = ChatInputText.getText().toString();
-                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, MyUid, Username, Date);
+                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, MyUid, Date);
 
                             temp_key = myDatabase2.push().getKey();
                             myDatabase2.child(temp_key).setValue(postStuffForChatRoom);

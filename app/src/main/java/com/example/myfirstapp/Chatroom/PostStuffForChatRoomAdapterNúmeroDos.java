@@ -1,6 +1,7 @@
 package com.example.myfirstapp.Chatroom;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -33,15 +35,21 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         PostStuffForChatRoom uploadCurrent = mUploads.get(position);
-        holder.Message.setText(uploadCurrent.getMessage());
-        StringBuilder str = new StringBuilder(uploadCurrent.getDate());
+        String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        holder.Message.setText(uploadCurrent.getmMessage());
+        StringBuilder str = new StringBuilder(uploadCurrent.getmDate());
         str.replace(5, 12, "");
         str.replace(11, 16, "");
         str.replace(8, 9, "-");
         String Date = str.toString();
         holder.Date.setText(Date);
       //  Log.e("Check", uploadCurrent.getmUserName());
-        holder.Username.setText(uploadCurrent.getmUserName());
+        holder.Username.setVisibility(View.GONE);
+        if (uploadCurrent.getmUID().equals(MyUID)){
+            holder.itemView.setBackgroundColor(Color.CYAN);
+        }else{
+            holder.itemView.setBackgroundColor(Color.GRAY);
+        }
     }
 
     @Override

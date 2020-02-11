@@ -1,48 +1,58 @@
 package com.example.myfirstapp.Chatroom;
 
 public class PostStuffForChatRoom {
-    private String mMessage, mUID, mUserName, mDate;
+    private String mMessage, mType, mDate, mUID;
+    private Boolean mSeen;
 
 
-    public PostStuffForChatRoom(String Message, String UID, String User_name, String Date) {
+    public PostStuffForChatRoom(String Message, String Type, Boolean Seen, String Date, String UID) {
         mMessage = Message;
-        mUID = UID;
-        mUserName = User_name;
+        mType = Type;
+        mSeen = Seen;
         mDate = Date;
+        mUID = UID;
     }
 
     public PostStuffForChatRoom() {
     }
 
-    public String getMessage()  {
+    public String getmMessage() {
         return mMessage;
     }
 
-    public void setMessage(String Message) {
-        this.mMessage = Message;
+    public void setmMessage(String mMessage) {
+        this.mMessage = mMessage;
     }
 
-    public String getUID() {
-        return mUID;
+    public String getmType() {
+        return mType;
     }
 
-    public void setUID(String UID) {
-        this.mUID = UID;
+    public void setmType(String mType) {
+        this.mType = mType;
     }
 
-    public String getmUserName() {
-        return mUserName;
+    public Boolean getmSeen() {
+        return mSeen;
     }
 
-    public void setUser_name(String UserName) {
-        this.mUserName = UserName;
+    public void setmSeen(Boolean mSeen) {
+        this.mSeen = mSeen;
     }
 
-    public String getDate() {
+    public String getmDate() {
         return mDate;
     }
 
-    public void setDate(String Date) {
-        this.mDate = Date;
+    public void setmDate(String mDate) {
+        this.mDate = mDate;
+    }
+
+    public String getmUID() {
+        return mUID;
+    }
+
+    public void setmUID(String mUID) {
+        this.mUID = mUID;
     }
 }
