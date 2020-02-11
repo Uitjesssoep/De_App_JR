@@ -6,6 +6,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="backgroundcolor">#f5f5f5</item>
+        <item name="mainbackground">#FFFFFF</item>
+        <item name="maintextcolor">#000000</item>
+        <item name="maingreytextcolor">#696969</item>
+        <item name="lichtgreytextcolor">#858585</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
