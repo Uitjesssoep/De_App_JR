@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Imageposts.Upload_Images_Activity"
-    android:background="@color/white">
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <include
         android:id="@+id/action_bar_makeimagepost"
@@ -31,7 +32,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
                 android:text="Make an image post:"
-                android:textColor="#4CAF50"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -41,7 +42,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:buttonTint="#4CAF50"
+                android:buttonTint="?attr/colorPrimary"
+                android:textColor="?attr/maintextcolor"
                 android:text="Post anonymously"
                 android:textSize="14sp" />
 
@@ -57,7 +59,7 @@
                 android:hint="Your title"
                 android:inputType="textMultiLine|textCapSentences"
                 android:maxLength="250"
-                android:textColor="#000000"
+                android:textColor="?attr/maintextcolor"
                 android:textSize="18sp" />
 
             <View
@@ -67,7 +69,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="16dp"
-                android:background="#949494" />
+                android:background="?attr/lichtgreytextcolor" />
 
             <LinearLayout
                 android:id="@+id/linlayhorSelectImage"
@@ -93,7 +95,7 @@
                     android:layout_marginTop="7.5dp"
                     android:layout_weight="1"
                     android:text="Select image"
-                    android:textColor="#696969"
+                    android:textColor="?attr/maingreytextcolor"
                     android:textSize="18sp" />
 
             </LinearLayout>

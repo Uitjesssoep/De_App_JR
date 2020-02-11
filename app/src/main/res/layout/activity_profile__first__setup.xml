@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountActivities.Profile_First_Setup"
-    android:background="@color/white">
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <TextView
         android:id="@+id/tvFullNameErrorFirstSetup"
@@ -14,7 +15,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:text="Error"
-        android:textColor="#D32F2F"
+        android:textColor="?attr/warningtextcolor"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign up"
-        android:textColor="#4CAF50"
+        android:textColor="?attr/colorPrimary"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -136,7 +137,7 @@
         android:layout_width="180dip"
         android:layout_height="25dip"
         android:text="Click the image to choose a profile picture You can also leave this image empty"
-        android:textColor="#949494"
+        android:textColor="?attr/lichtgreytextcolor"
         android:textSize="9sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -154,7 +155,7 @@
         android:layout_marginBottom="24dp"
         android:text="By signing up you agree to our Terms and that you have read our Data Policy and Content Policy"
         android:textAlignment="center"
-        android:textColor="#949494"
+        android:textColor="?attr/lichtgreytextcolor"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

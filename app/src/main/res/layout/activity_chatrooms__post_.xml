@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Chatroom.Chatrooms_Post_Activity"
-    android:background="@color/white">
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <include
         android:id="@+id/action_bar_makechatroom"
@@ -30,7 +31,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
                 android:text="Make a chatroom:"
-                android:textColor="#4CAF50"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -40,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:buttonTint="#4CAF50"
+                android:textColor="?attr/maintextcolor"
+                android:buttonTint="?attr/colorPrimary"
                 android:text="Post anonymously"
                 android:textSize="14sp" />
 
@@ -58,7 +60,7 @@
                 android:hint="Your title"
                 android:maxLength="250"
                 android:inputType="textMultiLine|textCapSentences"
-                android:textColor="#000000"
+                android:textColor="?attr/maintextcolor"
                 android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>

@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp">
+    android:layout_marginBottom="5dp"
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,7 +21,7 @@
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="Username"
-            android:textColor="#858585"
+            android:textColor="?attr/lichtgreytextcolor"
             android:textSize="13sp" />
 
         <TextView
@@ -30,7 +32,7 @@
             android:layout_toRightOf="@id/tvUsernameTextPostComment"
             android:layout_weight="1"
             android:text="  -  "
-            android:textColor="#858585"
+            android:textColor="?attr/lichtgreytextcolor"
             android:textSize="13sp" />
 
         <TextView
@@ -41,7 +43,7 @@
             android:layout_toRightOf="@id/tvStreepjeCommentTextPost"
             android:layout_weight="1"
             android:text="Date"
-            android:textColor="#858585"
+            android:textColor="?attr/lichtgreytextcolor"
             android:textSize="13sp" />
 
         <TextView
@@ -56,7 +58,7 @@
             android:layout_weight="1"
             android:text="Content"
             android:autoLink="web"
-            android:textColor="@color/black"
+            android:textColor="?attr/maintextcolor"
             android:textSize="16sp" />
 
         <ImageButton
@@ -98,7 +100,7 @@
             android:layout_marginTop="16dp"
             android:layout_toRightOf="@id/ibLikeDownComment"
             android:text="0"
-            android:textColor="#858585"
+            android:textColor="?attr/lichtgreytextcolor"
             app:layout_constraintVertical_bias="0.018" />
 
         <ImageButton
@@ -124,7 +126,7 @@
             android:layout_marginTop="16dp"
             android:layout_toRightOf="@id/ibLikeUpComment"
             android:text="0"
-            android:textColor="#858585" />
+            android:textColor="?attr/lichtgreytextcolor" />
 
         <ImageView
             android:id="@+id/ivReplyImageComment"
@@ -145,7 +147,7 @@
             android:layout_marginTop="18.5dp"
             android:layout_toRightOf="@id/ivReplyImageComment"
             android:text="Reply"
-            android:textColor="#858585" />
+            android:textColor="?attr/lichtgreytextcolor" />
 
 
     </RelativeLayout>

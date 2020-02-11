@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountFragment"
-    android:background="@color/white">
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <ImageView
         android:id="@+id/ivProfilePictureAccountInfoViewing"
@@ -29,14 +30,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivProfilePictureAccountInfoViewing"
         app:layout_constraintVertical_bias="0.0"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabTextColor="@color/colorAccent">
+        app:tabIndicatorColor="?attr/colorPrimary"
+        app:tabTextColor="?attr/colorPrimary">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_layout_MyPosts"
@@ -62,7 +62,7 @@
         android:id="@+id/viewpager_tablayout_MyAccount"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="?android:windowBackground"
+        android:background="?attr/backgroundcolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="[username]"
-        android:textColor="#696969"
+        android:textColor="?attr/maingreytextcolor"
         app:layout_constraintBottom_toBottomOf="@+id/ivProfilePictureAccountInfoViewing"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -88,7 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Display name"
-        android:textColor="#000000"
+        android:textColor="?attr/maintextcolor"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/ivProfilePictureAccountInfoViewing"

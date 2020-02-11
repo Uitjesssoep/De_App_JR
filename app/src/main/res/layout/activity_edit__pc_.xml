@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Edit_PC_Activity"
-    android:background="@color/white">
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <include
         android:id="@+id/action_bar_editPC"
@@ -30,7 +31,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
                 android:text="Edit [type]:"
-                android:textColor="#4CAF50"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -42,7 +43,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:text="[Current Title/Comment]"
-                android:textColor="#000000"
+                android:textColor="?attr/maintextcolor"
                 android:textIsSelectable="true"
                 android:textSize="16sp" />
 
@@ -58,7 +59,7 @@
                 android:ems="10"
                 android:hint="Add your edit"
                 android:inputType="textMultiLine"
-                android:textColor="#000000"
+                android:textColor="?attr/maintextcolor"
                 android:textSize="16sp" />
 
             <View
@@ -68,7 +69,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="16dp"
-                android:background="#949494" />
+                android:background="?attr/lichtgreytextcolor" />
 
             <TextView
                 android:id="@+id/tvCurrentContentPC"
@@ -78,7 +79,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:text="[Current Content]"
-                android:textColor="#696969"
+                android:textColor="?attr/lichtgreytextcolor"
                 android:textIsSelectable="true"
                 android:textSize="14sp" />
 
@@ -95,7 +96,7 @@
                 android:ems="10"
                 android:hint="Add your edit"
                 android:inputType="textMultiLine"
-                android:textColor="#696969"
+                android:textColor="?attr/maingreytextcolor"
                 android:textSize="14sp" />
         </LinearLayout>
     </ScrollView>

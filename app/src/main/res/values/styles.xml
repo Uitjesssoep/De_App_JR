@@ -11,8 +11,12 @@
         <item name="maintextcolor">#000000</item>
         <item name="maingreytextcolor">#696969</item>
         <item name="lichtgreytextcolor">#858585</item>
+        <item name="lichtlichtgreytextcolor">#ADADAD</item>
+        <item name="darkgreytextcolor">#4E4E4E</item>
         <item name="android:textColorSecondary">#FFFFFF</item>
         <item name="warningtextcolor">#FF0000</item>
+        <item name="android:actionMenuTextColor">#FFFFFF</item>
+
     </style>
 
     <style name="AppTheme_Night" parent="Theme.AppCompat.Light.NoActionBar">
@@ -25,6 +29,8 @@
         <item name="maintextcolor">#FFFFFF</item>
         <item name="maingreytextcolor">#e0e0e0</item>
         <item name="lichtgreytextcolor">#bdbdbd</item>
+        <item name="darkgreytextcolor">#e0e0e0</item>
+        <item name="lichtlichtgreytextcolor">#ADADAD</item>
         <item name="android:textColorSecondary">#000000</item>
         <item name="warningtextcolor">#FF0000</item>
     </style>

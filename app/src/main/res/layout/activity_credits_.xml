@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Credits_Activity"
-    android:background="@color/white">
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <include
         android:id="@+id/action_bar_credits"
@@ -19,7 +20,7 @@
         android:layout_marginEnd="64dp"
         android:text="This app is made by: \n\n Robbert Schmeetz\nJulius Wildenburg\n\nThe Strimbula Fadi Team"
         android:textAlignment="center"
-        android:textColor="#4E4E4E"
+        android:textColor="?attr/maingreytextcolor"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

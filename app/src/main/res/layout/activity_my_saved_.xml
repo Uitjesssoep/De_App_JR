@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MySaved_Activity">
+    tools:context=".MySaved_Activity"
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <include
         android:id="@+id/action_bar_MySaved"
@@ -20,8 +22,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/action_bar_MySaved"
         app:layout_constraintVertical_bias="0.0"
-        app:tabIndicatorColor="@color/white"
-        app:tabTextColor="@color/white">
+        app:tabIndicatorColor="?attr/mainbackground"
+        app:tabTextColor="?attr/mainbackground">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_layout_posts_saved"

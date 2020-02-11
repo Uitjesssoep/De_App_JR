@@ -38,8 +38,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivProfilePictureAccountInfoViewingOtherUser"
         app:layout_constraintVertical_bias="0.0"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabTextColor="@color/colorAccent">
+        app:tabIndicatorColor="?attr/colorPrimary"
+        app:tabTextColor="?attr/colorPrimary">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_layout_TheirPosts"

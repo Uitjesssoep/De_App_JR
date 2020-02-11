@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp">
+    android:layout_marginBottom="5dp"
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -34,7 +36,7 @@
             android:layout_marginTop="13dp"
             android:layout_toRightOf="@id/ibLikeDownTextPostItem"
             android:text="0"
-            android:textColor="#858585"
+            android:textColor="?attr/lichtgreytextcolor"
             app:layout_constraintVertical_bias="0.018" />
 
         <ImageButton
@@ -60,7 +62,7 @@
             android:layout_marginTop="13dp"
             android:layout_toRightOf="@id/ibLikeUpTextPostItem"
             android:text="0"
-            android:textColor="#858585" />
+            android:textColor="?attr/lichtgreytextcolor" />
 
         <TextView
             android:id="@+id/tvUsernameTextPostItem"
@@ -70,7 +72,7 @@
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:text="Username"
-            android:textColor="#858585"
+            android:textColor="?attr/lichtgreytextcolor"
             android:textSize="13sp" />
 
         <TextView
@@ -81,7 +83,7 @@
             android:layout_toRightOf="@id/tvUsernameTextPostItem"
             android:layout_weight="1"
             android:text="  -  "
-            android:textColor="#858585"
+            android:textColor="?attr/lichtgreytextcolor"
             android:textSize="13sp" />
 
         <TextView
@@ -96,7 +98,7 @@
             android:layout_weight="1"
             android:text="Content"
             android:textAllCaps="false"
-            android:textColor="#161616"
+            android:textColor="?attr/maintextcolor"
             android:textSize="18sp" />
 
         <TextView
@@ -108,7 +110,7 @@
             android:layout_marginTop="13dp"
             android:layout_toRightOf="@id/ivCommentImageTextPostItem"
             android:text="0"
-            android:textColor="#858585" />
+            android:textColor="?attr/lichtgreytextcolor" />
 
         <TextView
             android:id="@+id/tvKeyHiddenTextPostItem"
@@ -130,7 +132,7 @@
             android:layout_toRightOf="@id/tvStreepjeTextPostItem"
             android:layout_weight="1"
             android:text="Date"
-            android:textColor="#858585"
+            android:textColor="?attr/lichtgreytextcolor"
             android:textSize="13sp" />
 
         <ImageButton
@@ -170,7 +172,7 @@
             android:maxLength="150"
             android:maxLines="3"
             android:text="Content"
-            android:textColor="#ADADAD"
+            android:textColor="?attr/lichtlichtgreytextcolor"
             android:textSize="13sp" />
 
         <ImageView
