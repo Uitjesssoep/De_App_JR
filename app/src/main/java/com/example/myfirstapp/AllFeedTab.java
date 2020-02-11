@@ -75,6 +75,12 @@ public class AllFeedTab extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    }
+
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        CheckInternet();
+        StartOrReloadTextPosts();
 
         final SwipeRefreshLayout swipeRefreshLayout = getView().findViewById(R.id.swipe_container_AllFeed_fragment);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -85,12 +91,6 @@ public class AllFeedTab extends Fragment {
             }
         });
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
-    }
-
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        CheckInternet();
-        StartOrReloadTextPosts();
     }
 
     private void CheckInternet() {
@@ -129,7 +129,7 @@ public class AllFeedTab extends Fragment {
         SortCommentsBy = getView().findViewById(R.id.tvSortByTextAllFeed);
         SortByCommentsIV = getView().findViewById(R.id.ivSortByAllFeed);
 
-        sharedPreferences = getContext().getSharedPreferences("SortSettings", Context.MODE_PRIVATE);
+        sharedPreferences = getContext().getSharedPreferences("SortSettings2", Context.MODE_PRIVATE);
         String Sorting = sharedPreferences.getString("Sort", "Newest");
 
         if(Sorting.equals("Newest")){
@@ -176,25 +176,19 @@ public class AllFeedTab extends Fragment {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Newest");
                             editor.apply();
-                            Intent intent = new Intent(getActivity().getIntent());
-                            startActivity(intent);
-                            getActivity().finish();
+                            StartOrReloadTextPosts();
                         }
                         else if(i==1){
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Oldest");
                             editor.apply();
-                            Intent intent = new Intent(getActivity().getIntent());
-                            startActivity(intent);
-                            getActivity().finish();
+                            StartOrReloadTextPosts();
                         }
                         else if(i==2){
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Top");
                             editor.apply();
-                            Intent intent = new Intent(getActivity().getIntent());
-                            startActivity(intent);
-                            getActivity().finish();
+                            StartOrReloadTextPosts();
                         }
                     }
                 });
@@ -214,25 +208,19 @@ public class AllFeedTab extends Fragment {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Newest");
                             editor.apply();
-                            Intent intent = new Intent(getActivity().getIntent());
-                            startActivity(intent);
-                            getActivity().finish();
+                            StartOrReloadTextPosts();
                         }
                         else if(i==1){
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Oldest");
                             editor.apply();
-                            Intent intent = new Intent(getActivity().getIntent());
-                            startActivity(intent);
-                            getActivity().finish();
+                            StartOrReloadTextPosts();
                         }
                         else if(i==2){
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("Sort", "Top");
                             editor.apply();
-                            Intent intent = new Intent(getActivity().getIntent());
-                            startActivity(intent);
-                            getActivity().finish();
+                            StartOrReloadTextPosts();
                         }
                     }
                 });
