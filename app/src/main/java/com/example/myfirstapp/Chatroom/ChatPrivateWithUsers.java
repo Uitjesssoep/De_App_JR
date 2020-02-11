@@ -210,6 +210,12 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                 clear();
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                        String TheJey = MyUid + " + " + UID;
+
+                        String Test = snapshot.child("Key").getValue().toString();
+                        Log.e("TheKey", TheJey);
+
                         PostStuffMakePrivateChat postStuffMakePrivateChat = snapshot.getValue(PostStuffMakePrivateChat.class);
                         Keyold = postStuffMakePrivateChat.getKey();
                         listRoom.add(postStuffMakePrivateChat);
@@ -225,9 +231,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                                 Log.e("list", listRoom.toString());
 
                             }
-                            if (Key == null){
+                            if (!(listRoom.get(i).getKey().contains(MyUid) && listRoom.get(i).getKey().contains(UID))){
                                 Key = MyUid + " + " + UID;
-                                MakeChatroom();
+                                //MakeChatroom();
                                 Log.e(TAG, "if listroom.isEmpty bereikt");
                             }
 
