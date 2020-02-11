@@ -3,9 +3,39 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">#4caf50</item>
+        <item name="colorPrimaryDark">#ADADAD</item>
+        <item name="colorAccent">#4caf50</item>
+        <item name="backgroundcolor">#f5f5f5</item>
+        <item name="mainbackground">#FFFFFF</item>
+        <item name="maintextcolor">#000000</item>
+        <item name="maingreytextcolor">#696969</item>
+        <item name="lichtgreytextcolor">#858585</item>
+        <item name="lichtlichtgreytextcolor">#ADADAD</item>
+        <item name="darkgreytextcolor">#4E4E4E</item>
+        <item name="android:textColorSecondary">#FFFFFF</item>
+        <item name="warningtextcolor">#FF0000</item>
+        <item name="android:actionMenuTextColor">#FFFFFF</item>
+        <item name="android:navigationBarColor">#FFFFFF</item>
+
+    </style>
+
+    <style name="AppTheme_Night" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#000000</item>
+        <item name="colorPrimaryDark">#4caf50</item>
+        <item name="colorAccent">#4caf50</item>
+        <item name="backgroundcolor">#000000</item>
+        <item name="mainbackground">#212121</item>
+        <item name="maintextcolor">#FFFFFF</item>
+        <item name="maingreytextcolor">#e0e0e0</item>
+        <item name="lichtgreytextcolor">#bdbdbd</item>
+        <item name="darkgreytextcolor">#e0e0e0</item>
+        <item name="lichtlichtgreytextcolor">#ADADAD</item>
+        <item name="android:textColorSecondary">#000000</item>
+        <item name="warningtextcolor">#FF0000</item>
+        <item name="android:actionMenuTextColor">#FFFFFF</item>
+        <item name="android:navigationBarColor">#FFFFFF</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">

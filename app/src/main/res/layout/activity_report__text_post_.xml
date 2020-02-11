@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Report_TextPost_Activity"
-    android:background="@color/white">
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <include
         android:id="@+id/action_bar_comment"
@@ -17,7 +18,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:text="Report [type]"
-        android:textColor="#4CAF50"
+        android:textColor="?attr/colorPrimary"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +35,7 @@
         android:layout_marginEnd="32dp"
         android:text="Reporting a [type] uploaded by [username]"
         android:textAlignment="center"
-        android:textColor="#4E4E4E"
+        android:textColor="?attr/darkgreytextcolor"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,7 +95,7 @@
         android:layout_marginEnd="32dp"
         android:text="You can only report a [type] once! If you have already reported this [type], you will override your previous report when you report it again!"
         android:textAlignment="center"
-        android:textColor="#4E4E4E"
+        android:textColor="?attr/darkgreytextcolor"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

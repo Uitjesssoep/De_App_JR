@@ -5,7 +5,9 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatFragment">
+    tools:context=".ChatFragment"
+    android:theme="@style/AppTheme"
+    android:background="?attr/backgroundcolor">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout_chatfeed_chat"
@@ -17,8 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:tabIndicatorColor="@color/white"
-        app:tabTextColor="@color/white">
+        app:tabIndicatorColor="?attr/mainbackground"
+        app:tabTextColor="?attr/mainbackground">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_layout_AllChats_Chat"

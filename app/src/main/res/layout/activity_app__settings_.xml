@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
     tools:context=".App_Settings_Activity">
 
 
@@ -31,7 +32,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Account settings"
-                android:textColor="#858585"
+                android:textColor="?attr/lichtgreytextcolor"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -39,13 +40,13 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="?attr/mainbackground">
 
             <ImageView
                 android:id="@+id/ivPersonSettingsAccount"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@color/white"
                 android:paddingStart="12dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
@@ -55,12 +56,11 @@
                 android:id="@+id/tvChangeInfoSettingsAccount"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:background="@color/white"
                 android:paddingStart="12dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:text="Change display info"
-                android:textColor="#000000"
+                android:textColor="?attr/maintextcolor"
                 android:textSize="16sp" />
 
         </LinearLayout>
@@ -68,13 +68,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="?attr/mainbackground">
 
                 <ImageView
                     android:id="@+id/ivChangePasswordSettingsAccount"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -84,12 +84,11 @@
                     android:id="@+id/tvChangePasswordOptionSettingsAccount"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="Change password"
-                    android:textColor="#000000"
+                    android:textColor="?attr/maintextcolor"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -97,13 +96,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="?attr/mainbackground">
 
                 <ImageView
                     android:id="@+id/ivLogoutSettingsAccount"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -113,12 +112,11 @@
                     android:id="@+id/tvLogOutOfAccountSettingsAccount"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="Log out"
-                    android:textColor="#000000"
+                    android:textColor="?attr/maintextcolor"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -126,13 +124,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="?attr/mainbackground">
 
                 <ImageView
                     android:id="@+id/ivDeleteAccountSettingsAccount"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -142,12 +140,11 @@
                     android:id="@+id/tvDeleteAccountOptionSettingsAccount"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="Delete account"
-                    android:textColor="#FF0000"
+                    android:textColor="?attr/warningtextcolor"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -159,7 +156,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Theme"
-                android:textColor="#858585"
+                android:textColor="?attr/lichtgreytextcolor"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -167,13 +164,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="?attr/mainbackground">
 
                 <ImageView
                     android:id="@+id/ivNightmodeSettingsTheme"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -183,19 +180,17 @@
                     android:id="@+id/tvNightModeThemeSettings"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="Night mode"
-                    android:textColor="#000000"
+                    android:textColor="?attr/maintextcolor"
                     android:textSize="16sp" />
 
                 <Switch
                     android:id="@+id/switchNightMode"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingEnd="25dp"/>
 
             </LinearLayout>
@@ -207,7 +202,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="About"
-                android:textColor="#858585"
+                android:textColor="?attr/lichtgreytextcolor"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -215,13 +210,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="?attr/mainbackground">
 
                 <ImageView
                     android:id="@+id/ivDataPolicySettingsAbout"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -231,12 +226,11 @@
                     android:id="@+id/tvDataPolicySettingsAbout"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="Data policy"
-                    android:textColor="#000000"
+                    android:textColor="?attr/maintextcolor"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -244,13 +238,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="?attr/mainbackground">
 
                 <ImageView
                     android:id="@+id/ivContentPolicySettingsAbout"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -260,25 +254,24 @@
                     android:id="@+id/tvContentPolicySettingsAbout"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="Content policy"
-                    android:textColor="#000000"
+                    android:textColor="?attr/maintextcolor"
                     android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="?attr/mainbackground">
 
                 <ImageView
                     android:id="@+id/ivTermsOfUseSettingsAbout"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -288,25 +281,24 @@
                     android:id="@+id/tvTermsOfUseSettingsAbout"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="Terms of use"
-                    android:textColor="#000000"
+                    android:textColor="?attr/maintextcolor"
                     android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="?attr/mainbackground">
 
                 <ImageView
                     android:id="@+id/ivCreditsSettingsAbout"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -316,12 +308,11 @@
                     android:id="@+id/tvCreditsSettingsAbout"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="Credits"
-                    android:textColor="#000000"
+                    android:textColor="?attr/maintextcolor"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -333,7 +324,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Support"
-                android:textColor="#858585"
+                android:textColor="?attr/lichtgreytextcolor"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -341,13 +332,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="?attr/mainbackground">
 
                 <ImageView
                     android:id="@+id/ivSendEmailSettingsSupport"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -357,12 +348,11 @@
                     android:id="@+id/tvSendAMailSupportSettings"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="Send us an email"
-                    android:textColor="#000000"
+                    android:textColor="?attr/maintextcolor"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -370,13 +360,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="?attr/mainbackground">
 
                 <ImageView
                     android:id="@+id/ivReportBugSettinsSupport"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -386,12 +376,11 @@
                     android:id="@+id/tvReportABugSupportSettings"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="Report a bug"
-                    android:textColor="#000000"
+                    android:textColor="?attr/maintextcolor"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -403,7 +392,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Build"
-                android:textColor="#858585"
+                android:textColor="?attr/lichtgreytextcolor"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -411,13 +400,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="?attr/mainbackground">
 
                 <ImageView
                     android:id="@+id/ivBuildInfoSettingsBuild"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
@@ -427,12 +416,11 @@
                     android:id="@+id/tvBuildInfoSettingsBuild"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="Version: 1.0.0"
-                    android:textColor="#000000"
+                    android:textColor="?attr/maintextcolor"
                     android:textSize="16sp" />
 
             </LinearLayout>

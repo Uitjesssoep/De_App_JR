@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Content_Policy_Activity"
-    android:background="@color/white">
+    android:background="?attr/mainbackground">
 
     <include
         android:id="@+id/action_bar_contentpolicy"

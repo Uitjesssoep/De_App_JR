@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Layout_Manager_BottomNav_Activity">
+    tools:context=".Layout_Manager_BottomNav_Activity"
+    android:theme="@style/AppTheme">
 
     <include
         android:id="@+id/action_bar_feed_manager"
@@ -29,8 +30,9 @@
         android:id="@+id/bottom_nav_manager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/Theme.MaterialComponents.BottomSheetDialog"
+        android:background="?attr/mainbackground"
         android:layout_alignParentBottom="true"
-        android:background="?android:windowBackground"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_navigation"
         app:itemIconTint="@drawable/bottom_nav_icon_color_selector" />

@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/ToolBar"
+    android:theme="@style/AppTheme"
+    android:background="?attr/colorPrimary"
     app:popupTheme="@style/Popup">
 
     <TextView
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:text="Strimbula"
-        android:textColor="#FFFFFF"
+        android:textColor="?attr/mainbackground"
         android:textSize="25sp"
         android:textStyle="bold" />
 

@@ -4,15 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/ToolBar"
-    app:popupTheme="@style/Popup">
+    android:background="?attr/colorPrimary">
 
     <ImageButton
         android:id="@+id/exitmakecommenttextpost"
         android:layout_width="20dp"
         android:layout_height="match_parent"
         android:src="@drawable/ic_close_black_24dp"
-        android:background="@color/colorAccent">
+        android:background="?attr/colorPrimary">
     </ImageButton>
 
 </androidx.appcompat.widget.Toolbar>

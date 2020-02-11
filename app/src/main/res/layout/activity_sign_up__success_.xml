@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountActivities.SignUp_Success_Activity"
-    android:background="@color/white">
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <Button
         android:id="@+id/btnContinueForgotPasswordSuccess2"
@@ -34,7 +35,7 @@
         android:layout_marginEnd="40dp"
         android:text="Your account has been made! Please verify your email before logging in!"
         android:textAlignment="center"
-        android:textColor="#4E4E4E"
+        android:textColor="?attr/darkgreytextcolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Success!"
-        android:textColor="#4CAF50"
+        android:textColor="?attr/colorPrimary"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -104,67 +104,12 @@ public class SecondActivity extends AppCompatActivity {
 
         //bottom navigation view dingen
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav_second);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
-
         Intent home = new Intent(SecondActivity.this, Layout_Manager_BottomNav_Activity.class);
         home.putExtra("Type", "StartUp");
         startActivity(home);
         finish();
 
     }
-
-
-    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                    Fragment selectedFragment = null;
-
-                    switch (menuItem.getItemId()){
-                        case R.id.navigation_home:
-
-                            Intent home = new Intent(SecondActivity.this, Layout_Manager_BottomNav_Activity.class);
-                            startActivity(home);
-
-                            break;
-
-                        case R.id.navigation_chat:
-
-                            Intent chat = new Intent(SecondActivity.this, Chat_Room_MakeOrSearch_Activity.class);
-                            startActivity(chat);
-
-                            break;
-
-                        case R.id.navigation_make:
-
-                            Intent make = new Intent(SecondActivity.this, Choose_PostType_Activity.class);
-                            startActivity(make);
-
-                            break;
-
-                        case R.id.navigation_search:
-
-                            Intent search = new Intent(SecondActivity.this, UserListToFollow.class);
-                            startActivity(search);
-
-                            break;
-
-                        case R.id.navigation_account:
-
-                            Intent account = new Intent(SecondActivity.this, Account_Info_Activity.class);
-                            startActivity(account);
-
-                            break;
-
-                    }
-
-                    return true;
-                }
-            };
-
-
 
     private void checkEmailVerification(){
 

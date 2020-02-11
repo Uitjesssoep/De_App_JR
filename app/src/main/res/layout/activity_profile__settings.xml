@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountActivities.Profile_Settings_Activity"
-    android:background="@color/white">
+    android:theme="@style/AppTheme"
+    android:background="?attr/mainbackground">
 
     <include
         android:id="@+id/action_bar_display"
@@ -55,7 +56,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
         android:text="Error"
-        android:textColor="#D32F2F"
+        android:textColor="?attr/warningtextcolor"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,6 +71,7 @@
         android:layout_height="wrap_content"
         android:text="Profile picture"
         android:textAlignment="center"
+        android:textColor="?attr/maingreytextcolor"
         app:layout_constraintBottom_toTopOf="@+id/ivProfilePictureChange"
         app:layout_constraintEnd_toEndOf="@+id/ivProfilePictureChange"
         app:layout_constraintHorizontal_bias="0.5"
@@ -83,6 +85,7 @@
         android:layout_height="wrap_content"
         android:text="Display name"
         android:textAlignment="center"
+        android:textColor="?attr/maingreytextcolor"
         app:layout_constraintBottom_toTopOf="@+id/inputlayoutDisplayNameUpdate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.02"

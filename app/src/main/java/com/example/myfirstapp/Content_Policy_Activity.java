@@ -1,6 +1,7 @@
 package com.example.myfirstapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
@@ -13,9 +14,18 @@ import android.widget.ImageButton;
 public class Content_Policy_Activity extends AppCompatActivity {
 
     private ImageButton Exit;
+    SharedPrefNightMode sharedPrefNightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content__policy_);
 
@@ -23,7 +33,6 @@ public class Content_Policy_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
-        setTheme(R.style.AppTheme);
 
         Window window = Content_Policy_Activity.this.getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

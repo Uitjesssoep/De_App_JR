@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <declare-styleable name="ds">
+        <attr name="backgroundcolor" format="color"/>
+        <attr name="mainbackground" format="color"/>
+        <attr name="maintextcolor" format="color"/>
+        <attr name="maingreytextcolor" format="color"/>
+        <attr name="lichtgreytextcolor" format="color"/>
+        <attr name="lichtlichtgreytextcolor" format="color"/>
+        <attr name="darkgreytextcolor" format="color"/>
+        <attr name="warningtextcolor" format="color"/>
+    </declare-styleable>
+    
+</resources>
