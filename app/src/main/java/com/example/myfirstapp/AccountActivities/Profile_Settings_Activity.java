@@ -1,22 +1,16 @@
 package com.example.myfirstapp.AccountActivities;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,12 +23,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import com.example.myfirstapp.App_Settings_Activity;
-import com.example.myfirstapp.Credits_Activity;
 import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,7 +39,6 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.util.Calendar;
 
 public class Profile_Settings_Activity extends AppCompatActivity {
 
@@ -209,7 +199,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                             ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
                             ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
 
-                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
+                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString, true);
 
                             databaseReference.setValue(userProfileToDatabase);
 
@@ -233,7 +223,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                             ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
                             ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
 
-                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
+                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString, true);
 
                             databaseReference.setValue(userProfileToDatabase);
 

@@ -9,6 +9,7 @@ public class UserProfileToDatabase {
     public String userPassword;
     public String profilePicture;
     public String theUID;
+    public boolean online;
 
     public UserProfileToDatabase(){
         //een lege functie moet samenkomen met de getters and setters, vandaar dat deze functie er is
@@ -63,13 +64,22 @@ public class UserProfileToDatabase {
         this.theUID = theUID;
     }
 
-    public UserProfileToDatabase(String profilePicture, String theUID, String userName, String userEmail, String userFullName, String userBirthdate) {
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
+    public UserProfileToDatabase(String profilePicture, String theUID, String userName, String userEmail, String userFullName, String userBirthdate, Boolean Online) {
         this.profilePicture = profilePicture;
         this.theUID = theUID;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userFullName = userFullName;
         this.userBirthdate = userBirthdate;
+        this.online = Online;
     }
 
 

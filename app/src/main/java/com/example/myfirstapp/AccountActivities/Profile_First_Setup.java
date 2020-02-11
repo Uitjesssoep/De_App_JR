@@ -4,10 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,7 +17,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,7 +29,6 @@ import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.Content_Policy_Activity;
 import com.example.myfirstapp.Data_Policy_Activity;
-import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Terms_of_Use_Activity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -377,7 +372,7 @@ public class Profile_First_Setup extends AppCompatActivity {
         UploadUsername.setValue("exists");
 
         //uploaden naar database
-        UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, Date);
+        UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, Date, false);
         myRef684.setValue(userProfile);
         Log.e(TAGTEST, "usertodatabase bereikt!");
     }

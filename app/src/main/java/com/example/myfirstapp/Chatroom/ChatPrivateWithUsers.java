@@ -216,7 +216,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                 PostStuffMakePrivateChat postStuffMakePrivateChat1 = new PostStuffMakePrivateChat(false, Date, UID);
                 PostStuffMakePrivateChat postStuffMakePrivateChat2 = new PostStuffMakePrivateChat(false, Date, MyUid);
                 myDatabase2.child(MyUid).child(UID).setValue(postStuffMakePrivateChat1);
-                myDatabase2.child(UID).child(MyUid).setValue(postStuffMakePrivateChat1);
+                myDatabase2.child(UID).child(MyUid).setValue(postStuffMakePrivateChat2);
 
 
             }
@@ -264,139 +264,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
     }
 
-  /*  private void FindIntel() {
-
-        myDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.e(TAG, UID);
-                Log.e(TAG, MyUid);
-                clear();
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                        String TheJey = MyUid + " + " + UID;
-
-                        String Test = snapshot.child("key").getValue().toString();
-                        Log.e("TheKey", TheJey);
-
-                        int childrencount = (int) dataSnapshot.getChildrenCount();
-                        Log.e("Childrencount", String.valueOf(childrencount) );
-                        PostStuffMakePrivateChat postStuffMakePrivateChat = snapshot.getValue(PostStuffMakePrivateChat.class);
-                        Keyold = postStuffMakePrivateChat.getKey();
-                        listRoom.add(postStuffMakePrivateChat);
-
-                        if (listRoom.size()==childrencount){
-                            for (int i = 0; i < listRoom.size(); i++) {
-                                int position;
-                                position = i;
-
-                                if (!(listRoom.get(i).getKey().contains(MyUid) && listRoom.get(i).getKey().contains(UID))) {
-                                    listRoom.remove(i);
-                                }
-                                if (listRoom.isEmpty()){
-                                    Key = MyUid + " + " + UID;
-                                    Log.e(TAG, "makechatroom");
-                                    MakeChatroom();
-                                }
-                            }
-                        }
 
 
 
-
-                        if (postStuffMakePrivateChat.getKey().contains(UID) && postStuffMakePrivateChat.getKey().contains(MyUid)) {
-                            listRoom.add(postStuffMakePrivateChat);
-                        }
-                        if (!listRoom.isEmpty()) {
-                            Key = listRoom.get(0).getKey();
-                        }
-                        final int size = listRoom.size();
-                        Log.e(TAG, "add bereikt");
-
-                        for (int i = 0; i < listRoom.size(); i++) {
-                            int position;
-                            position = i;
-
-                            if (listRoom.get(i).getKey().contains(MyUid) && listRoom.get(i).getKey().contains(UID)) {
-                                // Key = listRoom.get(position).getKey();
-                                Log.e(TAG, "remove bereikt");
-                                Log.e("list", listRoom.toString());
-
-                                //} else {
-                                listRoom.remove(i);
-                                Log.e("listtest", String.valueOf(position));
-                                Log.e("listtest2", String.valueOf(listRoom.size()));
-
-                                if (listRoom.isEmpty()) {
-                                    Key = MyUid + " + " + UID;
-                                    Log.e(TAG, "makechatroom");
-                                    MakeChatroom();
-                                }
-
-
-                            }
-                           if (!(listRoom.get(i).getKey().contains(MyUid) && listRoom.get(i).getKey().contains(UID))){
-                                Key = MyUid + " + " + UID;
-                                MakeChatroom();
-                                Log.e(TAG, "if listroom.isEmpty bereikt");
-                            }
-
-                        }
-
-
-                        Log.e(TAG, Keyold);
-                        //        LoadMessages();
-                    }
-                   if (Keyold.contains(MyUid) && Keyold.contains(UID)) {
-                        list.add(Keyold);
-
-                        Key = list.get(0);
-                        Log.e("else", Key);
-
-
-                    }
-                    if (list.isEmpty()) {
-                        Key = MyUid + " + " + UID;
-                        MakeChatroom();
-                        Log.e("IF", Key);
-                    }
-
-                } else {
-                    Key = MyUid + " + " + UID;
-                    MakeChatroom();
-                    Log.e("ELSE", Key);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-    }*/
-
-
-
-  /*  @Override
-    protected void onPause() {
-        super.onPause();
-        FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(Key).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.hasChild("messages")) {
-                    Log.e(TAG, "FALSE");
-
-                    myDatabase2.child(Key).removeValue();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }*/
 
     public void clear() {
 

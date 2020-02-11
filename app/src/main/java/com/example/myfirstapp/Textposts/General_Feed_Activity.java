@@ -73,7 +73,7 @@ public class General_Feed_Activity extends AppCompatActivity
     private DatabaseReference Textposts = FirebaseDatabase.getInstance().getReference("General_Posts");
     private DatabaseReference Imageposts = FirebaseDatabase.getInstance().getReference("General_Posts");
     private DatabaseReference CheckIfMyUID;
-    private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
+    private DatabaseReference UserReference;
 
     private String key, MyUID, TAG = "Check";
     private Boolean Liked = false, Disliked = false, LikedCheck = false, DislikedCheck = false;
@@ -102,6 +102,9 @@ public class General_Feed_Activity extends AppCompatActivity
         ImageFAB.setClickable(false);
         TextFAB.setClickable(false);
         ChatFAB.setClickable(false);
+
+        MyUID = firebaseAuth.getCurrentUser().getUid();
+        UserReference = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
 
         FABOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
         FABClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
@@ -188,7 +191,7 @@ public class General_Feed_Activity extends AppCompatActivity
         setContentView(R.layout.activity_general__feed);
 
         CheckInternet();
-
+        UserReference.child("online").setValue(true);
         SetupUI();
 
         SetupDesign();
@@ -242,6 +245,8 @@ public class General_Feed_Activity extends AppCompatActivity
     }
 
     private void StartOrReloadTextPosts() {
+
+
 
         Textposts.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -657,6 +662,20 @@ public class General_Feed_Activity extends AppCompatActivity
 
             stuffForPostAdapter.notifyItemRangeRemoved(0, size);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        UserReference.child("online").setValue(true);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        UserReference.child("online").setValue(false);
     }
 
 }
