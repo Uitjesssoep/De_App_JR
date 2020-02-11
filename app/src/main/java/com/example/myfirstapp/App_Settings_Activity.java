@@ -1,6 +1,7 @@
 package com.example.myfirstapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
@@ -38,16 +39,52 @@ public class App_Settings_Activity extends AppCompatActivity {
     private ImageButton Exit;
     private TextView ChangeDisplay, ChangePassword, LogOut, Delete, DataPolicy, ContentPolicy, TermsOfUse, Credits, SendEmail, ReportBug, BuildInfo;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    private Switch nightMode;
+    private Switch aSwitch;
+    SharedPrefNightMode sharedPrefNightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app__settings_);
+
+        aSwitch = findViewById(R.id.switchNightMode);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            aSwitch.setChecked(true);
+        }
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked){
+                    sharedPrefNightMode.setNightModeState(true);
+                    restartApp();
+                }
+                else {
+                    sharedPrefNightMode.setNightModeState(false);
+                    restartApp();
+                }
+            }
+        });
 
         SetupDesign();
 
         KnoppenEnzo();
+
+    }
+
+    public void restartApp() {
+
+        Intent intent = new Intent(getApplicationContext(), App_Settings_Activity.class);
+        startActivity(intent);
+        finish();
 
     }
 
@@ -269,23 +306,7 @@ public class App_Settings_Activity extends AppCompatActivity {
         Credits = findViewById(R.id.tvCreditsSettingsAbout);
         SendEmail = findViewById(R.id.tvSendAMailSupportSettings);
         ReportBug = findViewById(R.id.tvReportABugSupportSettings);
-        nightMode = findViewById(R.id.switchNightMode);
         BuildInfo = findViewById(R.id.tvBuildInfoSettingsBuild);
-
-        if(nightMode != null){
-            nightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    if(isChecked) {
-                        Log.e("Switch", "IsChecked");
-                        setTheme(R.style.AppTheme_Night);
-                    } else {
-                        setTheme(R.style.AppTheme);
-                    }
-                }
-            });
-        }
-
     }
 
 }
