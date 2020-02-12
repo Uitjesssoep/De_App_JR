@@ -17,25 +17,27 @@
         <item name="warningtextcolor">#FF0000</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
         <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="texttitelcolor">#FFFFFF</item>
 
     </style>
 
     <style name="AppTheme_Night" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#000000</item>
-        <item name="colorPrimaryDark">#4caf50</item>
+        <item name="colorPrimary">#212121</item>
+        <item name="colorPrimaryDark">#212121</item>
         <item name="colorAccent">#4caf50</item>
-        <item name="backgroundcolor">#000000</item>
-        <item name="mainbackground">#212121</item>
+        <item name="backgroundcolor">#0C0C0C</item>
+        <item name="mainbackground">#191919</item>
         <item name="maintextcolor">#FFFFFF</item>
         <item name="maingreytextcolor">#e0e0e0</item>
         <item name="lichtgreytextcolor">#bdbdbd</item>
         <item name="darkgreytextcolor">#e0e0e0</item>
         <item name="lichtlichtgreytextcolor">#ADADAD</item>
         <item name="android:textColorSecondary">#000000</item>
-        <item name="warningtextcolor">#FF0000</item>
+        <item name="warningtextcolor">#c62828</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
         <item name="android:navigationBarColor">#FFFFFF</item>
+        <item name="texttitelcolor">#FFFFFF</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">

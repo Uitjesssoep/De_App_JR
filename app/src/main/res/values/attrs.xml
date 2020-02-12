@@ -10,6 +10,7 @@
         <attr name="lichtlichtgreytextcolor" format="color"/>
         <attr name="darkgreytextcolor" format="color"/>
         <attr name="warningtextcolor" format="color"/>
+        <attr name="texttitelcolor" format="color"/>
     </declare-styleable>
     
 </resources>

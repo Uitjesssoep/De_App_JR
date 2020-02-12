@@ -271,15 +271,7 @@ public class App_Settings_Activity extends AppCompatActivity {
 
     private void SetupDesign() {
 
-        //voor het geven van kleur aan de status bar:
 
-        Window window = App_Settings_Activity.this.getWindow();
-
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        window.setStatusBarColor(ContextCompat.getColor(App_Settings_Activity.this, R.color.slighly_darker_mainGreen));
 
         //action bar ding
 
