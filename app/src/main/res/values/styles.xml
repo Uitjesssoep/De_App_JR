@@ -19,6 +19,7 @@
         <item name="android:navigationBarColor">#FFFFFF</item>
         <item name="texttitelcolor">#FFFFFF</item>
         <item name="tabindicatorcolor">#FFFFFF</item>
+        <item name="edittextbackground">#eeeeee</item>
 
     </style>
 
@@ -40,6 +41,13 @@
         <item name="android:navigationBarColor">#FFFFFF</item>
         <item name="texttitelcolor">#FFFFFF</item>
         <item name="tabindicatorcolor">#696969</item>
+        <item name="android:itemBackground">#191919</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="edittextbackground">#424242</item>
+    </style>
+
+    <style name="AlertDialog_night" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">#212121</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
