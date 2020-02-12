@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AllChatsTab"
-    android:theme="@style/AppTheme"
-    android:background="?attr/mainbackground">
+    tools:context=".AllChatsTab">
 
     <LinearLayout
         android:layout_width="match_parent"

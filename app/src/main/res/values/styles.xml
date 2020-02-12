@@ -62,6 +62,7 @@
 
         <item name="android:searchViewStyle">@style/SearchBarTheme_Night</item>
         <item name="searchViewStyle">@style/SearchBarTheme_Night</item>
+        <item name="actionBarWidgetTheme">@style/SearchBarTheme_Night</item>
     </style>
 
     <style name="AlertDialog_night" parent="Theme.AppCompat.Dialog.Alert">
@@ -70,9 +71,8 @@
         <item name="android:textColorPrimary">#bdbdbd</item>
     </style>
 
-    <style name="SearchBarTheme_Night" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:textColorHint">#bdbdbd</item>
-        <item name="android:textColorPrimary">#bdbdbd</item>
+    <style name="SearchBarTheme_Night" parent="Widget.AppCompat.SearchView">
+        <item name="android:textColorPrimary">#858585</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
