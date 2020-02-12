@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="85dp"
-    android:theme="@style/AppTheme"
     android:background="?attr/mainbackground">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/mainbackground">
 
         <TextView
             android:id="@+id/tvDisplay_Name"

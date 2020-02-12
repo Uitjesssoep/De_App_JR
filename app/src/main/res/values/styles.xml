@@ -59,11 +59,19 @@
         <item name="alertDialogStyle">@style/AlertDialog_night</item>
         <item name="android:alertDialogTheme">@style/AlertDialog_night</item>
         <item name="android:alertDialogStyle">@style/AlertDialog_night</item>
+
+        <item name="android:searchViewStyle">@style/SearchBarTheme_Night</item>
+        <item name="searchViewStyle">@style/SearchBarTheme_Night</item>
     </style>
 
     <style name="AlertDialog_night" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:background">#212121</item>
         <item name="android:fullDark">#212121</item>
+        <item name="android:textColorPrimary">#bdbdbd</item>
+    </style>
+
+    <style name="SearchBarTheme_Night" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorHint">#bdbdbd</item>
         <item name="android:textColorPrimary">#bdbdbd</item>
     </style>
 

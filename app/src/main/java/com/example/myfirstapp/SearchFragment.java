@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 //import android.widget.SearchView;
 import android.widget.Toast;
@@ -41,7 +42,14 @@ public class SearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.e("Searchfragment  ", "Searchfragment" );
+
+        SharedPrefNightMode sharedPrefNightMode = new SharedPrefNightMode(getActivity());
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            getContext().setTheme(R.style.AppTheme_Night);
+        }
+        else getContext().setTheme(R.style.AppTheme);
+
         return inflater.inflate(R.layout.fragment_fragment_searchlayout, container, false);
 
 
@@ -132,7 +140,8 @@ public class SearchFragment extends Fragment {
                 adapter = new UserAdapter(getActivity(), list);
 
                 final UserAdapter userAdapter = new UserAdapter(getActivity(), list);
-                SearchView searchView = getView().findViewById(R.id.svSearchUsers);
+                final SearchView searchView = getView().findViewById(R.id.svSearchUsers);
+
                 searchView.setIconifiedByDefault(true);
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
