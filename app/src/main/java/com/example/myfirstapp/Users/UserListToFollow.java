@@ -36,7 +36,6 @@ import com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity;
 import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -77,7 +76,7 @@ public class UserListToFollow extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         ProgressCircle = findViewById(R.id.pbLoadingUserListToFollow);
-        recyclerView = findViewById(R.id.recycler_viewUserList);
+        recyclerView = findViewById(R.id.rvUserList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         databaseReferenceUIDlist = firebaseDatabase.getReference("users");
