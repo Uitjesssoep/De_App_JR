@@ -54,6 +54,8 @@ public class AllFeedTab extends Fragment {
     private TextView SortCommentsBy;
     private ImageView SortByCommentsIV;
 
+    SharedPrefNightMode sharedPrefNightMode;
+
     private LinearLayoutManager linearLayoutManager; //voor sorteren
     private SharedPreferences sharedPreferences; //saven sorteer setting
 
@@ -69,6 +71,14 @@ public class AllFeedTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(getActivity());
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            getContext().setTheme(R.style.AppTheme_Night);
+        }
+        else getContext().setTheme(R.style.AppTheme);
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_all_feed_tab, container, false);
     }

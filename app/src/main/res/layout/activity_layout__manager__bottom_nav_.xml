@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Layout_Manager_BottomNav_Activity"
-    android:theme="@style/AppTheme">
+    tools:context=".Layout_Manager_BottomNav_Activity">
 
     <include
         android:id="@+id/action_bar_feed_manager"

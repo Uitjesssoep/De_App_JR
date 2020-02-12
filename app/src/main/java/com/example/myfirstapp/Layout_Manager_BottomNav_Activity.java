@@ -36,9 +36,18 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
     private String CurrentFrag = "Home";
     private Boolean MakingSelected = false;
+    SharedPrefNightMode sharedPrefNightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout__manager__bottom_nav_);
 
