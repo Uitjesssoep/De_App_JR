@@ -228,7 +228,7 @@ public class FollowingFeedTab extends Fragment {
         GeneralFeed.setHasFixedSize(true);
         GeneralFeed.setDrawingCacheEnabled(true);
         GeneralFeed.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        GeneralFeed.setLayoutManager(new LinearLayoutManager(getActivity()));
+        GeneralFeed.setLayoutManager(linearLayoutManager);
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingFollowingFeed_fragment);
         final List<StuffForPost> StuffForPostList = new ArrayList<>();
@@ -533,7 +533,7 @@ public class FollowingFeedTab extends Fragment {
         GeneralFeed.setHasFixedSize(true);
         GeneralFeed.setDrawingCacheEnabled(true);
         GeneralFeed.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        GeneralFeed.setLayoutManager(new LinearLayoutManager(getActivity()));
+        GeneralFeed.setLayoutManager(linearLayoutManager);
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingFollowingFeed_fragment);
         final List<StuffForPost> StuffForPostList = new ArrayList<>();

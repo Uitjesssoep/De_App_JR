@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:theme="@style/AppTheme"
-    android:background="?attr/colorPrimary"
-    app:popupTheme="@style/Popup">
+    android:background="?attr/colorPrimary">
 
     <ImageButton
         android:id="@+id/exitviewmysaved"
@@ -22,7 +20,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:text="Saved"
-        android:textColor="?attr/mainbackground"
+        android:textColor="?attr/texttitelcolor"
         android:textSize="22sp"
         android:textStyle="bold" />
 
