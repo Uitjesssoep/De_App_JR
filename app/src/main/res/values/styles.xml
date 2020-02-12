@@ -19,8 +19,12 @@
         <item name="android:navigationBarColor">#FFFFFF</item>
         <item name="texttitelcolor">#FFFFFF</item>
         <item name="tabindicatorcolor">#FFFFFF</item>
+        <item name="tweedetabindicatorcolor">#4caf50</item>
         <item name="edittextbackground">#eeeeee</item>
-
+        <item name="subtitelcolor">#4caf50</item>
+        <item name="thebuttoncolor">#4caf50</item>
+        <item name="imageviewoutlinecolor">#e0e0e0</item>
+        <item name="bottomnavigationbarthingcolor">#FFFFFF</item>
     </style>
 
     <style name="AppTheme_Night" parent="Theme.AppCompat.Light.NoActionBar">
@@ -41,13 +45,26 @@
         <item name="android:navigationBarColor">#FFFFFF</item>
         <item name="texttitelcolor">#FFFFFF</item>
         <item name="tabindicatorcolor">#696969</item>
-        <item name="android:itemBackground">#191919</item>
+        <item name="tweedetabindicatorcolor">#696969</item>
+        <item name="android:itemBackground">#151515</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="edittextbackground">#424242</item>
+        <item name="subtitelcolor">#FFFFFF</item>
+        <item name="thebuttoncolor">#39833C</item>
+        <item name="imageviewoutlinecolor">#696969</item>
+        <item name="bottomnavigationbarthingcolor">#212121</item>
+
+
+        <item name="alertDialogTheme">@style/AlertDialog_night</item>
+        <item name="alertDialogStyle">@style/AlertDialog_night</item>
+        <item name="android:alertDialogTheme">@style/AlertDialog_night</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog_night</item>
     </style>
 
     <style name="AlertDialog_night" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:background">#212121</item>
+        <item name="android:fullDark">#212121</item>
+        <item name="android:textColorPrimary">#bdbdbd</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">

@@ -185,7 +185,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                                 final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                                                 dialog.setTitle("Delete your comment?");
-                                                dialog.setMessage("Deleting this comment cannot be undone! The comment itself will remain, only its content will be removed. Are you sure you want to delete it?");
+                                                dialog.setMessage("Deleting this comment cannot be undone! Are you sure you want to delete it?");
 
                                                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                     @Override
@@ -256,7 +256,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                                 final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                                                 dialog.setTitle("Delete your comment?");
-                                                dialog.setMessage("Deleting this comment cannot be undone! The comment itself will remain, only its content will be removed. Are you sure you want to delete it?");
+                                                dialog.setMessage("Deleting this comment cannot be undone! Are you sure you want to delete it?");
 
                                                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                     @Override

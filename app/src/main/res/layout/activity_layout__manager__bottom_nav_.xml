@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.MaterialComponents.BottomSheetDialog"
-        android:background="?attr/mainbackground"
+        android:background="?attr/bottomnavigationbarthingcolor"
         android:layout_alignParentBottom="true"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_navigation"

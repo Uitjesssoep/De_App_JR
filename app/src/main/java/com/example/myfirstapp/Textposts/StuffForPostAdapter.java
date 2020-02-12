@@ -20,6 +20,7 @@ import com.example.myfirstapp.Edit_PC_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,6 +62,14 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        SharedPrefNightMode sharedPrefNightMode = new SharedPrefNightMode(mContext);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            mContext.setTheme(R.style.AppTheme_Night);
+        }
+        else mContext.setTheme(R.style.AppTheme);
+
         View view = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
         return new StuffForPostAdapter.ViewHolder(view, mListener);
     }
@@ -128,57 +137,58 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
 
                                                         case R.id.delete_option_textposts:
 
-                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-                                                            dialog.setTitle("Delete your post?");
-                                                            dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
+                                                                final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                                                                dialog.setTitle("Delete your post?");
+                                                                dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
 
-                                                            dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
-                                                                    DeleteThePost.removeValue();
+                                                                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                                        DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
+                                                                        DeleteThePost.removeValue();
 
-                                                                    String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                                                        String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                                                                    final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
-                                                                    PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                        @Override
-                                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                        final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+                                                                        PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                            @Override
+                                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                                            if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
+                                                                                if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
 
-                                                                                String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
-                                                                                int PostCountInt = Integer.parseInt(PostCountString);
-                                                                                PostCountInt = Integer.valueOf(PostCountInt - 1);
-                                                                                String NewPostCountString = Integer.toString(PostCountInt);
-                                                                                PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
+                                                                                    String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
+                                                                                    int PostCountInt = Integer.parseInt(PostCountString);
+                                                                                    PostCountInt = Integer.valueOf(PostCountInt - 1);
+                                                                                    String NewPostCountString = Integer.toString(PostCountInt);
+                                                                                    PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
+
+                                                                                }
+                                                                            }
+
+                                                                            @Override
+                                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                                                             }
-                                                                        }
+                                                                        });
 
-                                                                        @Override
-                                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                                        Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
+                                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                                        mContext.startActivity(intent);
 
-                                                                        }
-                                                                    });
+                                                                    }
+                                                                });
 
-                                                                    Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
-                                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                    mContext.startActivity(intent);
-                                                                }
-                                                            });
+                                                                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                                                            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                        dialogInterface.dismiss();
 
-                                                                    dialogInterface.dismiss();
+                                                                    }
+                                                                });
 
-                                                                }
-                                                            });
-
-                                                            AlertDialog alertDialog = dialog.create();
-                                                            alertDialog.show();
+                                                                AlertDialog alertDialog = dialog.create();
+                                                                alertDialog.show();
 
                                                             break;
 
@@ -230,58 +240,58 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
 
                                                         case R.id.delete_option_textposts:
 
-                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-                                                            dialog.setTitle("Delete your post?");
-                                                            dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
+                                                                final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                                                                dialog.setTitle("Delete your post?");
+                                                                dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
 
-                                                            dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
-                                                                    DeleteThePost.removeValue();
+                                                                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                                        DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
+                                                                        DeleteThePost.removeValue();
 
-                                                                    String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                                                        String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                                                                    final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
-                                                                    PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                        @Override
-                                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                        final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+                                                                        PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                            @Override
+                                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                                            if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
+                                                                                if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
 
-                                                                                String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
-                                                                                int PostCountInt = Integer.parseInt(PostCountString);
-                                                                                PostCountInt = Integer.valueOf(PostCountInt - 1);
-                                                                                String NewPostCountString = Integer.toString(PostCountInt);
-                                                                                PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
+                                                                                    String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
+                                                                                    int PostCountInt = Integer.parseInt(PostCountString);
+                                                                                    PostCountInt = Integer.valueOf(PostCountInt - 1);
+                                                                                    String NewPostCountString = Integer.toString(PostCountInt);
+                                                                                    PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
+
+                                                                                }
+                                                                            }
+
+                                                                            @Override
+                                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
                                                                             }
-                                                                        }
+                                                                        });
 
-                                                                        @Override
-                                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                                        Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
+                                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                                        mContext.startActivity(intent);
 
-                                                                        }
-                                                                    });
+                                                                    }
+                                                                });
 
-                                                                    Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
-                                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                    mContext.startActivity(intent);
+                                                                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                                                                }
-                                                            });
+                                                                        dialogInterface.dismiss();
 
-                                                            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                    }
+                                                                });
 
-                                                                    dialogInterface.dismiss();
-
-                                                                }
-                                                            });
-
-                                                            AlertDialog alertDialog = dialog.create();
-                                                            alertDialog.show();
+                                                                AlertDialog alertDialog = dialog.create();
+                                                                alertDialog.show();
 
                                                             break;
 

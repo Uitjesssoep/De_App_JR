@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountFragment"
-    android:theme="@style/AppTheme"
     android:background="?attr/mainbackground">
 
     <ImageView
@@ -35,8 +34,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivProfilePictureAccountInfoViewing"
         app:layout_constraintVertical_bias="0.0"
-        app:tabIndicatorColor="?attr/colorPrimary"
-        app:tabTextColor="?attr/colorPrimary">
+        app:tabIndicatorColor="?attr/tweedetabindicatorcolor"
+        app:tabTextColor="?attr/subtitelcolor">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_layout_MyPosts"

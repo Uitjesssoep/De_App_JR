@@ -12,7 +12,12 @@
         <attr name="warningtextcolor" format="color"/>
         <attr name="texttitelcolor" format="color"/>
         <attr name="tabindicatorcolor" format="color"/>
+        <attr name="tweedetabindicatorcolor" format="color"/>
         <attr name="edittextbackground" format="color"/>
+        <attr name="subtitelcolor" format="color"/>
+        <attr name="thebuttoncolor" format="color"/>
+        <attr name="imageviewoutlinecolor" format="color"/>
+        <attr name="bottomnavigationbarthingcolor" format="color"/>
     </declare-styleable>
     
 </resources>

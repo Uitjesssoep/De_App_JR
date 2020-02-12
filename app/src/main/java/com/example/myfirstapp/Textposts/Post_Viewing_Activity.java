@@ -118,70 +118,69 @@ public class Post_Viewing_Activity extends AppCompatActivity {
             linearLayoutManager.setStackFromEnd(true);
 
         }
+            SortCommentsBy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String[] sortOptions = {"Newest", "Oldest", "Top"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                    builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if(i==0){
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("Sort", "Newest");
+                                editor.apply();
+                                SetupUI();
+                            }
+                            else if(i==1){
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("Sort", "Oldest");
+                                editor.apply();
+                                SetupUI();
+                            }
+                            else if(i==2){
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("Sort", "Top");
+                                editor.apply();
+                                SetupUI();
+                            }
+                        }
+                    });
+                    builder.show();
+                }
+            });
 
-        SortCommentsBy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] sortOptions = {"Newest", "Oldest", "Top"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(Post_Viewing_Activity.this);
-                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if(i==0){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Newest");
-                            editor.apply();
-                            SetupUI();
+            SortByCommentsIV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String[] sortOptions = {"Newest", "Oldest", "Top"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                    builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if(i==0){
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("Sort", "Newest");
+                                editor.apply();
+                                SetupUI();
+                            }
+                            else if(i==1){
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("Sort", "Oldest");
+                                editor.apply();
+                                SetupUI();
+                            }
+                            else if(i==2){
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("Sort", "Top");
+                                editor.apply();
+                                SetupUI();
+                            }
                         }
-                        else if(i==1){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Oldest");
-                            editor.apply();
-                            SetupUI();
-                        }
-                        else if(i==2){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Top");
-                            editor.apply();
-                            SetupUI();
-                        }
-                    }
-                });
-                builder.show();
-            }
-        });
-
-        SortByCommentsIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String[] sortOptions = {"Newest", "Oldest", "Top"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(Post_Viewing_Activity.this);
-                builder.setTitle("Sort by").setIcon(R.drawable.ic_sort_green_24dp).setItems(sortOptions, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if(i==0){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Newest");
-                            editor.apply();
-                            SetupUI();
-                        }
-                        else if(i==1){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Oldest");
-                            editor.apply();
-                            SetupUI();
-                        }
-                        else if(i==2){
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Sort", "Top");
-                            editor.apply();
-                            SetupUI();
-                        }
-                    }
-                });
-                builder.show();
-            }
-        });
+                    });
+                    builder.show();
+                }
+            });
 
         Title = findViewById(R.id.tvTitleOfTextPost);
         Content = findViewById(R.id.tvContentOfTextPost);
@@ -1447,58 +1446,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
             case R.id.action_delete:
 
-                sharedPrefNightMode = new SharedPrefNightMode(this);
-
-                if(sharedPrefNightMode.loadNightModeState()==true){
-                    final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this, R.style.AlertDialog_night);
-                    dialog.setTitle("Delete your post?");
-                    dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
-                    dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(getIntent().getExtras().get("Key").toString());
-                            DeleteThePost.removeValue();
-
-                            String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                            final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
-                            PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                    if (dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")) {
-
-                                        String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
-                                        int PostCountInt = Integer.parseInt(PostCountString);
-                                        PostCountInt = Integer.valueOf(PostCountInt - 1);
-                                        String NewPostCountString = Integer.toString(PostCountInt);
-                                        PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
-
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-
-                            Intent intent = new Intent(Post_Viewing_Activity.this, Layout_Manager_BottomNav_Activity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
-                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-                    android.app.AlertDialog alertDialog = dialog.create();
-                    alertDialog.show();
-                }
-                else {
                     final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
                     dialog.setTitle("Delete your post?");
                     dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
@@ -1546,7 +1493,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                     });
                     android.app.AlertDialog alertDialog = dialog.create();
                     alertDialog.show();
-                }
 
                 break;
 
