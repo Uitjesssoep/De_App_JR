@@ -1,12 +1,5 @@
 package com.example.myfirstapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,23 +7,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
 import com.example.myfirstapp.Chatroom.Chat_With_Users_Activity;
-import com.example.myfirstapp.Textposts.Followers_Feed_Activity;
-import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
@@ -43,10 +31,9 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
         sharedPrefNightMode = new SharedPrefNightMode(this);
 
-        if(sharedPrefNightMode.loadNightModeState()==true){
+        if (sharedPrefNightMode.loadNightModeState() == true) {
             setTheme(R.style.AppTheme_Night);
-        }
-        else setTheme(R.style.AppTheme);
+        } else setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout__manager__bottom_nav_);
@@ -59,38 +46,34 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_manager);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        if(getIntent().hasExtra("Type")) {
+        if (getIntent().hasExtra("Type")) {
             String Type = getIntent().getExtras().get("Type").toString();
             if (Type.equals("Account")) {
                 Log.e("Intent", "Account");
                 bottomNav.setSelectedItemId(R.id.navigation_account);
                 MakingSelected = false;
-            }
-            else{
+            } else {
                 if (Type.equals("ChatMake")) {
                     bottomNav.setSelectedItemId(R.id.navigation_chat);
                     String ChatRoomKey = getIntent().getExtras().get("Key").toString();
                     Intent intent = new Intent(Layout_Manager_BottomNav_Activity.this, Chat_With_Users_Activity.class);
                     intent.putExtra("Key", ChatRoomKey);
                     startActivity(intent);
-                }
-                else {
+                } else {
                     if (Type.equals("TextMake")) {
                         bottomNav.setSelectedItemId(R.id.navigation_home);
                         String PostKey = getIntent().getExtras().get("Key").toString();
                         Intent intent = new Intent(Layout_Manager_BottomNav_Activity.this, Post_Viewing_Activity.class);
                         intent.putExtra("Key", PostKey);
                         startActivity(intent);
-                    }
-                    else {
+                    } else {
                         getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                                 new HomeFragment()).commit();
                         MakingSelected = false;
                     }
                 }
             }
-        }
-        else {
+        } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                     new HomeFragment()).commit();
             MakingSelected = false;
@@ -111,7 +94,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
                     Fragment selectedFragment = null;
 
-                    switch (menuItem.getItemId()){
+                    switch (menuItem.getItemId()) {
                         case R.id.navigation_home:
 
                             selectedFragment = new HomeFragment();
@@ -120,7 +103,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                                     selectedFragment).commit();
 
-                            if(MakingSelected){
+                            if (MakingSelected) {
                                 FrameLayout frameLayout = findViewById(R.id.framelayout_manager_makepost);
                                 Animation animation = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
                                 frameLayout.startAnimation(animation);
@@ -139,7 +122,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                                     selectedFragment).commit();
 
-                            if(MakingSelected) {
+                            if (MakingSelected) {
                                 FrameLayout frameLayout2 = findViewById(R.id.framelayout_manager_makepost);
                                 Animation animation2 = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
                                 frameLayout2.startAnimation(animation2);
@@ -152,7 +135,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
                         case R.id.navigation_make:
 
-                            if(MakingSelected){
+                            if (MakingSelected) {
 
                                 FrameLayout frameLayout3 = findViewById(R.id.framelayout_manager_makepost);
                                 Animation animation3 = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
@@ -161,8 +144,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
                                 MakingSelected = false;
 
-                            }
-                            else{
+                            } else {
 
                                 FrameLayout frameLayout4 = findViewById(R.id.framelayout_manager_makepost);
                                 frameLayout4.setVisibility(View.VISIBLE);
@@ -189,7 +171,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                                     selectedFragment).commit();
 
-                            if(MakingSelected){
+                            if (MakingSelected) {
 
                                 FrameLayout frameLayout5 = findViewById(R.id.framelayout_manager_makepost);
                                 Animation animation5 = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
@@ -209,7 +191,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().replace(R.id.framelayout_manager,
                                     selectedFragment).commit();
 
-                            if(MakingSelected){
+                            if (MakingSelected) {
                                 FrameLayout frameLayout6 = findViewById(R.id.framelayout_manager_makepost);
                                 Animation animation6 = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
                                 frameLayout6.startAnimation(animation6);
@@ -246,23 +228,24 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                 Intent intent2 = new Intent(Layout_Manager_BottomNav_Activity.this, MySaved_Activity.class);
                 startActivity(intent2);
                 break;
+
+
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void onBackPressed(){
+    public void onBackPressed() {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav_manager);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        if(MakingSelected){
+        if (MakingSelected) {
             FrameLayout frameLayout7 = findViewById(R.id.framelayout_manager_makepost);
             Animation animation7 = AnimationUtils.loadAnimation(Layout_Manager_BottomNav_Activity.this, R.anim.fab_close);
             frameLayout7.startAnimation(animation7);
             MakingSelected = false;
             frameLayout7.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             finish();
         }
     }
