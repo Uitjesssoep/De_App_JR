@@ -17,8 +17,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:tabIndicatorColor="?attr/mainbackground"
-        app:tabTextColor="?attr/mainbackground">
+        app:tabIndicatorColor="?attr/tabindicatorcolor"
+        app:tabTextColor="?attr/texttitelcolor">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_layout_allFeed_home"

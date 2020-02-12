@@ -99,13 +99,6 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
     private void SetupDesign() {
 
-        setTheme(R.style.AppTheme);
-
-        Window window = Layout_Manager_BottomNav_Activity.this.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(Layout_Manager_BottomNav_Activity.this, R.color.slighly_darker_mainGreen));
-
         Toolbar toolbar = findViewById(R.id.action_bar_feed_manager);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
