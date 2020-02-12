@@ -102,6 +102,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
             int End = Title.indexOf(" ");
             final String TitleSubstring = Title.substring(Begin, End);
             SpannableString ss = SpannableString.valueOf(Title);
+            Log.e("T", );
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View view) {

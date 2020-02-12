@@ -32,9 +32,18 @@ public class Edit_PC_Activity extends AppCompatActivity {
     private TextView TitleType, CurrentTitle, CurrentContent;
     private EditText EditTitle, EditContent;
     private View divider;
+    SharedPrefNightMode sharedPrefNightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit__pc_);
 
@@ -161,12 +170,6 @@ public class Edit_PC_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
-        setTheme(R.style.AppTheme);
-
-        Window window = Edit_PC_Activity.this.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(Edit_PC_Activity.this, R.color.slighly_darker_mainGreen));
 
         Toolbar toolbar = findViewById(R.id.action_bar_editPC);
         setSupportActionBar(toolbar);

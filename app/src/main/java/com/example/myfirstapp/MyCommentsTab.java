@@ -59,6 +59,13 @@ public class MyCommentsTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        SharedPrefNightMode sharedPrefNightMode = new SharedPrefNightMode(getActivity());
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            getContext().setTheme(R.style.AppTheme_Night);
+        }
+        else getContext().setTheme(R.style.AppTheme);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_comments_tab, container, false);
     }

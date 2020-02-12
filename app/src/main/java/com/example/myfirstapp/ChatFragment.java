@@ -17,10 +17,19 @@ public class ChatFragment extends Fragment {
 
     private ViewPager viewPager;
     public PageAdapter_ChatRooms pagerAdapter;
+    SharedPrefNightMode sharedPrefNightMode;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(getActivity());
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            getContext().setTheme(R.style.AppTheme_Night);
+        }
+        else getContext().setTheme(R.style.AppTheme);
+
         return inflater.inflate(R.layout.fragment_chatlayout, container, false);
 
     }

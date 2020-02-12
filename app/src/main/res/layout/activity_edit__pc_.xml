@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Edit_PC_Activity"
-    android:theme="@style/AppTheme"
     android:background="?attr/mainbackground">
 
     <include
@@ -31,7 +30,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
                 android:text="Edit [type]:"
-                android:textColor="?attr/colorPrimary"
+                android:textColor="?attr/subtitelcolor"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -58,6 +57,7 @@
                 android:background="@drawable/edittext_addcomment"
                 android:ems="10"
                 android:hint="Add your edit"
+                android:textColorHint="?attr/lichtgreytextcolor"
                 android:inputType="textMultiLine"
                 android:textColor="?attr/maintextcolor"
                 android:textSize="16sp" />
@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="64dp"
                 android:paddingBottom="64dp"
@@ -96,7 +96,8 @@
                 android:ems="10"
                 android:hint="Add your edit"
                 android:inputType="textMultiLine"
-                android:textColor="?attr/maingreytextcolor"
+                android:textColorHint="?attr/lichtlichtgreytextcolor"
+                android:textColor="?attr/lichtgreytextcolor"
                 android:textSize="14sp" />
         </LinearLayout>
     </ScrollView>

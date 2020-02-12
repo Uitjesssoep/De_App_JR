@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.Edit_PC_Activity;
-import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -185,7 +184,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                                 final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                                                 dialog.setTitle("Delete your comment?");
-                                                dialog.setMessage("Deleting this comment cannot be undone! The comment itself will remain, only its content will be removed. Are you sure you want to delete it?");
+                                                dialog.setMessage("Deleting this comment cannot be undone! Are you sure you want to delete it?");
 
                                                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                     @Override
@@ -256,7 +255,7 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
                                                 final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                                                 dialog.setTitle("Delete your comment?");
-                                                dialog.setMessage("Deleting this comment cannot be undone! The comment itself will remain, only its content will be removed. Are you sure you want to delete it?");
+                                                dialog.setMessage("Deleting this comment cannot be undone! Are you sure you want to delete it?");
 
                                                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                     @Override

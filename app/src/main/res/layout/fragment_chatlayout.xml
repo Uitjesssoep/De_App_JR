@@ -6,21 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ChatFragment"
-    android:theme="@style/AppTheme"
     android:background="?attr/backgroundcolor">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout_chatfeed_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:tabIndicatorColor="?attr/mainbackground"
-        app:tabTextColor="?attr/mainbackground">
+        app:tabIndicatorColor="?attr/tabindicatorcolor"
+        app:tabTextColor="?attr/texttitelcolor">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tab_layout_AllChats_Chat"

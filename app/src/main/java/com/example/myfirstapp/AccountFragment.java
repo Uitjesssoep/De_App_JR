@@ -31,6 +31,14 @@ public class AccountFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        SharedPrefNightMode sharedPrefNightMode = new SharedPrefNightMode(getActivity());
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            getContext().setTheme(R.style.AppTheme_Night);
+        }
+        else getContext().setTheme(R.style.AppTheme);
+
         return inflater.inflate(R.layout.fragment_accountlayout, container, false);
 
     }

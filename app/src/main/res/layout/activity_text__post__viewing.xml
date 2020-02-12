@@ -239,6 +239,7 @@
         android:background="@drawable/edittext_roundedcorners_login"
         android:capitalize="none"
         android:clickable="true"
+        android:textColorHint="?attr/lichtgreytextcolor"
         android:cursorVisible="false"
         android:ems="10"
         android:focusable="auto"

@@ -184,7 +184,7 @@ public class CommentStuffForTextPostMyProfAdapter extends RecyclerView.Adapter<C
 
                                                 final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                                                 dialog.setTitle("Delete your comment?");
-                                                dialog.setMessage("Deleting this comment cannot be undone! The comment itself will remain, only its content will be removed. Are you sure you want to delete it?");
+                                                dialog.setMessage("Deleting this comment cannot be undone! Are you sure you want to delete it?");
 
                                                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                     @Override
@@ -255,7 +255,7 @@ public class CommentStuffForTextPostMyProfAdapter extends RecyclerView.Adapter<C
 
                                                 final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
                                                 dialog.setTitle("Delete your comment?");
-                                                dialog.setMessage("Deleting this comment cannot be undone! The comment itself will remain, only its content will be removed. Are you sure you want to delete it?");
+                                                dialog.setMessage("Deleting this comment cannot be undone! Are you sure you want to delete it?");
 
                                                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                     @Override
@@ -436,6 +436,10 @@ public class CommentStuffForTextPostMyProfAdapter extends RecyclerView.Adapter<C
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+
+                DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2);
+                SetLikeCount.child("LikeCount").setValue(LikeCountAdapter);
+
                 holder.LikeCount.setText("" + LikeCountAdapter);
             }
 
@@ -448,6 +452,10 @@ public class CommentStuffForTextPostMyProfAdapter extends RecyclerView.Adapter<C
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+
+                DatabaseReference SetDislikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2);
+                SetDislikeCount.child("DislikeCount").setValue(DislikeCountAdapter);
+
                 holder.DislikeCount.setText("" + DislikeCountAdapter);
             }
 
