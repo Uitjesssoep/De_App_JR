@@ -11,14 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
+//import android.widget.SearchView;
 import android.widget.Toast;
+import androidx.appcompat.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity_Users;
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Users.UserAdapter;
-import com.example.myfirstapp.Users.UserListToFollow;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,7 +41,9 @@ public class SearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.e("Searchfragment  ", "Searchfragment" );
         return inflater.inflate(R.layout.fragment_fragment_searchlayout, container, false);
+
 
     }
 
@@ -133,7 +133,7 @@ public class SearchFragment extends Fragment {
 
                 final UserAdapter userAdapter = new UserAdapter(getActivity(), list);
                 SearchView searchView = getView().findViewById(R.id.svSearchUsers);
-                searchView.setIconifiedByDefault(false);
+                searchView.setIconifiedByDefault(true);
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
                     @Override
@@ -148,10 +148,10 @@ public class SearchFragment extends Fragment {
                     }
                 });
 
-                recyclerView.setAdapter(adapter);
+                recyclerView.setAdapter(userAdapter);
                 ProgressCircle.setVisibility(View.INVISIBLE);
 
-                adapter.setOnItemClickListener(new UserAdapter.OnItemClickListener() {
+                userAdapter.setOnItemClickListener(new UserAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
                         String UIDOtherUser = list.get(position).getTheUID();

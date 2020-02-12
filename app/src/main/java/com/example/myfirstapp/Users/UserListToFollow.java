@@ -4,8 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -20,7 +18,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -152,6 +149,8 @@ public class UserListToFollow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list_to_follow);
         SetupUI();
+
+        Log.e("Userlist", "UserListToFollow" );
 
         SetupDesign();
 
@@ -392,12 +391,11 @@ public class UserListToFollow extends AppCompatActivity {
 
     //voor menu in de action bar
 
-    @Override
+  /*  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_actionbar_search, menu);
-        androidx.appcompat.widget.SearchView searchView = ((androidx.appcompat.widget.SearchView) menu.findItem(R.id.action_search).getActionView());
-        searchView.setIconifiedByDefault(false);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search);
       // SearchView searchView = ((s) menu.findItem(R.id.action_search).getActionView());
         //SearchView searchView = (SearchView) searchItem.getActionView();
 
@@ -416,7 +414,7 @@ public class UserListToFollow extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
