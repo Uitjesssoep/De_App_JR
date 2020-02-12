@@ -12,6 +12,7 @@
         <attr name="warningtextcolor" format="color"/>
         <attr name="texttitelcolor" format="color"/>
         <attr name="tabindicatorcolor" format="color"/>
+        <attr name="edittextbackground" format="color"/>
     </declare-styleable>
     
 </resources>
