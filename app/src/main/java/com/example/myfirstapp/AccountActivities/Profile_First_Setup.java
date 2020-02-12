@@ -369,7 +369,7 @@ public class Profile_First_Setup extends AppCompatActivity {
 
         //username apart in database zetten om te controleren of die al bestaat
         DatabaseReference UploadUsername = firebaseDatabase.getReference("Usernames").child(username);
-        UploadUsername.setValue("exists");
+        UploadUsername.setValue(UID);
 
         //uploaden naar database
         UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, Date, false);

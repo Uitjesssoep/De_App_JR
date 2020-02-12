@@ -35,6 +35,7 @@
         android:id="@+id/svSearchUsers"
         app:searchIcon="@drawable/ic_search2_black_24dp"
         app:closeIcon="@drawable/ic_close1_black_24dp"
+        app:iconifiedByDefault="false"
         android:layoutDirection="rtl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

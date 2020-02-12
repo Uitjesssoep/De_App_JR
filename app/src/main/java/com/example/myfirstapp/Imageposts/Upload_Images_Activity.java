@@ -15,13 +15,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +32,7 @@ import androidx.core.content.ContextCompat;
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.SecondActivity;
-import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.example.myfirstapp.Textposts.StuffForPost;
-import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -97,6 +92,8 @@ public class Upload_Images_Activity extends AppCompatActivity {
         Date = dateFormat.format(calendar.getTime());
         Anon = findViewById(R.id.cbPostAnonImage);
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

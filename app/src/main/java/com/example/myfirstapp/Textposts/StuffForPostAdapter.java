@@ -4,6 +4,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,10 +19,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity_Users;
+import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Edit_PC_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
@@ -28,6 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapter.ViewHolder> {
@@ -35,9 +46,11 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
     public DatabaseReference DeleteIconCheck, DeleteThePost, CommentCountInAdapter, LikeCountInAdapter, CheckIfUpvoted, CheckIfDownvoted, DislikeCountInAdapter, ChangeUsername;
     public Context mContext;
     public List<StuffForPost> mPost;
+    public List<UserProfileToDatabase> mUserList = new ArrayList<>();
     public int CommentCountAdapter, LikeCountAdapter, DislikeCountAdapter;
 
     private OnItemClickListener mListener;
+    private String UIDClickable;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -82,6 +95,49 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                 holder.Content.setText(uploadCurrent.getContent());
             }
         }
+        if (uploadCurrent.getTitle().contains("@")){
+            Log.e("Test","Contains bereikt");
+            String Title = uploadCurrent.getTitle();
+            int Begin = Title.indexOf("@");
+            int End = Title.indexOf(" ");
+            final String TitleSubstring = Title.substring(Begin, End);
+            SpannableString ss = SpannableString.valueOf(Title);
+            ClickableSpan clickableSpan = new ClickableSpan() {
+                @Override
+                public void onClick(@NonNull View view) {
+                    Toast.makeText(mContext, "ON CLICK", Toast.LENGTH_SHORT);
+                    FirebaseDatabase.getInstance().getReference("Usernames").child(TitleSubstring).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            UIDClickable=dataSnapshot.getValue().toString();
+                            Intent intent = new Intent(mContext, Account_Info_OtherUser_Activity_Users.class);
+                            intent.putExtra("UID", UIDClickable);
+
+                            mContext.startActivity(intent);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+
+                @Override
+                public void updateDrawState(@NonNull TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setColor(Color.BLUE);
+                    ds.setUnderlineText(false);
+                }
+            };
+
+            ss.setSpan(clickableSpan, Begin, End, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE  );
+            holder.Title.setText(ss);
+            holder.Title.setMovementMethod(LinkMovementMethod.getInstance());
+       }
+
+
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
