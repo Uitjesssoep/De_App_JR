@@ -11,6 +11,7 @@
         <attr name="darkgreytextcolor" format="color"/>
         <attr name="warningtextcolor" format="color"/>
         <attr name="texttitelcolor" format="color"/>
+        <attr name="tabindicatorcolor" format="color"/>
     </declare-styleable>
     
 </resources>
