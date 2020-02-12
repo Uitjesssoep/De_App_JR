@@ -103,6 +103,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
             final String TitleSubstring = Title.substring(Begin, End);
             SpannableString ss = SpannableString.valueOf(Title);
             Log.e("TitleSubstring", TitleSubstring );
+
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View view) {
@@ -110,6 +111,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                     FirebaseDatabase.getInstance().getReference("Usernames").child(TitleSubstring).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            Log.e("UIDClickable ",UIDClickable);
                             UIDClickable=dataSnapshot.getValue().toString();
                             Intent intent = new Intent(mContext, Account_Info_OtherUser_Activity_Users.class);
                             intent.putExtra("UID", UIDClickable);
