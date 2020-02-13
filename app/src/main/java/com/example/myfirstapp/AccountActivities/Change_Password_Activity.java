@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,9 +38,18 @@ public class Change_Password_Activity extends AppCompatActivity {
     private EditText NewPWLayout;
     private TextView Error, ErrorRepeat;
 
+    SharedPrefNightMode sharedPrefNightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change__password);
 
@@ -59,18 +69,6 @@ public class Change_Password_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
-
-        setTheme(R.style.AppTheme);
-
-            //voor het geven van kleur aan de status bar:
-
-            Window window = Change_Password_Activity.this.getWindow();
-
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-            window.setStatusBarColor(ContextCompat.getColor(Change_Password_Activity.this, R.color.slighly_darker_mainGreen));
 
             //action bar ding
 

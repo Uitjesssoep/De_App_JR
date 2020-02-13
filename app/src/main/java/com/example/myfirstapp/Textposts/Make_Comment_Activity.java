@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,8 +47,18 @@ public class Make_Comment_Activity extends AppCompatActivity {
     private ImageButton Exit;
     private TextView Title, Content, ShowMore;
 
+    SharedPrefNightMode sharedPrefNightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_comment_post_);
 
@@ -108,18 +119,6 @@ public class Make_Comment_Activity extends AppCompatActivity {
 
     private void SetupDesign() {
 
-        setTheme(R.style.AppTheme);
-
-        //voor het geven van kleur aan de status bar:
-
-        Window window = Make_Comment_Activity.this.getWindow();
-
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        window.setStatusBarColor(ContextCompat.getColor(Make_Comment_Activity.this, R.color.slighly_darker_mainGreen));
-
         //action bar ding
 
         Toolbar toolbar = findViewById(R.id.action_bar_comment);
@@ -177,25 +176,30 @@ public class Make_Comment_Activity extends AppCompatActivity {
                 if (Type.equals("Text")){
                     Content.setText(ContentPost);
 
-                    ShowMore.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
+                    if (ContentPost.equals("")) {
+                        ShowMore.setVisibility(View.GONE);
+                    }
+                    else {
+                        ShowMore.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
 
-                            String WhatText = ShowMore.getText().toString();
-                            if (WhatText.equals("Show more")) {
-                                ShowMore.setText("Show less");
-                                if (Type.equals("Text")){
-                                    Content.setVisibility(View.VISIBLE);
+                                String WhatText = ShowMore.getText().toString();
+                                if (WhatText.equals("Show more")) {
+                                    ShowMore.setText("Show less");
+                                    if (Type.equals("Text")){
+                                        Content.setVisibility(View.VISIBLE);
+                                    }
+                                } else {
+                                    ShowMore.setText("Show more");
+                                    if (Type.equals("Text")){
+                                        Content.setVisibility(View.GONE);
+                                    }
                                 }
-                            } else {
-                                ShowMore.setText("Show more");
-                                if (Type.equals("Text")){
-                                    Content.setVisibility(View.GONE);
-                                }
+
                             }
-
-                        }
-                    });
+                        });
+                    }
                 }
 
                 else{

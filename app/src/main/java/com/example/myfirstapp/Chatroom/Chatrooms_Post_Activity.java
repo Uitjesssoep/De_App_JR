@@ -28,6 +28,7 @@ import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.Notifications.Data;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,8 +51,18 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
     private SimpleDateFormat dateFormat;
     private DatabaseReference ChatroomDatabase;
 
+    SharedPrefNightMode sharedPrefNightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatrooms__post_);
 
@@ -70,14 +81,6 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
-        setTheme(R.style.AppTheme);
-
-        //voor het geven van kleur aan de status bar:
-        Window window = Chatrooms_Post_Activity.this.getWindow();
-
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(Chatrooms_Post_Activity.this, R.color.slighly_darker_mainGreen));
 
         //action bar ding
 

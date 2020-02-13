@@ -13,23 +13,20 @@ import android.widget.ImageButton;
 public class Credits_Activity extends AppCompatActivity {
 
     private ImageButton Exit;
+    SharedPrefNightMode sharedPrefNightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credits_);
-
-        setTheme(R.style.AppTheme);
-
-        //voor het geven van kleur aan de status bar:
-
-        Window window = Credits_Activity.this.getWindow();
-
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        window.setStatusBarColor(ContextCompat.getColor(Credits_Activity.this, R.color.slighly_darker_mainGreen));
 
         //action bar ding
 

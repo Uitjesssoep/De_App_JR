@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Credits_Activity"
-    android:theme="@style/AppTheme"
-    android:background="?attr/mainbackground">
+    android:background="?attr/backgroundcolor">
 
     <include
         android:id="@+id/action_bar_credits"
