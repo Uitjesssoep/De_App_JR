@@ -85,13 +85,15 @@ public class ImagePostViewing extends AppCompatActivity {
         Dislike = findViewById(R.id.ibLikeDownForImage);
         Date = findViewById(R.id.tvDateOfPostImage);
 
+        ImageContent = findViewById(R.id.ivImageContentImage);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         firebaseAuth = FirebaseAuth.getInstance();
         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
 
 
-        final String ThePostKey = getIntent().getExtras().get("Key").toString();
+        final String ThePostKey = getIntent().getExtras().get("key").toString();
         final String MyUID3 = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
         DatabaseReference GetPostUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(ThePostKey).child("uid");
         GetPostUID.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -152,7 +154,7 @@ public class ImagePostViewing extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_post_viewing);
 
-        key = getIntent().getExtras().get("Key").toString();
+        key = getIntent().getExtras().get("key").toString();
 
         final DatabaseReference CheckIfNotDeleted = FirebaseDatabase.getInstance().getReference("General_Posts");
         CheckIfNotDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -361,7 +363,7 @@ public class ImagePostViewing extends AppCompatActivity {
 
     private void LikeDislikeCount() {
 
-        key = getIntent().getExtras().get("Key").toString();
+        key = getIntent().getExtras().get("key").toString();
 
         DatabaseLike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Likes");
         DatabaseDislike = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("Dislikes");
@@ -633,7 +635,7 @@ public class ImagePostViewing extends AppCompatActivity {
         final MenuItem Delete = menu.findItem(R.id.action_delete);
         final MenuItem Edit = menu.findItem(R.id.action_edit);
 
-        String Key = getIntent().getExtras().get("Key").toString();
+        String Key = getIntent().getExtras().get("key").toString();
         DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(Key);
         CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -658,7 +660,7 @@ public class ImagePostViewing extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild(getIntent().getExtras().get("Key").toString())){
+                if(dataSnapshot.hasChild(getIntent().getExtras().get("key").toString())){
                     notsaved.setVisible(false);
                     saved.setVisible(true);
                 }
@@ -687,7 +689,7 @@ public class ImagePostViewing extends AppCompatActivity {
                 Intent intent = new Intent(ImagePostViewing.this, Report_TextPost_Activity.class);
                 intent.putExtra("Titel", Title.getText().toString());
                 intent.putExtra("User", UserName.getText().toString());
-                intent.putExtra("Key", getIntent().getExtras().get("Key").toString());
+                intent.putExtra("Key", getIntent().getExtras().get("key").toString());
                 intent.putExtra("Soort", "post");
                 startActivity(intent);
 
@@ -705,7 +707,7 @@ public class ImagePostViewing extends AppCompatActivity {
                 dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(getIntent().getExtras().get("Key").toString());
+                        DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(getIntent().getExtras().get("key").toString());
                         DeleteThePost.removeValue();
                         Intent intent = new Intent(ImagePostViewing.this, Layout_Manager_BottomNav_Activity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -725,7 +727,7 @@ public class ImagePostViewing extends AppCompatActivity {
 
             case R.id.action_edit:
 
-                final String TheUltimatePostKey = getIntent().getExtras().get("Key").toString();
+                final String TheUltimatePostKey = getIntent().getExtras().get("key").toString();
                 DatabaseReference GetType = FirebaseDatabase.getInstance().getReference("General_Posts").child(TheUltimatePostKey).child("type");
                 GetType.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -774,7 +776,7 @@ public class ImagePostViewing extends AppCompatActivity {
 
         Log.e("Bookmark", "Save pushed");
 
-        final String KeyPost = getIntent().getExtras().get("Key").toString();
+        final String KeyPost = getIntent().getExtras().get("key").toString();
 
         final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
 

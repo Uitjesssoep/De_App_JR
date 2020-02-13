@@ -50,7 +50,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
     public int CommentCountAdapter, LikeCountAdapter, DislikeCountAdapter;
 
     private OnItemClickListener mListener;
-    private String UIDClickable;
+    private String UIDClickable, Substring;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -88,31 +88,34 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
         } else {
             holder.Image.setVisibility(View.GONE);
             String TheContent = uploadCurrent.getContent();
-            if(TheContent.equals("")){
+            if (TheContent.equals("")) {
                 holder.Content.setVisibility(View.GONE);
-            }
-            else{
+            } else {
                 holder.Content.setText(uploadCurrent.getContent());
             }
         }
-        if (uploadCurrent.getTitle().contains("@")){
-            Log.e("Test","Contains bereikt");
+        if (uploadCurrent.getTitle().contains("@")) {
+            Log.e("Test", "Contains bereikt");
             String Title = uploadCurrent.getTitle();
+            Substring = Title.substring(Title.indexOf("@"), Title.indexOf(" "));
+            if (true) {
+            }
             int Begin = Title.indexOf("@");
             int End = Title.indexOf(" ");
             final String TitleSubstring = Title.substring(Begin, End);
             SpannableString ss = SpannableString.valueOf(Title);
-            Log.e("TitleSubstring", TitleSubstring );
+            Log.e("TitleSubstring", TitleSubstring);
+
 
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View view) {
-                    Toast.makeText(mContext, "ON CLICK", Toast.LENGTH_SHORT);
+
                     FirebaseDatabase.getInstance().getReference("Usernames").child(TitleSubstring).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Log.e("UIDClickable ",UIDClickable);
-                            UIDClickable=dataSnapshot.getValue().toString();
+                            Log.e("UIDClickable ", UIDClickable);
+                            UIDClickable = dataSnapshot.getValue().toString();
                             Intent intent = new Intent(mContext, Account_Info_OtherUser_Activity_Users.class);
                             intent.putExtra("UID", UIDClickable);
 
@@ -135,10 +138,11 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                 }
             };
 
-            ss.setSpan(clickableSpan, Begin, End, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE  );
+            ss.setSpan(clickableSpan, 1, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.Title.setText(ss);
+            Log.e("SS", ss.toString());
             holder.Title.setMovementMethod(LinkMovementMethod.getInstance());
-       }
+        }
 
 
         holder.Username.setText(uploadCurrent.getUser_name());
@@ -165,323 +169,323 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
-                            final String PostUIDCheck = dataSnapshot.child(KeyPost).child("uid").getValue().toString();
+                        final String MyUIDCheck = FirebaseAuth.getInstance().getUid().toString();
+                        final String PostUIDCheck = dataSnapshot.child(KeyPost).child("uid").getValue().toString();
 
-                            if (MyUIDCheck.equals(PostUIDCheck)) {
+                        if (MyUIDCheck.equals(PostUIDCheck)) {
 
-                                DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedPosts");
-                                CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedPosts");
+                            CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                        if (dataSnapshot.hasChild(KeyPost)) {
+                                    if (dataSnapshot.hasChild(KeyPost)) {
 
-                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
-                                            popupMenu.inflate(R.menu.popup_menu_textposts_withunsave);
-                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                                @Override
-                                                public boolean onMenuItemClick(MenuItem menuItem) {
+                                        PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
+                                        popupMenu.inflate(R.menu.popup_menu_textposts_withunsave);
+                                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                            @Override
+                                            public boolean onMenuItemClick(MenuItem menuItem) {
 
-                                                    switch (menuItem.getItemId()) {
+                                                switch (menuItem.getItemId()) {
 
-                                                        case R.id.delete_option_textposts:
+                                                    case R.id.delete_option_textposts:
 
-                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-                                                            dialog.setTitle("Delete your post?");
-                                                            dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
+                                                        final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                                                        dialog.setTitle("Delete your post?");
+                                                        dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
 
-                                                            dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
-                                                                    DeleteThePost.removeValue();
+                                                        dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
+                                                                DeleteThePost.removeValue();
 
-                                                                    String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                                                String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                                                                    final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
-                                                                    PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                        @Override
-                                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+                                                                PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                                            if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
+                                                                        if (dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")) {
 
-                                                                                String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
-                                                                                int PostCountInt = Integer.parseInt(PostCountString);
-                                                                                PostCountInt = Integer.valueOf(PostCountInt - 1);
-                                                                                String NewPostCountString = Integer.toString(PostCountInt);
-                                                                                PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
-
-                                                                            }
-                                                                        }
-
-                                                                        @Override
-                                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                                            String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
+                                                                            int PostCountInt = Integer.parseInt(PostCountString);
+                                                                            PostCountInt = Integer.valueOf(PostCountInt - 1);
+                                                                            String NewPostCountString = Integer.toString(PostCountInt);
+                                                                            PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
 
                                                                         }
-                                                                    });
+                                                                    }
 
-                                                                    Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
-                                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                    mContext.startActivity(intent);
-                                                                }
-                                                            });
+                                                                    @Override
+                                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                                            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                    }
+                                                                });
 
-                                                                    dialogInterface.dismiss();
-
-                                                                }
-                                                            });
-
-                                                            AlertDialog alertDialog = dialog.create();
-                                                            alertDialog.show();
-
-                                                            break;
-
-                                                        case R.id.edit_option_textposts:
-
-                                                            Intent intent = new Intent(mContext, Edit_PC_Activity.class);
-                                                            String Text = "Text";
-                                                            if(Text.equals(uploadCurrent.getType())){
-                                                                intent.putExtra("Type", "TextPost");
-                                                                intent.putExtra("Key", uploadCurrent.getKey());
+                                                                Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
+                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                                 mContext.startActivity(intent);
                                                             }
-                                                            String Image = "Image";
-                                                            if(Image.equals(uploadCurrent.getType())){
-                                                                intent.putExtra("Type", "ImagePost");
-                                                                intent.putExtra("Key", uploadCurrent.getKey());
-                                                                mContext.startActivity(intent);
+                                                        });
+
+                                                        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                                dialogInterface.dismiss();
+
                                                             }
+                                                        });
 
-                                                            break;
+                                                        AlertDialog alertDialog = dialog.create();
+                                                        alertDialog.show();
 
+                                                        break;
 
-                                                        case R.id.unsavepost_option_textposts:
+                                                    case R.id.edit_option_textposts:
 
-                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-                                                            SaveThePost.child("SavedPosts").child(KeyPost).removeValue();
-
-                                                            break;
-
-                                                        default:
-                                                            break;
-
-                                                    }
-
-                                                    return false;
-                                                }
-                                            });
-                                            popupMenu.show();
-
-                                        } else {
-
-                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
-                                            popupMenu.inflate(R.menu.popup_menu_textposts);
-                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                                @Override
-                                                public boolean onMenuItemClick(MenuItem menuItem) {
-
-                                                    switch (menuItem.getItemId()) {
-
-                                                        case R.id.delete_option_textposts:
-
-                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-                                                            dialog.setTitle("Delete your post?");
-                                                            dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
-
-                                                            dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                                    DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
-                                                                    DeleteThePost.removeValue();
-
-                                                                    String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                                                                    final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
-                                                                    PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                                        @Override
-                                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                                                            if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
-
-                                                                                String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
-                                                                                int PostCountInt = Integer.parseInt(PostCountString);
-                                                                                PostCountInt = Integer.valueOf(PostCountInt - 1);
-                                                                                String NewPostCountString = Integer.toString(PostCountInt);
-                                                                                PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
-
-                                                                            }
-                                                                        }
-
-                                                                        @Override
-                                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                                        }
-                                                                    });
-
-                                                                    Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
-                                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                                    mContext.startActivity(intent);
-
-                                                                }
-                                                            });
-
-                                                            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                                                    dialogInterface.dismiss();
-
-                                                                }
-                                                            });
-
-                                                            AlertDialog alertDialog = dialog.create();
-                                                            alertDialog.show();
-
-                                                            break;
-
-                                                        case R.id.edit_option_textposts:
-
-                                                            Intent intent = new Intent(mContext, Edit_PC_Activity.class);
-                                                            String Text = "Text";
-                                                            if(Text.equals(uploadCurrent.getType())){
-                                                                intent.putExtra("Type", "TextPost");
-                                                                intent.putExtra("Key", uploadCurrent.getKey());
-                                                                mContext.startActivity(intent);
-                                                            }
-                                                            String Image = "Image";
-                                                            if(Image.equals(uploadCurrent.getType())){
-                                                                intent.putExtra("Type", "ImagePost");
-                                                                intent.putExtra("Key", uploadCurrent.getKey());
-                                                                mContext.startActivity(intent);
-                                                            }
-
-                                                            break;
-
-
-                                                        case R.id.savepost_option_textposts:
-
-                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-                                                            SaveThePost.child("SavedPosts").child(KeyPost).setValue("added");
-
-                                                            break;
-
-                                                        default:
-                                                            break;
-
-                                                    }
-
-                                                    return false;
-                                                }
-                                            });
-                                            popupMenu.show();
-
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-                            } else {
-
-                                DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedPosts");
-                                CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                        if (dataSnapshot.hasChild(uploadCurrent.getKey())) {
-
-                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
-                                            popupMenu.inflate(R.menu.popup_menu_textposts_without_delete_withunsave);
-                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                                @Override
-                                                public boolean onMenuItemClick(MenuItem menuItem) {
-
-                                                    switch (menuItem.getItemId()) {
-
-                                                        case R.id.reportpost_option_textposts:
-
-                                                            Intent intent = new Intent(mContext, Report_TextPost_Activity.class);
-                                                            intent.putExtra("Titel", uploadCurrent.getTitle());
-                                                            intent.putExtra("User", uploadCurrent.getUser_name());
+                                                        Intent intent = new Intent(mContext, Edit_PC_Activity.class);
+                                                        String Text = "Text";
+                                                        if (Text.equals(uploadCurrent.getType())) {
+                                                            intent.putExtra("Type", "TextPost");
                                                             intent.putExtra("Key", uploadCurrent.getKey());
-                                                            intent.putExtra("Soort", "post");
                                                             mContext.startActivity(intent);
-
-                                                            break;
-
-                                                        case R.id.unsavepost_option_textposts:
-
-                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-                                                            SaveThePost.child("SavedPosts").child(KeyPost).removeValue();
-
-                                                            break;
-
-                                                        default:
-                                                            break;
-
-                                                    }
-
-                                                    return false;
-                                                }
-                                            });
-                                            popupMenu.show();
-
-                                        } else {
-
-                                            PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
-                                            popupMenu.inflate(R.menu.popup_menu_textposts_without_delete);
-                                            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                                @Override
-                                                public boolean onMenuItemClick(MenuItem menuItem) {
-
-                                                    switch (menuItem.getItemId()) {
-
-                                                        case R.id.reportpost_option_textposts:
-
-                                                            Intent intent = new Intent(mContext, Report_TextPost_Activity.class);
-                                                            intent.putExtra("Titel", uploadCurrent.getTitle());
-                                                            intent.putExtra("User", uploadCurrent.getUser_name());
+                                                        }
+                                                        String Image = "Image";
+                                                        if (Image.equals(uploadCurrent.getType())) {
+                                                            intent.putExtra("Type", "ImagePost");
                                                             intent.putExtra("Key", uploadCurrent.getKey());
-                                                            intent.putExtra("Soort", "post");
                                                             mContext.startActivity(intent);
+                                                        }
 
-                                                            break;
+                                                        break;
 
-                                                        case R.id.savepost_option_textposts:
 
-                                                            final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-                                                            SaveThePost.child("SavedPosts").child(KeyPost).setValue("added");
+                                                    case R.id.unsavepost_option_textposts:
 
-                                                            break;
+                                                        final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                        SaveThePost.child("SavedPosts").child(KeyPost).removeValue();
 
-                                                        default:
-                                                            break;
+                                                        break;
 
-                                                    }
+                                                    default:
+                                                        break;
 
-                                                    return false;
                                                 }
-                                            });
-                                            popupMenu.show();
 
-                                        }
+                                                return false;
+                                            }
+                                        });
+                                        popupMenu.show();
+
+                                    } else {
+
+                                        PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
+                                        popupMenu.inflate(R.menu.popup_menu_textposts);
+                                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                            @Override
+                                            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                                switch (menuItem.getItemId()) {
+
+                                                    case R.id.delete_option_textposts:
+
+                                                        final AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
+                                                        dialog.setTitle("Delete your post?");
+                                                        dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
+
+                                                        dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                                DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
+                                                                DeleteThePost.removeValue();
+
+                                                                String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                                                                final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
+                                                                PostCounter.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                                        if (dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")) {
+
+                                                                            String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
+                                                                            int PostCountInt = Integer.parseInt(PostCountString);
+                                                                            PostCountInt = Integer.valueOf(PostCountInt - 1);
+                                                                            String NewPostCountString = Integer.toString(PostCountInt);
+                                                                            PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
+
+                                                                        }
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                    }
+                                                                });
+
+                                                                Intent intent = new Intent(mContext, Layout_Manager_BottomNav_Activity.class);
+                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                                mContext.startActivity(intent);
+
+                                                            }
+                                                        });
+
+                                                        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                                                dialogInterface.dismiss();
+
+                                                            }
+                                                        });
+
+                                                        AlertDialog alertDialog = dialog.create();
+                                                        alertDialog.show();
+
+                                                        break;
+
+                                                    case R.id.edit_option_textposts:
+
+                                                        Intent intent = new Intent(mContext, Edit_PC_Activity.class);
+                                                        String Text = "Text";
+                                                        if (Text.equals(uploadCurrent.getType())) {
+                                                            intent.putExtra("Type", "TextPost");
+                                                            intent.putExtra("Key", uploadCurrent.getKey());
+                                                            mContext.startActivity(intent);
+                                                        }
+                                                        String Image = "Image";
+                                                        if (Image.equals(uploadCurrent.getType())) {
+                                                            intent.putExtra("Type", "ImagePost");
+                                                            intent.putExtra("Key", uploadCurrent.getKey());
+                                                            mContext.startActivity(intent);
+                                                        }
+
+                                                        break;
+
+
+                                                    case R.id.savepost_option_textposts:
+
+                                                        final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                        SaveThePost.child("SavedPosts").child(KeyPost).setValue("added");
+
+                                                        break;
+
+                                                    default:
+                                                        break;
+
+                                                }
+
+                                                return false;
+                                            }
+                                        });
+                                        popupMenu.show();
 
                                     }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        } else {
+
+                            DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedPosts");
+                            CheckIfSaved.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    if (dataSnapshot.hasChild(uploadCurrent.getKey())) {
+
+                                        PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
+                                        popupMenu.inflate(R.menu.popup_menu_textposts_without_delete_withunsave);
+                                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                            @Override
+                                            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                                switch (menuItem.getItemId()) {
+
+                                                    case R.id.reportpost_option_textposts:
+
+                                                        Intent intent = new Intent(mContext, Report_TextPost_Activity.class);
+                                                        intent.putExtra("Titel", uploadCurrent.getTitle());
+                                                        intent.putExtra("User", uploadCurrent.getUser_name());
+                                                        intent.putExtra("Key", uploadCurrent.getKey());
+                                                        intent.putExtra("Soort", "post");
+                                                        mContext.startActivity(intent);
+
+                                                        break;
+
+                                                    case R.id.unsavepost_option_textposts:
+
+                                                        final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                        SaveThePost.child("SavedPosts").child(KeyPost).removeValue();
+
+                                                        break;
+
+                                                    default:
+                                                        break;
+
+                                                }
+
+                                                return false;
+                                            }
+                                        });
+                                        popupMenu.show();
+
+                                    } else {
+
+                                        PopupMenu popupMenu = new PopupMenu(mContext, holder.DeleteTextPost);
+                                        popupMenu.inflate(R.menu.popup_menu_textposts_without_delete);
+                                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                            @Override
+                                            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                                                switch (menuItem.getItemId()) {
+
+                                                    case R.id.reportpost_option_textposts:
+
+                                                        Intent intent = new Intent(mContext, Report_TextPost_Activity.class);
+                                                        intent.putExtra("Titel", uploadCurrent.getTitle());
+                                                        intent.putExtra("User", uploadCurrent.getUser_name());
+                                                        intent.putExtra("Key", uploadCurrent.getKey());
+                                                        intent.putExtra("Soort", "post");
+                                                        mContext.startActivity(intent);
+
+                                                        break;
+
+                                                    case R.id.savepost_option_textposts:
+
+                                                        final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                                                        SaveThePost.child("SavedPosts").child(KeyPost).setValue("added");
+
+                                                        break;
+
+                                                    default:
+                                                        break;
+
+                                                }
+
+                                                return false;
+                                            }
+                                        });
+                                        popupMenu.show();
 
                                     }
-                                });
-                            }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
                     }
 
                     @Override
@@ -516,8 +520,8 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
 
-                            DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah);
-                            SetLikeCount.child("LikeCount").setValue(LikeCountAdapter);
+                DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah);
+                SetLikeCount.child("LikeCount").setValue(LikeCountAdapter);
 
 
                 holder.LikeCount.setText("" + LikeCountAdapter);
@@ -533,8 +537,8 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
 
-                            DatabaseReference SetDislikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah);
-                            SetDislikeCount.child("DislikeCount").setValue(DislikeCountAdapter);
+                DatabaseReference SetDislikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah);
+                SetDislikeCount.child("DislikeCount").setValue(DislikeCountAdapter);
 
                 holder.DislikeCount.setText("" + DislikeCountAdapter);
             }
@@ -605,7 +609,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
         //Like image set
 
         final String MyUID = FirebaseAuth.getInstance().getUid().toString();
-            CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Likes");
+        CheckIfUpvoted = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Likes");
 
         CheckIfUpvoted.addValueEventListener(new ValueEventListener() {
             @Override

@@ -343,8 +343,6 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
                     LookAtPostersProfile();
 
-                    //OpenImageView();
-
                     LoadData();
 
                 } else {
