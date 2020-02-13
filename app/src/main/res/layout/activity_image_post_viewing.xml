@@ -13,7 +13,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar_textpostviewing">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="56dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -130,36 +131,9 @@
                     android:textColor="#858585"
                     android:textSize="14sp" />
 
-                <ImageView
-                    android:id="@+id/ivCommentIconImage"
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="16dp"
-                    app:srcCompat="@drawable/ic_mode_comment_black_24dp" />
-
-                <TextView
-                    android:id="@+id/tvNumberOfCommentsForTextPosts"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="16dp"
-                    android:text="0"
-                    android:textColor="#858585"
-                    android:textSize="14sp" />
-
             </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <include
-        android:id="@+id/action_bar_textpostviewing"
-        layout="@layout/action_bar_textpostviewing"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

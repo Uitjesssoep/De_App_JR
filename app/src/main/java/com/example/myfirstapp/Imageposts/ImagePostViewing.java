@@ -5,34 +5,27 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
-import com.example.myfirstapp.Edit_PC_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.Report_TextPost_Activity;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPost;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPostAdapter;
-import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
+import com.example.myfirstapp.photoview.PhotoView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,7 +39,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class ImagePostViewing extends AppCompatActivity {
-    private ImageView ImageContent;
+    private PhotoView ImageContent;
     //private TextView Username, Date, Title;
     private TextView Title, UserName, LikeCountDisplay, DislikeCountDisplay, NumberOfComments, Date;
 
@@ -58,7 +51,7 @@ public class ImagePostViewing extends AppCompatActivity {
     private String key, MyUID, CommentMessage, temp_key;
     private ImageButton Like, Dislike, Exit;
     private EditText CommentSubstance;
-  //  private ImageView ImageContent;
+    //  private ImageView ImageContent;
 
     private boolean Liked = false;
     private boolean Disliked = false;
@@ -77,15 +70,17 @@ public class ImagePostViewing extends AppCompatActivity {
 
     private void SetupUI() {
 
-        Title = findViewById(R.id.tvTitleOfImage);
+       /* Title = findViewById(R.id.tvTitleOfImage);
         UserName = findViewById(R.id.tvUsernameForImage);
         LikeCountDisplay = findViewById(R.id.tvLikeCounterForImage);
         DislikeCountDisplay = findViewById(R.id.tvDislikeCounterForImage);
         Like = findViewById(R.id.ibLikeUpForImage);
         Dislike = findViewById(R.id.ibLikeDownForImage);
-        Date = findViewById(R.id.tvDateOfPostImage);
+        Date = findViewById(R.id.tvDateOfPostImage);*/
 
         ImageContent = findViewById(R.id.ivImageContentImage);
+        //PhotoViewAttacher photoViewAttacher = new PhotoViewAttacher(ImageContent);
+       // photoViewAttacher.update();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -93,7 +88,7 @@ public class ImagePostViewing extends AppCompatActivity {
         MyUID = firebaseAuth.getCurrentUser().getUid().toString();
 
 
-        final String ThePostKey = getIntent().getExtras().get("key").toString();
+        /*inal String ThePostKey = getIntent().getExtras().get("key").toString();
         final String MyUID3 = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
         DatabaseReference GetPostUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(ThePostKey).child("uid");
         GetPostUID.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -128,7 +123,7 @@ public class ImagePostViewing extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
 
     }
@@ -136,7 +131,7 @@ public class ImagePostViewing extends AppCompatActivity {
     private void clear() {
 
         int size = commentStuffForTextPostList.size();
-        if(size > 0){
+        if (size > 0) {
             for (int i = 0; i < size; i++) {
                 commentStuffForTextPostList.remove(0);
 
@@ -152,7 +147,7 @@ public class ImagePostViewing extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_post_viewing);
+        setContentView(R.layout.imageviewingactivity2);
 
         key = getIntent().getExtras().get("key").toString();
 
@@ -161,21 +156,19 @@ public class ImagePostViewing extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild(key)){
+                if (dataSnapshot.hasChild(key)) {
 
                     SetupUI();
 
                     SetupDesign();
 
-                    LikeDislikeCount();
+                    //  LikeDislikeCount();
 
-                    LookAtPostersProfile();
+                    // LookAtPostersProfile();
 
                     LoadData();
 
-                }
-
-                else{
+                } else {
 
                     final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(ImagePostViewing.this);
                     dialog.setTitle("This post has been deleted");
@@ -210,7 +203,7 @@ public class ImagePostViewing extends AppCompatActivity {
 
         final DatabaseReference PostType = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("type");
 
-        DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("title");
+      /*  DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("title");
 
         TitleRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -222,7 +215,7 @@ public class ImagePostViewing extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(ImagePostViewing.this, "Couldn't retrieve data from database", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         DatabaseReference ContentRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("content");
         ContentRef.addValueEventListener(new ValueEventListener() {
@@ -231,7 +224,9 @@ public class ImagePostViewing extends AppCompatActivity {
                 PostType.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
-                            Picasso.get().load(dataSnapshot.getValue(String.class)).into(ImageContent);
+                        Picasso.get().load(dataSnapshot.getValue(String.class)).into(ImageContent);
+                    //   PhotoViewAttacher photoViewAttacher = new PhotoViewAttacher(ImageContent);
+                       // photoViewAttacher.update();
                     }
 
                     @Override
@@ -247,7 +242,7 @@ public class ImagePostViewing extends AppCompatActivity {
             }
         });
 
-        DatabaseReference UserNameRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("user_name");
+        /*DatabaseReference UserNameRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("user_name");
 
         UserNameRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -273,7 +268,7 @@ public class ImagePostViewing extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
     }
 
@@ -300,17 +295,16 @@ public class ImagePostViewing extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                if(dataSnapshot.hasChild(PostUIDForCheck)){
+                                if (dataSnapshot.hasChild(PostUIDForCheck)) {
 
-                                    if(MyUIdForCheck.equals(PostUIDForCheck)){
+                                    if (MyUIdForCheck.equals(PostUIDForCheck)) {
 
                                         Intent GoToMyProfileAfterCheck = new Intent(ImagePostViewing.this, Account_Info_Activity.class);
                                         startActivity(GoToMyProfileAfterCheck);
 
-                                    }
-                                    else {
+                                    } else {
 
-                                        if(AnonCheck.equals(AnonToCheck)){
+                                        if (AnonCheck.equals(AnonToCheck)) {
 
                                             final AlertDialog.Builder dialog = new AlertDialog.Builder(ImagePostViewing.this);
                                             dialog.setTitle("This user has posted anonymously");
@@ -318,9 +312,7 @@ public class ImagePostViewing extends AppCompatActivity {
                                             AlertDialog alertDialog = dialog.create();
                                             alertDialog.show();
 
-                                        }
-
-                                        else{
+                                        } else {
 
                                             Intent GoToProfile = new Intent(ImagePostViewing.this, Account_Info_OtherUser_Activity.class);
                                             GoToProfile.putExtra("Key", ThePostKey);
@@ -329,9 +321,7 @@ public class ImagePostViewing extends AppCompatActivity {
                                         }
                                     }
 
-                                }
-
-                                else{
+                                } else {
 
                                     final AlertDialog.Builder dialog = new AlertDialog.Builder(ImagePostViewing.this);
                                     dialog.setTitle("This user has been deleted");
@@ -372,7 +362,7 @@ public class ImagePostViewing extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(DislikedCheck){
+                if (DislikedCheck) {
                     DatabaseDislike.child(MyUID).removeValue();
                     Liked = true;
 
@@ -380,7 +370,7 @@ public class ImagePostViewing extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            if(Liked) {
+                            if (Liked) {
 
                                 if (dataSnapshot.hasChild(MyUID)) {
 
@@ -402,15 +392,14 @@ public class ImagePostViewing extends AppCompatActivity {
 
                         }
                     });
-                }
-                else{
+                } else {
                     Liked = true;
 
                     DatabaseLike.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            if(Liked) {
+                            if (Liked) {
 
                                 if (dataSnapshot.hasChild(MyUID)) {
 
@@ -441,7 +430,7 @@ public class ImagePostViewing extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(LikedCheck){
+                if (LikedCheck) {
                     DatabaseLike.child(MyUID).removeValue();
 
                     Disliked = true;
@@ -450,7 +439,7 @@ public class ImagePostViewing extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            if(Disliked) {
+                            if (Disliked) {
 
                                 if (dataSnapshot.hasChild(MyUID)) {
 
@@ -472,15 +461,14 @@ public class ImagePostViewing extends AppCompatActivity {
 
                         }
                     });
-                }
-                else{
+                } else {
                     Disliked = true;
 
                     DatabaseDislike.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            if(Disliked) {
+                            if (Disliked) {
 
                                 if (dataSnapshot.hasChild(MyUID)) {
 
@@ -518,9 +506,7 @@ public class ImagePostViewing extends AppCompatActivity {
                     Like.setImageResource(R.drawable.ic_keyboard_arrow_up_green_24dp);
                     LikedCheck = true;
 
-                }
-
-                else{
+                } else {
 
                     Like.setImageResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
                     LikedCheck = false;
@@ -545,9 +531,7 @@ public class ImagePostViewing extends AppCompatActivity {
                     Dislike.setImageResource(R.drawable.ic_keyboard_arrow_down_green_24dp);
                     DislikedCheck = true;
 
-                }
-
-                else{
+                } else {
 
                     Dislike.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
                     DislikedCheck = false;
@@ -601,205 +585,6 @@ public class ImagePostViewing extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         window.setStatusBarColor(ContextCompat.getColor(ImagePostViewing.this, R.color.slighly_darker_mainGreen));
-
-
-        //action bar ding
-
-        Toolbar toolbar = findViewById(R.id.action_bar_textpostviewing);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        Exit = (ImageButton) toolbar.findViewById(R.id.exittextpostviewing);
-        Exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_actionbar_bookmark_settings, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        final MenuItem notsaved = menu.findItem(R.id.action_bookmark_unselected);
-        final MenuItem saved = menu.findItem(R.id.action_bookmark_selected);
-
-        final MenuItem Report = menu.findItem(R.id.action_settings);
-        final MenuItem Delete = menu.findItem(R.id.action_delete);
-        final MenuItem Edit = menu.findItem(R.id.action_edit);
-
-        String Key = getIntent().getExtras().get("key").toString();
-        DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(Key);
-        CheckIfMyUID.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String PostUID = dataSnapshot.child("uid").getValue().toString();
-                String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                if(PostUID.equals(MyUID)){
-                    Report.setVisible(false);
-                }
-                else {
-                    Delete.setVisible(false);
-                    Edit.setVisible(false);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-        DatabaseReference CheckIfSaved = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("SavedPosts");
-        CheckIfSaved.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if(dataSnapshot.hasChild(getIntent().getExtras().get("key").toString())){
-                    notsaved.setVisible(false);
-                    saved.setVisible(true);
-                }
-                else{
-                    notsaved.setVisible(true);
-                    saved.setVisible(false);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.action_settings:
-
-                Intent intent = new Intent(ImagePostViewing.this, Report_TextPost_Activity.class);
-                intent.putExtra("Titel", Title.getText().toString());
-                intent.putExtra("User", UserName.getText().toString());
-                intent.putExtra("Key", getIntent().getExtras().get("key").toString());
-                intent.putExtra("Soort", "post");
-                startActivity(intent);
-
-                break;
-
-            case R.id.action_refresh_feed:
-
-                break;
-
-            case R.id.action_delete:
-
-                final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-                dialog.setTitle("Delete your post?");
-                dialog.setMessage("Deleting this post cannot be undone! Are you sure you want to delete it?");
-                dialog.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        DatabaseReference DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(getIntent().getExtras().get("key").toString());
-                        DeleteThePost.removeValue();
-                        Intent intent = new Intent(ImagePostViewing.this, Layout_Manager_BottomNav_Activity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
-                });
-                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                android.app.AlertDialog alertDialog = dialog.create();
-                alertDialog.show();
-
-                break;
-
-            case R.id.action_edit:
-
-                final String TheUltimatePostKey = getIntent().getExtras().get("key").toString();
-                DatabaseReference GetType = FirebaseDatabase.getInstance().getReference("General_Posts").child(TheUltimatePostKey).child("type");
-                GetType.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        String Type = dataSnapshot.getValue().toString();
-                        Intent intent684 = new Intent(ImagePostViewing.this, Edit_PC_Activity.class);
-                        String Text = "Text";
-                        if(Text.equals(Type)){
-                            intent684.putExtra("Type", "TextPost");
-                            intent684.putExtra("Key", TheUltimatePostKey);
-                            startActivity(intent684);
-                        }
-                        String Image = "Image";
-                        if(Image.equals(Type)){
-                            intent684.putExtra("Type", "ImagePost");
-                            intent684.putExtra("Key", TheUltimatePostKey);
-                            startActivity(intent684);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-
-                break;
-
-            case R.id.action_bookmark_unselected:
-
-                BookmarkDingen();
-
-                break;
-
-            case R.id.action_bookmark_selected:
-
-                BookmarkDingen();
-
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void BookmarkDingen() {
-
-        Log.e("Bookmark", "Save pushed");
-
-        final String KeyPost = getIntent().getExtras().get("key").toString();
-
-        final DatabaseReference SaveThePost = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
-
-        SaveThePost.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if(dataSnapshot.child("SavedPosts").hasChild(KeyPost)){
-                    Log.e("Bookmark", "Unsave bereikt");
-                    SaveThePost.child("SavedPosts").child(KeyPost).removeValue();
-                }
-                else{
-                    Log.e("Bookmark", "Save bereikt");
-                    SaveThePost.child("SavedPosts").child(KeyPost).setValue("added");
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
     }
 }
