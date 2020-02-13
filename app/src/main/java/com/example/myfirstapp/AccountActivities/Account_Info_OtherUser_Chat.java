@@ -20,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.myfirstapp.PageAdapter_HisAccount;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,11 +49,21 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage firebaseStorage;
 
+    SharedPrefNightMode sharedPrefNightMode;
+
     private static final String TAG = "Account_Info_chatList";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account__info__other_user_);
 
@@ -118,14 +129,6 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
 
 
     private void SetupUI() {
-
-        setTheme(R.style.AppTheme);
-
-        //voor het geven van kleur aan de status bar:
-        Window window = Account_Info_OtherUser_Chat.this.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(Account_Info_OtherUser_Chat.this, R.color.slighly_darker_mainGreen));
 
         RealName = findViewById(R.id.tvDisplayNameOtherUserAccountViewing);
         UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);

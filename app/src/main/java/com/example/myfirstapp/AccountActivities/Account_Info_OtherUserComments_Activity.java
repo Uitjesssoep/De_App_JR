@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.myfirstapp.PageAdapter_HisAccount;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
@@ -47,18 +48,12 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage firebaseStorage;
 
+    SharedPrefNightMode sharedPrefNightMode;
+
     private static final String TAG = "AccountInfo_Other_UserC";
 
 
     private void SetupUI() {
-
-        setTheme(R.style.AppTheme);
-
-        //voor het geven van kleur aan de status bar:
-        Window window = Account_Info_OtherUserComments_Activity.this.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(Account_Info_OtherUserComments_Activity.this, R.color.slighly_darker_mainGreen));
 
         RealName = findViewById(R.id.tvDisplayNameOtherUserAccountViewing);
         UserName = findViewById(R.id.tvUsernameOtherUserAccountViewing);
@@ -242,6 +237,14 @@ public class Account_Info_OtherUserComments_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account__info__other_user_);
 

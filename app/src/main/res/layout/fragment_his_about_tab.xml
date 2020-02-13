@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HisAboutTab"
-    android:theme="@style/AppTheme"
     android:background="?attr/backgroundcolor">
 
     <TextView
@@ -57,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Account numbers"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="?attr/colorAccent"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Account created on:"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="?attr/colorAccent"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
