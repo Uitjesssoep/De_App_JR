@@ -8,15 +8,25 @@
     tools:context=".Chatroom.ChatPrivateWithUsers"
     android:background="?attr/backgroundcolor">
 
-    <Button
+    <ImageButton
         android:id="@+id/btnSendMessageChatPrivate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Send"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_send_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ibSendImage"
         app:layout_constraintStart_toEndOf="@+id/etChatInputPrivate"
         app:layout_constraintTop_toBottomOf="@+id/rvChatWindowPrivate" />
+
+    <ImageButton
+        android:id="@+id/ibSendImage"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_camera_alt_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnSendMessageChatPrivate"
+        app:layout_constraintTop_toBottomOf="@id/rvChatWindowPrivate" />
 
     <EditText
         android:id="@+id/etChatInputPrivate"

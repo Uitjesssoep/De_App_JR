@@ -3,8 +3,8 @@ package com.example.myfirstapp.Chatroom;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,14 +30,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class ChatPrivateWithUsers extends AppCompatActivity {
 
     private DatabaseReference myDatabase, MessageDatabase, myDatabase2;
-    private Button SendChatButton;
+    private ImageButton SendChatButton;
     private EditText ChatInputText;
     private TextView Conversation_Content;
 
@@ -91,8 +89,6 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         TakeCareOfThings();
         LoadMessages();
         SendChat();
-        //sortDate();
-        Collections.sort(MessagesList, new ChatPrivateWithUsers.CustomComparatorDate());
 
     }
 
@@ -140,32 +136,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
     }
 
-    public void sortDate() {
-        Collections.sort(MessagesList, new Comparator<PostStuffForChatRoom>() {
-            @Override
-            public int compare(PostStuffForChatRoom t1, PostStuffForChatRoom t2) {
-                return t1.getmDate().compareTo(t2.getmDate());
-            }
-        });
-        postStuffForChatRoomAdapterNúmeroDos = new PostStuffForChatRoomAdapterNúmeroDos(ChatPrivateWithUsers.this, MessagesList);
-        ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
-
-    }
-
-    private class CustomComparatorDate implements Comparator<PostStuffForChatRoom> {
-        @Override
-        public int compare(PostStuffForChatRoom t1, PostStuffForChatRoom t2) {
-            return t1.getmDate().compareTo(t2.getmDate());
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return false;
-        }
-    }
-
     private void LoadMessages() {
-        MessageDatabase.child(MyUid).child(UID).addChildEventListener(new ChildEventListener() {
+        MessageDatabase.child(MyUid).child(UID).orderByChild("mDate").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 PostStuffForChatRoom postStuffForChatRoom = dataSnapshot.getValue(PostStuffForChatRoom.class);

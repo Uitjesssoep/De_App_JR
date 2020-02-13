@@ -11,8 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.CheckBox;
@@ -27,7 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
@@ -59,10 +56,10 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private FirebaseAuth firebaseAuth;
-    private TextView ChooseImage;
+    private TextView ChooseImage, TakePicture;
     private EditText Title;
     private LinearLayout SelectImage;
-    private ImageView mImageView, ChooseImageVIew;
+    private ImageView mImageView, ChooseImageVIew, TakePictureImageView;
     private String MyUID, usernameString, temp_key, UriImage, Date, key;
     private Uri mImageUri;
     private FirebaseDatabase firebaseDatabase;
@@ -84,6 +81,8 @@ public class Upload_Images_Activity extends AppCompatActivity {
         MyUID = user.getUid();
         ChooseImage = findViewById(R.id.tvChooseImage);
         ChooseImageVIew = findViewById(R.id.ivChooseImageUpload);
+      //  TakePicture = findViewById(R.id.tvTakePicture);
+      //  TakePictureImageView = findViewById(R.id.ivTakePictureUpload);
         SelectImage = findViewById(R.id.linlayhorSelectImage);
         Title = findViewById(R.id.etImageName);
         mImageView = findViewById(R.id.ivUploadedImage);
@@ -96,16 +95,14 @@ public class Upload_Images_Activity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         sharedPrefNightMode = new SharedPrefNightMode(this);
 
-        if(sharedPrefNightMode.loadNightModeState()==true){
+        if (sharedPrefNightMode.loadNightModeState() == true) {
             setTheme(R.style.AppTheme_Night);
-        }
-        else setTheme(R.style.AppTheme);
+        } else setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_images);
@@ -131,12 +128,30 @@ public class Upload_Images_Activity extends AppCompatActivity {
                 openFileChooser();
             }
         });
+       /* TakePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                // intent.setType("image/*");
+                Uri photoUri = FileProvider.getUriForFile(Upload_Images_Activity.this, "fssdfs", photoFile);
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        });
+        TakePictureImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE_SECURE);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        });*/
     }
 
     private void openFileChooser() {
-        Intent intent = new Intent();
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+
+        // intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
@@ -164,7 +179,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")){
+                if (dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("PostCount")) {
 
                     String PostCountString = dataSnapshot.child("Counters").child("PostCount").getValue().toString();
                     int PostCountInt = Integer.parseInt(PostCountString);
@@ -172,9 +187,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
                     String NewPostCountString = Integer.toString(PostCountInt);
                     PostCounter.child("Counters").child("PostCount").setValue(NewPostCountString);
 
-                }
-
-                else{
+                } else {
                     PostCounter.child("Counters").child("PostCount").setValue("1");
                 }
 
@@ -192,7 +205,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(Anon.isChecked()){
+                if (Anon.isChecked()) {
                     usernameString = "[anonymous]";
                     temp_key = mDatabaseRef.push().getKey();
                     StuffForPost stuffForPost = new StuffForPost(Title.getText().toString().trim(),
@@ -205,7 +218,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
                     startActivity(VNoD);
                     finish();
                 }
-                if(!Anon.isChecked()) {
+                if (!Anon.isChecked()) {
                     UserProfileToDatabase userProfile = dataSnapshot.getValue(UserProfileToDatabase.class);
                     usernameString = userProfile.getUserName();
 
@@ -306,13 +319,11 @@ public class Upload_Images_Activity extends AppCompatActivity {
             case R.id.action_post_comment:
                 if (mUploadTask != null) {
                     Toast.makeText(Upload_Images_Activity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     String TitleString = Title.getText().toString();
-                    if(TitleString.isEmpty()){
+                    if (TitleString.isEmpty()) {
                         Toast.makeText(Upload_Images_Activity.this, "Please enter a title", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
+                    } else {
                         uploadFile();
                     }
                 }
