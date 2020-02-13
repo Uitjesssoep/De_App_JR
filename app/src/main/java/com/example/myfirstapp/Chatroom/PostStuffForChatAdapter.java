@@ -344,7 +344,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             }
         });
 
-        String KeyYeah = uploadCurrent.getKey().toString();
+        final String KeyYeah = uploadCurrent.getKey().toString();
 
         final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Likes");
         final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Dislikes");
@@ -352,6 +352,10 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+
+                DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah);
+                SetLikeCount.child("LikeCount").setValue(LikeCountAdapter);
+
                 holder.LikeCount.setText("" + LikeCountAdapter);
             }
 
@@ -364,6 +368,10 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+
+                DatabaseReference SetDislikeCount = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah);
+                SetDislikeCount.child("DislikeCount").setValue(DislikeCountAdapter);
+
                 holder.DislikeCount.setText("" + DislikeCountAdapter);
             }
 

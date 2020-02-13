@@ -30,6 +30,7 @@ import com.example.myfirstapp.Edit_PC_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Report_TextPost_Activity;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -83,7 +84,15 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final StuffForPost uploadCurrent = mPost.get(position);
         if (uploadCurrent.getType().equals("Image")) {
-            Picasso.get().load(uploadCurrent.getContent()).placeholder(R.color.white).into(holder.Image);
+
+            SharedPrefNightMode sharedPrefNightMode = new SharedPrefNightMode(mContext);
+
+            if(sharedPrefNightMode.loadNightModeState()==true){
+                Picasso.get().load(uploadCurrent.getContent()).placeholder(R.color.grijsimagepostplaceholder).into(holder.Image);
+            }
+            else{
+                Picasso.get().load(uploadCurrent.getContent()).placeholder(R.color.white).into(holder.Image);
+            }
             holder.Content.setVisibility(View.GONE);
         } else {
             holder.Image.setVisibility(View.GONE);

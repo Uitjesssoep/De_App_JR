@@ -146,7 +146,10 @@ public class SavedComments extends Fragment {
         CommentView.setHasFixedSize(true);
         CommentView.setDrawingCacheEnabled(true);
         CommentView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        CommentView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        CommentView.setLayoutManager(linearLayoutManager);
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingSavedComments_fragment);
         final List<CommentStuffForTextPostMyProf> commentStuffForTextPostMyProfList = new ArrayList<>();

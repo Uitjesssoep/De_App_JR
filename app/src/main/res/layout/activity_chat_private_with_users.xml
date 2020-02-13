@@ -5,8 +5,8 @@
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".Chatroom.ChatPrivateWithUsers">
+    tools:context=".Chatroom.ChatPrivateWithUsers"
+    android:background="?attr/backgroundcolor">
 
     <Button
         android:id="@+id/btnSendMessageChatPrivate"
@@ -38,7 +38,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="vertical"
-        android:background="#b0d9bd"
         app:layout_constraintBottom_toTopOf="@+id/btnSendMessageChatPrivate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

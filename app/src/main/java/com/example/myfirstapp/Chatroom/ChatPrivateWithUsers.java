@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -66,6 +67,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
     private List<PostStuffMakePrivateChat> listRoom;
 
+    SharedPrefNightMode sharedPrefNightMode;
+
     boolean notify = false;
     private int ItemCount;
     private int scrollPosition;
@@ -74,6 +77,14 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_private_with_users);
         SetupUI();
