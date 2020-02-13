@@ -121,7 +121,10 @@ public class MyChatroomsTab extends Fragment {
         RoomList.setHasFixedSize(true);
         RoomList.setDrawingCacheEnabled(true);
         RoomList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        RoomList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        RoomList.setLayoutManager(linearLayoutManager);
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingMyChats_fragment);
         final List<PostStuffForChat> postStuffForChatList = new ArrayList<>();

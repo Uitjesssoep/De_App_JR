@@ -88,7 +88,10 @@ public class PrivateChatsTab extends Fragment {
         RoomList.setHasFixedSize(true);
         RoomList.setDrawingCacheEnabled(true);
         RoomList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        RoomList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        RoomList.setLayoutManager(linearLayoutManager);
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingPrivateChats_fragment);
         final List<PostStuffMakePrivateChat> postStuffForChatList = new ArrayList<>();
