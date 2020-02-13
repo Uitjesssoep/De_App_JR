@@ -24,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -55,6 +56,8 @@ public class Profile_Settings_Activity extends AppCompatActivity {
     private FirebaseUser firebaseUser;
     private FirebaseStorage firebaseStorage;
 
+    SharedPrefNightMode sharedPrefNightMode;
+
 
     private static int PICK_IMAGE = 123; // geef altijd een unieke requestcode zodat het kan worden gecontroleerd en niks dubbel is dadelijk
     Uri imagePath;
@@ -82,6 +85,14 @@ public class Profile_Settings_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile__settings);
 
@@ -243,19 +254,6 @@ public class Profile_Settings_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
-
-        setTheme(R.style.AppTheme);
-
-        //voor het geven van kleur aan de status bar:
-
-        Window window = Profile_Settings_Activity.this.getWindow();
-
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        window.setStatusBarColor(ContextCompat.getColor(Profile_Settings_Activity.this, R.color.slighly_darker_mainGreen));
-
         //action bar ding
 
         Toolbar toolbar = findViewById(R.id.action_bar_display);

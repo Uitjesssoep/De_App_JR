@@ -31,84 +31,25 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class SecondActivity extends AppCompatActivity {
 
-
-    private Button AccountInfoButton, SearchUsersButton, PostButton, GeneralFeedButton, UsersButton;
-
     private FirebaseAuth firebaseAuth;
-
-    public static boolean firstSetup;
-
-
-
-    //voor menu in de action bar
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_actionbar, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.action_settings:
-
-                Intent intent = new Intent(SecondActivity.this, ImagesFeed.class);
-                startActivity(intent);
-
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
+    SharedPrefNightMode sharedPrefNightMode;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
-        setTheme(R.style.AppTheme);
-
-        //voor het geven van kleur aan de status bar:
-
-        Window window = SecondActivity.this.getWindow();
-
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        window.setStatusBarColor(ContextCompat.getColor(SecondActivity.this, R.color.slighly_darker_mainGreen));
-
-
-
         firebaseAuth = FirebaseAuth.getInstance();
-
-
-        //kijken of persoon wel all good is
-
         checkEmailVerification();
-
-
-        //action bar ding
-
-        Toolbar toolbar = findViewById(R.id.action_bar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-
-        //bottom navigation view dingen
-
-        Intent home = new Intent(SecondActivity.this, Layout_Manager_BottomNav_Activity.class);
-        home.putExtra("Type", "StartUp");
-        startActivity(home);
-        finish();
-
     }
 
     private void checkEmailVerification(){
@@ -124,49 +65,17 @@ public class SecondActivity extends AppCompatActivity {
             Toast.makeText(SecondActivity.this, "Please verify your email before logging in", Toast.LENGTH_LONG).show();
             firebaseAuth.signOut();
             startActivity(new Intent(SecondActivity.this, MainActivity.class));
+            finish();
         }
     }
 
 
     private void Checked(){
-        SearchUsersButton = findViewById(R.id.btnSearchUsersSA);
-        AccountInfoButton = findViewById(R.id.btnAccountInfo);
-        PostButton = findViewById(R.id.btnPost);
-        GeneralFeedButton = findViewById(R.id.btnGeneralFeed);
-        UsersButton = findViewById(R.id.btUsers);
-
-        AccountInfoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SecondActivity.this, Account_Info_Activity.class));
-            }
-        });
-
-        SearchUsersButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SecondActivity.this, Chat_Room_MakeOrSearch_Activity.class));
-            }
-        });
-       PostButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SecondActivity.this, Choose_PostType_Activity.class));
-            }
-        });
-
-       GeneralFeedButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               startActivity(new Intent(SecondActivity.this, Choose_FeedType_Activity.class));
-           }
-       });
-       UsersButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               startActivity(new Intent(SecondActivity.this, UserListToFollow.class));
-           }
-       });
+        //bottom navigation view dingen
+        Intent home = new Intent(SecondActivity.this, Layout_Manager_BottomNav_Activity.class);
+        home.putExtra("Type", "StartUp");
+        startActivity(home);
+        finish();
     }
 
 }

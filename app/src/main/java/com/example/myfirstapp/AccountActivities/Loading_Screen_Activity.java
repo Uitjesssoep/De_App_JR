@@ -8,15 +8,24 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.SharedPrefNightMode;
 
 public class Loading_Screen_Activity extends AppCompatActivity {
 
+    SharedPrefNightMode sharedPrefNightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading__screen_);
-
-        setTheme(R.style.AppTheme);
 
             final Handler h = new Handler();
 

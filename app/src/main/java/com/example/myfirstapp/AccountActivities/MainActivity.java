@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -33,23 +34,22 @@ public class MainActivity extends AppCompatActivity {
 
         private FirebaseAuth firebaseAuth;
 
+        SharedPrefNightMode sharedPrefNightMode;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //voor het geven van kleur aan de status bar:
-        Window window = MainActivity.this.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.statusBarColorLogin));
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
-        setTheme(R.style.AppTheme);
-
-
 
         NotFirstTime(); // was eerst van belang voor iets, maar dat heb ik aangepast en ik was te lui om t weer terug te verplaatsen naar 'oncreate' dus ik heb t in 'notfirsttime' gelaten
 

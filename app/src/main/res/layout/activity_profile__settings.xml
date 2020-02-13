@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountActivities.Profile_Settings_Activity"
-    android:theme="@style/AppTheme"
     android:background="?attr/mainbackground">
 
     <include
@@ -38,6 +37,8 @@
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 "
         android:ems="10"
         android:hint="Display name"
+        android:textColor="?attr/maintextcolor"
+        android:textColorHint="?attr/lichtgreytextcolor"
         android:inputType="textCapWords"
         android:maxLength="25"
         android:paddingLeft="10dp"

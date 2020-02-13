@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +34,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private Button regButton;
     private TextView userLogin, alreadyAccountText, ErrorUsername, ErrorEmail, ErrorPassword, ErrorPasswordRepeat;
 
+    SharedPrefNightMode sharedPrefNightMode;
+
     String protoname, password, emailget, UID;
 
     String Profilepictureundefined = "Profilepicture hasn't been chosen yet";
@@ -44,6 +47,14 @@ public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         setupUIViews();
@@ -99,21 +110,6 @@ public class RegistrationActivity extends AppCompatActivity {
         ErrorPassword = findViewById(R.id.tvPasswordErrorReg);
         ErrorPasswordRepeat = findViewById(R.id.tvPasswordErrorRegRepeat);
         userPasswordRepeat = findViewById(R.id.etUserPasswordRepeat);
-
-        setTheme(R.style.AppTheme);
-
-        //voor het geven van kleur aan de status bar:
-
-        Window window = RegistrationActivity.this.getWindow();
-
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        window.setStatusBarColor(ContextCompat.getColor(RegistrationActivity.this, R.color.statusBarColorLogin));
-
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
 
         //underline
 

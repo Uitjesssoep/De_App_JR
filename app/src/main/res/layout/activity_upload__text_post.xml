@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Textposts.Upload_TextPost_Activity"
-    android:theme="@style/AppTheme"
     android:background="?attr/mainbackground">
 
     <include
@@ -31,7 +30,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
                 android:text="Make a text post:"
-                android:textColor="?attr/colorPrimary"
+                android:textColor="?attr/subtitelcolor"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -41,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:buttonTint="?attr/colorPrimary"
+                android:buttonTint="?attr/colorAccent"
                 android:textColor="?attr/maintextcolor"
                 android:text="Post anonymously"
                 android:textSize="14sp" />
@@ -54,6 +53,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/edittext_addcomment"
+                android:textColorHint="?attr/lichtgreytextcolor"
                 android:ems="10"
                 android:hint="Your title"
                 android:maxLength="250"
@@ -84,7 +84,8 @@
                 android:hint="Your text post content (optional)"
                 android:maxLength="5000"
                 android:inputType="textMultiLine|textCapSentences"
-                android:textColor="?attr/maingreytextcolor"
+                android:textColorHint="?attr/lichtlichtgreytextcolor"
+                android:textColor="?attr/lichtgreytextcolor"
                 android:textSize="15sp" />
         </LinearLayout>
     </ScrollView>

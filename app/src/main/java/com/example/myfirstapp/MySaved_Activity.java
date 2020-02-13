@@ -18,9 +18,18 @@ public class MySaved_Activity extends AppCompatActivity {
 
     private ViewPager viewPager;
     public PageAdapter_MySaved pagerAdapter;
+    SharedPrefNightMode sharedPrefNightMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_saved_);
 
@@ -74,12 +83,6 @@ public class MySaved_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
-        setTheme(R.style.AppTheme);
-
-        Window window = MySaved_Activity.this.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(MySaved_Activity.this, R.color.slighly_darker_mainGreen));
 
         Toolbar toolbar = findViewById(R.id.action_bar_MySaved);
         setSupportActionBar(toolbar);

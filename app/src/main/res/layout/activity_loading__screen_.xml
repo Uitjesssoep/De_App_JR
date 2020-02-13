@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountActivities.Loading_Screen_Activity"
-    android:background="@color/white">
+    android:background="?attr/mainbackground">
 
     <TextView
         android:id="@+id/tvLoadingPleaseWait2"
@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Loading... Please wait"
         android:textSize="20sp"
+        android:textColor="?attr/darkgreytextcolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -30,6 +30,7 @@ import androidx.core.content.ContextCompat;
 import com.example.myfirstapp.Content_Policy_Activity;
 import com.example.myfirstapp.Data_Policy_Activity;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.example.myfirstapp.Terms_of_Use_Activity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -76,6 +77,7 @@ public class Profile_First_Setup extends AppCompatActivity {
     private Boolean PickedImage = false;
 
     private String TAGTEST = "CheckmetJuultje";
+    SharedPrefNightMode sharedPrefNightMode;
 
 
     //afbeelding kiezen uit gallerij
@@ -100,10 +102,16 @@ public class Profile_First_Setup extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile__first__setup);
-
-        SetupDesign();
 
         firebaseStorage = FirebaseStorage.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -190,24 +198,6 @@ public class Profile_First_Setup extends AppCompatActivity {
 
             }
         });
-
-    }
-
-    private void SetupDesign() {
-
-        setTheme(R.style.AppTheme);
-
-        //voor het geven van kleur aan de status bar:
-
-        Window window = Profile_First_Setup.this.getWindow();
-
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        window.setStatusBarColor(ContextCompat.getColor(Profile_First_Setup.this, R.color.statusBarColorLogin));
-
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
     }
 

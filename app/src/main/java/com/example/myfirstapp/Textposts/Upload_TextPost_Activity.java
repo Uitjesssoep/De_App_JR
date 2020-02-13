@@ -29,6 +29,7 @@ import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,10 +58,10 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
 
+    SharedPrefNightMode sharedPrefNightMode;
+
 
     private void SetupUI() {
-
-        setTheme(R.style.AppTheme);
 
         Title = findViewById(R.id.etTitleTextPost);
         Content = findViewById(R.id.etContentTextPost);
@@ -83,6 +84,14 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload__text_post);
 
@@ -91,14 +100,6 @@ public class Upload_TextPost_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
-
-            //voor het geven van kleur aan de status bar:
-            Window window = Upload_TextPost_Activity.this.getWindow();
-
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(Upload_TextPost_Activity.this, R.color.slighly_darker_mainGreen));
-
             //action bar ding
 
             Toolbar toolbar = findViewById(R.id.action_bar_maketextpost);

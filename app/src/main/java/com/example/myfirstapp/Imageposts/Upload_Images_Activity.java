@@ -32,6 +32,7 @@ import androidx.core.content.ContextCompat;
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.example.myfirstapp.Textposts.StuffForPost;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -74,6 +75,7 @@ public class Upload_Images_Activity extends AppCompatActivity {
     private SimpleDateFormat dateFormat;
 
     private StorageTask mUploadTask;
+    SharedPrefNightMode sharedPrefNightMode;
 
     private void SetupUI() {
         firebaseAuth = FirebaseAuth.getInstance();
@@ -97,6 +99,14 @@ public class Upload_Images_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else setTheme(R.style.AppTheme);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_images);
 
@@ -268,14 +278,6 @@ public class Upload_Images_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
-
-        setTheme(R.style.AppTheme);
-
-        //voor het geven van kleur aan de status bar:
-        Window window = Upload_Images_Activity.this.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(Upload_Images_Activity.this, R.color.slighly_darker_mainGreen));
 
         //action bar ding
         Toolbar toolbar = findViewById(R.id.action_bar_makeimagepost);

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountActivities.Profile_First_Setup"
-    android:theme="@style/AppTheme"
     android:background="?attr/mainbackground">
 
     <TextView
@@ -48,6 +47,8 @@
         android:background="@drawable/edittext_roundedcorners_login"
         android:ems="10"
         android:hint="Display name"
+        android:textColor="?attr/maintextcolor"
+        android:textColorHint="?attr/lichtgreytextcolor"
         android:maxLength="25"
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 "
         android:inputType="textCapWords"
@@ -65,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign up"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="?attr/subtitelcolor"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
