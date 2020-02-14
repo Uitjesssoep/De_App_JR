@@ -1,7 +1,10 @@
 package com.example.myfirstapp.AccountActivities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -50,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //voor het geven van kleur aan de status bar:
+        setLightStatusBar(MainActivity.this);
 
         NotFirstTime(); // was eerst van belang voor iets, maar dat heb ik aangepast en ik was te lui om t weer terug te verplaatsen naar 'oncreate' dus ik heb t in 'notfirsttime' gelaten
 
@@ -175,8 +181,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Please verify your email", Toast.LENGTH_LONG).show();
             firebaseAuth.signOut();
         }
-
-
     }
 
+    private void setLightStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = activity.getWindow().getDecorView().getSystemUiVisibility(); // get current flag
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;   // add LIGHT_STATUS_BAR to flag
+            activity.getWindow().getDecorView().setSystemUiVisibility(flags);
+            activity.getWindow().setStatusBarColor(getResources().getColor(R.color.statusBarColorLogin)); // optional
+        }
+    }
 }

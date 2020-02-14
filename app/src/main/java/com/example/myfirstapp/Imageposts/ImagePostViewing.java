@@ -1,8 +1,10 @@
 
 package com.example.myfirstapp.Imageposts;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
+import com.example.myfirstapp.SharedPrefNightMode;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPost;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPostAdapter;
 import com.example.myfirstapp.photoview.PhotoView;
@@ -65,6 +68,8 @@ public class ImagePostViewing extends AppCompatActivity {
 
     private int LikeCount, DislikeCount, CommentCount;
     private static final String TAG = "Text_Post_Viewing";
+
+    SharedPrefNightMode sharedPrefNightMode;
 
 
     private void SetupUI() {
@@ -145,6 +150,17 @@ public class ImagePostViewing extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        sharedPrefNightMode = new SharedPrefNightMode(this);
+
+        if(sharedPrefNightMode.loadNightModeState()==true){
+            setTheme(R.style.AppTheme_Night);
+        }
+        else {
+            setTheme(R.style.AppTheme);
+            setLightStatusBar(ImagePostViewing.this);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.imageviewingactivity2);
 
@@ -158,8 +174,6 @@ public class ImagePostViewing extends AppCompatActivity {
                 if (dataSnapshot.hasChild(key)) {
 
                     SetupUI();
-
-                    SetupDesign();
 
                     //  LikeDislikeCount();
 
@@ -575,17 +589,14 @@ public class ImagePostViewing extends AppCompatActivity {
         });
     }
 
-    private void SetupDesign() {
-        //voor het geven van kleur aan de status bar:
-
-        Window window = ImagePostViewing.this.getWindow();
-
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-        window.setStatusBarColor(ContextCompat.getColor(ImagePostViewing.this, R.color.slighly_darker_mainGreen));
-
+    private void setLightStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = activity.getWindow().getDecorView().getSystemUiVisibility(); // get current flag
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;   // add LIGHT_STATUS_BAR to flag
+            activity.getWindow().getDecorView().setSystemUiVisibility(flags);
+            activity.getWindow().setStatusBarColor(getResources().getColor(R.color.statusBarColorLogin)); // optional
+        }
     }
+
 }
 

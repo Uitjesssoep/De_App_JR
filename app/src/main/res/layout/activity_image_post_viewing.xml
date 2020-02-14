@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Imageposts.ImagePostViewing">
+    tools:context=".Imageposts.ImagePostViewing"
+    android:background="?attr/backgroundcolor">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView2"
@@ -86,9 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="horizontal"
-
-                >
+                android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/ibLikeUpForImage"

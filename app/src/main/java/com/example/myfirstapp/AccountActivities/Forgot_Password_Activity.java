@@ -1,7 +1,9 @@
 package com.example.myfirstapp.AccountActivities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -44,6 +46,8 @@ public class Forgot_Password_Activity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot__password_);
+
+        setLightStatusBar(Forgot_Password_Activity.this);
 
         EmailResetPassword = (EditText)findViewById(R.id.etPasswordResetEmail);
         ResetPasswordEmailSend = (Button)findViewById(R.id.btnResetPassword);
@@ -105,4 +109,14 @@ public class Forgot_Password_Activity extends AppCompatActivity {
             }
         });
     }
+
+    private void setLightStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = activity.getWindow().getDecorView().getSystemUiVisibility(); // get current flag
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;   // add LIGHT_STATUS_BAR to flag
+            activity.getWindow().getDecorView().setSystemUiVisibility(flags);
+            activity.getWindow().setStatusBarColor(getResources().getColor(R.color.statusBarColorLogin)); // optional
+        }
+    }
+
 }

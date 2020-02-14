@@ -3,7 +3,9 @@ package com.example.myfirstapp.AccountActivities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -35,6 +37,8 @@ public class ForgotPassword_Sucess_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password__sucess_);
 
+        setLightStatusBar(ForgotPassword_Sucess_Activity.this);
+
         Continue = findViewById(R.id.btnContinueForgotPasswordSuccess);
         Continue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +52,15 @@ public class ForgotPassword_Sucess_Activity extends AppCompatActivity {
         EmailSent = findViewById(R.id.tvExplainingForgotPasswordSuccess);
         String entered_email = getIntent().getExtras().get("entered_email").toString();
         EmailSent.setText("An email has been sent to\n"+ entered_email + "\n" + "containing a link to reset your password.");
-
     }
+
+    private void setLightStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = activity.getWindow().getDecorView().getSystemUiVisibility(); // get current flag
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;   // add LIGHT_STATUS_BAR to flag
+            activity.getWindow().getDecorView().setSystemUiVisibility(flags);
+            activity.getWindow().setStatusBarColor(getResources().getColor(R.color.statusBarColorLogin)); // optional
+        }
+    }
+
 }

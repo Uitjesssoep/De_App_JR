@@ -3,7 +3,9 @@ package com.example.myfirstapp.AccountActivities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -31,6 +33,8 @@ public class SignUp_Success_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up__success_);
 
+        setLightStatusBar(SignUp_Success_Activity.this);
+
         Continue = findViewById(R.id.btnContinueForgotPasswordSuccess2);
 
         Continue.setOnClickListener(new View.OnClickListener() {
@@ -41,6 +45,15 @@ public class SignUp_Success_Activity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
+
+    private void setLightStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = activity.getWindow().getDecorView().getSystemUiVisibility(); // get current flag
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;   // add LIGHT_STATUS_BAR to flag
+            activity.getWindow().getDecorView().setSystemUiVisibility(flags);
+            activity.getWindow().setStatusBarColor(getResources().getColor(R.color.statusBarColorLogin)); // optional
+        }
+    }
+
 }
