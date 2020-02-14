@@ -15,7 +15,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteY="56dp">
+        tools:layout_editor_absoluteY="56dp"
+        android:background="?attr/backgroundcolor">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +26,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <TextView
@@ -35,7 +35,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="Username"
-                    android:textColor="#858585"
+                    android:textColor="?attr/lichtgreytextcolor"
                     android:textSize="13sp" />
 
                 <TextView
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="  -  "
-                    android:textColor="#858585"
+                    android:textColor="?attr/lichtgreytextcolor"
                     android:textSize="13sp" />
 
                 <TextView
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Date"
-                    android:textColor="#858585"
+                    android:textColor="?attr/lichtgreytextcolor"
                     android:textSize="13sp" />
 
             </LinearLayout>
@@ -61,7 +61,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:orientation="vertical">
 
                 <TextView
@@ -72,13 +71,14 @@
                     android:layout_marginTop="7dp"
                     android:layout_marginEnd="32dp"
                     android:text="Title"
-                    android:textColor="#000000"
+                    android:textColor="?attr/maintextcolor"
                     android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/ivImageContentImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?attr/backgroundcolor"
                     tools:srcCompat="@tools:sample/avatars[0]" />
 
             </LinearLayout>
@@ -86,7 +86,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -96,7 +95,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:background="#00FFFFFF"
+                    android:background="?attr/backgroundcolor"
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
 
@@ -107,7 +106,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="0"
-                    android:textColor="#858585"
+                    android:textColor="?attr/lichtgreytextcolor"
                     android:textSize="14sp" />
 
                 <ImageButton
@@ -116,7 +115,7 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
-                    android:background="#00FFFFFF"
+                    android:background="?attr/backgroundcolor"
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
 
@@ -127,7 +126,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="0"
-                    android:textColor="#858585"
+                    android:textColor="?attr/lichtgreytextcolor"
                     android:textSize="14sp" />
 
             </LinearLayout>

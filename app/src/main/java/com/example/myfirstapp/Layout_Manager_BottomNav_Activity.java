@@ -10,21 +10,26 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.example.myfirstapp.AccountActivities.MainActivity;
 import com.example.myfirstapp.Chatroom.Chat_With_Users_Activity;
 import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
     private String CurrentFrag = "Home";
     private Boolean MakingSelected = false;
     SharedPrefNightMode sharedPrefNightMode;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,12 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout__manager__bottom_nav_);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        checkEmailVerification();
+    }
+
+    private void Checked() {
 
         FrameLayout frameLayout = findViewById(R.id.framelayout_manager_makepost);
         frameLayout.setVisibility(View.GONE);
@@ -78,6 +89,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                     new HomeFragment()).commit();
             MakingSelected = false;
         }
+
     }
 
     private void SetupDesign() {
@@ -246,6 +258,23 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
             MakingSelected = false;
             frameLayout7.setVisibility(View.GONE);
         } else {
+            finish();
+        }
+    }
+
+    private void checkEmailVerification(){
+
+        FirebaseUser firebaseUser = firebaseAuth.getInstance().getCurrentUser();
+        Boolean verificationemail = firebaseUser.isEmailVerified();
+
+        if(verificationemail){
+            Checked();
+        }
+
+        else{
+            Toast.makeText(Layout_Manager_BottomNav_Activity.this, "Please verify your email before logging in", Toast.LENGTH_LONG).show();
+            firebaseAuth.signOut();
+            startActivity(new Intent(Layout_Manager_BottomNav_Activity.this, MainActivity.class));
             finish();
         }
     }

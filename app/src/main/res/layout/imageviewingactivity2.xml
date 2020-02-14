@@ -9,6 +9,7 @@
     <com.example.myfirstapp.photoview.PhotoView
         android:id="@+id/ivImageContentImage"
         android:layout_width="match_parent"
+        android:background="?attr/backgroundcolor"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

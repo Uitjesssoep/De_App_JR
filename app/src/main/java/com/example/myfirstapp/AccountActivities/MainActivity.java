@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SecondActivity;
 import com.example.myfirstapp.SharedPrefNightMode;
@@ -173,8 +174,10 @@ public class MainActivity extends AppCompatActivity {
         Boolean verificationemail = firebaseUser.isEmailVerified();
 
         if(verificationemail){
-            MainActivity.this.finish();
-            startActivity(new Intent(MainActivity.this, SecondActivity.class));
+            Intent intent = new Intent(MainActivity.this, Layout_Manager_BottomNav_Activity.class);
+            intent.putExtra("Type", "StartUp");
+            startActivity(intent);
+            finish();
         }
 
         else{
