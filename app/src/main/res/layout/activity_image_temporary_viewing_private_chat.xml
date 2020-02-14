@@ -11,13 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btSendImageToChat"
+        app:layout_constraintBottom_toTopOf="@id/ibSendImageToChat"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <Button
-        android:id="@+id/btSendImageToChat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Send Image to Chat"
+    <EditText
+        android:id="@+id/etMessageWithImageForChat"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:inputType="textCapSentences"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/ibSendImageToChat"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivImageTemporaryForChat" />
+
+    <ImageButton
+        android:id="@+id/ibSendImageToChat"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_send_black_24dp"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

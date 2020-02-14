@@ -96,6 +96,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         SetupUI();
         TakeCareOfThings();
         LoadMessages();
+        SendImage();
         SendChat();
 
     }
@@ -240,6 +241,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
             Intent intent = new Intent(ChatPrivateWithUsers.this, ImageTemporaryViewingPrivateChat.class);
             startActivity(intent);
             intent.putExtra("ImageUri", mImageUri);
+            intent.putExtra("UID", UID);
+            intent.putExtra("Message", ChatInputText.getText().toString());
 
         }
     }
@@ -255,18 +258,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         SendImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                FirebaseDatabase.getInstance().getReference("users").child(MyUid).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        message=ChatInputText.getText().toString();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                openFileChooser();
             }
         });
     }
@@ -285,7 +277,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             message = ChatInputText.getText().toString();
-                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Date, MyUid);
+                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Date, MyUid, "");
                             temp_key = MessageDatabase.push().getKey();
                             MessageDatabase.child(MyUid).child(UID).child(temp_key).setValue(postStuffForChatRoom);
                             MessageDatabase.child(UID).child(MyUid).child(temp_key).setValue(postStuffForChatRoom);

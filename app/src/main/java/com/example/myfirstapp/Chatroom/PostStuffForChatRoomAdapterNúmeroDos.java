@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+        holder.Image.setVisibility(View.GONE);
         PostStuffForChatRoom uploadCurrent = mUploads.get(position);
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         holder.Message.setText(uploadCurrent.getmMessage());
@@ -43,6 +46,11 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
         str.replace(8, 9, "-");
         String Date = str.toString();
         holder.Date.setText(Date);
+        String Type = uploadCurrent.getmType();
+        if (Type.equals("image")){
+            holder.Image.setVisibility(View.VISIBLE);
+            Picasso.get().load(uploadCurrent.getmImageUrl()).fit().centerCrop().into(holder.Image);
+        }
       //  Log.e("Check", uploadCurrent.getmUserName());
         holder.Username.setVisibility(View.GONE);
         if (uploadCurrent.getmUID().equals(MyUID)){
@@ -59,6 +67,7 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         public TextView Message, Username, Date;
+        public ImageView Image;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +75,7 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
             Message = itemView.findViewById(R.id.tvMessage);
             Username = itemView.findViewById(R.id.tvUserNameMessage);
             Date = itemView.findViewById(R.id.tvDateMessage);
+            Image = itemView.findViewById(R.id.ivImageInPrivateChat);
         }
     }
 
