@@ -1,9 +1,7 @@
 package com.example.myfirstapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -13,26 +11,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Change_Password_Activity;
 import com.example.myfirstapp.AccountActivities.Deleting_Account_Activity;
 import com.example.myfirstapp.AccountActivities.MainActivity;
 import com.example.myfirstapp.AccountActivities.Profile_Settings_Activity;
-import com.example.myfirstapp.Textposts.General_Feed_Activity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class App_Settings_Activity extends AppCompatActivity {
 

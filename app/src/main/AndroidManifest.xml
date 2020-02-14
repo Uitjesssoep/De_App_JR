@@ -40,9 +40,6 @@
             android:name=".Chatroom.Chatrooms_Post_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Imageposts.Image_Post_Viewing_Activity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".AccountActivities.ForgotPassword_Sucess_Activity"
             android:screenOrientation="portrait" />
         <activity
@@ -64,46 +61,19 @@
             android:name=".AccountActivities.Account_Info_OtherUserComments_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Users.UserListToFollow"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Choose_FeedType_Activity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".AccountActivities.Account_Info_OtherUser_Activity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Imageposts.ImagesFeed"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Textposts.Post_Viewing_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Textposts.Followers_Feed_Activity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Textposts.General_Feed_Activity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Textposts.Upload_TextPost_Activity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Choose_PostType_Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Imageposts.Upload_Images_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Chatroom.Chat_Room_MakeOrSearch_Activity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Chatroom.Chat_With_Users_Activity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Search_Other_Users_Activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivities.Loading_Screen_Activity"
@@ -119,10 +89,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivities.Forgot_Password_Activity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AccountActivities.Account_Info_Activity"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivities.RegistrationActivity"

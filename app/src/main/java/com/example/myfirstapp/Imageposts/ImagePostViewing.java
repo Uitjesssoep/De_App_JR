@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
@@ -299,7 +298,8 @@ public class ImagePostViewing extends AppCompatActivity {
 
                                     if (MyUIdForCheck.equals(PostUIDForCheck)) {
 
-                                        Intent GoToMyProfileAfterCheck = new Intent(ImagePostViewing.this, Account_Info_Activity.class);
+                                        Intent GoToMyProfileAfterCheck = new Intent(ImagePostViewing.this, Layout_Manager_BottomNav_Activity.class);
+                                        GoToMyProfileAfterCheck.putExtra("Type", "Account");
                                         startActivity(GoToMyProfileAfterCheck);
 
                                     } else {

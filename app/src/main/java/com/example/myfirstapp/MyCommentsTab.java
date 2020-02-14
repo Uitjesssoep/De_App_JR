@@ -18,17 +18,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.example.myfirstapp.AccountActivities.Account_Info_Activity;
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUserComments_Activity;
-import com.example.myfirstapp.Imageposts.Image_Post_Viewing_Activity;
-import com.example.myfirstapp.Textposts.CommentStuffForTextPost;
-import com.example.myfirstapp.Textposts.CommentStuffForTextPostAdapter;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPostMyProf;
 import com.example.myfirstapp.Textposts.CommentStuffForTextPostMyProfAdapter;
 import com.example.myfirstapp.Textposts.Post_Viewing_Activity;

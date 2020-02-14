@@ -22,7 +22,6 @@ import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.Textposts.StuffForPost;
-import com.example.myfirstapp.Users.UID;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,7 +41,7 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity.hideKeyboard;
 
 public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
-    private ImageView Image = findViewById(R.id.ivImageTemporaryForChat);
+   /* private ImageView Image = findViewById(R.id.ivImageTemporaryForChat);
     private ImageButton SendImage = findViewById(R.id.ibSendImageToChat);
     private EditText ChatInputText;
     private Uri mImageUri = (Uri) getIntent().getExtras().get("ImageUri");
@@ -195,6 +194,6 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
                 Toast.makeText(Upload_Images_Activity.this, "Couldn't retrieve data from database", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    } */
 
 }
