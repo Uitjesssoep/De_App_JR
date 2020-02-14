@@ -239,7 +239,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
             mImageUri = data.getData();
             Intent intent = new Intent(ChatPrivateWithUsers.this, ImageTemporaryViewingPrivateChat.class);
             startActivity(intent);
-            Picasso.get().load(mImageUri).fit().centerCrop().into(mImageView);
+            intent.putExtra("ImageUri", mImageUri);
+
         }
     }
 
