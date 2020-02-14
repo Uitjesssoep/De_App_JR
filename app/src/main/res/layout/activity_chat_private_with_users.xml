@@ -9,23 +9,23 @@
     android:background="?attr/backgroundcolor">
 
     <ImageButton
-        android:id="@+id/btnSendMessageChatPrivate"
+        android:id="@+id/ibSendMessageChatPrivate"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:src="@drawable/ic_send_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ibSendImage"
+        app:layout_constraintEnd_toStartOf="@id/ibSendImageChatPrivate"
         app:layout_constraintStart_toEndOf="@+id/etChatInputPrivate"
         app:layout_constraintTop_toBottomOf="@+id/rvChatWindowPrivate" />
 
     <ImageButton
-        android:id="@+id/ibSendImage"
+        android:id="@+id/ibSendImageChatPrivate"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:src="@drawable/ic_camera_alt_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnSendMessageChatPrivate"
+        app:layout_constraintStart_toEndOf="@id/ibSendMessageChatPrivate"
         app:layout_constraintTop_toBottomOf="@id/rvChatWindowPrivate" />
 
     <EditText
@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnSendMessageChat"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnSendMessageChatPrivate" />
+        app:layout_constraintTop_toTopOf="@+id/ibSendMessageChatPrivate" />
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -48,7 +48,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/btnSendMessageChatPrivate"
+        app:layout_constraintBottom_toTopOf="@+id/ibSendMessageChatPrivate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

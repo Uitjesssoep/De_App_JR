@@ -1,8 +1,12 @@
 package com.example.myfirstapp.Chatroom;
 
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -26,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,8 +39,9 @@ import java.util.List;
 
 public class ChatPrivateWithUsers extends AppCompatActivity {
 
+    private static final int PICK_IMAGE_REQUEST = 1;
     private DatabaseReference myDatabase, MessageDatabase, myDatabase2;
-    private ImageButton SendChatButton;
+    private ImageButton SendChatButton, SendImageButton;
     private EditText ChatInputText;
     private TextView Conversation_Content;
 
@@ -46,6 +52,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     private String room_name, user_name, Key;
     private String temp_key, TAG = "Test";
     private String message, messageNummeroTwee, UID;
+
+    private Uri mImageUri;
 
     private String LayoutPosition = "ARGS_SCROLL_POS";
     private String LayoutFloat = "ARGS_SCROLL_OFFSET";
@@ -97,7 +105,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
 
     private void SetupUI() {
-        SendChatButton = findViewById(R.id.btnSendMessageChatPrivate);
+        SendImageButton = findViewById(R.id.ibSendImageChatPrivate);
+        SendChatButton = findViewById(R.id.ibSendMessageChatPrivate);
         ChatInputText = findViewById(R.id.etChatInputPrivate);
         //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
         ChatWindow = findViewById(R.id.rvChatWindowPrivate);
@@ -212,6 +221,53 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void openFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+
+        // intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+            Intent intent = new Intent(ChatPrivateWithUsers.this, ImageTemporaryViewingPrivateChat.class);
+            startActivity(intent);
+            Picasso.get().load(mImageUri).fit().centerCrop().into(mImageView);
+        }
+    }
+
+
+    private String getFileExtension(Uri uri) { //om extension van bestand te krijgen
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    private void SendImage(){
+        SendImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FirebaseDatabase.getInstance().getReference("users").child(MyUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        message=ChatInputText.getText().toString();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
     }
 
     private void SendChat() {
