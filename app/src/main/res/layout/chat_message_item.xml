@@ -37,8 +37,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDateMessage"
         app:layout_constraintVertical_bias="0.0"
-        tools:layout_conversion_absoluteHeight="300dp"
-        tools:layout_conversion_absoluteWidth="300dp"
         tools:srcCompat="@tools:sample/avatars" />
 
 
