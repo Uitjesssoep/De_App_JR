@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -784,6 +785,8 @@ public class AllFeedTab extends Fragment {
 
     public void onResume() {
         super.onResume();
+
+        Log.e("OnResume", "OnResume bereikt");
 
         if (mBundleRecyclerViewState != null) {
             new Handler().postDelayed(new Runnable() {

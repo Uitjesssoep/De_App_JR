@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -33,7 +34,6 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
     public interface OnItemClickListener {
         void onItemClick(int position);
-
     }
 
     public void setOnItemClickListener(PostStuffForChatAdapter.OnItemClickListener listener) {
@@ -50,7 +50,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
     @NonNull
     @Override
     public PostStuffForPrivateChatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.text_post_item_layout, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.chat_private_list_item, parent, false);
         return new PostStuffForPrivateChatAdapter.ViewHolder(view, mListener);
     }
 
@@ -60,35 +60,24 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
         final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final String UID = uploadCurrent.getmUID();
 
-        FirebaseDatabase.getInstance().getReference().child("users").child(UID).child("userName").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("users").child(UID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Username = dataSnapshot.getValue().toString();
-                holder.Username.setText(Username);
-                holder.Title.setVisibility(View.GONE);
-                StringBuilder str = new StringBuilder(uploadCurrent.getmDate());
-                str.replace(5, 12, "");
-                String Date = str.toString();
-                holder.Date.setText(Date);
-                holder.CommentCount.setVisibility(View.GONE);
-                holder.CommentLogo.setVisibility(View.GONE);
-                holder.Content.setVisibility(View.GONE);
-                holder.Streepje.setTextColor(Color.WHITE);
-                holder.LikeCount.setVisibility(View.GONE);
-                holder.DislikeCount.setVisibility(View.GONE);
-                holder.CommentCount.setVisibility(View.GONE);
-                holder.CommentLogo.setVisibility(View.GONE);
-                holder.Downvote.setVisibility(View.GONE);
-                holder.Upvote.setVisibility(View.GONE);
-                holder.DeleteTextPost.setVisibility(View.GONE);
-            }
 
+                Username = dataSnapshot.child("userName").getValue().toString();
+                holder.Username.setText(Username);
+
+                Picasso.get()
+                        .load(dataSnapshot.child("profilePicture").getValue().toString())
+                        .placeholder(R.drawable.neutral_profile_picture_nobackground)
+                        .fit()
+                        .centerCrop()
+                        .into(holder.ProfilePicOtherUser);
+            }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-
     }
 
     @Override
@@ -98,27 +87,16 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView Username, LikeCount, DislikeCount, CommentCount, Title, Content, KeyHolder, Date, Streepje;
-        public ImageButton Upvote, Downvote, DeleteTextPost;
-        public ImageView CommentLogo;
+        public TextView Username, LastMessage, TimeLastMessage;
+        public ImageView ProfilePicOtherUser;
 
         public ViewHolder(@NonNull View itemView, final PostStuffForChatAdapter.OnItemClickListener listener) {
             super(itemView);
 
-            Streepje=itemView.findViewById(R.id.tvStreepjeTextPostItem);
-
-            Username = itemView.findViewById(R.id.tvTitleTextPostItem);
-            LikeCount = itemView.findViewById(R.id.tvLikeCounterTextPostItem);
-            DislikeCount = itemView.findViewById(R.id.tvDislikeCounterTextPostItem);
-            CommentCount = itemView.findViewById(R.id.tvCommentCountTextPostItem);
-            Title = itemView.findViewById(R.id.tvUsernameTextPostItem);
-            KeyHolder = itemView.findViewById(R.id.tvKeyHiddenTextPostItem);
-            Date = itemView.findViewById(R.id.tvPostDateTextPostItem);
-            Upvote = itemView.findViewById(R.id.ibLikeUpTextPostItem);
-            Downvote = itemView.findViewById(R.id.ibLikeDownTextPostItem);
-            DeleteTextPost = itemView.findViewById(R.id.ibDeleteIconTextPostItem);
-            CommentLogo = itemView.findViewById(R.id.ivCommentImageTextPostItem);
-            Content = itemView.findViewById(R.id.tvContentTextPostItem);
+            Username = itemView.findViewById(R.id.tvUsernameToChatWith);
+            LastMessage = itemView.findViewById(R.id.tvLastMessagePrivateChat);
+            TimeLastMessage = itemView.findViewById(R.id.tvTimeOfLastMessage);
+            ProfilePicOtherUser = itemView.findViewById(R.id.ivProfilePictureChatList);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

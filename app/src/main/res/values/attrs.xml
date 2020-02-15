@@ -18,6 +18,11 @@
         <attr name="thebuttoncolor" format="color"/>
         <attr name="imageviewoutlinecolor" format="color"/>
         <attr name="bottomnavigationbarthingcolor" format="color"/>
+        <attr name="chatitembackground" format="color"/>
+        <attr name="mychatitembackground" format="color"/>
+        <attr name="chatbackground" format="color"/>
+        <attr name="chatedittextpartbackground" format="color"/>
+        <attr name="chatedittextcolor" format="color"/>
     </declare-styleable>
     
 </resources>

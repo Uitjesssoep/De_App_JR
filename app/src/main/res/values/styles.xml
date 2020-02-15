@@ -25,6 +25,11 @@
         <item name="thebuttoncolor">#4caf50</item>
         <item name="imageviewoutlinecolor">#e0e0e0</item>
         <item name="bottomnavigationbarthingcolor">#FFFFFF</item>
+        <item name="chatitembackground">#eeeeee</item>
+        <item name="mychatitembackground">#C7C7C7</item>
+        <item name="chatbackground">#FFFFFF</item>
+        <item name="chatedittextpartbackground">#F6F6F6</item>
+        <item name="chatedittextcolor">#E4E4E4</item>
     </style>
 
     <style name="AppTheme_Night" parent="Theme.AppCompat.Light.NoActionBar">
@@ -53,6 +58,11 @@
         <item name="thebuttoncolor">#39833C</item>
         <item name="imageviewoutlinecolor">#696969</item>
         <item name="bottomnavigationbarthingcolor">#212121</item>
+        <item name="chatitembackground">#424242</item>
+        <item name="mychatitembackground">#717171</item>
+        <item name="chatbackground">#0C0C0C</item>
+        <item name="chatedittextpartbackground">#212121</item>
+        <item name="chatedittextcolor">#424242</item>
 
 
         <item name="alertDialogTheme">@style/AlertDialog_night</item>

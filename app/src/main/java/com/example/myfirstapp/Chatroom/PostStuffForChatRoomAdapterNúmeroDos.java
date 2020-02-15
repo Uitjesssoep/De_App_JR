@@ -54,9 +54,9 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
       //  Log.e("Check", uploadCurrent.getmUserName());
         holder.Username.setVisibility(View.GONE);
         if (uploadCurrent.getmUID().equals(MyUID)){
-            holder.itemView.setBackgroundColor(Color.CYAN);
+            holder.itemView.setBackgroundResource(R.drawable.edittext_mychatitem);
         }else{
-            holder.itemView.setBackgroundColor(Color.GRAY);
+            holder.itemView.setBackgroundResource(R.drawable.edittext_chatitem);
         }
     }
 
