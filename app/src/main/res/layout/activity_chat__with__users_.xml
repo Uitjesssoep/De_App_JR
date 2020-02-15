@@ -8,6 +8,10 @@
     tools:context=".Chatroom.Chat_With_Users_Activity"
     android:background="?attr/backgroundcolor">
 
+    <include
+        android:id="@+id/action_bar_chatroom"
+        layout="@layout/action_bar_chatprivate"/>
+
     <Button
         android:id="@+id/btnSendMessageChat"
         android:layout_width="0dp"
@@ -42,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/action_bar_chatroom" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

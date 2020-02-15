@@ -6,53 +6,84 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Chatroom.ChatPrivateWithUsers"
-    android:background="?attr/backgroundcolor">
+    android:background="?attr/chatedittextpartbackground">
+
+    <include
+        android:id="@+id/action_bar_chatprivatewithusers"
+        layout="@layout/action_bar_chatprivate"/>
 
     <ImageButton
         android:id="@+id/ibSendMessageChatPrivate"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_send_black_24dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/edittext_chatedittext"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:src="@drawable/ic_send_groen_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/ibSendImageChatPrivate"
-        app:layout_constraintStart_toEndOf="@+id/etChatInputPrivate"
-        app:layout_constraintTop_toBottomOf="@+id/rvChatWindowPrivate" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvChatWindowPrivate"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
         android:id="@+id/ibSendImageChatPrivate"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_camera_alt_black_24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ibSendMessageChatPrivate"
-        app:layout_constraintTop_toBottomOf="@id/rvChatWindowPrivate" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?attr/edittextbackground"
+        android:src="@drawable/ic_camera_alt_grey_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etChatInputPrivate"
+        app:layout_constraintEnd_toEndOf="@+id/etChatInputPrivate"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/etChatInputPrivate"
+        app:layout_constraintTop_toTopOf="@+id/etChatInputPrivate"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/etChatInputPrivate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/edittext_chatedittext"
         android:ems="10"
-        android:inputType="textCapSentences"
+        android:hint="Type a message"
+        android:maxHeight="200dp"
+        android:maxLength="1500"
+        android:inputType="textMultiLine"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="?attr/maintextcolor"
+        android:textColorHint="?attr/lichtgreytextcolor"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSendMessageChat"
+        app:layout_constraintEnd_toStartOf="@+id/ibSendMessageChatPrivate"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ibSendMessageChatPrivate" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChatWindowPrivate"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:background="?attr/chatbackground"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/ibSendMessageChatPrivate"
+        app:layout_constraintBottom_toTopOf="@+id/etChatInputPrivate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/action_bar_chatprivatewithusers" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

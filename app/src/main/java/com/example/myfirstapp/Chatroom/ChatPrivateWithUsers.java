@@ -2,6 +2,7 @@ package com.example.myfirstapp.Chatroom;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.icu.text.CaseMap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,6 +38,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ChatPrivateWithUsers extends AppCompatActivity {
 
@@ -52,6 +56,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     private String room_name, user_name, Key;
     private String temp_key, TAG = "Test";
     private String message, messageNummeroTwee, UID;
+
+    private ImageButton Exit;
+    private TextView TitleActionBar;
 
     private Uri mImageUri;
 
@@ -80,6 +87,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     private int scrollPosition;
     private String Keyold;
 
+    private Boolean SendImageVisible = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,11 +103,11 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_private_with_users);
         SetupUI();
+        SetupDesign();
         TakeCareOfThings();
         LoadMessages();
         SendImage();
         SendChat();
-
     }
 
     private void PositionManager() {
@@ -107,6 +116,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
     private void SetupUI() {
         SendImageButton = findViewById(R.id.ibSendImageChatPrivate);
+
+        SendImageButton.bringToFront();
+
         SendChatButton = findViewById(R.id.ibSendMessageChatPrivate);
         ChatInputText = findViewById(R.id.etChatInputPrivate);
         //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
@@ -143,6 +155,36 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         postStuffForChatRoomAdapterNúmeroDos = new PostStuffForChatRoomAdapterNúmeroDos(ChatPrivateWithUsers.this, MessagesList);
         ChatWindow.setAdapter(postStuffForChatRoomAdapterNúmeroDos);
 
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                        String Input = ChatInputText.getText().toString();
+                        if(!Input.isEmpty()){
+                            if(SendImageVisible){
+                                SendImageVisible = false;
+                            }
+                        }
+                        else {
+                            SendImageVisible = true;
+                        }
+
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        if(SendImageVisible){
+                            SendImageButton.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            SendImageButton.setVisibility(View.INVISIBLE);
+                        }
+
+                    }
+                });
+
+            }
+        }, 0, 100);
 
     }
 
@@ -284,21 +326,14 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                             Log.e(TAG, "gepushed");
                             ChatInputText.setText("");
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
                         }
                     });
-
-
                 }
             }
         });
-
     }
-
-
     public void clear() {
 
         int size = MessagesList.size();
@@ -314,5 +349,37 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         }
     }
 
+    private void SetupDesign() {
+
+        //action bar ding
+
+        final Toolbar toolbar = findViewById(R.id.action_bar_chatprivatewithusers);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Exit = (ImageButton) toolbar.findViewById(R.id.exitchatprivate);
+        Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        String OtherUID = getIntent().getExtras().get("UID").toString();
+        DatabaseReference GetUsername = FirebaseDatabase.getInstance().getReference("users").child(OtherUID).child("userName");
+        GetUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                String TheirUsername = dataSnapshot.getValue().toString();
+
+                TitleActionBar = toolbar.findViewById(R.id.titlechatprivate);
+                TitleActionBar.setText(TheirUsername);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
 
 }

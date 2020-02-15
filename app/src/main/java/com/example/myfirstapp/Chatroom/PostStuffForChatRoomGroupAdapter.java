@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -46,6 +47,14 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
         String Date = str.toString();
         holder.Date.setText(Date);
         String UID = uploadCurrent.getmUID();
+
+        String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        if (uploadCurrent.getmUID().equals(MyUID)){
+            holder.itemView.setBackgroundResource(R.drawable.edittext_mychatitem);
+        }else{
+            holder.itemView.setBackgroundResource(R.drawable.edittext_chatitem);
+        }
 
 
         //  Log.e("Check", uploadCurrent.getmUserName());

@@ -5,12 +5,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +41,9 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     private Button SendChatButton;
     private EditText ChatInputText;
     private TextView Conversation_Content;
+
+    private ImageButton Exit;
+    private TextView TitleActionBar;
 
     private PostStuffForChatAdapter postStuffForChatAdapter;
     private PostStuffForChatRoomGroupAdapter postStuffForChatRoomGroupAdapter;
@@ -83,6 +88,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         SetupUI();
         LoadMessages();
         SendChat();
+        SetupDesign();
 
     }
  /*   @Override
@@ -171,8 +177,6 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     }
 
     private void SetupUI() {
-        setTheme(R.style.AppTheme);
-
         SendChatButton = findViewById(R.id.btnSendMessageChat);
         ChatInputText = findViewById(R.id.etChatInput);
         //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
@@ -260,6 +264,39 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
             postStuffForChatRoomGroupAdapter.notifyItemRangeRemoved(0, size);
         }
+    }
+
+    private void SetupDesign() {
+
+        //action bar ding
+
+        final Toolbar toolbar = findViewById(R.id.action_bar_chatroom);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Exit = (ImageButton) toolbar.findViewById(R.id.exitchatprivate);
+        Exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        String TheChatKey = getIntent().getExtras().get("Key").toString();
+        DatabaseReference GetName = FirebaseDatabase.getInstance().getReference("Chatrooms").child(TheChatKey).child("title");
+        GetName.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                String TheName = dataSnapshot.getValue().toString();
+
+                TitleActionBar = toolbar.findViewById(R.id.titlechatprivate);
+                TitleActionBar.setText(TheName);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
 
@@ -395,6 +432,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
         Iterator i = dataSnapshot.getChildren().iterator();
 
+        while(i.hasNext()){
         while(i.hasNext()){
 
             chat_msg = (String) ((DataSnapshot)i.next()).getValue();
