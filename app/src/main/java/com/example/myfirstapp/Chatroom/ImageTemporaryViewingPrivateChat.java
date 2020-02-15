@@ -2,7 +2,6 @@ package com.example.myfirstapp.Chatroom;
 
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
 import com.example.myfirstapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,7 +31,6 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.example.myfirstapp.Chatroom.Chatrooms_Post_Activity.hideKeyboard;
 
 public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
@@ -41,6 +38,7 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
     private ImageButton SendImage;
     private EditText ChatInputText;
     private Uri mImageUri;
+    private String mImageUriString;
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
     private String MyUID, usernameString, temp_key, UriImage, Date, key, UID;
@@ -54,18 +52,20 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_temporary_viewing_private_chat);
         SendImage = findViewById(R.id.ibSendImageToChat);
-        mImageUri = (Uri) getIntent().getExtras().get("ImageUri");
-        Image = findViewById(R.id.ivImageTemporaryForChat);
-        mStorageRef = FirebaseStorage.getInstance().getReference("General_Posts");
-        MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         UID = getIntent().getExtras().get("UID").toString();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("messages");
-        ChatInputText = findViewById(R.id.etChatInputPrivate);
         Message = getIntent().getExtras().get("Message").toString();
+        mImageUri = Uri.parse(getIntent().getExtras().get("mImageUri").toString());
+        Image = findViewById(R.id.ivImageTemporaryForChat);
+        mStorageRef = FirebaseStorage.getInstance().getReference("Chat");
+        MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Messages");
+        ChatInputText = findViewById(R.id.etMessageWithImageForChat);
+
         Picasso.get().load(mImageUri).fit().centerCrop().into(Image);
         ChatInputText.setText(Message);
         calendar = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
         Date = dateFormat.format(calendar.getTime());
 
         SendImage.setOnClickListener(new View.OnClickListener() {
@@ -132,16 +132,21 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
 
     private void SendImage() {
 
+        String mMessage= ChatInputText.getText().toString();
         temp_key = mDatabaseRef.push().getKey();
-        PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(Message, "image", false, Date, MyUID, UriImage);
+        PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(mMessage, "image", false, Date, MyUID, UriImage);
         mDatabaseRef.child(MyUID).child(UID).child(temp_key).setValue(postStuffForChatRoom);
-        mDatabaseRef.child(UID).child(MyUID).child(temp_key).setValue(postStuffForChatRoom);
-        Intent VNoD = new Intent(ImageTemporaryViewingPrivateChat.this, Layout_Manager_BottomNav_Activity.class);
+        mDatabaseRef.child(UID).child(MyUID).child(temp_key).setValue(postStuffForChatRoom).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                finish();
+            }
+        });
+      /*  Intent VNoD = new Intent(ImageTemporaryViewingPrivateChat.this, Layout_Manager_BottomNav_Activity.class);
         VNoD.setFlags(FLAG_ACTIVITY_NEW_TASK);
         VNoD.putExtra("Type", "TextMake");
         VNoD.putExtra("Key", temp_key);
-        startActivity(VNoD);
-        finish();
+        startActivity(VNoD);*/
     }
 
 }

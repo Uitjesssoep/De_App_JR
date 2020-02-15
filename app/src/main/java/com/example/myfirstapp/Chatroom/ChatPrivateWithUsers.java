@@ -30,7 +30,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -238,12 +237,13 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             mImageUri = data.getData();
-            Intent intent = new Intent(ChatPrivateWithUsers.this, ImageTemporaryViewingPrivateChat.class);
-            startActivity(intent);
-            intent.putExtra("ImageUri", mImageUri);
-            intent.putExtra("UID", UID);
-            intent.putExtra("Message", ChatInputText.getText().toString());
-
+            if (mImageUri != null) {
+                Intent intent = new Intent(ChatPrivateWithUsers.this, ImageTemporaryViewingPrivateChat.class);
+                intent.putExtra("mImageUri", mImageUri);
+                intent.putExtra("UID", UID);
+                intent.putExtra("Message", ChatInputText.getText().toString());
+                startActivity(intent);
+            }
         }
     }
 
