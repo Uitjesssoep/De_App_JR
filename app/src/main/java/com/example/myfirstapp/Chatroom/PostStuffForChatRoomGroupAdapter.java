@@ -1,9 +1,11 @@
 package com.example.myfirstapp.Chatroom;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -47,6 +50,18 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
         String Date = str.toString();
         holder.Date.setText(Date);
         String UID = uploadCurrent.getmUID();
+
+        String Type = uploadCurrent.getmType();
+        if (Type.equals("image")){
+            Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
+            Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.Image);
+            holder.Image.setVisibility(View.VISIBLE);
+            holder.Message.setVisibility(View.GONE);
+        }
+        else {
+            holder.Image.setVisibility(View.GONE);
+            holder.Message.setVisibility(View.VISIBLE);
+        }
 
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -83,6 +98,7 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         public TextView Message, Username, Date;
+        public ImageView Image;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,6 +106,7 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
             Message = itemView.findViewById(R.id.tvMessage);
             Username = itemView.findViewById(R.id.tvUserNameMessage);
             Date = itemView.findViewById(R.id.tvDateMessage);
+            Image = itemView.findViewById(R.id.ivImageInPrivateChat);
         }
     }
 

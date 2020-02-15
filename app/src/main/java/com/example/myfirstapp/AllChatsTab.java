@@ -233,7 +233,7 @@ public class AllChatsTab extends Fragment {
                 postStuffForChatAdapter.setOnItemClickListener(new PostStuffForChatAdapter.OnItemClickListener() {
 
                     @Override
-                    public void onItemClick(int position) {
+                    public void onItemClick(final int position) {
                         final String key = postStuffForChatList.get(position).getKey();
 
                         DatabaseReference CheckIfExists = FirebaseDatabase.getInstance().getReference("Chatrooms");
