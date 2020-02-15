@@ -51,7 +51,13 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
        if (Type.equals("image")){
            Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
             Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.Image);
+            holder.Image.setVisibility(View.VISIBLE);
+            holder.Message.setVisibility(View.GONE);
         }
+       else {
+           holder.Image.setVisibility(View.GONE);
+           holder.Message.setVisibility(View.VISIBLE);
+       }
       //  Log.e("Check", uploadCurrent.getmUserName());
         holder.Username.setVisibility(View.GONE);
         if (uploadCurrent.getmUID().equals(MyUID)){
