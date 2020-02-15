@@ -50,7 +50,7 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
         String Type = uploadCurrent.getmType();
        if (Type.equals("image")){
            Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
-            Picasso.get().load(uploadCurrent.getmImageUrl()).centerCrop().into(holder.Image);
+            Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.Image);
         }
       //  Log.e("Check", uploadCurrent.getmUserName());
         holder.Username.setVisibility(View.GONE);
