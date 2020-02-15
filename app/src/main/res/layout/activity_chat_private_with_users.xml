@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="?attr/edittextbackground"
+        android:background="?attr/chatedittextcolor"
         android:src="@drawable/ic_camera_alt_grey_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/etChatInputPrivate"
         app:layout_constraintEnd_toEndOf="@+id/etChatInputPrivate"

@@ -28,8 +28,8 @@
         <item name="chatitembackground">#eeeeee</item>
         <item name="mychatitembackground">#C7C7C7</item>
         <item name="chatbackground">#FFFFFF</item>
-        <item name="chatedittextpartbackground">#F0F0F0</item>
-        <item name="chatedittextcolor">#D4D4D4</item>
+        <item name="chatedittextpartbackground">#F6F6F6</item>
+        <item name="chatedittextcolor">#E4E4E4</item>
     </style>
 
     <style name="AppTheme_Night" parent="Theme.AppCompat.Light.NoActionBar">
