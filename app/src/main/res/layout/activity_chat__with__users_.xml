@@ -6,43 +6,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Chatroom.Chat_With_Users_Activity"
-    android:background="?attr/backgroundcolor">
+    android:background="?attr/chatedittextpartbackground">
 
     <include
         android:id="@+id/action_bar_chatroom"
         layout="@layout/action_bar_chatprivate"/>
 
-    <Button
-        android:id="@+id/btnSendMessageChat"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Send"
+    <ImageButton
+        android:id="@+id/ibSendMessageChat"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/edittext_chatedittext"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:src="@drawable/ic_send_groen_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/etChatInput"
-        app:layout_constraintTop_toBottomOf="@+id/rvChatWindow" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvChatWindowPrivate"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/ibSendImageChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?attr/chatedittextcolor"
+        android:src="@drawable/ic_camera_alt_grey_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/etChatInput"
+        app:layout_constraintEnd_toEndOf="@+id/etChatInput"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/etChatInput"
+        app:layout_constraintTop_toTopOf="@+id/etChatInput"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/etChatInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/edittext_chatedittext"
         android:ems="10"
-        android:inputType="textCapSentences"
+        android:hint="Type a message"
+        android:maxHeight="200dp"
+        android:maxLength="1500"
+        android:inputType="textMultiLine"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="?attr/maintextcolor"
+        android:textColorHint="?attr/lichtgreytextcolor"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSendMessageChat"
+        app:layout_constraintEnd_toStartOf="@+id/ibSendMessageChat"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnSendMessageChat" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChatWindow"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:background="?attr/chatbackground"
         android:scrollbars="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/btnSendMessageChat"
+        app:layout_constraintBottom_toTopOf="@+id/etChatInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

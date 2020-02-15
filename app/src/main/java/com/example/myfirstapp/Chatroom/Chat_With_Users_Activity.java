@@ -33,17 +33,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Chat_With_Users_Activity extends AppCompatActivity {
 
 
     private DatabaseReference myDatabase, MessageDatabase, myDatabase2;
-    private Button SendChatButton;
+    private ImageButton SendChatButton, SendImageButton;
     private EditText ChatInputText;
     private TextView Conversation_Content;
 
     private ImageButton Exit;
     private TextView TitleActionBar;
+
+    private Boolean SendImageVisible = true;
 
     private PostStuffForChatAdapter postStuffForChatAdapter;
     private PostStuffForChatRoomGroupAdapter postStuffForChatRoomGroupAdapter;
@@ -177,7 +181,12 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     }
 
     private void SetupUI() {
-        SendChatButton = findViewById(R.id.btnSendMessageChat);
+
+        SendImageButton = findViewById(R.id.ibSendImageChat);
+
+        SendImageButton.bringToFront();
+
+        SendChatButton = findViewById(R.id.ibSendMessageChat);
         ChatInputText = findViewById(R.id.etChatInput);
         //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
         ChatWindow = findViewById(R.id.rvChatWindow);
@@ -210,6 +219,38 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         myDatabase2 = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("messages");
 
         message = ChatInputText.getText().toString();
+
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                String Input = ChatInputText.getText().toString();
+                if(!Input.isEmpty()){
+                    if(SendImageVisible){
+                        SendImageVisible = false;
+                    }
+                }
+                else {
+                    SendImageVisible = true;
+                }
+
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        if(SendImageVisible){
+                            SendImageButton.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            SendImageButton.setVisibility(View.INVISIBLE);
+                        }
+
+                    }
+                });
+
+            }
+        }, 0, 100);
+
     }
 
     private void SendChat() {
