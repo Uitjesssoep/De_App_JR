@@ -1,7 +1,7 @@
 package com.example.myfirstapp.Chatroom;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +58,13 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
         }else{
             holder.itemView.setBackgroundResource(R.drawable.edittext_chatitem);
         }
+        holder.Image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+               // act(intent);
+            }
+        });
     }
 
     @Override
