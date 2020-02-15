@@ -6,88 +6,78 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp">
+    android:layout_marginBottom="2dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="50dp"
+    android:background="@drawable/edittext_chatitem">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/tvUserNameMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        android:background="@drawable/edittext_chatitem"
+        android:layout_marginTop="8dp"
+        android:text="Username"
+        android:textColor="?attr/lichtgreytextcolor"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/tvUserNameMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Username"
-            android:textColor="?attr/lichtgreytextcolor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
-            android:id="@+id/ivImageInPrivateChat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDateMessage"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_conversion_absoluteHeight="300dp"
-            tools:layout_conversion_absoluteWidth="300dp"
-            tools:srcCompat="@tools:sample/avatars" />
+    <ImageView
+        android:id="@+id/ivImageInPrivateChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDateMessage"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_conversion_absoluteHeight="300dp"
+        tools:layout_conversion_absoluteWidth="300dp"
+        tools:srcCompat="@tools:sample/avatars" />
 
 
-        <TextView
-            android:id="@+id/tvDateMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Date"
-            android:textColor="?attr/lichtgreytextcolor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tvUserNameMessage"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:layout_conversion_absoluteHeight="19dp"
-            tools:layout_conversion_absoluteWidth="29dp" />
+    <TextView
+        android:id="@+id/tvDateMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Date"
+        android:textColor="?attr/lichtgreytextcolor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/tvUserNameMessage"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_conversion_absoluteWidth="29dp" />
 
-        <TextView
-            android:id="@+id/tvMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:autoLink="web"
-            android:text="Message"
-            android:textColor="?attr/maintextcolor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivImageInPrivateChat"
-            app:layout_constraintVertical_bias="1.0"
-            tools:layout_conversion_absoluteHeight="19dp"
-            tools:layout_conversion_absoluteWidth="58dp" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:autoLink="web"
+        android:text="Message"
+        android:textColor="?attr/maintextcolor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivImageInPrivateChat"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_conversion_absoluteHeight="19dp"
+        tools:layout_conversion_absoluteWidth="58dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
