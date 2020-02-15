@@ -2,6 +2,7 @@ package com.example.myfirstapp.Chatroom;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,6 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        holder.Image.setVisibility(View.GONE);
         PostStuffForChatRoom uploadCurrent = mUploads.get(position);
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         holder.Message.setText(uploadCurrent.getmMessage());
@@ -46,10 +46,11 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
         str.replace(8, 9, "-");
         String Date = str.toString();
         holder.Date.setText(Date);
+       // holder.Image.setImageResource(R.drawable.app_logo_200);
         String Type = uploadCurrent.getmType();
-        if (Type.equals("image")){
-            holder.Image.setVisibility(View.VISIBLE);
-            Picasso.get().load(uploadCurrent.getmImageUrl()).fit().centerCrop().into(holder.Image);
+       if (Type.equals("image")){
+           Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
+            Picasso.get().load(uploadCurrent.getmImageUrl()).centerCrop().into(holder.Image);
         }
       //  Log.e("Check", uploadCurrent.getmUserName());
         holder.Username.setVisibility(View.GONE);
@@ -62,7 +63,7 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-               // act(intent);
+                mContext.startActivity(intent);
             }
         });
     }
