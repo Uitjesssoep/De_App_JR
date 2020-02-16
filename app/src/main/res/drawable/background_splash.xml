@@ -5,7 +5,7 @@
         <bitmap
 
             android:gravity="fill"
-            android:src="@drawable/ic_sort_green_24dp" />
+            android:src="@drawable/s_logo" />
 
     </item>
 </layer-list>
