@@ -50,7 +50,8 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
     @Override
     public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
         final PostStuffForChatRoom uploadCurrent = mUploads.get(position);
-        holder.Seen.setVisibility(View.GONE);
+
+
         holder.SeenM.setVisibility(View.GONE);
 
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -211,7 +212,7 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
-        public TextView Message, Username, Date, MessageM, UsernameM, DateM, Seen, SeenM;
+        public TextView Message, Username, Date, MessageM, UsernameM, DateM, SeenM;
         public ImageView Image, ImageM;
         public ConstraintLayout OtherConstraint, MineConstraint;
 
@@ -222,7 +223,6 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
             Username = itemView.findViewById(R.id.tvUserNameMessage);
             Date = itemView.findViewById(R.id.tvDateMessage);
             Image = itemView.findViewById(R.id.ivImageInPrivateChat);
-            Seen = itemView.findViewById(R.id.tvSeenMessage);
 
             MessageM = itemView.findViewById(R.id.tvMessageM);
             UsernameM = itemView.findViewById(R.id.tvUserNameMessageM);

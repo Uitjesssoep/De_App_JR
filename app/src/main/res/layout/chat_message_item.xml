@@ -75,34 +75,19 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="8dp"
+            android:textSize="15sp"
             android:layout_marginBottom="8dp"
             android:autoLink="web"
-            android:text="Message"
             android:paddingEnd="5dp"
+            android:text="Message"
             android:textColor="?attr/maintextcolor"
-            app:layout_constraintBottom_toTopOf="@id/tvSeenMessage"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivImageInPrivateChat"
-            app:layout_constraintVertical_bias="1.0"
             tools:layout_conversion_absoluteHeight="19dp"
             tools:layout_conversion_absoluteWidth="58dp" />
-
-        <TextView
-            android:id="@+id/tvSeenMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:autoLink="web"
-            android:text="Seen"
-            android:textColor="?attr/maintextcolor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMessage"
-            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -175,6 +160,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:textSize="15sp"
             android:autoLink="web"
             android:text="Message"
             android:paddingEnd="5dp"
