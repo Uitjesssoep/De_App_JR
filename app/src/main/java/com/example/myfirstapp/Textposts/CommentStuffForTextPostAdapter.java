@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -41,6 +42,8 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         void onUserNameClick(int position);
         void onUpvoteClick(int position);
         void onDownvoteClick(int position);
+        void onReplyIVClick(int position);
+        void onReplyTVClick(int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -535,8 +538,9 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView Username, Date, Content, LikeCount, DislikeCount;
+        public TextView Username, Date, Content, LikeCount, DislikeCount, ReplyTV;
         private ImageButton DeleteComment, Upvote, Downvote;
+        private ImageView ReplyIV;
 
         public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -549,6 +553,9 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
             DislikeCount = itemView.findViewById(R.id.tvDislikeCounterComment);
             Upvote = itemView.findViewById(R.id.ibLikeUpComment);
             Downvote = itemView.findViewById(R.id.ibLikeDownComment);
+
+            ReplyIV = itemView.findViewById(R.id.ivReplyImageComment);
+            ReplyTV = itemView.findViewById(R.id.tvReplyTextComment);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -593,6 +600,30 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
                         int position = getAdapterPosition();
                         if(position != RecyclerView.NO_POSITION){
                             listener.onDownvoteClick(position);
+                        }
+                    }
+                }
+            });
+
+            ReplyIV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onReplyIVClick(position);
+                        }
+                    }
+                }
+            });
+
+            ReplyTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onReplyTVClick(position);
                         }
                     }
                 }

@@ -53,6 +53,7 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
     @Override
     public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
         final PostStuffForChatRoom uploadCurrent = mUploads.get(position);
+
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         if (uploadCurrent.getmUID().equals(MyUID)){
