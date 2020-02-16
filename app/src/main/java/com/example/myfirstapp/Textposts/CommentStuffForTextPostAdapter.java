@@ -436,17 +436,24 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         });
 
 
-        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Likes");
-        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Dislikes");
+        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts");
+        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts");
         LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
 
-                            DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2);
-                            SetLikeCount.child("LikeCount").setValue(LikeCountAdapter);
+                if(dataSnapshot.hasChild(KeyOGPosts2)){
 
-                holder.LikeCount.setText("" + LikeCountAdapter);
+                    if(dataSnapshot.child(KeyOGPosts2).child("Comments").hasChild(KeyComments2)){
+                        LikeCountAdapter = (int) dataSnapshot.child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Likes").getChildrenCount();
+
+                        DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2);
+                        SetLikeCount.child("LikeCount").setValue(LikeCountAdapter);
+
+                        holder.LikeCount.setText("" + LikeCountAdapter);
+                    }
+                }
+
             }
 
             @Override
@@ -457,12 +464,18 @@ public class CommentStuffForTextPostAdapter extends RecyclerView.Adapter<Comment
         DislikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
 
-                            DatabaseReference SetDislikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2);
-                            SetDislikeCount.child("DislikeCount").setValue(DislikeCountAdapter);
+                if(dataSnapshot.hasChild(KeyOGPosts2)){
 
-                holder.DislikeCount.setText("" + DislikeCountAdapter);
+                    if(dataSnapshot.child(KeyOGPosts2).child("Comments").hasChild(KeyComments2)){
+                        DislikeCountAdapter = (int) dataSnapshot.child(KeyOGPosts2).child("Comments").child(KeyComments2).child("Dislikes").getChildrenCount();
+
+                        DatabaseReference SetDislikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2);
+                        SetDislikeCount.child("DislikeCount").setValue(DislikeCountAdapter);
+
+                        holder.DislikeCount.setText("" + DislikeCountAdapter);
+                    }
+                }
             }
 
             @Override

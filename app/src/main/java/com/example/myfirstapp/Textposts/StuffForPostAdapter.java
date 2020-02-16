@@ -49,6 +49,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
     public List<StuffForPost> mPost;
     public List<UserProfileToDatabase> mUserList = new ArrayList<>();
     public int CommentCountAdapter, LikeCountAdapter, DislikeCountAdapter;
+    private Boolean Deleted = false;
 
     private OnItemClickListener mListener;
     private String UIDClickable, Substring;
@@ -210,6 +211,8 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                                                                 DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
                                                                 DeleteThePost.removeValue();
 
+                                                                Deleted = true;
+
                                                                 String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                                                                 final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
@@ -311,6 +314,8 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                                 DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
                                                                 DeleteThePost.removeValue();
+
+                                                                Deleted = true;
 
                                                                 String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -522,39 +527,48 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
 
             }
         });
-        LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Likes");
-        DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah).child("Dislikes");
+
+
+        LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts");
+        DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("General_Posts");
         LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
 
-                DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah);
-                SetLikeCount.child("LikeCount").setValue(LikeCountAdapter);
+                if(dataSnapshot.hasChild(KeyYeah)){
+                    LikeCountAdapter = (int) dataSnapshot.child(KeyYeah).child("Likes").getChildrenCount();
 
+                    DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts");
+                    SetLikeCount.child(KeyYeah).child("LikeCount").setValue(LikeCountAdapter);
 
-                holder.LikeCount.setText("" + LikeCountAdapter);
+                    holder.LikeCount.setText("" + LikeCountAdapter);
+                }
+
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
+
+
+
+
+
         DislikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
 
-                DatabaseReference SetDislikeCount = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyYeah);
-                SetDislikeCount.child("DislikeCount").setValue(DislikeCountAdapter);
+                if(dataSnapshot.hasChild(KeyYeah)){
+                    DislikeCountAdapter = (int) dataSnapshot.child(KeyYeah).child("Dislikes").getChildrenCount();
 
-                holder.DislikeCount.setText("" + DislikeCountAdapter);
+                    DatabaseReference SetDisLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts");
+                    SetDisLikeCount.child(KeyYeah).child("DislikeCount").setValue(DislikeCountAdapter);
+
+                    holder.DislikeCount.setText("" + DislikeCountAdapter);
+                }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
