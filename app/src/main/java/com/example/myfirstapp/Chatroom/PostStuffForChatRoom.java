@@ -1,15 +1,14 @@
 package com.example.myfirstapp.Chatroom;
 
-import android.media.Image;
-
 public class PostStuffForChatRoom {
-    private String mMessage, mType, mDate, mUID, mImageUrl;
+    private String mMessage, mType, mUID, mImageUrl;
     private Boolean mSeen;
+    private long mDate;
 
 
 
 
-    public PostStuffForChatRoom(String Message, String Type, Boolean Seen, String Date, String UID, String ImageURl) {
+    public PostStuffForChatRoom(String Message, String Type, Boolean Seen, long Date, String UID, String ImageURl) {
         mMessage = Message;
         mType = Type;
         mSeen = Seen;
@@ -45,11 +44,11 @@ public class PostStuffForChatRoom {
         this.mSeen = mSeen;
     }
 
-    public String getmDate() {
+    public long getmDate() {
         return mDate;
     }
 
-    public void setmDate(String mDate) {
+    public void setmDate(long mDate) {
         this.mDate = mDate;
     }
 

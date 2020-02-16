@@ -1,16 +1,20 @@
 package com.example.myfirstapp.Chatroom;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myfirstapp.Imageposts.ImagePostViewing;
 import com.example.myfirstapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostStuffForChatRoomGroupAdapter.ImageViewHolder> {
@@ -26,6 +32,9 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
     private List<PostStuffForChatRoom> mUploads;
     private Context mContext;
     private String Username;
+    private Calendar cal;
+    private SimpleDateFormat dateFormat;
+    private String Date;
 
     public PostStuffForChatRoomGroupAdapter(Context context, List<PostStuffForChatRoom> uploads) {
         mContext = context;
@@ -41,9 +50,15 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
 
     @Override
     public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
-        PostStuffForChatRoom uploadCurrent = mUploads.get(position);
+        final PostStuffForChatRoom uploadCurrent = mUploads.get(position);
         holder.Message.setText(uploadCurrent.getmMessage());
-        StringBuilder str = new StringBuilder(uploadCurrent.getmDate());
+
+        cal = Calendar.getInstance();
+        cal.setTimeInMillis(uploadCurrent.getmDate());
+        dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
+        Date = dateFormat.format(cal.getTime());
+
+        StringBuilder str = new StringBuilder(Date);
         str.replace(5, 12, "");
         str.replace(11, 16, "");
         str.replace(8, 9, "-");
@@ -66,10 +81,26 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         if (uploadCurrent.getmUID().equals(MyUID)){
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(holder.itemView.getLayoutParams());
+            params.gravity = Gravity.RIGHT;
             holder.itemView.setBackgroundResource(R.drawable.edittext_mychatitem);
         }else{
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(holder.itemView.getLayoutParams());
+            params.gravity = Gravity.LEFT;
             holder.itemView.setBackgroundResource(R.drawable.edittext_chatitem);
         }
+        holder.Image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ImagePostViewing.class);
+                intent.putExtra("ImageUri", uploadCurrent.getmImageUrl());
+                intent.putExtra("UID", uploadCurrent.getmUID());
+                intent.putExtra("Date", uploadCurrent.getmDate());
+                intent.putExtra("Message", uploadCurrent.getmMessage());
+                intent.putExtra("key", "no key");
+                mContext.startActivity(intent);
+            }
+        });
 
 
         //  Log.e("Check", uploadCurrent.getmUserName());

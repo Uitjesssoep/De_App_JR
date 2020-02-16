@@ -2,14 +2,12 @@
 package com.example.myfirstapp.Imageposts;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -18,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
@@ -59,6 +56,9 @@ public class ImagePostViewing extends AppCompatActivity {
     private boolean Disliked = false;
     private boolean LikedCheck = false, DislikedCheck = false;
 
+    private String UID, mDate, Message;
+    private Uri ImageUri;
+
     private DatabaseReference DatabaseLike, DatabaseDislike, DatabaseIsItLiked, DatabaseIsItDisliked, DatabaseLikeCount, DatabaseDislikeCount;
     private DatabaseReference DatabaseCommentStuff, DatabaseCommentCount;
     private FirebaseAuth firebaseAuth;
@@ -84,7 +84,7 @@ public class ImagePostViewing extends AppCompatActivity {
 
         ImageContent = findViewById(R.id.ivImageContentImage);
         //PhotoViewAttacher photoViewAttacher = new PhotoViewAttacher(ImageContent);
-       // photoViewAttacher.update();
+        // photoViewAttacher.update();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -153,10 +153,9 @@ public class ImagePostViewing extends AppCompatActivity {
 
         sharedPrefNightMode = new SharedPrefNightMode(this);
 
-        if(sharedPrefNightMode.loadNightModeState()==true){
+        if (sharedPrefNightMode.loadNightModeState() == true) {
             setTheme(R.style.AppTheme_Night);
-        }
-        else {
+        } else {
             setTheme(R.style.AppTheme);
             setLightStatusBar(ImagePostViewing.this);
         }
@@ -166,53 +165,21 @@ public class ImagePostViewing extends AppCompatActivity {
 
         key = getIntent().getExtras().get("key").toString();
 
-        final DatabaseReference CheckIfNotDeleted = FirebaseDatabase.getInstance().getReference("General_Posts");
-        CheckIfNotDeleted.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.hasChild(key)) {
-
-                    SetupUI();
-
-                    //  LikeDislikeCount();
-
-                    // LookAtPostersProfile();
-
-                    LoadData();
-
-                } else {
-
-                    final android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(ImagePostViewing.this);
-                    dialog.setTitle("This post has been deleted");
-                    dialog.setMessage("This post has been deleted, you can no longer view it.");
-
-                    dialog.setPositiveButton("Understood", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                            Intent intent = new Intent(ImagePostViewing.this, Layout_Manager_BottomNav_Activity.class);
-                            startActivity(intent);
-                            finish();
-
-                        }
-                    });
-
-                    android.app.AlertDialog alertDialog = dialog.create();
-                    alertDialog.show();
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        SetupUI();
+        LoadData();
     }
 
     private void LoadData() {
+
+        if (key.equals("no key")) {
+            ImageUri = Uri.parse(getIntent().getExtras().get("ImageUri").toString());
+            Message = getIntent().getExtras().get("Message").toString();
+            mDate = getIntent().getExtras().get("Date").toString();
+            UID = getIntent().getExtras().get("UID").toString();
+            Picasso.get().load(ImageUri).into(ImageContent);
+
+        } else {
+
 
         final DatabaseReference PostType = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("type");
 
@@ -238,8 +205,6 @@ public class ImagePostViewing extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
                         Picasso.get().load(dataSnapshot.getValue(String.class)).into(ImageContent);
-                    //   PhotoViewAttacher photoViewAttacher = new PhotoViewAttacher(ImageContent);
-                       // photoViewAttacher.update();
                     }
 
                     @Override
@@ -281,8 +246,7 @@ public class ImagePostViewing extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });*/
-
+        });*/}
     }
 
     private void LookAtPostersProfile() {
