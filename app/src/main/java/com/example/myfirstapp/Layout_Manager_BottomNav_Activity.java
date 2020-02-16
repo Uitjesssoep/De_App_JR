@@ -283,10 +283,11 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
             frameLayout7.startAnimation(animation7);
             MakingSelected = false;
             frameLayout7.setVisibility(View.GONE);
-        } else {
-            finish();
             databaseReference.child("online").setValue(false);
             databaseReference.child("timestamp").setValue(System.currentTimeMillis());
+        } else {
+            finish();
+
         }
     }
 

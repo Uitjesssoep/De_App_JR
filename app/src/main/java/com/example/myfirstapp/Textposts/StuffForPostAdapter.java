@@ -10,6 +10,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -19,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +41,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapter.ViewHolder> {
 
@@ -87,10 +89,9 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
 
             SharedPrefNightMode sharedPrefNightMode = new SharedPrefNightMode(mContext);
 
-            if(sharedPrefNightMode.loadNightModeState()==true){
+            if (sharedPrefNightMode.loadNightModeState() == true) {
                 Picasso.get().load(uploadCurrent.getContent()).placeholder(R.color.grijsimagepostplaceholder).into(holder.Image);
-            }
-            else{
+            } else {
                 Picasso.get().load(uploadCurrent.getContent()).placeholder(R.color.white).into(holder.Image);
             }
             holder.Content.setVisibility(View.GONE);
@@ -103,24 +104,20 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                 holder.Content.setText(uploadCurrent.getContent());
             }
         }
-        if (uploadCurrent.getTitle().contains("@")) {
-            Log.e("Test", "Contains bereikt");
-            String Title = uploadCurrent.getTitle();
-            Substring = Title.substring(Title.indexOf("@"), Title.indexOf(" "));
-            if (true) {
-            }
-            int Begin = Title.indexOf("@");
-            int End = Title.indexOf(" ");
-            final String TitleSubstring = Title.substring(Begin, End);
-            SpannableString ss = SpannableString.valueOf(Title);
-            Log.e("TitleSubstring", TitleSubstring);
 
+        Log.e("Test", "Contains bereikt");
+        String Title = uploadCurrent.getTitle();
+        SpannableString ss = new SpannableString(Title);
+        Matcher matcher = Pattern.compile("@([A-Za-z0-9_-]+)").matcher(ss);
 
+        while (matcher.find()) {
+            ss.setSpan(new ForegroundColorSpan(Color.parseColor("#0000FF")), matcher.start(), matcher.end(), 0);
+            final String tag = matcher.group(0);
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(@NonNull View view) {
 
-                    FirebaseDatabase.getInstance().getReference("Usernames").child(TitleSubstring).addValueEventListener(new ValueEventListener() {
+                    FirebaseDatabase.getInstance().getReference("Usernames").child(tag).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Log.e("UIDClickable ", UIDClickable);
@@ -147,12 +144,12 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                 }
             };
 
-            ss.setSpan(clickableSpan, 1, 4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            holder.Title.setText(ss);
-            Log.e("SS", ss.toString());
-            holder.Title.setMovementMethod(LinkMovementMethod.getInstance());
-        }
+            ss.setSpan(clickableSpan, matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+        }
+        holder.Title.setText(ss);
+        Log.e("SS", ss.toString());
+        holder.Title.setMovementMethod(LinkMovementMethod.getInstance());
 
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
@@ -530,7 +527,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild(KeyYeah)){
+                if (dataSnapshot.hasChild(KeyYeah)) {
                     LikeCountAdapter = (int) dataSnapshot.child(KeyYeah).child("Likes").getChildrenCount();
 
                     DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts");
@@ -540,20 +537,18 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                 }
 
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
 
 
-
-
-
         DislikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.hasChild(KeyYeah)){
+                if (dataSnapshot.hasChild(KeyYeah)) {
                     DislikeCountAdapter = (int) dataSnapshot.child(KeyYeah).child("Dislikes").getChildrenCount();
 
                     DatabaseReference SetDisLikeCount = FirebaseDatabase.getInstance().getReference("General_Posts");
@@ -562,6 +557,7 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                     holder.DislikeCount.setText("" + DislikeCountAdapter);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
