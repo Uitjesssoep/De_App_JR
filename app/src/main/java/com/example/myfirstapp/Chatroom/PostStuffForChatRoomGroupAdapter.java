@@ -57,9 +57,6 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         if (uploadCurrent.getmUID().equals(MyUID)){
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(holder.itemView.getLayoutParams());
-            params.gravity = Gravity.RIGHT;
-
             holder.MessageM.setText(uploadCurrent.getmMessage());
 
             cal = Calendar.getInstance();
@@ -122,9 +119,6 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
 
 
         }else{
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(holder.itemView.getLayoutParams());
-            params.gravity = Gravity.LEFT;
-
             holder.Message.setText(uploadCurrent.getmMessage());
 
             cal = Calendar.getInstance();

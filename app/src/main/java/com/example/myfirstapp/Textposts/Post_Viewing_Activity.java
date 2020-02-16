@@ -655,6 +655,24 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                     }
 
                     @Override
+                    public void onReplyIVClick(int position) {
+                        final AlertDialog.Builder dialog = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                        dialog.setTitle("You can not reply to a comment");
+                        dialog.setMessage("We are still working on this feature! Hopefuly it will be comming soon!");
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
+                    }
+
+                    @Override
+                    public void onReplyTVClick(int position) {
+                        final AlertDialog.Builder dialog = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                        dialog.setTitle("You can not reply to a comment");
+                        dialog.setMessage("We are still working on this feature! Hopefuly it will be comming soon!");
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
+                    }
+
+                    @Override
                     public void onUserNameClick(int position) {
                         final String CommentKey = commentStuffForTextPostList.get(position).getKey().toString();
                         final String PostKey = commentStuffForTextPostList.get(position).getOldKey().toString();
@@ -886,6 +904,24 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                         //hier hoeft nu niks
+                    }
+
+                    @Override
+                    public void onReplyIVClick(int position) {
+                        final AlertDialog.Builder dialog = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                        dialog.setTitle("You can not reply to a comment");
+                        dialog.setMessage("We are still working on this feature! Hopefuly it will be comming soon!");
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
+                    }
+
+                    @Override
+                    public void onReplyTVClick(int position) {
+                        final AlertDialog.Builder dialog = new AlertDialog.Builder(Post_Viewing_Activity.this);
+                        dialog.setTitle("You can not reply to a comment");
+                        dialog.setMessage("We are still working on this feature! Hopefuly it will be comming soon!");
+                        AlertDialog alertDialog = dialog.create();
+                        alertDialog.show();
                     }
 
                     @Override
