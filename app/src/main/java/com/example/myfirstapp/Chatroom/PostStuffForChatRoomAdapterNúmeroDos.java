@@ -54,8 +54,13 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
     public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
         final PostStuffForChatRoom uploadCurrent = mUploads.get(position);
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        holder.Seen.setVisibility(View.GONE);
+        holder.SeenM.setVisibility(View.GONE);
+        if (uploadCurrent.getmSeen()){
+          //  holder.SeenM.setVisibility(View.VISIBLE);
+        }
 
-        if (uploadCurrent.getmUID().equals(MyUID)){
+        if (uploadCurrent.getmUID().equals(MyUID)) {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(holder.itemView.getLayoutParams());
             params.gravity = Gravity.RIGHT;
 
@@ -102,25 +107,23 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
             holder.DateM.setVisibility(View.VISIBLE);
 
             String Type = uploadCurrent.getmType();
-            if (Type.equals("image")){
+            if (Type.equals("image")) {
                 Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
                 Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.ImageM);
                 holder.ImageM.setVisibility(View.VISIBLE);
                 String Empty = "";
-                if(Empty.equals(uploadCurrent.getmMessage())){
+                if (Empty.equals(uploadCurrent.getmMessage())) {
                     holder.MessageM.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     holder.MessageM.setVisibility(View.VISIBLE);
                 }
-            }
-            else {
+            } else {
                 holder.ImageM.setVisibility(View.GONE);
                 holder.MessageM.setVisibility(View.VISIBLE);
             }
 
 
-        }else{
+        } else {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(holder.itemView.getLayoutParams());
             params.gravity = Gravity.LEFT;
 
@@ -167,19 +170,17 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
             holder.ImageM.setVisibility(View.GONE);
 
             String Type = uploadCurrent.getmType();
-            if (Type.equals("image")){
+            if (Type.equals("image")) {
                 Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
                 Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.Image);
                 holder.Image.setVisibility(View.VISIBLE);
                 String Empty = "";
-                if(Empty.equals(uploadCurrent.getmMessage())){
+                if (Empty.equals(uploadCurrent.getmMessage())) {
                     holder.Message.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     holder.Message.setVisibility(View.VISIBLE);
                 }
-            }
-            else {
+            } else {
                 holder.Image.setVisibility(View.GONE);
                 holder.Message.setVisibility(View.VISIBLE);
             }
@@ -217,7 +218,7 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
-        public TextView Message, Username, Date, MessageM, UsernameM, DateM;
+        public TextView Message, Username, Date, MessageM, UsernameM, DateM, Seen, SeenM;
         public ImageView Image, ImageM;
         public ConstraintLayout OtherConstraint, MineConstraint;
 
@@ -228,11 +229,14 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
             Username = itemView.findViewById(R.id.tvUserNameMessage);
             Date = itemView.findViewById(R.id.tvDateMessage);
             Image = itemView.findViewById(R.id.ivImageInPrivateChat);
+            Seen = itemView.findViewById(R.id.tvSeenMessage);
+
 
             MessageM = itemView.findViewById(R.id.tvMessageM);
             UsernameM = itemView.findViewById(R.id.tvUserNameMessageM);
             DateM = itemView.findViewById(R.id.tvDateMessageM);
             ImageM = itemView.findViewById(R.id.ivImageInPrivateChatM);
+            SeenM = itemView.findViewById(R.id.tvSeenMessageM);
 
             OtherConstraint = itemView.findViewById(R.id.otheruserchatitem);
             MineConstraint = itemView.findViewById(R.id.minechatitem);

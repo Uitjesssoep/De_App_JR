@@ -285,6 +285,8 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
     }
 
+    
+
     private void SendChat() {
         SendChatButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -62,12 +62,19 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        DatabaseReference LastSeenRef = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+
+        final PostStuffMakePrivateChat uploadCurrent = mPost.get(position);
+        final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String UID = uploadCurrent.getmUID();
+
+        DatabaseReference LastSeenRef = FirebaseDatabase.getInstance().getReference("users");
         LastSeenRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     UserProfileToDatabase userProfileToDatabase = postSnapshot.getValue(UserProfileToDatabase.class);
+                    if (userProfileToDatabase.getTheUID().equals(UID)){
                     if (userProfileToDatabase.isOnline()) {
                         holder.LastSeen.setText("Online");
                         holder.LastSeen.setTextColor(Color.BLUE);
@@ -78,8 +85,9 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
                         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
                         String Date = dateFormat.format(calendar.getTime());
                         holder.LastSeen.setText("Last seen: " + Date);
+                        holder.LastSeen.setTextColor(Color.LTGRAY);
                     }
-                }
+                }}
 
             }
 
@@ -89,10 +97,6 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             }
         });
 
-
-        final PostStuffMakePrivateChat uploadCurrent = mPost.get(position);
-        final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final String UID = uploadCurrent.getmUID();
 
         //  final List<PostStuffForChatRoom> MessagesList = new ArrayList<>();
         DatabaseReference myDatabase2 = FirebaseDatabase.getInstance().getReference("Messages").child(MyUID).child(uploadCurrent.getmUID());

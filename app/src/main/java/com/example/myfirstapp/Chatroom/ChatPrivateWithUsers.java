@@ -191,12 +191,14 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 PostStuffForChatRoom postStuffForChatRoom = dataSnapshot.getValue(PostStuffForChatRoom.class);
-
+                postStuffForChatRoom.setmSeen(true);
                 MessagesList.add(postStuffForChatRoom);
                 postStuffForChatRoomAdapterNúmeroDos.notifyDataSetChanged();
                 myDatabase2.child(MyUid).child(UID).child("mDate").setValue(System.currentTimeMillis());
                // myDatabase2.child(UID).child(MyUid).child("mDate").setValue(System.currentTimeMillis());
                 ChatWindow.scrollToPosition(postStuffForChatRoomAdapterNúmeroDos.getItemCount()-1);
+
+
 
 
 
@@ -385,15 +387,5 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 }

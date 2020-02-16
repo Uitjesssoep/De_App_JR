@@ -66,10 +66,9 @@
             android:id="@+id/tvLastSeenPrivateChat"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:layout_alignTop="@+id/ivProfilePictureChatList"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/tvUsernameToChatWith"
-            android:text="Last seen: "
+            android:layout_below="@id/tvLastMessagePrivateChat"
+            android:layout_alignLeft="@id/tvLastMessagePrivateChat"
+            android:text="Last seen: 15:20"
             android:gravity="center"
             android:textColor="?attr/lichtgreytextcolor"
             android:textSize="14sp" />
