@@ -16,7 +16,6 @@
         <item name="android:textColorSecondary">#FFFFFF</item>
         <item name="warningtextcolor">#FF0000</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
-        <item name="android:navigationBarColor">#FFFFFF</item>
         <item name="texttitelcolor">#FFFFFF</item>
         <item name="tabindicatorcolor">#FFFFFF</item>
         <item name="tweedetabindicatorcolor">#4caf50</item>
@@ -47,7 +46,6 @@
         <item name="android:textColorSecondary">#FFFFFF</item>
         <item name="warningtextcolor">#c62828</item>
         <item name="android:actionMenuTextColor">#FFFFFF</item>
-        <item name="android:navigationBarColor">#FFFFFF</item>
         <item name="texttitelcolor">#FFFFFF</item>
         <item name="tabindicatorcolor">#696969</item>
         <item name="tweedetabindicatorcolor">#696969</item>
@@ -63,6 +61,7 @@
         <item name="chatbackground">#0C0C0C</item>
         <item name="chatedittextpartbackground">#212121</item>
         <item name="chatedittextcolor">#424242</item>
+        <item name="android:navigationBarColor">#191919</item>
 
 
         <item name="alertDialogTheme">@style/AlertDialog_night</item>
