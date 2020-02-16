@@ -1,8 +1,10 @@
 package com.example.myfirstapp.Chatroom;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myfirstapp.Imageposts.ImagePostViewing;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -59,7 +62,10 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
         if(sharedPrefNightMode.loadNightModeState()==true){
             setTheme(R.style.AppTheme_Night);
         }
-        else setTheme(R.style.AppTheme);
+        else {
+            setTheme(R.style.AppTheme);
+            setLightStatusBar(ImageTemporaryViewingPrivateChat.this);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_temporary_viewing_private_chat);
@@ -179,6 +185,15 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
         VNoD.putExtra("Type", "TextMake");
         VNoD.putExtra("Key", temp_key);
         startActivity(VNoD);*/
+    }
+
+    private void setLightStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = activity.getWindow().getDecorView().getSystemUiVisibility(); // get current flag
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;   // add LIGHT_STATUS_BAR to flag
+            activity.getWindow().getDecorView().setSystemUiVisibility(flags);
+            activity.getWindow().setStatusBarColor(getResources().getColor(R.color.statusBarColorLogin)); // optional
+        }
     }
 
 }

@@ -24,8 +24,8 @@
         <item name="thebuttoncolor">#4caf50</item>
         <item name="imageviewoutlinecolor">#e0e0e0</item>
         <item name="bottomnavigationbarthingcolor">#FFFFFF</item>
-        <item name="chatitembackground">#eeeeee</item>
-        <item name="mychatitembackground">#C7C7C7</item>
+        <item name="chatitembackground">#DCDCDC</item>
+        <item name="mychatitembackground">#eeeeee</item>
         <item name="chatbackground">#FFFFFF</item>
         <item name="chatedittextpartbackground">#F6F6F6</item>
         <item name="chatedittextcolor">#E4E4E4</item>
