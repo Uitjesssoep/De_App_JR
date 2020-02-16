@@ -260,7 +260,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
                 startActivity(intent2);
                 break;
 
-
+//.hey
         }
 
         return super.onOptionsItemSelected(item);
