@@ -66,10 +66,14 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
 
     private List<PostStuffForChatRoom> MessagesList;
 
+    private LinearLayoutManager linearLayoutManager;
+
     private RecyclerView ChatWindow;
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
     private long Timestamp;
+
+    private boolean isLoading, totallyLoaded;
 
     private RequestQueue requestQueue;
 
@@ -118,16 +122,34 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         }
     }*/
 
+
+    /*private boolean setChatScrollPosistion(int position, String chat_id){
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("position",position);
+        return editor.commit();
+    }
+    private int getLastPosition(String chat_id){
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        return sharedPreferences.getInt("position",0);
+    }*/
+
     private void LoadMessages() {
         myDatabase2.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                final int position = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
                 PostStuffForChatRoom postStuffForChatRoom = dataSnapshot.getValue(PostStuffForChatRoom.class);
                 MessagesList.add(postStuffForChatRoom);
                 postStuffForChatRoomGroupAdapter = new PostStuffForChatRoomGroupAdapter(Chat_With_Users_Activity.this, MessagesList);
                 ChatWindow.setAdapter(postStuffForChatRoomGroupAdapter);
                 postStuffForChatRoomGroupAdapter.notifyDataSetChanged();
                 FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("date").setValue(System.currentTimeMillis());
+                ChatWindow.scrollToPosition(postStuffForChatRoomGroupAdapter.getItemCount()-1);
+               // ChatWindow.scrollToPosition(position);
+               // setChatScrollPosistion(0, key );
+              //  int RVPosition = getLastPosition(key);
+              //  ChatWindow.scrollToPosition(RVPosition);
             }
 
             @Override
@@ -196,7 +218,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         ChatInputText = findViewById(R.id.etChatInput);
         //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
         ChatWindow = findViewById(R.id.rvChatWindow);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
 
         ChatWindow.setLayoutManager(linearLayoutManager);

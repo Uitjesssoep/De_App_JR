@@ -76,6 +76,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
     private List<String> list;
 
+    private LinearLayoutManager linearLayoutManager;
+
     private List<PostStuffMakePrivateChat> listRoom;
 
     SharedPrefNightMode sharedPrefNightMode;
@@ -109,7 +111,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     }
 
     private void PositionManager() {
+
     }
+
 
 
     private void SetupUI() {
@@ -121,7 +125,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         ChatInputText = findViewById(R.id.etChatInputPrivate);
         //  Conversation_Content = (TextView)findViewById(R.id.tvChatWindow);
         ChatWindow = findViewById(R.id.rvChatWindowPrivate);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         ChatWindow.setLayoutManager(linearLayoutManager);
 
@@ -192,6 +196,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                 postStuffForChatRoomAdapterNúmeroDos.notifyDataSetChanged();
                 myDatabase2.child(MyUid).child(UID).child("mDate").setValue(System.currentTimeMillis());
                 myDatabase2.child(UID).child(MyUid).child("mDate").setValue(System.currentTimeMillis());
+                ChatWindow.scrollToPosition(postStuffForChatRoomAdapterNúmeroDos.getItemCount()-1);
+
+
 
             }
 
