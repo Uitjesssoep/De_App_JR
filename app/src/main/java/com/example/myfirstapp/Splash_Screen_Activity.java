@@ -25,6 +25,7 @@ public class Splash_Screen_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         startActivity(new Intent(this, MainActivity.class));
+        finish();
 
     }
 }
