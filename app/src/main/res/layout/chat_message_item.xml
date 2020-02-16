@@ -177,6 +177,7 @@
             android:layout_marginBottom="8dp"
             android:autoLink="web"
             android:text="Message"
+            android:paddingEnd="5dp"
             android:textColor="?attr/maintextcolor"
             app:layout_constraintBottom_toTopOf="@+id/tvSeenMessageM"
             app:layout_constraintEnd_toEndOf="parent"
