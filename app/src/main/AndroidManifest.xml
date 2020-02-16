@@ -76,9 +76,6 @@
             android:name=".Chatroom.Chat_With_Users_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AccountActivities.Loading_Screen_Activity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".AccountActivities.Change_Password_Activity"
             android:screenOrientation="portrait" />
         <activity
