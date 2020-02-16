@@ -76,9 +76,6 @@
             android:name=".Chatroom.Chat_With_Users_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AccountActivities.Loading_Screen_Activity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".AccountActivities.Change_Password_Activity"
             android:screenOrientation="portrait" />
         <activity
@@ -98,7 +95,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Splash_Screen_Activity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -109,11 +107,6 @@
             android:name=".AccountActivities.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
         </activity>
 
         <service android:name=".Notifications.FirebaseMessaging">

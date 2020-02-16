@@ -97,6 +97,8 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
             SortCommentsBy.setText("Sort by: new");
 
+            ReloadComments();
+
             linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setReverseLayout(true);
             linearLayoutManager.setStackFromEnd(true);
@@ -105,6 +107,8 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
             SortCommentsBy.setText("Sort by: old");
 
+            ReloadComments();
+
             linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setReverseLayout(false);
             linearLayoutManager.setStackFromEnd(false);
@@ -112,6 +116,8 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         if(Sorting.equals("Top")){
 
             SortCommentsBy.setText("Sort by: top");
+
+            ReloadCommentsTop();
 
             linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setReverseLayout(true);
