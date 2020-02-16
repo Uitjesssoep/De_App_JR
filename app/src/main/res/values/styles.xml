@@ -72,6 +72,8 @@
         <item name="android:searchViewStyle">@style/SearchBarTheme_Night</item>
         <item name="searchViewStyle">@style/SearchBarTheme_Night</item>
         <item name="actionBarWidgetTheme">@style/SearchBarTheme_Night</item>
+        
+        <item name=""
     </style>
 
     <style name="AlertDialog_night" parent="Theme.AppCompat.Dialog.Alert">

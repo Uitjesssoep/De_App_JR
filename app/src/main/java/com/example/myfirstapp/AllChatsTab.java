@@ -204,7 +204,7 @@ public class AllChatsTab extends Fragment {
         RoomList.setHasFixedSize(true);
         RoomList.setDrawingCacheEnabled(true);
         RoomList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        RoomList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RoomList.setLayoutManager(linearLayoutManager);
 
         final ProgressBar progressBar = getView().findViewById(R.id.pbLoadingAllChats_fragment);
         postStuffForChatList = new ArrayList<>();
