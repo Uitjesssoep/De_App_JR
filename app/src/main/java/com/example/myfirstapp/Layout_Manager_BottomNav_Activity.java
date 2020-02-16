@@ -54,8 +54,21 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        databaseReference.child("online").setValue(true);
+       databaseReference.child("online").setValue(true);
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        databaseReference.child("online").setValue(false);
+        databaseReference.child("timestamp").setValue(System.currentTimeMillis());
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        databaseReference.child("online").setValue(true);
     }
 
     @Override
@@ -283,8 +296,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
             frameLayout7.startAnimation(animation7);
             MakingSelected = false;
             frameLayout7.setVisibility(View.GONE);
-            databaseReference.child("online").setValue(false);
-            databaseReference.child("timestamp").setValue(System.currentTimeMillis());
+
         } else {
             finish();
 

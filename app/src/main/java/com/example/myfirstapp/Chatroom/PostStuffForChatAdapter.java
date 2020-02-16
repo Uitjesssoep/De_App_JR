@@ -4,12 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -98,7 +91,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
         holder.Content.setVisibility(View.GONE);
         holder.IV.setVisibility(View.GONE);
 
-        SpannableString spannableString = new SpannableString(uploadCurrent.getTitle());
+       /* SpannableString spannableString = new SpannableString(uploadCurrent.getTitle());
         spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#0000FF")), 1,3,0);
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
@@ -108,7 +101,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
         };
         spannableString.setSpan(clickableSpan, 1, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.Title.setText(spannableString);
-        holder.Title.setMovementMethod(LinkMovementMethod.getInstance());
+        holder.Title.setMovementMethod(LinkMovementMethod.getInstance());*/
         holder.DeleteTextPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
