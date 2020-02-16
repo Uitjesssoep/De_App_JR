@@ -57,8 +57,9 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         holder.Seen.setVisibility(View.GONE);
         holder.SeenM.setVisibility(View.GONE);
+        Log.e("Seen?" , uploadCurrent.getmSeen().toString() );
         if (uploadCurrent.getmSeen()){
-          //  holder.SeenM.setVisibility(View.VISIBLE);
+            holder.SeenM.setVisibility(View.VISIBLE);
         }
 
         if (uploadCurrent.getmUID().equals(MyUID)) {

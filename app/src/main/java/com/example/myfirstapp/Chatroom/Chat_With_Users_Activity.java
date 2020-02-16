@@ -305,9 +305,10 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                             Username = dataSnapshot.child("userName").getValue().toString();
                             Log.e(TAG, Username);
                             message = ChatInputText.getText().toString();
-                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Timestamp, MyUid, "");
-
                             temp_key = myDatabase2.push().getKey();
+                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Timestamp, MyUid, "", temp_key);
+
+
                             myDatabase2.child(temp_key).setValue(postStuffForChatRoom);
                             Log.e(TAG, "gepushed");
                             ChatInputText.setText("");

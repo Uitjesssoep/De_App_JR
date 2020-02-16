@@ -50,7 +50,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         checkEmailVerification();
     }
 
-   /* @Override
+   /*@Override
     protected void onStart() {
         super.onStart();
 
@@ -64,9 +64,9 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         super.onStop();
 
         databaseReference.child("online").setValue(false);
-        databaseReference.child("last seen").setValue(System.currentTimeMillis());
-    }*/
-
+        databaseReference.child("timestamp").setValue(System.currentTimeMillis());
+    }
+*/
     private void Checked() {
 
         FrameLayout frameLayout = findViewById(R.id.framelayout_manager_makepost);

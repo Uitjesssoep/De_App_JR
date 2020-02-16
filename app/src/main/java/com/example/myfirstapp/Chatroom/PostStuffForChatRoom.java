@@ -1,23 +1,32 @@
 package com.example.myfirstapp.Chatroom;
 
 public class PostStuffForChatRoom {
-    private String mMessage, mType, mUID, mImageUrl;
+    private String mMessage, mType, mUID, mImageUrl, key;
     private Boolean mSeen;
     private long mDate;
 
 
 
 
-    public PostStuffForChatRoom(String Message, String Type, Boolean Seen, long Date, String UID, String ImageURl) {
+    public PostStuffForChatRoom(String Message, String Type, Boolean Seen, long Date, String UID, String ImageURl, String Key) {
         mMessage = Message;
         mType = Type;
         mSeen = Seen;
         mDate = Date;
         mUID = UID;
         mImageUrl = ImageURl;
+        key = Key;
     }
 
     public PostStuffForChatRoom() {
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getmMessage() {

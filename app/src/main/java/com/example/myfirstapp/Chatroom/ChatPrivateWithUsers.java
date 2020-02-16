@@ -191,7 +191,10 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 PostStuffForChatRoom postStuffForChatRoom = dataSnapshot.getValue(PostStuffForChatRoom.class);
-                postStuffForChatRoom.setmSeen(true);
+                if (!postStuffForChatRoom.getmUID().equals(MyUid)){
+                FirebaseDatabase.getInstance().getReference("Messages").child(MyUid).child(UID).child(postStuffForChatRoom.getKey()).child("mSeen").setValue(true);
+                FirebaseDatabase.getInstance().getReference("Messages").child(UID).child(MyUid).child(postStuffForChatRoom.getKey()).child("mSeen").setValue(true);
+                postStuffForChatRoom.setmSeen(true);}
                 MessagesList.add(postStuffForChatRoom);
                 postStuffForChatRoomAdapterNúmeroDos.notifyDataSetChanged();
                 myDatabase2.child(MyUid).child(UID).child("mDate").setValue(System.currentTimeMillis());
@@ -322,8 +325,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             message = ChatInputText.getText().toString();
-                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Timestamp, MyUid, "");
                             temp_key = MessageDatabase.push().getKey();
+                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Timestamp, MyUid, "", temp_key);
+
                             MessageDatabase.child(MyUid).child(UID).child(temp_key).setValue(postStuffForChatRoom);
                             MessageDatabase.child(UID).child(MyUid).child(temp_key).setValue(postStuffForChatRoom);
                             Log.e(TAG, "gepushed");

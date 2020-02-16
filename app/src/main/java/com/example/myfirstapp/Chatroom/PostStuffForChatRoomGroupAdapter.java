@@ -3,12 +3,10 @@ package com.example.myfirstapp.Chatroom;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,7 +50,8 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
     @Override
     public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
         final PostStuffForChatRoom uploadCurrent = mUploads.get(position);
-
+        holder.Seen.setVisibility(View.GONE);
+        holder.SeenM.setVisibility(View.GONE);
 
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -212,7 +211,7 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
-        public TextView Message, Username, Date, MessageM, UsernameM, DateM;
+        public TextView Message, Username, Date, MessageM, UsernameM, DateM, Seen, SeenM;
         public ImageView Image, ImageM;
         public ConstraintLayout OtherConstraint, MineConstraint;
 
@@ -223,11 +222,13 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
             Username = itemView.findViewById(R.id.tvUserNameMessage);
             Date = itemView.findViewById(R.id.tvDateMessage);
             Image = itemView.findViewById(R.id.ivImageInPrivateChat);
+            Seen = itemView.findViewById(R.id.tvSeenMessage);
 
             MessageM = itemView.findViewById(R.id.tvMessageM);
             UsernameM = itemView.findViewById(R.id.tvUserNameMessageM);
             DateM = itemView.findViewById(R.id.tvDateMessageM);
             ImageM = itemView.findViewById(R.id.ivImageInPrivateChatM);
+            SeenM = itemView.findViewById(R.id.tvSeenMessageM);
 
             OtherConstraint = itemView.findViewById(R.id.otheruserchatitem);
             MineConstraint = itemView.findViewById(R.id.minechatitem);
