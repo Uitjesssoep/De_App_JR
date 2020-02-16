@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Chatroom.ImageTemporaryViewingPrivateChat">
+    tools:context=".Chatroom.ImageTemporaryViewingPrivateChat"
+    android:background="?attr/chatedittextpartbackground">
 
     <com.example.myfirstapp.photoview.PhotoView
+        android:background="?attr/chatbackground"
         android:id="@+id/ivImageTemporaryForChat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -19,20 +21,46 @@
     <EditText
         android:id="@+id/etMessageWithImageForChat"
         android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/edittext_chatedittext"
         android:ems="10"
-        android:inputType="textCapSentences"
+        android:hint="Type a message"
+        android:maxHeight="200dp"
+        android:maxLength="1500"
+        android:inputType="textMultiLine"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="?attr/maintextcolor"
+        android:textColorHint="?attr/lichtgreytextcolor"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/ibSendImageToChat"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivImageTemporaryForChat" />
+        app:layout_constraintEnd_toStartOf="@+id/ibSendImageToChat"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
         android:id="@+id/ibSendImageToChat"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/ic_send_black_24dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/edittext_chatedittext"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:src="@drawable/ic_send_groen_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivImageTemporaryForChat"
+        app:layout_constraintVertical_bias="1.0" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -89,6 +89,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
         holder.CommentCount.setVisibility(View.GONE);
         holder.CommentLogo.setVisibility(View.GONE);
         holder.Content.setVisibility(View.GONE);
+        holder.IV.setVisibility(View.GONE);
 
         holder.DeleteTextPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -505,6 +506,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
         public TextView Username, LikeCount, DislikeCount, CommentCount, Title, Content, KeyHolder, Date;
         public ImageButton Upvote, Downvote, DeleteTextPost;
         public ImageView CommentLogo;
+        public ImageView IV;
 
         public ViewHolder(@NonNull View itemView, final PostStuffForChatAdapter.OnItemClickListener listener) {
             super(itemView);
@@ -521,6 +523,7 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             DeleteTextPost = itemView.findViewById(R.id.ibDeleteIconTextPostItem);
             CommentLogo = itemView.findViewById(R.id.ivCommentImageTextPostItem);
             Content = itemView.findViewById(R.id.tvContentTextPostItem);
+            IV = itemView.findViewById(R.id.ivImagePostItem);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
