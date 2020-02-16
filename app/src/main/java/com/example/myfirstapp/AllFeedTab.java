@@ -770,7 +770,7 @@ public class AllFeedTab extends Fragment {
                         // Log.e(TAGTest, "tot 'for' gekomen");
                     }
 
-                    stuffForPostAdapter.notifyItemRangeRemoved(0, size);
+                    //stuffForPostAdapter.notifyItemRangeRemoved(0, size);
                 }
 
             }
