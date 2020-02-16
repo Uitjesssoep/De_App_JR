@@ -16,8 +16,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,7 +25,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.Content_Policy_Activity;
 import com.example.myfirstapp.Data_Policy_Activity;
@@ -366,7 +363,7 @@ public class Profile_First_Setup extends AppCompatActivity {
         UploadUsername.setValue(UID);
 
         //uploaden naar database
-        UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, Date, false);
+        UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, Date, false, System.currentTimeMillis());
         myRef684.setValue(userProfile);
         Log.e(TAGTEST, "usertodatabase bereikt!");
     }

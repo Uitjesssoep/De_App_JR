@@ -9,8 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SharedPrefNightMode;
@@ -210,7 +207,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                             ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
                             ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
 
-                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString, true);
+                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString, true, System.currentTimeMillis());
 
                             databaseReference.setValue(userProfileToDatabase);
 
@@ -234,7 +231,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                             ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
                             ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
 
-                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString, true);
+                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString, true, System.currentTimeMillis());
 
                             databaseReference.setValue(userProfileToDatabase);
 

@@ -16,7 +16,7 @@
         <TextView
             android:id="@+id/tvUsernameToChatWith"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_alignTop="@+id/ivProfilePictureChatList"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="10dp"
@@ -43,24 +43,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvUsernameToChatWith"
-            android:textColor="?attr/lichtgreytextcolor"
-            android:textSize="14sp"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/ivProfilePictureChatList"
-            android:text="Last message will be shown here" />
+            android:text="Last message will be shown here"
+            android:textColor="?attr/lichtgreytextcolor"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tvTimeOfLastMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvUsernameToChatWith"
-            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="8dp"
-            android:textSize="12sp"
             android:text="00:00"
-            android:textColor="?attr/lichtgreytextcolor" />
+            android:textColor="?attr/lichtgreytextcolor"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvLastSeenPrivateChat"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignTop="@+id/ivProfilePictureChatList"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/tvUsernameToChatWith"
+            android:text="Last seen: "
+            android:gravity="center"
+            android:textColor="?attr/lichtgreytextcolor"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 

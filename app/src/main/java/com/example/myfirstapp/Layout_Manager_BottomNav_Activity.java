@@ -23,17 +23,20 @@ import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
     private String CurrentFrag = "Home";
     private Boolean MakingSelected = false;
+    private DatabaseReference databaseReference;
     SharedPrefNightMode sharedPrefNightMode;
     FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         sharedPrefNightMode = new SharedPrefNightMode(this);
 
         if (sharedPrefNightMode.loadNightModeState() == true) {
@@ -45,6 +48,22 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         checkEmailVerification();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        databaseReference.child("online").setValue(true);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        databaseReference.child("online").setValue(false);
+        databaseReference.child("last seen").setValue(System.currentTimeMillis());
     }
 
     private void Checked() {
@@ -262,16 +281,14 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         }
     }
 
-    private void checkEmailVerification(){
+    private void checkEmailVerification() {
 
         FirebaseUser firebaseUser = firebaseAuth.getInstance().getCurrentUser();
         Boolean verificationemail = firebaseUser.isEmailVerified();
 
-        if(verificationemail){
+        if (verificationemail) {
             Checked();
-        }
-
-        else{
+        } else {
             Toast.makeText(Layout_Manager_BottomNav_Activity.this, "Please verify your email before logging in", Toast.LENGTH_LONG).show();
             firebaseAuth.signOut();
             startActivity(new Intent(Layout_Manager_BottomNav_Activity.this, MainActivity.class));
