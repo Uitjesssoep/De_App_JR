@@ -296,11 +296,31 @@ public class AllChatsTab extends Fragment {
 
                                             }
                                             else{
+                                                FirebaseDatabase.getInstance().getReference("Chatrooms").child(PostKey).child("user_name").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        if (dataSnapshot.getValue().equals("[anonymous]")){
+                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                                                            dialog.setTitle("This user has posted anonymously");
+                                                            dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
+                                                            AlertDialog alertDialog = dialog.create();
+                                                            alertDialog.show();
+                                                        }else {
+                                                            Intent GoToOtherProfile = new Intent(getActivity(), Account_Info_OtherUser_Chat.class);
+                                                            GoToOtherProfile.putExtra("UID", postStuffForChatList.get(position).getUID());
+                                                            Log.e("UIDFROMCHAT", PostUID2 );
+                                                            startActivity(GoToOtherProfile);
+                                                        }
+                                                    }
 
-                                                Intent GoToOtherProfile = new Intent(getActivity(), Account_Info_OtherUser_Chat.class);
-                                                GoToOtherProfile.putExtra("UID", postStuffForChatList.get(position).getUID());
-                                                Log.e("UIDFROMCHAT", PostUID2 );
-                                                startActivity(GoToOtherProfile);
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+
+
 
                                             }
 
@@ -536,7 +556,7 @@ public class AllChatsTab extends Fragment {
                     }
 
                     @Override
-                    public void onUserNameClick(int position) {
+                    public void onUserNameClick(final int position) {
                         final String PostKey = postStuffForChatList.get(position).getKey();
 
                         DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("Chatrooms").child(PostKey).child("uid");
@@ -563,10 +583,28 @@ public class AllChatsTab extends Fragment {
 
                                             }
                                             else{
+                                                FirebaseDatabase.getInstance().getReference("Chatrooms").child(PostKey).child("user_name").addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        if (dataSnapshot.getValue().equals("[anonymous]")){
+                                                            final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                                                            dialog.setTitle("This user has posted anonymously");
+                                                            dialog.setMessage("You cannot view this user because this user has decided to post anonymously");
+                                                            AlertDialog alertDialog = dialog.create();
+                                                            alertDialog.show();
+                                                        }else {
+                                                            Intent GoToOtherProfile = new Intent(getActivity(), Account_Info_OtherUser_Chat.class);
+                                                            GoToOtherProfile.putExtra("UID", postStuffForChatList.get(position).getUID());
+                                                            Log.e("UIDFROMCHAT", PostUID2 );
+                                                            startActivity(GoToOtherProfile);
+                                                        }
+                                                    }
 
-                                                Intent GoToOtherProfile = new Intent(getActivity(), Account_Info_OtherUser_Chat.class);
-                                                GoToOtherProfile.putExtra("Key", PostKey);
-                                                startActivity(GoToOtherProfile);
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
 
                                             }
 

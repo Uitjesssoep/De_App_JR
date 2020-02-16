@@ -36,7 +36,7 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
     private TextView RealName, UserName;
     private ImageView ProfilePicture;
 
-    private String key, OtherUserUID;
+    private String UID, OtherUserUID;
 
     public PageAdapter_HisAccount pagerAdapter;
 
@@ -118,98 +118,86 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
 
         Follow = findViewById(R.id.btChatWithUserAccountInfo);
 
-        key = getIntent().getExtras().get("Key").toString();
+        UID = getIntent().getExtras().get("UID").toString();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
 
-        DatabaseReference databaseReference = firebaseDatabase.getReference("Chatrooms").child(key).child("uid");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
+
+        dataref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                OtherUserUID = dataSnapshot.getValue(String.class).toString();
-                final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                final String uid = dataSnapshot.getValue(String.class).toString();
 
-                DatabaseReference dataref = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
+                if (dataSnapshot.hasChild(UID)) {
+                    Follow.setBackgroundResource(R.drawable.button_roundedcorners_following);
+                    Follow.setText("Following");
+                    Follow.setTextColor(getResources().getColor(R.color.colorAccent));
+                } else {
+                    Follow.setText("Follow");
+                    Follow.setBackgroundResource(R.drawable.button_roundedcorners_follow);
+                    Follow.setTextColor(getResources().getColor(R.color.white));
+                }
+            }
 
-                dataref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        Follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseReference datarefFollower = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("userName");
+                datarefFollower.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        if (dataSnapshot.hasChild(uid)) {
-                            Follow.setBackgroundResource(R.drawable.button_roundedcorners_following);
-                            Follow.setText("Following");
-                            Follow.setTextColor(getResources().getColor(R.color.colorAccent));
-                        } else {
-                            Follow.setText("Follow");
-                            Follow.setBackgroundResource(R.drawable.button_roundedcorners_follow);
-                            Follow.setTextColor(getResources().getColor(R.color.white));
-                        }
-                    }
+                        final String userNameFollower = dataSnapshot.getValue().toString();
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        final DatabaseReference datarefUID = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
+                        final DatabaseReference datarefFollowing = FirebaseDatabase.getInstance().getReference().child("users");
 
-                    }
-                });
-
-                Follow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        DatabaseReference datarefFollower = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("userName");
-                        datarefFollower.addListenerForSingleValueEvent(new ValueEventListener() {
+                        datarefFollowing.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                final String userNameFollower = dataSnapshot.getValue().toString();
+                                final String UsernameOtherUser = dataSnapshot.child(UID).child("userName").getValue().toString();
 
-                                final DatabaseReference datarefUID = FirebaseDatabase.getInstance().getReference().child("users").child(MyUID).child("following");
-                                final DatabaseReference datarefFollowing = FirebaseDatabase.getInstance().getReference().child("users");
-
-                                datarefFollowing.addListenerForSingleValueEvent(new ValueEventListener() {
+                                final DatabaseReference datarefOtherUID = FirebaseDatabase.getInstance().getReference().child("users").child(UID).child("followers");
+                                datarefUID.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                        final String UsernameOtherUser = dataSnapshot.child(uid).child("userName").getValue().toString();
-
-                                        final DatabaseReference datarefOtherUID = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("followers");
-                                        datarefUID.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                if (dataSnapshot.hasChild(uid)) {
-                                                    Log.e("Check", "TRUEE");
-                                                    AlertDialog.Builder dialog = new AlertDialog.Builder(Account_Info_OtherUser_Chat.this);
-                                                    dialog.setTitle("Unfollow");
-                                                    dialog.setMessage("Are you sure you want to unfollow this user?");
-                                                    dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                            datarefUID.child(uid).removeValue();
-                                                            datarefOtherUID.child(MyUID).removeValue();
-                                                            ;
-                                                            dialogInterface.dismiss();
-                                                        }
-                                                    });
-                                                    dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                                            dialogInterface.dismiss();
-                                                        }
-                                                    });
-                                                    AlertDialog alertDialog = dialog.create();
-                                                    alertDialog.show();
-                                                } else {
-                                                    datarefFollowing.child(MyUID).child("following").child(uid).setValue(UsernameOtherUser);
-                                                    datarefFollowing.child(uid).child("followers").child(MyUID).setValue(userNameFollower);
+                                        if (dataSnapshot.hasChild(UID)) {
+                                            Log.e("Check", "TRUEE");
+                                            AlertDialog.Builder dialog = new AlertDialog.Builder(Account_Info_OtherUser_Chat.this);
+                                            dialog.setTitle("Unfollow");
+                                            dialog.setMessage("Are you sure you want to unfollow this user?");
+                                            dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    datarefUID.child(UID).removeValue();
+                                                    datarefOtherUID.child(MyUID).removeValue();
+                                                    ;
+                                                    dialogInterface.dismiss();
                                                 }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            }
-                                        });
+                                            });
+                                            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            });
+                                            AlertDialog alertDialog = dialog.create();
+                                            alertDialog.show();
+                                        } else {
+                                            datarefFollowing.child(MyUID).child("following").child(UID).setValue(UsernameOtherUser);
+                                            datarefFollowing.child(UID).child("followers").child(MyUID).setValue(userNameFollower);
+                                        }
                                     }
 
                                     @Override
@@ -223,34 +211,30 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
                             }
                         });
                     }
-                });
-
-                //user visit count
-                final DatabaseReference UserVisitCount = FirebaseDatabase.getInstance().getReference("users").child(OtherUserUID);
-                UserVisitCount.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        if (dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("AccountVisits")) {
-                            String VisitCountString = dataSnapshot.child("Counters").child("AccountVisits").getValue().toString();
-                            int VisitCountInt = Integer.parseInt(VisitCountString);
-                            VisitCountInt = Integer.valueOf(VisitCountInt + 1);
-                            String NewVisitCountString = Integer.toString(VisitCountInt);
-                            UserVisitCount.child("Counters").child("AccountVisits").setValue(NewVisitCountString);
-                        } else {
-                            UserVisitCount.child("Counters").child("AccountVisits").setValue("1");
-                        }
-
-                    }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
                     }
                 });
-                //hopelijk werkt t
+            }
+        });
 
-                RetrieveData();
+        //user visit count
+        final DatabaseReference UserVisitCount = FirebaseDatabase.getInstance().getReference("users").child(UID);
+        UserVisitCount.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("AccountVisits")) {
+                    String VisitCountString = dataSnapshot.child("Counters").child("AccountVisits").getValue().toString();
+                    int VisitCountInt = Integer.parseInt(VisitCountString);
+                    VisitCountInt = Integer.valueOf(VisitCountInt + 1);
+                    String NewVisitCountString = Integer.toString(VisitCountInt);
+                    UserVisitCount.child("Counters").child("AccountVisits").setValue(NewVisitCountString);
+                } else {
+                    UserVisitCount.child("Counters").child("AccountVisits").setValue("1");
+                }
+
             }
 
             @Override
@@ -258,15 +242,18 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
 
             }
         });
+        //hopelijk werkt t
+
+        RetrieveData();
     }
 
     private void RetrieveData() {
 
-        Log.e(TAG, OtherUserUID);
+        Log.e(TAG, UID);
 
         //voor profielfoto
         StorageReference storageReference = firebaseStorage.getReference();
-        storageReference.child("ProfilePictures").child(OtherUserUID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageReference.child("ProfilePictures").child(UID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).fit().centerCrop().into(ProfilePicture);
@@ -274,7 +261,7 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
         });
 
         //voor de rest
-        DatabaseReference OtherUserData = firebaseDatabase.getReference("users").child(OtherUserUID);
+        DatabaseReference OtherUserData = firebaseDatabase.getReference("users").child(UID);
         OtherUserData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

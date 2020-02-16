@@ -27,7 +27,6 @@ public class PageAdapter extends FragmentPagerAdapter {
 
             case 1:
                 return new FollowingFeedTab();
-
             default:
                 return null;
 
