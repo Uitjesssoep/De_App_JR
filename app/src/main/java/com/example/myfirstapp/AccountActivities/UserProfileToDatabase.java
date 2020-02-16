@@ -10,8 +10,10 @@ public class UserProfileToDatabase {
     public String profilePicture;
     public String theUID;
     public boolean online;
+    public long Timestamp;
 
-    public UserProfileToDatabase(){
+
+    public UserProfileToDatabase() {
         //een lege functie moet samenkomen met de getters and setters, vandaar dat deze functie er is
     }
 
@@ -72,7 +74,16 @@ public class UserProfileToDatabase {
         this.online = online;
     }
 
-    public UserProfileToDatabase(String profilePicture, String theUID, String userName, String userEmail, String userFullName, String userBirthdate, Boolean Online) {
+    public long getTimestamp() {
+        return Timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        Timestamp = timestamp;
+    }
+
+
+    public UserProfileToDatabase(String profilePicture, String theUID, String userName, String userEmail, String userFullName, String userBirthdate, Boolean Online, long Timestamp) {
         this.profilePicture = profilePicture;
         this.theUID = theUID;
         this.userName = userName;
@@ -80,6 +91,7 @@ public class UserProfileToDatabase {
         this.userFullName = userFullName;
         this.userBirthdate = userBirthdate;
         this.online = Online;
+        this.Timestamp = Timestamp;
     }
 
 

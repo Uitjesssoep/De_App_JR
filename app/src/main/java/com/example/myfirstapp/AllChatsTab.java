@@ -213,7 +213,7 @@ public class AllChatsTab extends Fragment {
         final DatabaseReference rooms = FirebaseDatabase.getInstance().getReference("Chatrooms");
         registerForContextMenu(RoomList);
 
-        rooms.orderByChild("LikeCount").addListenerForSingleValueEvent(new ValueEventListener() {
+        rooms.orderByChild("LikeCount").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

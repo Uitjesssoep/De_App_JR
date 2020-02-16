@@ -79,7 +79,13 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
         dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
         Date = dateFormat.format(cal.getTime());
 
-        holder.Date.setText(Date);
+        StringBuilder str = new StringBuilder(Date);
+        str.replace(5, 12, "");
+        str.replace(11, 16, "");
+        str.replace(8, 9, "-");
+        String mDate = str.toString();
+
+        holder.Date.setText(mDate);
         holder.CommentCount.setVisibility(View.GONE);
         holder.CommentLogo.setVisibility(View.GONE);
         holder.Content.setVisibility(View.GONE);

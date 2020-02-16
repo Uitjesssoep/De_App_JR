@@ -1,6 +1,7 @@
 package com.example.myfirstapp.Chatroom;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -60,6 +62,32 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+        DatabaseReference LastSeenRef = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        LastSeenRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    UserProfileToDatabase userProfileToDatabase = postSnapshot.getValue(UserProfileToDatabase.class);
+                    if (userProfileToDatabase.isOnline()) {
+                        holder.LastSeen.setText("Online");
+                        holder.LastSeen.setTextColor(Color.BLUE);
+                    } else {
+                        long Timestamp = userProfileToDatabase.getTimestamp();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTimeInMillis(Timestamp);
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
+                        String Date = dateFormat.format(calendar.getTime());
+                        holder.LastSeen.setText("Last seen: " + Date);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
         final PostStuffMakePrivateChat uploadCurrent = mPost.get(position);
@@ -139,7 +167,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView Username, LastMessage, TimeLastMessage;
+        public TextView Username, LastMessage, TimeLastMessage, LastSeen;
         public ImageView ProfilePicOtherUser;
 
         public ViewHolder(@NonNull View itemView, final PostStuffForChatAdapter.OnItemClickListener listener) {
@@ -149,6 +177,8 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             LastMessage = itemView.findViewById(R.id.tvLastMessagePrivateChat);
             TimeLastMessage = itemView.findViewById(R.id.tvTimeOfLastMessage);
             ProfilePicOtherUser = itemView.findViewById(R.id.ivProfilePictureChatList);
+            LastSeen = itemView.findViewById(R.id.tvLastSeenPrivateChat);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
