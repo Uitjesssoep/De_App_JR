@@ -74,18 +74,6 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
             String Date = str.toString();
             holder.DateM.setText(Date);
 
-            String Type = uploadCurrent.getmType();
-            if (Type.equals("image")){
-                Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
-                Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.ImageM);
-                holder.ImageM.setVisibility(View.VISIBLE);
-                holder.MessageM.setVisibility(View.INVISIBLE);
-            }
-            else {
-                holder.ImageM.setVisibility(View.INVISIBLE);
-                holder.MessageM.setVisibility(View.VISIBLE);
-            }
-
             String UID = uploadCurrent.getmUID();
 
             //  Log.e("Check", uploadCurrent.getmUserName());
@@ -111,10 +99,27 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
             holder.Image.setVisibility(View.GONE);
 
             holder.MineConstraint.setVisibility(View.VISIBLE);
-            holder.MessageM.setVisibility(View.VISIBLE);
             holder.UsernameM.setVisibility(View.VISIBLE);
             holder.DateM.setVisibility(View.VISIBLE);
-            holder.ImageM.setVisibility(View.VISIBLE);
+
+            String Type = uploadCurrent.getmType();
+            if (Type.equals("image")){
+                Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
+                Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.ImageM);
+                holder.ImageM.setVisibility(View.VISIBLE);
+                String Empty = "";
+                if(Empty.equals(uploadCurrent.getmMessage())){
+                    holder.MessageM.setVisibility(View.GONE);
+                }
+                else {
+                    holder.MessageM.setVisibility(View.VISIBLE);
+                }
+            }
+            else {
+                holder.ImageM.setVisibility(View.GONE);
+                holder.MessageM.setVisibility(View.VISIBLE);
+            }
+
 
         }else{
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(holder.itemView.getLayoutParams());
@@ -133,18 +138,6 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
             str.replace(8, 9, "-");
             String Date = str.toString();
             holder.Date.setText(Date);
-
-            String Type = uploadCurrent.getmType();
-            if (Type.equals("image")){
-                Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
-                Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.Image);
-                holder.Image.setVisibility(View.VISIBLE);
-                holder.Message.setVisibility(View.GONE);
-            }
-            else {
-                holder.Image.setVisibility(View.GONE);
-                holder.Message.setVisibility(View.VISIBLE);
-            }
 
             String UID = uploadCurrent.getmUID();
 
@@ -165,19 +158,47 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
             });
 
             holder.OtherConstraint.setVisibility(View.VISIBLE);
-            holder.Message.setVisibility(View.VISIBLE);
             holder.Username.setVisibility(View.VISIBLE);
             holder.Date.setVisibility(View.VISIBLE);
-            holder.Image.setVisibility(View.VISIBLE);
 
             holder.MineConstraint.setVisibility(View.GONE);
             holder.MessageM.setVisibility(View.GONE);
             holder.UsernameM.setVisibility(View.GONE);
             holder.DateM.setVisibility(View.GONE);
             holder.ImageM.setVisibility(View.GONE);
+
+            String Type = uploadCurrent.getmType();
+            if (Type.equals("image")){
+                Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
+                Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.Image);
+                holder.Image.setVisibility(View.VISIBLE);
+                String Empty = "";
+                if(Empty.equals(uploadCurrent.getmMessage())){
+                    holder.Message.setVisibility(View.GONE);
+                }
+                else {
+                    holder.Message.setVisibility(View.VISIBLE);
+                }
+            }
+            else {
+                holder.Image.setVisibility(View.GONE);
+                holder.Message.setVisibility(View.VISIBLE);
+            }
         }
 
         holder.Image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ImagePostViewing.class);
+                intent.putExtra("ImageUri", uploadCurrent.getmImageUrl());
+                intent.putExtra("UID", uploadCurrent.getmUID());
+                intent.putExtra("Date", uploadCurrent.getmDate());
+                intent.putExtra("Message", uploadCurrent.getmMessage());
+                intent.putExtra("key", "no key");
+                mContext.startActivity(intent);
+            }
+        });
+        holder.ImageM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ImagePostViewing.class);
