@@ -77,7 +77,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
                     if (userProfileToDatabase.getTheUID().equals(UID)){
                     if (userProfileToDatabase.isOnline()) {
                         holder.LastSeen.setText("Online");
-                        holder.LastSeen.setTextColor(Color.BLUE);
+                        holder.LastSeen.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
                     } else {
                         long Timestamp = userProfileToDatabase.getTimestamp();
                         Calendar calendar = Calendar.getInstance();
@@ -85,7 +85,6 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
                         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
                         String Date = dateFormat.format(calendar.getTime());
                         holder.LastSeen.setText("Last seen: " + Date);
-                        holder.LastSeen.setTextColor(Color.LTGRAY);
                     }
                 }}
 
@@ -105,7 +104,16 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 PostStuffForChatRoom postStuffForChatRoom = dataSnapshot.getValue(PostStuffForChatRoom.class);
                 MessagesList.add(postStuffForChatRoom);
-                holder.LastMessage.setText(MessagesList.get(MessagesList.size() - 1).getmMessage());
+
+                String ContentTemp = MessagesList.get(MessagesList.size() - 1).getmMessage();
+                if (ContentTemp.length() > 25) {
+                    ContentTemp = ContentTemp.substring(0, 25);
+                    holder.LastMessage.setText(ContentTemp.trim() + "...");
+                }
+                else{
+                    holder.LastMessage.setText(ContentTemp);
+                }
+
                 final String Date;
                 final Calendar cal;
                 final long Timestamp;

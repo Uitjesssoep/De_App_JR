@@ -78,6 +78,7 @@
         <item name="android:background">#212121</item>
         <item name="android:fullDark">#212121</item>
         <item name="android:textColorPrimary">#bdbdbd</item>
+        <item name="colorAccent">#4caf50</item>
     </style>
 
     <style name="SearchBarTheme_Night" parent="Widget.AppCompat.SearchView">
