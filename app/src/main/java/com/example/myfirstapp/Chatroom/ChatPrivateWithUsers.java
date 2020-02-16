@@ -195,7 +195,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                 MessagesList.add(postStuffForChatRoom);
                 postStuffForChatRoomAdapterNúmeroDos.notifyDataSetChanged();
                 myDatabase2.child(MyUid).child(UID).child("mDate").setValue(System.currentTimeMillis());
-                myDatabase2.child(UID).child(MyUid).child("mDate").setValue(System.currentTimeMillis());
+               // myDatabase2.child(UID).child(MyUid).child("mDate").setValue(System.currentTimeMillis());
                 ChatWindow.scrollToPosition(postStuffForChatRoomAdapterNúmeroDos.getItemCount()-1);
 
 
