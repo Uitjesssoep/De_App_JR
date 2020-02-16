@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfirstapp.Imageposts.ImagePostViewing;
@@ -51,44 +52,131 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
     @Override
     public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
         final PostStuffForChatRoom uploadCurrent = mUploads.get(position);
-        holder.Message.setText(uploadCurrent.getmMessage());
 
-        cal = Calendar.getInstance();
-        cal.setTimeInMillis(uploadCurrent.getmDate());
-        dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
-        Date = dateFormat.format(cal.getTime());
-
-        StringBuilder str = new StringBuilder(Date);
-        str.replace(5, 12, "");
-        str.replace(11, 16, "");
-        str.replace(8, 9, "-");
-        String Date = str.toString();
-        holder.Date.setText(Date);
-        String UID = uploadCurrent.getmUID();
-
-        String Type = uploadCurrent.getmType();
-        if (Type.equals("image")){
-            Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
-            Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.Image);
-            holder.Image.setVisibility(View.VISIBLE);
-            holder.Message.setVisibility(View.GONE);
-        }
-        else {
-            holder.Image.setVisibility(View.GONE);
-            holder.Message.setVisibility(View.VISIBLE);
-        }
 
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         if (uploadCurrent.getmUID().equals(MyUID)){
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(holder.itemView.getLayoutParams());
             params.gravity = Gravity.RIGHT;
-            holder.itemView.setBackgroundResource(R.drawable.edittext_mychatitem);
+
+            holder.MessageM.setText(uploadCurrent.getmMessage());
+
+            cal = Calendar.getInstance();
+            cal.setTimeInMillis(uploadCurrent.getmDate());
+            dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
+            Date = dateFormat.format(cal.getTime());
+
+            StringBuilder str = new StringBuilder(Date);
+            str.replace(5, 12, "");
+            str.replace(11, 16, "");
+            str.replace(8, 9, "-");
+            String Date = str.toString();
+            holder.DateM.setText(Date);
+
+            String Type = uploadCurrent.getmType();
+            if (Type.equals("image")){
+                Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
+                Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.ImageM);
+                holder.ImageM.setVisibility(View.VISIBLE);
+                holder.MessageM.setVisibility(View.INVISIBLE);
+            }
+            else {
+                holder.ImageM.setVisibility(View.INVISIBLE);
+                holder.MessageM.setVisibility(View.VISIBLE);
+            }
+
+            String UID = uploadCurrent.getmUID();
+
+            //  Log.e("Check", uploadCurrent.getmUserName());
+            FirebaseDatabase.getInstance().getReference("users").child(UID).child("userName").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    Username = dataSnapshot.getValue().toString();
+                    holder.UsernameM.setText(Username);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            holder.OtherConstraint.setVisibility(View.GONE);
+            holder.Message.setVisibility(View.GONE);
+            holder.Username.setVisibility(View.GONE);
+            holder.Date.setVisibility(View.GONE);
+            holder.Image.setVisibility(View.GONE);
+
+            holder.MineConstraint.setVisibility(View.VISIBLE);
+            holder.MessageM.setVisibility(View.VISIBLE);
+            holder.UsernameM.setVisibility(View.VISIBLE);
+            holder.DateM.setVisibility(View.VISIBLE);
+            holder.ImageM.setVisibility(View.VISIBLE);
+
         }else{
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(holder.itemView.getLayoutParams());
             params.gravity = Gravity.LEFT;
-            holder.itemView.setBackgroundResource(R.drawable.edittext_chatitem);
+
+            holder.Message.setText(uploadCurrent.getmMessage());
+
+            cal = Calendar.getInstance();
+            cal.setTimeInMillis(uploadCurrent.getmDate());
+            dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
+            Date = dateFormat.format(cal.getTime());
+
+            StringBuilder str = new StringBuilder(Date);
+            str.replace(5, 12, "");
+            str.replace(11, 16, "");
+            str.replace(8, 9, "-");
+            String Date = str.toString();
+            holder.Date.setText(Date);
+
+            String Type = uploadCurrent.getmType();
+            if (Type.equals("image")){
+                Log.e("TYPE=IMAGE", uploadCurrent.getmImageUrl());
+                Picasso.get().load(uploadCurrent.getmImageUrl()).into(holder.Image);
+                holder.Image.setVisibility(View.VISIBLE);
+                holder.Message.setVisibility(View.GONE);
+            }
+            else {
+                holder.Image.setVisibility(View.GONE);
+                holder.Message.setVisibility(View.VISIBLE);
+            }
+
+            String UID = uploadCurrent.getmUID();
+
+            //  Log.e("Check", uploadCurrent.getmUserName());
+            FirebaseDatabase.getInstance().getReference("users").child(UID).child("userName").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    Username = dataSnapshot.getValue().toString();
+                    holder.Username.setText(Username);
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            holder.OtherConstraint.setVisibility(View.VISIBLE);
+            holder.Message.setVisibility(View.VISIBLE);
+            holder.Username.setVisibility(View.VISIBLE);
+            holder.Date.setVisibility(View.VISIBLE);
+            holder.Image.setVisibility(View.VISIBLE);
+
+            holder.MineConstraint.setVisibility(View.GONE);
+            holder.MessageM.setVisibility(View.GONE);
+            holder.UsernameM.setVisibility(View.GONE);
+            holder.DateM.setVisibility(View.GONE);
+            holder.ImageM.setVisibility(View.GONE);
         }
+
         holder.Image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,25 +189,6 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
                 mContext.startActivity(intent);
             }
         });
-
-
-        //  Log.e("Check", uploadCurrent.getmUserName());
-        FirebaseDatabase.getInstance().getReference("users").child(UID).child("userName").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                Username = dataSnapshot.getValue().toString();
-                holder.Username.setText(Username);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
     }
 
     @Override
@@ -128,8 +197,9 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
     }
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
-        public TextView Message, Username, Date;
-        public ImageView Image;
+        public TextView Message, Username, Date, MessageM, UsernameM, DateM;
+        public ImageView Image, ImageM;
+        public ConstraintLayout OtherConstraint, MineConstraint;
 
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -138,6 +208,14 @@ public class PostStuffForChatRoomGroupAdapter extends RecyclerView.Adapter<PostS
             Username = itemView.findViewById(R.id.tvUserNameMessage);
             Date = itemView.findViewById(R.id.tvDateMessage);
             Image = itemView.findViewById(R.id.ivImageInPrivateChat);
+
+            MessageM = itemView.findViewById(R.id.tvMessageM);
+            UsernameM = itemView.findViewById(R.id.tvUserNameMessageM);
+            DateM = itemView.findViewById(R.id.tvDateMessageM);
+            ImageM = itemView.findViewById(R.id.ivImageInPrivateChatM);
+
+            OtherConstraint = itemView.findViewById(R.id.otheruserchatitem);
+            MineConstraint = itemView.findViewById(R.id.minechatitem);
         }
     }
 

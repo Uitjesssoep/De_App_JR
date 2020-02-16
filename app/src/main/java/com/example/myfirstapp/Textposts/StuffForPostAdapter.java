@@ -49,7 +49,6 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
     public List<StuffForPost> mPost;
     public List<UserProfileToDatabase> mUserList = new ArrayList<>();
     public int CommentCountAdapter, LikeCountAdapter, DislikeCountAdapter;
-    private Boolean Deleted = false;
 
     private OnItemClickListener mListener;
     private String UIDClickable, Substring;
@@ -211,8 +210,6 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                                                                 DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
                                                                 DeleteThePost.removeValue();
 
-                                                                Deleted = true;
-
                                                                 String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                                                                 final DatabaseReference PostCounter = FirebaseDatabase.getInstance().getReference("users").child(MyUID);
@@ -314,8 +311,6 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                                                             public void onClick(DialogInterface dialogInterface, int i) {
                                                                 DeleteThePost = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyPost);
                                                                 DeleteThePost.removeValue();
-
-                                                                Deleted = true;
 
                                                                 String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

@@ -66,8 +66,11 @@ public class CommentStuffForTextPostMyProfAdapter extends RecyclerView.Adapter<C
     @Override
     public void onBindViewHolder(@NonNull final CommentStuffForTextPostMyProfAdapter.ViewHolder holder, final int position) {
         final CommentStuffForTextPostMyProf uploadCurrent2 = mComment.get(position);
-        String PostKey = uploadCurrent2.getOldKey();
-        String CommentKey = uploadCurrent2.getKey();
+        final String PostKey = uploadCurrent2.getOldKey();
+        final String CommentKey = uploadCurrent2.getKey();
+
+        final String KeyComments2 = uploadCurrent2.getKey();
+        final String KeyOGPosts2 = uploadCurrent2.getOldKey();
 
         //Check if exists
         final String ThePostKey684 = uploadCurrent2.getOldKey();
@@ -81,78 +84,83 @@ public class CommentStuffForTextPostMyProfAdapter extends RecyclerView.Adapter<C
                     DatabaseReference DeleteAtMyComments = FirebaseDatabase.getInstance().getReference("users").child(MyUID).child("MyComments");
                     DeleteAtMyComments.child(TheCommentKey684).removeValue();
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
-
-        //de data laden
-        DatabaseReference LoadTheData = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey);
-        LoadTheData.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String Username = dataSnapshot.child("user_name").getValue().toString();
-                String Date = dataSnapshot.child("date").getValue().toString();
-                String Content = dataSnapshot.child("content").getValue().toString();
-
-                holder.Username.setText(Username);
-                holder.Date.setText(Date);
-                holder.Content.setText(Content);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+                else {
 
 
-        //kijken of de user deleted is
-        final String KeyComments2 = uploadCurrent2.getKey();
-        final String KeyOGPosts2 = uploadCurrent2.getOldKey();
-        final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
-        final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("user_name");
-        final String CommentUID = uploadCurrent2.getUID();
+                    //de data laden
+                    DatabaseReference LoadTheData = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey).child("Comments").child(CommentKey);
+                    LoadTheData.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String Username = dataSnapshot.child("user_name").getValue().toString();
+                            String Date = dataSnapshot.child("date").getValue().toString();
+                            String Content = dataSnapshot.child("content").getValue().toString();
 
-        UserUIDCheck.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(CommentUID)){
-                }
-                else{
-                    ChangeUsername.setValue("[deleted_user]");
-                    holder.Username.setText("[deleted_user]");
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+                            holder.Username.setText(Username);
+                            holder.Date.setText(Date);
+                            holder.Content.setText(Content);
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
 
-        final String PostUID = uploadCurrent2.getUID();
-        final String MyUID684 = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final String PostUsername = holder.Username.getText().toString();
-        if(PostUID.equals(MyUID684)){
-            if(PostUsername.equals("[deleted_comment_user]")){
-                DatabaseReference GetMyUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID684).child("userName");
-                GetMyUsername.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        String MyUsername = dataSnapshot.getValue().toString();
-                        holder.Username.setText(MyUsername);
-                        holder.Username.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                    //kijken of de user deleted is
+                    final String KeyComments2 = uploadCurrent2.getKey();
+                    final String KeyOGPosts2 = uploadCurrent2.getOldKey();
+                    final DatabaseReference UserUIDCheck = FirebaseDatabase.getInstance().getReference("users");
+                    final DatabaseReference ChangeUsername = FirebaseDatabase.getInstance().getReference("General_Posts").child(KeyOGPosts2).child("Comments").child(KeyComments2).child("user_name");
+                    final String CommentUID = uploadCurrent2.getUID();
+
+                    UserUIDCheck.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.hasChild(CommentUID)){
+                            }
+                            else{
+                                ChangeUsername.setValue("[deleted_user]");
+                                holder.Username.setText("[deleted_user]");
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+
+                    final String PostUID = uploadCurrent2.getUID();
+                    final String MyUID684 = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    final String PostUsername = holder.Username.getText().toString();
+                    if(PostUID.equals(MyUID684)){
+                        if(PostUsername.equals("[deleted_comment_user]")){
+                            DatabaseReference GetMyUsername = FirebaseDatabase.getInstance().getReference("users").child(MyUID684).child("userName");
+                            GetMyUsername.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                    String MyUsername = dataSnapshot.getValue().toString();
+                                    holder.Username.setText(MyUsername);
+                                    holder.Username.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
+                            });
+                        }
+                        else{
+                            holder.Username.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                        }
 
                     }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-            }
-            else{
-                holder.Username.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
-            }
 
-        }
+
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         holder.DeleteComment.setOnClickListener(new View.OnClickListener() {
             @Override

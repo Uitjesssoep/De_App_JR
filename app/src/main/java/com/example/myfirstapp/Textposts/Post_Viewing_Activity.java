@@ -412,7 +412,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
         DatabaseReference TitleRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("title");
 
-        TitleRef.addValueEventListener(new ValueEventListener() {
+        TitleRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Title.setText(dataSnapshot.getValue(String.class));
@@ -425,10 +425,10 @@ public class Post_Viewing_Activity extends AppCompatActivity {
         });
 
         DatabaseReference ContentRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("content");
-        ContentRef.addValueEventListener(new ValueEventListener() {
+        ContentRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                PostType.addValueEventListener(new ValueEventListener() {
+                PostType.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot2) {
                         if (dataSnapshot2.getValue(String.class).equals("Text")) {
@@ -462,7 +462,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
 
         DatabaseReference UserNameRef = FirebaseDatabase.getInstance().getReference("General_Posts").child(key).child("user_name");
 
-        UserNameRef.addValueEventListener(new ValueEventListener() {
+        UserNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserName.setText(dataSnapshot.getValue(String.class));
@@ -512,7 +512,7 @@ public class Post_Viewing_Activity extends AppCompatActivity {
                 final String ThePostKey = getIntent().getExtras().get("Key").toString();
 
                 DatabaseReference CheckIfMyUIDCheck = FirebaseDatabase.getInstance().getReference("General_Posts").child(ThePostKey);
-                CheckIfMyUIDCheck.addValueEventListener(new ValueEventListener() {
+                CheckIfMyUIDCheck.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
