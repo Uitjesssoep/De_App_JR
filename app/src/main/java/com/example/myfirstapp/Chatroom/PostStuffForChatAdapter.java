@@ -27,6 +27,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForChatAdapter.ViewHolder>{
@@ -36,6 +38,10 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
     public int LikeCountAdapter, DislikeCountAdapter;
 
     private PostStuffForChatAdapter.OnItemClickListener mListener;
+    private String Date;
+    private Calendar cal;
+    private SimpleDateFormat dateFormat;
+
     public interface OnItemClickListener {
         void onItemClick(int position);
         void onUserNameClick (int position);
@@ -67,7 +73,13 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
         holder.Username.setText(uploadCurrent.getUser_name());
         holder.Title.setText(uploadCurrent.getTitle());
         holder.KeyHolder.setText(uploadCurrent.getKey());
-        holder.Date.setText(uploadCurrent.getDate());
+
+        cal = Calendar.getInstance();
+        cal.setTimeInMillis(uploadCurrent.getDate());
+        dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
+        Date = dateFormat.format(cal.getTime());
+
+        holder.Date.setText(Date);
         holder.CommentCount.setVisibility(View.GONE);
         holder.CommentLogo.setVisibility(View.GONE);
         holder.Content.setVisibility(View.GONE);

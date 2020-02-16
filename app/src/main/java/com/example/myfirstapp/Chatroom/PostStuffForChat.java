@@ -6,9 +6,9 @@ public class PostStuffForChat {
     private String mUser_name;
     private String mUID;
     private String mKey;
-    private String mDate;
+    private long mDate;
 
-    public PostStuffForChat(String Title, String User_name, String UID, String Key, String Date) {
+    public PostStuffForChat(String Title, String User_name, String UID, String Key, long Date) {
         mTitle = Title;
         mUser_name = User_name;
         mUID = UID;
@@ -51,11 +51,11 @@ public class PostStuffForChat {
         this.mKey = Key;
     }
 
-    public String getDate() {
+    public long getDate() {
         return mDate;
     }
 
-    public void setDate(String Date) {
+    public void setDate(long Date) {
         this.mDate = Date;
     }
 

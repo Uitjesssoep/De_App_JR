@@ -1,9 +1,10 @@
 package com.example.myfirstapp.Chatroom;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ import java.util.TimerTask;
 public class Chat_With_Users_Activity extends AppCompatActivity {
 
 
+    private static final int PICK_IMAGE_REQUEST = 1;
     private DatabaseReference myDatabase, MessageDatabase, myDatabase2;
     private ImageButton SendChatButton, SendImageButton;
     private EditText ChatInputText;
@@ -67,6 +69,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     private RecyclerView ChatWindow;
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
+    private long Timestamp;
 
     private RequestQueue requestQueue;
 
@@ -75,6 +78,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
     boolean notify = false;
     private int ItemCount;
     private int scrollPosition;
+    private Uri mImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +96,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         SetupUI();
         LoadMessages();
         SendChat();
+        SendImage();
         SetupDesign();
 
     }
@@ -122,6 +127,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                 postStuffForChatRoomGroupAdapter = new PostStuffForChatRoomGroupAdapter(Chat_With_Users_Activity.this, MessagesList);
                 ChatWindow.setAdapter(postStuffForChatRoomGroupAdapter);
                 postStuffForChatRoomGroupAdapter.notifyDataSetChanged();
+                FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("date").setValue(System.currentTimeMillis());
             }
 
             @Override
@@ -192,6 +198,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         ChatWindow = findViewById(R.id.rvChatWindow);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
+
         ChatWindow.setLayoutManager(linearLayoutManager);
 
         MessagesList = new ArrayList<>();
@@ -203,7 +210,10 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         MyUid = user.getUid();
 
+
+        Timestamp = System.currentTimeMillis();
         calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(Timestamp);
         dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
         Date = dateFormat.format(calendar.getTime());
 
@@ -271,7 +281,7 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                             Username = dataSnapshot.child("userName").getValue().toString();
                             Log.e(TAG, Username);
                             message = ChatInputText.getText().toString();
-                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Date, MyUid, "");
+                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Timestamp, MyUid, "");
 
                             temp_key = myDatabase2.push().getKey();
                             myDatabase2.child(temp_key).setValue(postStuffForChatRoom);
@@ -290,6 +300,40 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void SendImage() {
+        SendImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
+    }
+
+    private void openFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+
+        // intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+            if (mImageUri != null) {
+                Intent intent = new Intent(Chat_With_Users_Activity.this, ImageTemporaryViewingPrivateChat.class);
+                intent.putExtra("mImageUri", mImageUri);
+                intent.putExtra("UID", MyUid);
+                intent.putExtra("Message", ChatInputText.getText().toString());
+                intent.putExtra("key", key);
+                startActivity(intent);
+            }
+        }
     }
 
     public void clear() {

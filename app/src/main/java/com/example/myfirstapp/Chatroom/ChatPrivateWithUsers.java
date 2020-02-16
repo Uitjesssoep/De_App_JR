@@ -2,7 +2,6 @@ package com.example.myfirstapp.Chatroom;
 
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.icu.text.CaseMap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,7 +69,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     private List<PostStuffForChatRoom> MessagesList;
 
     private RecyclerView ChatWindow;
-    private Calendar calendar;
+    private Calendar cal;
     private SimpleDateFormat dateFormat;
 
     private RequestQueue requestQueue;
@@ -87,6 +86,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     private String Keyold;
 
     private Boolean SendImageVisible = true;
+    private long Timestamp;
 
 
     @Override
@@ -94,10 +94,9 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
         sharedPrefNightMode = new SharedPrefNightMode(this);
 
-        if(sharedPrefNightMode.loadNightModeState()==true){
+        if (sharedPrefNightMode.loadNightModeState() == true) {
             setTheme(R.style.AppTheme_Night);
-        }
-        else setTheme(R.style.AppTheme);
+        } else setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_private_with_users);
@@ -134,10 +133,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         MyUid = user.getUid();
+        Timestamp = System.currentTimeMillis();
 
-        calendar = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
-        Date = dateFormat.format(calendar.getTime());
 
         list = new ArrayList<>();
 
@@ -157,25 +154,23 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                        String Input = ChatInputText.getText().toString();
-                        if(!Input.isEmpty()){
-                            if(SendImageVisible){
-                                SendImageVisible = false;
-                            }
-                        }
-                        else {
-                            SendImageVisible = true;
-                        }
+                String Input = ChatInputText.getText().toString();
+                if (!Input.isEmpty()) {
+                    if (SendImageVisible) {
+                        SendImageVisible = false;
+                    }
+                } else {
+                    SendImageVisible = true;
+                }
 
                 runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
 
-                        if(SendImageVisible){
+                        if (SendImageVisible) {
                             SendImageButton.setVisibility(View.VISIBLE);
-                        }
-                        else{
+                        } else {
                             SendImageButton.setVisibility(View.INVISIBLE);
                         }
 
@@ -195,7 +190,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
                 MessagesList.add(postStuffForChatRoom);
                 postStuffForChatRoomAdapterNúmeroDos.notifyDataSetChanged();
-
+                myDatabase2.child(MyUid).child(UID).child("mDate").setValue(System.currentTimeMillis());
+                myDatabase2.child(UID).child(MyUid).child("mDate").setValue(System.currentTimeMillis());
 
             }
 
@@ -245,11 +241,8 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
-                String Date = dateFormat.format(calendar.getTime());
-                PostStuffMakePrivateChat postStuffMakePrivateChat1 = new PostStuffMakePrivateChat(false, Date, UID);
-                PostStuffMakePrivateChat postStuffMakePrivateChat2 = new PostStuffMakePrivateChat(false, Date, MyUid);
+                PostStuffMakePrivateChat postStuffMakePrivateChat1 = new PostStuffMakePrivateChat(false, System.currentTimeMillis(), UID);
+                PostStuffMakePrivateChat postStuffMakePrivateChat2 = new PostStuffMakePrivateChat(false, System.currentTimeMillis(), MyUid);
                 myDatabase2.child(MyUid).child(UID).setValue(postStuffMakePrivateChat1);
                 myDatabase2.child(UID).child(MyUid).setValue(postStuffMakePrivateChat2);
 
@@ -284,6 +277,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                 intent.putExtra("mImageUri", mImageUri);
                 intent.putExtra("UID", UID);
                 intent.putExtra("Message", ChatInputText.getText().toString());
+                intent.putExtra("key", "no key");
                 startActivity(intent);
             }
         }
@@ -296,7 +290,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void SendImage(){
+    private void SendImage() {
         SendImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -319,13 +313,15 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             message = ChatInputText.getText().toString();
-                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Date, MyUid, "");
+                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Timestamp, MyUid, "");
                             temp_key = MessageDatabase.push().getKey();
                             MessageDatabase.child(MyUid).child(UID).child(temp_key).setValue(postStuffForChatRoom);
                             MessageDatabase.child(UID).child(MyUid).child(temp_key).setValue(postStuffForChatRoom);
                             Log.e(TAG, "gepushed");
                             ChatInputText.setText("");
+
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
@@ -334,6 +330,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
             }
         });
     }
+
     public void clear() {
 
         int size = MessagesList.size();
@@ -376,6 +373,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                 TitleActionBar = toolbar.findViewById(R.id.titlechatprivate);
                 TitleActionBar.setText(TheirUsername);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }

@@ -3,9 +3,10 @@ package com.example.myfirstapp.Chatroom;
 public class PostStuffMakePrivateChat {
 
     private Boolean mSeen;
-    private String mDate, mUID;
+    private String mUID;
+    private Long mDate;
 
-    public PostStuffMakePrivateChat (Boolean seen, String Date, String UID) {
+    public PostStuffMakePrivateChat (Boolean seen, long Date, String UID) {
         mSeen = seen;
         mDate = Date;
         mUID = UID;
@@ -22,11 +23,11 @@ public class PostStuffMakePrivateChat {
         this.mSeen = mSeen;
     }
 
-    public String getmDate() {
+    public long getmDate() {
         return mDate;
     }
 
-    public void setmDate(String mDate) {
+    public void setmDate(long mDate) {
         this.mDate = mDate;
     }
 

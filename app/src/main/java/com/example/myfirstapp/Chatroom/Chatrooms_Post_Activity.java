@@ -1,10 +1,5 @@
 package com.example.myfirstapp.Chatroom;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,23 +8,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
-import com.example.myfirstapp.Imageposts.Upload_Images_Activity;
 import com.example.myfirstapp.Layout_Manager_BottomNav_Activity;
-import com.example.myfirstapp.Notifications.Data;
 import com.example.myfirstapp.R;
-import com.example.myfirstapp.SecondActivity;
 import com.example.myfirstapp.SharedPrefNightMode;
-import com.example.myfirstapp.Textposts.Upload_TextPost_Activity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -155,7 +147,7 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 final String temp_key = ChatroomDatabase.push().getKey();
                 String TitleDatabase = Title.getText().toString().trim();
 
-                PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, Date);
+                PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, System.currentTimeMillis());
                 ChatroomDatabase.child(temp_key).setValue(postStuffForChat).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -187,7 +179,7 @@ public class Chatrooms_Post_Activity extends AppCompatActivity {
                 final String temp_key = ChatroomDatabase.push().getKey();
                 String TitleDatabase = Title.getText().toString().trim();
 
-                PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, Date);
+                PostStuffForChat postStuffForChat = new PostStuffForChat(TitleDatabase, User_name, MyUID, temp_key, System.currentTimeMillis());
                 ChatroomDatabase.child(temp_key).setValue(postStuffForChat).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

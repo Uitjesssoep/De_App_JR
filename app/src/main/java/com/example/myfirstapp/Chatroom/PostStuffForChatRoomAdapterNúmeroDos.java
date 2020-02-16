@@ -12,16 +12,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myfirstapp.Imageposts.ImagePostViewing;
 import com.example.myfirstapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<PostStuffForChatRoomAdapterNúmeroDos.ImageViewHolder> {
 
     private List<PostStuffForChatRoom> mUploads;
     private Context mContext;
+    private String ImageUri;
+    private Calendar cal;
+    private String Date;
+    private SimpleDateFormat dateFormat;
+
 
     public PostStuffForChatRoomAdapterNúmeroDos(Context context, List<PostStuffForChatRoom> uploads) {
         mContext = context;
@@ -37,10 +45,18 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        PostStuffForChatRoom uploadCurrent = mUploads.get(position);
+        final PostStuffForChatRoom uploadCurrent = mUploads.get(position);
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         holder.Message.setText(uploadCurrent.getmMessage());
-        StringBuilder str = new StringBuilder(uploadCurrent.getmDate());
+        ImageUri = uploadCurrent.getmImageUrl();
+
+        cal = Calendar.getInstance();
+        cal.setTimeInMillis(uploadCurrent.getmDate());
+        dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
+        Date = dateFormat.format(cal.getTime());
+
+
+        StringBuilder str = new StringBuilder(Date);
         str.replace(5, 12, "");
         str.replace(11, 16, "");
         str.replace(8, 9, "-");
@@ -68,7 +84,12 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
         holder.Image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
+                Intent intent = new Intent(mContext, ImagePostViewing.class);
+                intent.putExtra("ImageUri", uploadCurrent.getmImageUrl());
+                intent.putExtra("UID", uploadCurrent.getmUID());
+                intent.putExtra("Date", uploadCurrent.getmDate());
+                intent.putExtra("Message", uploadCurrent.getmMessage());
+                intent.putExtra("key", "no key");
                 mContext.startActivity(intent);
             }
         });
