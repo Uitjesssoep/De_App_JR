@@ -186,6 +186,14 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseReference.child("online").setValue(false);
+        databaseReference.child("timestamp").setValue(System.currentTimeMillis());
+    }
+
     private void LoadMessages() {
         MessageDatabase.child(MyUid).child(UID).orderByChild("mDate").addChildEventListener(new ChildEventListener() {
             @Override

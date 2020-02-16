@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.myfirstapp.PageAdapter_HisAccount;
@@ -59,10 +56,9 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
 
         sharedPrefNightMode = new SharedPrefNightMode(this);
 
-        if(sharedPrefNightMode.loadNightModeState()==true){
+        if (sharedPrefNightMode.loadNightModeState() == true) {
             setTheme(R.style.AppTheme_Night);
-        }
-        else setTheme(R.style.AppTheme);
+        } else setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account__info__other_user_);
@@ -77,54 +73,40 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
 
         final TabLayout tabLayout = findViewById(R.id.tab_layout_other_user_account);
         final ViewPager viewPager = findViewById(R.id.viewpager_tablayout_OtherUserAccount);
-        key = getIntent().getExtras().get("Key").toString();
-        DatabaseReference GetUID = firebaseDatabase.getReference("General_Posts").child(key).child("uid");
-        GetUID.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        String HisUID = getIntent().getExtras().get("UID").toString();
+        pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount(), HisUID);
+        viewPager.setAdapter(pagerAdapter);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onTabSelected(TabLayout.Tab tab) {
 
-                String HisUID = dataSnapshot.getValue().toString();
-                pagerAdapter = new PageAdapter_HisAccount(getSupportFragmentManager(), tabLayout.getTabCount(), HisUID);
-                viewPager.setAdapter(pagerAdapter);
+                viewPager.setCurrentItem(tab.getPosition());
 
-                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-
-                        viewPager.setCurrentItem(tab.getPosition());
-
-                        if(tab.getPosition() == 0){
-                            pagerAdapter.notifyDataSetChanged();
-                        }
-                        else if(tab.getPosition() == 1){
-                            pagerAdapter.notifyDataSetChanged();
-                        }
-                        else if(tab.getPosition() == 2){
-                            pagerAdapter.notifyDataSetChanged();
-                        }
-
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-
-                    }
-                });
-
-                viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                if (tab.getPosition() == 0) {
+                    pagerAdapter.notifyDataSetChanged();
+                } else if (tab.getPosition() == 1) {
+                    pagerAdapter.notifyDataSetChanged();
+                } else if (tab.getPosition() == 2) {
+                    pagerAdapter.notifyDataSetChanged();
+                }
 
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
     }
 
 
@@ -160,8 +142,7 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
                             Follow.setBackgroundResource(R.drawable.button_roundedcorners_following);
                             Follow.setText("Following");
                             Follow.setTextColor(getResources().getColor(R.color.colorAccent));
-                        }
-                        else {
+                        } else {
                             Follow.setText("Follow");
                             Follow.setBackgroundResource(R.drawable.button_roundedcorners_follow);
                             Follow.setTextColor(getResources().getColor(R.color.white));
@@ -206,7 +187,8 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
                                                         @Override
                                                         public void onClick(DialogInterface dialogInterface, int i) {
                                                             datarefUID.child(uid).removeValue();
-                                                            datarefOtherUID.child(MyUID).removeValue();;
+                                                            datarefOtherUID.child(MyUID).removeValue();
+                                                            ;
                                                             dialogInterface.dismiss();
                                                         }
                                                     });
@@ -223,16 +205,19 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
                                                     datarefFollowing.child(uid).child("followers").child(MyUID).setValue(userNameFollower);
                                                 }
                                             }
+
                                             @Override
                                             public void onCancelled(@NonNull DatabaseError databaseError) {
                                             }
                                         });
                                     }
+
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {
                                     }
                                 });
                             }
+
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
                             }
@@ -246,14 +231,13 @@ public class Account_Info_OtherUser_Chat extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        if(dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("AccountVisits")) {
+                        if (dataSnapshot.hasChild("Counters") && dataSnapshot.child("Counters").hasChild("AccountVisits")) {
                             String VisitCountString = dataSnapshot.child("Counters").child("AccountVisits").getValue().toString();
                             int VisitCountInt = Integer.parseInt(VisitCountString);
                             VisitCountInt = Integer.valueOf(VisitCountInt + 1);
                             String NewVisitCountString = Integer.toString(VisitCountInt);
                             UserVisitCount.child("Counters").child("AccountVisits").setValue(NewVisitCountString);
-                        }
-                        else{
+                        } else {
                             UserVisitCount.child("Counters").child("AccountVisits").setValue("1");
                         }
 

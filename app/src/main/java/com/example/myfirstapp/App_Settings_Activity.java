@@ -1,8 +1,5 @@
 package com.example.myfirstapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -18,11 +15,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.myfirstapp.AccountActivities.Change_Password_Activity;
 import com.example.myfirstapp.AccountActivities.Deleting_Account_Activity;
 import com.example.myfirstapp.AccountActivities.MainActivity;
 import com.example.myfirstapp.AccountActivities.Profile_Settings_Activity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class App_Settings_Activity extends AppCompatActivity {
 
@@ -37,27 +39,25 @@ public class App_Settings_Activity extends AppCompatActivity {
 
         sharedPrefNightMode = new SharedPrefNightMode(this);
 
-        if(sharedPrefNightMode.loadNightModeState()==true){
+        if (sharedPrefNightMode.loadNightModeState() == true) {
             setTheme(R.style.AppTheme_Night);
-        }
-        else setTheme(R.style.AppTheme);
+        } else setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app__settings_);
 
         aSwitch = findViewById(R.id.switchNightMode);
 
-        if(sharedPrefNightMode.loadNightModeState()==true){
+        if (sharedPrefNightMode.loadNightModeState() == true) {
             aSwitch.setChecked(true);
         }
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     sharedPrefNightMode.setNightModeState(true);
                     restartApp();
-                }
-                else {
+                } else {
                     sharedPrefNightMode.setNightModeState(false);
                     restartApp();
                 }
@@ -109,8 +109,11 @@ public class App_Settings_Activity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                        databaseReference.child("online").setValue(false);
+                        databaseReference.child("timestamp").setValue(System.currentTimeMillis());
                         Intent intent = new Intent(App_Settings_Activity.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         firebaseAuth.signOut();
                         startActivity(intent);
 
@@ -153,7 +156,7 @@ public class App_Settings_Activity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
 
                                 Intent intent = new Intent(App_Settings_Activity.this, Deleting_Account_Activity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
 
                             }
@@ -261,7 +264,6 @@ public class App_Settings_Activity extends AppCompatActivity {
     }
 
     private void SetupDesign() {
-
 
 
         //action bar ding

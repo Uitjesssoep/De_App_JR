@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -268,7 +269,7 @@ public class AllChatsTab extends Fragment {
                     }
 
                     @Override
-                    public void onUserNameClick(int position) {
+                    public void onUserNameClick(final int position) {
                         final String PostKey = postStuffForChatList.get(position).getKey();
 
                         DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("Chatrooms").child(PostKey).child("uid");
@@ -297,7 +298,8 @@ public class AllChatsTab extends Fragment {
                                             else{
 
                                                 Intent GoToOtherProfile = new Intent(getActivity(), Account_Info_OtherUser_Chat.class);
-                                                GoToOtherProfile.putExtra("Key", PostKey);
+                                                GoToOtherProfile.putExtra("UID", postStuffForChatList.get(position).getUID());
+                                                Log.e("UIDFROMCHAT", PostUID2 );
                                                 startActivity(GoToOtherProfile);
 
                                             }

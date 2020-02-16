@@ -104,6 +104,14 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
         SetupDesign();
 
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseReference.child("online").setValue(false);
+        databaseReference.child("timestamp").setValue(System.currentTimeMillis());
+    }
+
  /*   @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

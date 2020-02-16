@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.myfirstapp.PageAdapter_HisAccount;
@@ -33,7 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompatActivity {
+public class Account_Info_OtherUser_ActivityFromChat extends AppCompatActivity {
 
 
     private TextView DisplayName, UserName;
@@ -125,7 +122,7 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 if (dataSnapshot.hasChild(uid)) {
                                                     Log.e("Check", "TRUEE");
-                                                    AlertDialog.Builder dialog = new AlertDialog.Builder(Account_Info_OtherUser_ActivityImagePostsTemporary.this);
+                                                    AlertDialog.Builder dialog = new AlertDialog.Builder(Account_Info_OtherUser_ActivityFromChat.this);
                                                     dialog.setTitle("Unfollow");
                                                     dialog.setMessage("Are you sure you want to unfollow this user?");
                                                     dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -228,7 +225,7 @@ public class Account_Info_OtherUser_ActivityImagePostsTemporary extends AppCompa
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Account_Info_OtherUser_ActivityImagePostsTemporary.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Account_Info_OtherUser_ActivityFromChat.this, "Couldn't retrieve data from database, please try again later", Toast.LENGTH_SHORT).show();
             }
         });
 

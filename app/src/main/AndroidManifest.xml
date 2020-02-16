@@ -49,7 +49,7 @@
             android:name=".AccountActivities.Deleting_Account_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AccountActivities.Account_Info_OtherUser_ActivityImagePostsTemporary"
+            android:name=".AccountActivities.Account_Info_OtherUser_ActivityFromChat"
             android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivities.Account_Info_OtherUser_Chat"

@@ -50,7 +50,7 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         checkEmailVerification();
     }
 
-   /*@Override
+   @Override
     protected void onStart() {
         super.onStart();
 
@@ -58,15 +58,21 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
 
     }
 
-
     @Override
-    protected void onStop() {
-        super.onStop();
-
+    protected void onDestroy() {
+        super.onDestroy();
         databaseReference.child("online").setValue(false);
         databaseReference.child("timestamp").setValue(System.currentTimeMillis());
     }
-*/
+
+    /* @Override
+        protected void onStop() {
+            super.onStop();
+
+            databaseReference.child("online").setValue(false);
+            databaseReference.child("timestamp").setValue(System.currentTimeMillis());
+        }
+    */
     private void Checked() {
 
         FrameLayout frameLayout = findViewById(R.id.framelayout_manager_makepost);
@@ -279,6 +285,8 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
             frameLayout7.setVisibility(View.GONE);
         } else {
             finish();
+            databaseReference.child("online").setValue(false);
+            databaseReference.child("timestamp").setValue(System.currentTimeMillis());
         }
     }
 
