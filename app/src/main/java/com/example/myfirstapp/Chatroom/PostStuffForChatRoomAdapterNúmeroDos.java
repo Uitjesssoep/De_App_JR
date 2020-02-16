@@ -105,7 +105,7 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
             holder.Image.setVisibility(View.GONE);
 
             holder.MineConstraint.setVisibility(View.VISIBLE);
-            holder.UsernameM.setVisibility(View.VISIBLE);
+            holder.UsernameM.setVisibility(View.GONE);
             holder.DateM.setVisibility(View.VISIBLE);
 
             String Type = uploadCurrent.getmType();
@@ -162,7 +162,7 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
             });
 
             holder.OtherConstraint.setVisibility(View.VISIBLE);
-            holder.Username.setVisibility(View.VISIBLE);
+            holder.Username.setVisibility(View.GONE);
             holder.Date.setVisibility(View.VISIBLE);
 
             holder.MineConstraint.setVisibility(View.GONE);
