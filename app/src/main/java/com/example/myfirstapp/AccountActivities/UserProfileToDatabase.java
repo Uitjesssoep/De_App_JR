@@ -10,7 +10,7 @@ public class UserProfileToDatabase {
     public String profilePicture;
     public String theUID;
     public boolean online;
-    public long Timestamp;
+    public long timestamp;
 
 
     public UserProfileToDatabase() {
@@ -75,13 +75,12 @@ public class UserProfileToDatabase {
     }
 
     public long getTimestamp() {
-        return Timestamp;
+        return timestamp;
     }
 
     public void setTimestamp(long timestamp) {
-        Timestamp = timestamp;
+        this.timestamp = timestamp;
     }
-
 
     public UserProfileToDatabase(String profilePicture, String theUID, String userName, String userEmail, String userFullName, String userBirthdate, Boolean Online, long Timestamp) {
         this.profilePicture = profilePicture;
@@ -91,7 +90,7 @@ public class UserProfileToDatabase {
         this.userFullName = userFullName;
         this.userBirthdate = userBirthdate;
         this.online = Online;
-        this.Timestamp = Timestamp;
+        this.timestamp = Timestamp;
     }
 
 
