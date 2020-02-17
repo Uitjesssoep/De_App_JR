@@ -363,7 +363,7 @@ public class Profile_First_Setup extends AppCompatActivity {
         UploadUsername.setValue(UID);
 
         //uploaden naar database
-        UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, Date, false, System.currentTimeMillis());
+        UserProfileToDatabase userProfile = new UserProfileToDatabase(UriImage, UID, username, email, userfullnameToDatabase, Date);
         myRef684.setValue(userProfile);
         Log.e(TAGTEST, "usertodatabase bereikt!");
     }

@@ -323,7 +323,7 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             message = ChatInputText.getText().toString();
                             temp_key = MessageDatabase.push().getKey();
-                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Timestamp, MyUid, "", temp_key);
+                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Timestamp, MyUid, UID, "", temp_key);
 
                             MessageDatabase.child(MyUid).child(UID).child(temp_key).setValue(postStuffForChatRoom);
                             MessageDatabase.child(UID).child(MyUid).child(temp_key).setValue(postStuffForChatRoom);

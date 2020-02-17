@@ -8,15 +8,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
@@ -27,10 +18,18 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.example.myfirstapp.AccountActivities.Account_Info_OtherUser_Activity;
+import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.example.myfirstapp.Textposts.StuffForPost;
 import com.example.myfirstapp.Textposts.StuffForPostAdapter;
-import com.example.myfirstapp.Textposts.Post_Viewing_Activity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -551,7 +550,7 @@ public class FollowingFeedTab extends Fragment {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     StuffForPost StuffForPost = postSnapshot.getValue(StuffForPost.class);
                     StuffForPostList.add(StuffForPost);
-                    final String MyUID = firebaseAuth.getCurrentUser().getUid();
+                    final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     following.child(MyUID).child("following").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

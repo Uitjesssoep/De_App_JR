@@ -18,7 +18,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myfirstapp.Imageposts.ImagePostViewing;
 import com.example.myfirstapp.R;
 import com.example.myfirstapp.SharedPrefNightMode;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -157,7 +156,7 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
         if (key.equals("no key")) {
             String mMessage = ChatInputText.getText().toString();
             temp_key = mDatabaseRef.push().getKey();
-            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(mMessage, "image", false, System.currentTimeMillis(), MyUID, UriImage, temp_key);
+            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(mMessage, "image", false, System.currentTimeMillis(), MyUID,UID, UriImage, temp_key);
             mDatabaseRef.child(MyUID).child(UID).child(temp_key).setValue(postStuffForChatRoom);
             mDatabaseRef.child(UID).child(MyUID).child(temp_key).setValue(postStuffForChatRoom).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -168,7 +167,7 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
         } else {
             String mMessage = ChatInputText.getText().toString();
             temp_key = mDatabaseRefRooms.push().getKey();
-            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(mMessage, "image", false, System.currentTimeMillis(), MyUID, UriImage, temp_key);
+            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(mMessage, "image", false, System.currentTimeMillis(), MyUID,UID, UriImage, temp_key);
             mDatabaseRefRooms = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("messages");
 
             Log.e("key", key );

@@ -1,7 +1,6 @@
 package com.example.myfirstapp.Chatroom;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myfirstapp.AccountActivities.UserProfileToDatabase;
 import com.example.myfirstapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -68,30 +66,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
         final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final String UID = uploadCurrent.getmUID();
 
-        DatabaseReference LastSeenRef = FirebaseDatabase.getInstance().getReference("users");
-        LastSeenRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    UserProfileToDatabase userProfileToDatabase = postSnapshot.getValue(UserProfileToDatabase.class);
-                    if (userProfileToDatabase.getTheUID().equals(UID)){
-                    if (userProfileToDatabase.isOnline()) {
-                    } else {
-                        long Timestamp = userProfileToDatabase.getTimestamp();
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis(Timestamp);
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
-                        String Date = dateFormat.format(calendar.getTime());
-                    }
-                }}
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
         //  final List<PostStuffForChatRoom> MessagesList = new ArrayList<>();

@@ -207,7 +207,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                             ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
                             ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
 
-                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString, true, System.currentTimeMillis());
+                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
 
                             databaseReference.setValue(userProfileToDatabase);
 
@@ -231,7 +231,7 @@ public class Profile_Settings_Activity extends AppCompatActivity {
                             ChangeEmailString = dataSnapshot.child("userEmail").getValue().toString();
                             ChangeBirthdateString = dataSnapshot.child("userBirthdate").getValue().toString();
 
-                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString, true, System.currentTimeMillis());
+                            UserProfileToDatabase userProfileToDatabase = new UserProfileToDatabase(Profilepicture, UID, ChangeNameString, ChangeEmailString, ChangeFullNameString, ChangeBirthdateString);
 
                             databaseReference.setValue(userProfileToDatabase);
 

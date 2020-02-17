@@ -308,10 +308,10 @@ public class Chat_With_Users_Activity extends AppCompatActivity {
                             Log.e(TAG, Username);
                             message = ChatInputText.getText().toString();
                             temp_key = myDatabase2.push().getKey();
-                            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(message, "text", false, Timestamp, MyUid, "", temp_key);
+                            PostStuffForChatRoomInRooms postStuffForChatRoomInRooms = new PostStuffForChatRoomInRooms(message, "text", false, Timestamp, MyUid, "", temp_key);
 
 
-                            myDatabase2.child(temp_key).setValue(postStuffForChatRoom);
+                            myDatabase2.child(temp_key).setValue(postStuffForChatRoomInRooms);
                             Log.e(TAG, "gepushed");
                             ChatInputText.setText("");
                         }

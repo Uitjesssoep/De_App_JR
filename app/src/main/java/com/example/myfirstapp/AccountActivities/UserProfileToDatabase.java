@@ -66,31 +66,14 @@ public class UserProfileToDatabase {
         this.theUID = theUID;
     }
 
-    public boolean isOnline() {
-        return online;
-    }
-
-    public void setOnline(boolean online) {
-        this.online = online;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public UserProfileToDatabase(String profilePicture, String theUID, String userName, String userEmail, String userFullName, String userBirthdate, Boolean Online, long Timestamp) {
+    public UserProfileToDatabase(String profilePicture, String theUID, String userName, String userEmail, String userFullName, String userBirthdate) {
         this.profilePicture = profilePicture;
         this.theUID = theUID;
         this.userName = userName;
         this.userEmail = userEmail;
         this.userFullName = userFullName;
         this.userBirthdate = userBirthdate;
-        this.online = Online;
-        this.timestamp = Timestamp;
+
     }
 
 

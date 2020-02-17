@@ -1,14 +1,14 @@
 package com.example.myfirstapp.Chatroom;
 
-public class PostStuffForChatRoom {
-    private String mMessage, mType, mUID, mImageUrl, key, uidReceiver;
+public class PostStuffForChatRoomInRooms {
+    private String mMessage, mType, mUID, mImageUrl, key;
     private Boolean mSeen;
     private long mDate;
 
 
 
 
-    public PostStuffForChatRoom(String Message, String Type, Boolean Seen, long Date, String UID, String UIDReceiver, String ImageURl, String Key) {
+    public PostStuffForChatRoomInRooms(String Message, String Type, Boolean Seen, long Date, String UID, String ImageURl, String Key) {
         mMessage = Message;
         mType = Type;
         mSeen = Seen;
@@ -16,19 +16,11 @@ public class PostStuffForChatRoom {
         mUID = UID;
         mImageUrl = ImageURl;
         key = Key;
-        uidReceiver = UIDReceiver;
     }
 
-    public PostStuffForChatRoom() {
+    public PostStuffForChatRoomInRooms() {
     }
 
-    public String getUidReceiver() {
-        return uidReceiver;
-    }
-
-    public void setUidReceiver(String uidReceiver) {
-        this.uidReceiver = uidReceiver;
-    }
 
     public String getKey() {
         return key;

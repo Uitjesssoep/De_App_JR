@@ -37,6 +37,7 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
     private Calendar cal;
     private String Date;
     private SimpleDateFormat dateFormat;
+    private String TAG = "TestForSeen";
 
 
     public PostStuffForChatRoomAdapterNúmeroDos(Context context, List<PostStuffForChatRoom> uploads) {
@@ -55,19 +56,26 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
     public void onBindViewHolder(@NonNull final ImageViewHolder holder, int position) {
         final PostStuffForChatRoom uploadCurrent = mUploads.get(position);
 
-        String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         holder.SeenM.setVisibility(View.GONE);
         Log.e("Seen?", uploadCurrent.getmSeen().toString());
         if (uploadCurrent.getmSeen()) {
             holder.SeenM.setVisibility(View.VISIBLE);
         }
-        String mUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Messages").child(MyUID).child(mUID).child(uploadCurrent.getKey()).child("mSeen");
+        final String mUID = uploadCurrent.getUidReceiver();
+        Log.e(TAG, MyUID);
+        Log.e(TAG, mUID );
+        Log.e(TAG, uploadCurrent.getKey());
+        String key = uploadCurrent.getKey();
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Messages").child(MyUID).child(mUID).child(key).child("mSeen");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if ((boolean) dataSnapshot.getValue()) {
+                boolean Seen = (boolean) dataSnapshot.getValue();
+                if (Seen) {
                     holder.SeenM.setVisibility(View.VISIBLE);
+                }else {
+                    holder.SeenM.setVisibility(View.GONE);
                 }
             }
 
