@@ -176,10 +176,12 @@
 
         <TextView
             android:id="@+id/tvSeenMessageM"
-            android:layout_width="wrap_content"
+            android:background="?attr/chatbackground"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:textAlignment="textEnd"
+            android:paddingEnd="8dp"
+            android:paddingTop="3dp"
             android:autoLink="web"
             android:text="Seen"
             android:textColor="?attr/colorAccent"
