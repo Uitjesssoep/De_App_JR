@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForChatAdapter.ViewHolder>{
+public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForChatAdapter.ViewHolder> {
 
     public Context mContext;
     public List<PostStuffForChat> mPost;
@@ -44,12 +44,15 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
 
     public interface OnItemClickListener {
         void onItemClick(int position);
-        void onUserNameClick (int position);
-        void onUpvoteClick (int position);
-        void onDownvoteClick (int position);
+
+        void onUserNameClick(int position);
+
+        void onUpvoteClick(int position);
+
+        void onDownvoteClick(int position);
     }
 
-    public void setOnItemClickListener(PostStuffForChatAdapter.OnItemClickListener listener){
+    public void setOnItemClickListener(PostStuffForChatAdapter.OnItemClickListener listener) {
         mListener = listener;
     }
 
@@ -376,17 +379,19 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
 
         final String KeyYeah = uploadCurrent.getKey().toString();
 
-        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Likes");
-        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah).child("Dislikes");
+        final DatabaseReference LikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Chatrooms");
+        final DatabaseReference DislikeCountInAdapter = FirebaseDatabase.getInstance().getReference("Chatrooms");
         LikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                LikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+                if (dataSnapshot.hasChild(KeyYeah)) {
+                    LikeCountAdapter = (int) dataSnapshot.child(KeyYeah).child("Likes").getChildrenCount();
 
-                DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah);
-                SetLikeCount.child("LikeCount").setValue(LikeCountAdapter);
+                    DatabaseReference SetLikeCount = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah);
+                    SetLikeCount.child("LikeCount").setValue(LikeCountAdapter);
 
-                holder.LikeCount.setText("" + LikeCountAdapter);
+                    holder.LikeCount.setText("" + LikeCountAdapter);
+                }
             }
 
             @Override
@@ -397,12 +402,14 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
         DislikeCountInAdapter.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DislikeCountAdapter = (int) dataSnapshot.getChildrenCount();
+                if (dataSnapshot.hasChild(KeyYeah)) {
+                    DislikeCountAdapter = (int) dataSnapshot.child(KeyYeah).child("Dislikes").getChildrenCount();
 
-                DatabaseReference SetDislikeCount = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah);
-                SetDislikeCount.child("DislikeCount").setValue(DislikeCountAdapter);
+                    DatabaseReference SetDislikeCount = FirebaseDatabase.getInstance().getReference("Chatrooms").child(KeyYeah);
+                    SetDislikeCount.child("DislikeCount").setValue(DislikeCountAdapter);
 
-                holder.DislikeCount.setText("" + DislikeCountAdapter);
+                    holder.DislikeCount.setText("" + DislikeCountAdapter);
+                }
             }
 
             @Override
@@ -539,9 +546,9 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
                         }
                     }
@@ -551,9 +558,9 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             Username.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onUserNameClick(position);
                         }
                     }
@@ -563,9 +570,9 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             Upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onUpvoteClick(position);
                         }
                     }
@@ -575,9 +582,9 @@ public class PostStuffForChatAdapter extends RecyclerView.Adapter<PostStuffForCh
             Downvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onDownvoteClick(position);
                         }
                     }
