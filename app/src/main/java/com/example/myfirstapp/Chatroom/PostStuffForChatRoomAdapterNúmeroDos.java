@@ -20,6 +20,7 @@ import com.example.myfirstapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
@@ -56,15 +57,16 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
 
         String MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         holder.SeenM.setVisibility(View.GONE);
-        Log.e("Seen?" , uploadCurrent.getmSeen().toString() );
-        if (uploadCurrent.getmSeen()){
+        Log.e("Seen?", uploadCurrent.getmSeen().toString());
+        if (uploadCurrent.getmSeen()) {
             holder.SeenM.setVisibility(View.VISIBLE);
         }
         String mUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        FirebaseDatabase.getInstance().getReference("Messages").child(MyUID).child(mUID).child(uploadCurrent.getKey()).child("mSeen").addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Messages").child(MyUID).child(mUID).child(uploadCurrent.getKey()).child("mSeen");
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue().equals(true)){
+                if ((boolean) dataSnapshot.getValue()) {
                     holder.SeenM.setVisibility(View.VISIBLE);
                 }
             }
