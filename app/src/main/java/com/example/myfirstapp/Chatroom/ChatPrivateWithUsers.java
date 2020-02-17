@@ -115,7 +115,6 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
     }
 
 
-
     private void SetupUI() {
         SendImageButton = findViewById(R.id.ibSendImageChatPrivate);
 
@@ -186,31 +185,21 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        databaseReference.child("online").setValue(false);
-        databaseReference.child("timestamp").setValue(System.currentTimeMillis());
-    }
-
     private void LoadMessages() {
         MessageDatabase.child(MyUid).child(UID).orderByChild("mDate").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 PostStuffForChatRoom postStuffForChatRoom = dataSnapshot.getValue(PostStuffForChatRoom.class);
-                if (!postStuffForChatRoom.getmUID().equals(MyUid)){
-                FirebaseDatabase.getInstance().getReference("Messages").child(MyUid).child(UID).child(postStuffForChatRoom.getKey()).child("mSeen").setValue(true);
-                FirebaseDatabase.getInstance().getReference("Messages").child(UID).child(MyUid).child(postStuffForChatRoom.getKey()).child("mSeen").setValue(true);
-                postStuffForChatRoom.setmSeen(true);}
+                if (!postStuffForChatRoom.getmUID().equals(MyUid)) {
+                    FirebaseDatabase.getInstance().getReference("Messages").child(MyUid).child(UID).child(postStuffForChatRoom.getKey()).child("mSeen").setValue(true);
+                    FirebaseDatabase.getInstance().getReference("Messages").child(UID).child(MyUid).child(postStuffForChatRoom.getKey()).child("mSeen").setValue(true);
+                    postStuffForChatRoom.setmSeen(true);
+                }
                 MessagesList.add(postStuffForChatRoom);
                 postStuffForChatRoomAdapterNúmeroDos.notifyDataSetChanged();
                 myDatabase2.child(MyUid).child(UID).child("mDate").setValue(System.currentTimeMillis());
-               // myDatabase2.child(UID).child(MyUid).child("mDate").setValue(System.currentTimeMillis());
-                ChatWindow.scrollToPosition(postStuffForChatRoomAdapterNúmeroDos.getItemCount()-1);
-
-
-
+                // myDatabase2.child(UID).child(MyUid).child("mDate").setValue(System.currentTimeMillis());
+                ChatWindow.scrollToPosition(postStuffForChatRoomAdapterNúmeroDos.getItemCount() - 1);
 
 
             }

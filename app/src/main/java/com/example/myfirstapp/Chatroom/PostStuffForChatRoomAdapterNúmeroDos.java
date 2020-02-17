@@ -60,6 +60,21 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
         if (uploadCurrent.getmSeen()){
             holder.SeenM.setVisibility(View.VISIBLE);
         }
+        String mUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase.getInstance().getReference("Messages").child(MyUID).child(mUID).child(uploadCurrent.getKey()).child("mSeen").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue().equals(true)){
+                    holder.SeenM.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         if (uploadCurrent.getmUID().equals(MyUID)) {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(holder.itemView.getLayoutParams());

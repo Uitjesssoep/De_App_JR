@@ -50,42 +50,6 @@ public class Layout_Manager_BottomNav_Activity extends AppCompatActivity {
         checkEmailVerification();
     }
 
-   @Override
-    protected void onStart() {
-        super.onStart();
-
-       databaseReference.child("online").setValue(true);
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        databaseReference.child("online").setValue(false);
-        databaseReference.child("timestamp").setValue(System.currentTimeMillis());
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        databaseReference.child("online").setValue(true);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        databaseReference.child("online").setValue(false);
-        databaseReference.child("timestamp").setValue(System.currentTimeMillis());
-    }
-
-    /* @Override
-        protected void onStop() {
-            super.onStop();
-
-            databaseReference.child("online").setValue(false);
-            databaseReference.child("timestamp").setValue(System.currentTimeMillis());
-        }
-    */
     private void Checked() {
 
         FrameLayout frameLayout = findViewById(R.id.framelayout_manager_makepost);

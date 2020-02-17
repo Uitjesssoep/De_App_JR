@@ -109,9 +109,6 @@ public class App_Settings_Activity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        databaseReference.child("online").setValue(false);
-                        databaseReference.child("timestamp").setValue(System.currentTimeMillis());
                         Intent intent = new Intent(App_Settings_Activity.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         firebaseAuth.signOut();
