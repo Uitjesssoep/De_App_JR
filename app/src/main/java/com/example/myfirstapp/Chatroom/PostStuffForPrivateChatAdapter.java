@@ -76,15 +76,12 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
                     UserProfileToDatabase userProfileToDatabase = postSnapshot.getValue(UserProfileToDatabase.class);
                     if (userProfileToDatabase.getTheUID().equals(UID)){
                     if (userProfileToDatabase.isOnline()) {
-                        holder.LastSeen.setText("Online");
-                        holder.LastSeen.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
                     } else {
                         long Timestamp = userProfileToDatabase.getTimestamp();
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTimeInMillis(Timestamp);
                         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss:SSS dd/MM/yyyy");
                         String Date = dateFormat.format(calendar.getTime());
-                        holder.LastSeen.setText("Last seen: " + Date);
                     }
                 }}
 
@@ -106,8 +103,8 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
                 MessagesList.add(postStuffForChatRoom);
 
                 String ContentTemp = MessagesList.get(MessagesList.size() - 1).getmMessage();
-                if (ContentTemp.length() > 25) {
-                    ContentTemp = ContentTemp.substring(0, 25);
+                if (ContentTemp.length() > 35) {
+                    ContentTemp = ContentTemp.substring(0, 35);
                     holder.LastMessage.setText(ContentTemp.trim() + "...");
                 }
                 else{
@@ -179,7 +176,7 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView Username, LastMessage, TimeLastMessage, LastSeen;
+        public TextView Username, LastMessage, TimeLastMessage;
         public ImageView ProfilePicOtherUser;
 
         public ViewHolder(@NonNull View itemView, final PostStuffForChatAdapter.OnItemClickListener listener) {
@@ -189,7 +186,6 @@ public class PostStuffForPrivateChatAdapter extends RecyclerView.Adapter<PostStu
             LastMessage = itemView.findViewById(R.id.tvLastMessagePrivateChat);
             TimeLastMessage = itemView.findViewById(R.id.tvTimeOfLastMessage);
             ProfilePicOtherUser = itemView.findViewById(R.id.ivProfilePictureChatList);
-            LastSeen = itemView.findViewById(R.id.tvLastSeenPrivateChat);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
