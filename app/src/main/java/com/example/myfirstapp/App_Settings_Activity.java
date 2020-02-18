@@ -23,8 +23,6 @@ import com.example.myfirstapp.AccountActivities.Deleting_Account_Activity;
 import com.example.myfirstapp.AccountActivities.MainActivity;
 import com.example.myfirstapp.AccountActivities.Profile_Settings_Activity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class App_Settings_Activity extends AppCompatActivity {
 

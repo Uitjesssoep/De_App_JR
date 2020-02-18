@@ -190,9 +190,11 @@ public class ChatPrivateWithUsers extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 PostStuffForChatRoom postStuffForChatRoom = dataSnapshot.getValue(PostStuffForChatRoom.class);
-                if (!postStuffForChatRoom.getmUID().equals(MyUid)) {
-                    FirebaseDatabase.getInstance().getReference("Messages").child(MyUid).child(UID).child(postStuffForChatRoom.getKey()).child("mSeen").setValue(true);
-                    FirebaseDatabase.getInstance().getReference("Messages").child(UID).child(MyUid).child(postStuffForChatRoom.getKey()).child("mSeen").setValue(true);
+                String MyUid2 = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                if (!postStuffForChatRoom.getmUID().equals(MyUid2)) {
+                    Log.e(TAG, "onChildAdded: " );
+                    FirebaseDatabase.getInstance().getReference("Messages").child(MyUid2).child(UID).child(postStuffForChatRoom.getKey()).child("mSeen").setValue(true);
+                    FirebaseDatabase.getInstance().getReference("Messages").child(UID).child(MyUid2).child(postStuffForChatRoom.getKey()).child("mSeen").setValue(true);
                     postStuffForChatRoom.setmSeen(true);
                 }
                 MessagesList.add(postStuffForChatRoom);

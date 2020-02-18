@@ -64,26 +64,28 @@ public class PostStuffForChatRoomAdapterNúmeroDos extends RecyclerView.Adapter<
         }
         final String mUID = uploadCurrent.getUidReceiver();
         Log.e(TAG, MyUID);
-        Log.e(TAG, mUID );
+        Log.e(TAG, mUID);
         Log.e(TAG, uploadCurrent.getKey());
         String key = uploadCurrent.getKey();
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Messages").child(MyUID).child(mUID).child(key).child("mSeen");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean Seen = (boolean) dataSnapshot.getValue();
-                if (Seen) {
-                    holder.SeenM.setVisibility(View.VISIBLE);
-                }else {
-                    holder.SeenM.setVisibility(View.GONE);
+        if (MyUID.equals(uploadCurrent.getmUID())) {
+            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Messages").child(MyUID).child(mUID).child(key).child("mSeen");
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    boolean Seen = (boolean) dataSnapshot.getValue();
+                    if (Seen) {
+                        holder.SeenM.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.SeenM.setVisibility(View.GONE);
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
 
 
         if (uploadCurrent.getmUID().equals(MyUID)) {
