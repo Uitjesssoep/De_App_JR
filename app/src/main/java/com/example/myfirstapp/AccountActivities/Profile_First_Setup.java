@@ -107,12 +107,15 @@ public class Profile_First_Setup extends AppCompatActivity {
         if(sharedPrefNightMode.loadNightModeState()==true){
             setTheme(R.style.AppTheme_Night);
         }
-        else setTheme(R.style.AppTheme);
+        else {
+            setTheme(R.style.AppTheme);
+            setLightStatusBar(Profile_First_Setup.this);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile__first__setup);
 
-        setLightStatusBar(Profile_First_Setup.this);
+
 
         firebaseStorage = FirebaseStorage.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();

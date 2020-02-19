@@ -46,13 +46,16 @@ public class MainActivity extends AppCompatActivity {
         if(sharedPrefNightMode.loadNightModeState()==true){
             setTheme(R.style.AppTheme_Night);
         }
-        else setTheme(R.style.AppTheme);
+        else {
+            setTheme(R.style.AppTheme);
+            setLightStatusBar(MainActivity.this);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //voor het geven van kleur aan de status bar:
-        setLightStatusBar(MainActivity.this);
+
 
         NotFirstTime(); // was eerst van belang voor iets, maar dat heb ik aangepast en ik was te lui om t weer terug te verplaatsen naar 'oncreate' dus ik heb t in 'notfirsttime' gelaten
 

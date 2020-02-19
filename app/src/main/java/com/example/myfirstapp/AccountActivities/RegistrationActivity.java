@@ -55,12 +55,15 @@ public class RegistrationActivity extends AppCompatActivity {
         if(sharedPrefNightMode.loadNightModeState()==true){
             setTheme(R.style.AppTheme_Night);
         }
-        else setTheme(R.style.AppTheme);
+        else {
+            setTheme(R.style.AppTheme);
+
+            setLightStatusBar(RegistrationActivity.this);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        setLightStatusBar(RegistrationActivity.this);
 
         setupUIViews();
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.myfirstapp.R;
@@ -27,6 +28,7 @@ public class Deleting_Account_Activity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage firebaseStorage;
+    private String MyUID;
     SharedPrefNightMode sharedPrefNightMode;
 
 
@@ -58,12 +60,18 @@ public class Deleting_Account_Activity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
+        MyUID=firebaseAuth.getCurrentUser().getUid();
 
     }
 
     private void deleteUser(String userID){
         final DatabaseReference drUser = firebaseDatabase.getReference("users").child(userID);
         final StorageReference srUser = firebaseStorage.getReference("ProfilePictures").child(firebaseAuth.getUid());
+        final DatabaseReference drChat =firebaseDatabase.getReference("Messages").child(MyUID);
+        final DatabaseReference drChatPrivatae = firebaseDatabase.getReference("Private Chatrooms").child(MyUID);
+        final StorageReference srChat = firebaseStorage.getReference("ChatPrivate");
+
+
 
         drUser.child("userName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -77,7 +85,13 @@ public class Deleting_Account_Activity extends AppCompatActivity {
                 drUser.removeValue();
                 srUser.delete();
 
+                drChat.removeValue();
+                srChat.delete();
+                drChatPrivatae.removeValue();
+
                 DeleteAccount();
+
+
 
             }
 
@@ -89,7 +103,7 @@ public class Deleting_Account_Activity extends AppCompatActivity {
     }
 
     private void DeleteAccount() {
-
+        Log.e("Test", "DeleteAccount bereikt ");
         final FirebaseUser user = firebaseAuth.getCurrentUser();
 
         user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {

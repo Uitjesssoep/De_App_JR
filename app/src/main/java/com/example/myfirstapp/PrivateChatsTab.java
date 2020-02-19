@@ -45,6 +45,7 @@ public class PrivateChatsTab extends Fragment {
     private static Bundle mBundleRecyclerViewState;
     private Parcelable mListState = null;
     private PostStuffForPrivateChatAdapter stuffForChatAdapter;
+
     public PrivateChatsTab() {
         // Required empty public constructor
     }
@@ -56,10 +57,9 @@ public class PrivateChatsTab extends Fragment {
 
         SharedPrefNightMode sharedPrefNightMode = new SharedPrefNightMode(getActivity());
 
-        if(sharedPrefNightMode.loadNightModeState()==true){
+        if (sharedPrefNightMode.loadNightModeState() == true) {
             getContext().setTheme(R.style.AppTheme_Night);
-        }
-        else getContext().setTheme(R.style.AppTheme);
+        } else getContext().setTheme(R.style.AppTheme);
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_private_chats_tab, container, false);
@@ -110,15 +110,35 @@ public class PrivateChatsTab extends Fragment {
                 clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    PostStuffMakePrivateChat postStuffMakePrivateChat = postSnapshot.getValue(PostStuffMakePrivateChat.class);
-                    postStuffForChatList.add(postStuffMakePrivateChat);
+                    final PostStuffMakePrivateChat postStuffMakePrivateChat = postSnapshot.getValue(PostStuffMakePrivateChat.class);
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.hasChild(postStuffMakePrivateChat.getmUID())) {
+                                postStuffForChatList.add(postStuffMakePrivateChat);
+                                stuffForChatAdapter = new PostStuffForPrivateChatAdapter(getActivity(), postStuffForChatList);
+                                RoomList.setAdapter(stuffForChatAdapter);
+                            } else {
+                                FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(MyUid).child(postStuffMakePrivateChat.getmUID()).removeValue();
+                                FirebaseDatabase.getInstance().getReference("Messages").child(MyUid).child(postStuffMakePrivateChat.getmUID()).removeValue();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
                 }
 
 
-                stuffForChatAdapter = new PostStuffForPrivateChatAdapter(getActivity(), postStuffForChatList);
-                RoomList.setAdapter(stuffForChatAdapter);
-
                 progressBar.setVisibility(View.GONE);
+
+                if (stuffForChatAdapter != null) {
+
 
                 stuffForChatAdapter.setOnItemClickListener(new PostStuffForChatAdapter.OnItemClickListener() {
 
@@ -133,7 +153,8 @@ public class PrivateChatsTab extends Fragment {
                     }
 
                     @Override
-                    public void onUserNameClick(int position) {}
+                    public void onUserNameClick(int position) {
+                    }
 
                     @Override
                     public void onUpvoteClick(int position) {
@@ -145,7 +166,7 @@ public class PrivateChatsTab extends Fragment {
 
                     }
 
-                });
+                });}
 
             }
 

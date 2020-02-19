@@ -42,12 +42,15 @@ public class Forgot_Password_Activity extends AppCompatActivity {
         if(sharedPrefNightMode.loadNightModeState()==true){
             setTheme(R.style.AppTheme_Night);
         }
-        else setTheme(R.style.AppTheme);
+        else {
+            setTheme(R.style.AppTheme);
+            setLightStatusBar(Forgot_Password_Activity.this);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot__password_);
 
-        setLightStatusBar(Forgot_Password_Activity.this);
+
 
         EmailResetPassword = (EditText)findViewById(R.id.etPasswordResetEmail);
         ResetPasswordEmailSend = (Button)findViewById(R.id.btnResetPassword);

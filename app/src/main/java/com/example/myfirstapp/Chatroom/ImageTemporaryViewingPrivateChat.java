@@ -43,7 +43,7 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
     private EditText ChatInputText;
     private Uri mImageUri;
     private String mImageUriString;
-    private StorageReference mStorageRef;
+    private StorageReference mStorageRef, mStorageRef2;
     private StorageTask mUploadTask;
     private String MyUID, usernameString, temp_key, UriImage, Date, key, UID;
     private DatabaseReference mDatabaseRef, mDatabaseRefRooms;
@@ -58,10 +58,9 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
 
         sharedPrefNightMode = new SharedPrefNightMode(this);
 
-        if(sharedPrefNightMode.loadNightModeState()==true){
+        if (sharedPrefNightMode.loadNightModeState() == true) {
             setTheme(R.style.AppTheme_Night);
-        }
-        else {
+        } else {
             setTheme(R.style.AppTheme);
             setLightStatusBar(ImageTemporaryViewingPrivateChat.this);
         }
@@ -75,7 +74,8 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
         Image = findViewById(R.id.ivImageTemporaryForChat);
         key = getIntent().getExtras().get("key").toString();
 
-        mStorageRef = FirebaseStorage.getInstance().getReference("Chat");
+        mStorageRef = FirebaseStorage.getInstance().getReference("ChatRoom").child(key);
+        mStorageRef2 = FirebaseStorage.getInstance().getReference("ChatPrivate");
         MyUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
@@ -106,13 +106,18 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
     private void uploadFile() {
         if (mImageUri != null) {
 
+            final StorageReference fileReference;
             final ProgressDialog dialog = new ProgressDialog(ImageTemporaryViewingPrivateChat.this);
             dialog.setTitle("Uploading image");
             dialog.setMessage("Please wait");
             dialog.show();
             hideKeyboard(ImageTemporaryViewingPrivateChat.this);
 
-            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
+            if (key.equals("no key")) {
+                fileReference = mStorageRef2.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
+            } else {
+                fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
+            }
             mUploadTask = fileReference.putFile(mImageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -156,7 +161,7 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
         if (key.equals("no key")) {
             String mMessage = ChatInputText.getText().toString();
             temp_key = mDatabaseRef.push().getKey();
-            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(mMessage, "image", false, System.currentTimeMillis(), MyUID,UID, UriImage, temp_key);
+            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(mMessage, "image", false, System.currentTimeMillis(), MyUID, UID, UriImage, temp_key);
             mDatabaseRef.child(MyUID).child(UID).child(temp_key).setValue(postStuffForChatRoom);
             mDatabaseRef.child(UID).child(MyUID).child(temp_key).setValue(postStuffForChatRoom).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -167,10 +172,10 @@ public class ImageTemporaryViewingPrivateChat extends AppCompatActivity {
         } else {
             String mMessage = ChatInputText.getText().toString();
             temp_key = mDatabaseRefRooms.push().getKey();
-            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(mMessage, "image", false, System.currentTimeMillis(), MyUID,UID, UriImage, temp_key);
+            PostStuffForChatRoom postStuffForChatRoom = new PostStuffForChatRoom(mMessage, "image", false, System.currentTimeMillis(), MyUID, UID, UriImage, temp_key);
             mDatabaseRefRooms = FirebaseDatabase.getInstance().getReference("Chatrooms").child(key).child("messages");
 
-            Log.e("key", key );
+            Log.e("key", key);
             mDatabaseRefRooms.child(temp_key).setValue(postStuffForChatRoom).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {

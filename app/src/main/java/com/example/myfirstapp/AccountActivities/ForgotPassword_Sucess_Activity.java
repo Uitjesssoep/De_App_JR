@@ -32,12 +32,14 @@ public class ForgotPassword_Sucess_Activity extends AppCompatActivity {
         if(sharedPrefNightMode.loadNightModeState()==true){
             setTheme(R.style.AppTheme_Night);
         }
-        else setTheme(R.style.AppTheme);
+        else {
+            setTheme(R.style.AppTheme);
+            setLightStatusBar(ForgotPassword_Sucess_Activity.this);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password__sucess_);
 
-        setLightStatusBar(ForgotPassword_Sucess_Activity.this);
 
         Continue = findViewById(R.id.btnContinueForgotPasswordSuccess);
         Continue.setOnClickListener(new View.OnClickListener() {

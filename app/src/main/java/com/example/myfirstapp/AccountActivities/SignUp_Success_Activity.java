@@ -28,12 +28,15 @@ public class SignUp_Success_Activity extends AppCompatActivity {
         if(sharedPrefNightMode.loadNightModeState()==true){
             setTheme(R.style.AppTheme_Night);
         }
-        else setTheme(R.style.AppTheme);
+        else {
+            setTheme(R.style.AppTheme);
+            setLightStatusBar(SignUp_Success_Activity.this);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up__success_);
 
-        setLightStatusBar(SignUp_Success_Activity.this);
+
 
         Continue = findViewById(R.id.btnContinueForgotPasswordSuccess2);
 
