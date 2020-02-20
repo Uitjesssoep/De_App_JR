@@ -308,6 +308,40 @@ public class AllFeedTab extends Fragment {
                     }
 
                     @Override
+                    public void onTitleClick(int position) {
+                        final String key = StuffForPostList.get(position).getKey().toString();
+
+                        DatabaseReference CheckIfExists = FirebaseDatabase.getInstance().getReference("General_Posts");
+                        CheckIfExists.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(key)){
+                                    Intent Test2 = new Intent(getActivity().getApplicationContext(), Post_Viewing_Activity.class);
+                                    Test2.putExtra("Key", key);
+                                    startActivity(Test2);
+                                }
+                                else{
+                                    android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(getActivity());
+                                    dialog.setTitle("This post has been deleted");
+                                    dialog.setMessage("This post has been deleted, you can no longer view it.");
+
+                                    dialog.setPositiveButton("Understood", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    android.app.AlertDialog alertDialog = dialog.create();
+                                    alertDialog.show();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
+                        });
+                    }
+
+                    @Override
                     public void onUserNameClick(int position) {
                         final String PostKey = StuffForPostList.get(position).getKey();
                         DatabaseReference CheckIfMyUID = FirebaseDatabase.getInstance().getReference("General_Posts").child(PostKey);
@@ -548,6 +582,40 @@ public class AllFeedTab extends Fragment {
 
                     @Override
                     public void onItemClick(int position) {
+                        final String key = StuffForPostList.get(position).getKey().toString();
+
+                        DatabaseReference CheckIfExists = FirebaseDatabase.getInstance().getReference("General_Posts");
+                        CheckIfExists.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.hasChild(key)){
+                                    Intent Test2 = new Intent(getActivity().getApplicationContext(), Post_Viewing_Activity.class);
+                                    Test2.putExtra("Key", key);
+                                    startActivity(Test2);
+                                }
+                                else{
+                                    android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(getActivity());
+                                    dialog.setTitle("This post has been deleted");
+                                    dialog.setMessage("This post has been deleted, you can no longer view it.");
+
+                                    dialog.setPositiveButton("Understood", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    android.app.AlertDialog alertDialog = dialog.create();
+                                    alertDialog.show();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onTitleClick(int position) {
                         final String key = StuffForPostList.get(position).getKey().toString();
 
                         DatabaseReference CheckIfExists = FirebaseDatabase.getInstance().getReference("General_Posts");

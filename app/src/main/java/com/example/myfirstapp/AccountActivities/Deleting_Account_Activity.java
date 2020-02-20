@@ -37,10 +37,9 @@ public class Deleting_Account_Activity extends AppCompatActivity {
 
         sharedPrefNightMode = new SharedPrefNightMode(this);
 
-        if(sharedPrefNightMode.loadNightModeState()==true){
+        if (sharedPrefNightMode.loadNightModeState() == true) {
             setTheme(R.style.AppTheme_Night);
-        }
-        else setTheme(R.style.AppTheme);
+        } else setTheme(R.style.AppTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deleting__account_);
@@ -60,73 +59,65 @@ public class Deleting_Account_Activity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
-        MyUID=firebaseAuth.getCurrentUser().getUid();
+        MyUID = firebaseAuth.getCurrentUser().getUid();
 
     }
 
-    private void deleteUser(String userID){
+    private void deleteUser(String userID) {
         final DatabaseReference drUser = firebaseDatabase.getReference("users").child(userID);
         final StorageReference srUser = firebaseStorage.getReference("ProfilePictures").child(firebaseAuth.getUid());
-        final DatabaseReference drChat =firebaseDatabase.getReference("Messages").child(MyUID);
+        final DatabaseReference drChat = firebaseDatabase.getReference("Messages").child(MyUID);
         final DatabaseReference drChatPrivatae = firebaseDatabase.getReference("Private Chatrooms").child(MyUID);
         final StorageReference srChat = firebaseStorage.getReference("ChatPrivate");
+        final DatabaseReference RemoveUsername = firebaseDatabase.getReference("Usernames");
 
-
-
-        drUser.child("userName").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                String username = dataSnapshot.getValue().toString();
-
-                DatabaseReference RemoveUsername = firebaseDatabase.getReference("Usernames").child(username);
-                RemoveUsername.removeValue();
-
-                drUser.removeValue();
-                srUser.delete();
-
-                drChat.removeValue();
-                srChat.delete();
-                drChatPrivatae.removeValue();
-
-                DeleteAccount();
-
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void DeleteAccount() {
-        Log.e("Test", "DeleteAccount bereikt ");
         final FirebaseUser user = firebaseAuth.getCurrentUser();
 
         user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
+                    drUser.child("userName").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                            final String username = dataSnapshot.getValue().toString();
+
+                            RemoveUsername.child(username).removeValue();
+
+                            drUser.removeValue();
+                            srUser.delete();
+
+                            drChat.removeValue();
+                            srChat.delete();
+                            drChatPrivatae.removeValue();
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                     Toast.makeText(Deleting_Account_Activity.this, "Account deleted", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(Deleting_Account_Activity.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                    finish();
-                    startActivity(intent);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     firebaseAuth.signOut();
-                }
+                    startActivity(intent);
+                    finish();
 
-                else{
+                } else {
                     Toast.makeText(Deleting_Account_Activity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
 
+
     }
 
-    public void onBackPressed(){
+
+    public void onBackPressed() {
 
     }
 

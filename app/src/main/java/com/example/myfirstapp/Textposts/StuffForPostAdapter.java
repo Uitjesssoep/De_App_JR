@@ -58,6 +58,8 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
     public interface OnItemClickListener {
         void onItemClick(int position);
 
+        void onTitleClick (int position);
+
         void onUserNameClick(int position);
 
         void onUpvoteClick(int position);
@@ -697,6 +699,18 @@ public class StuffForPostAdapter extends RecyclerView.Adapter<StuffForPostAdapte
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            Title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onTitleClick(position);
                         }
                     }
                 }

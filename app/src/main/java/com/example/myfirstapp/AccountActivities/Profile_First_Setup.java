@@ -172,9 +172,8 @@ public class Profile_First_Setup extends AppCompatActivity {
         ProfilePictureSetup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");  //alle image types worden geaccepteerd
-                intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select image"), PICK_IMAGE);
             }
         });
