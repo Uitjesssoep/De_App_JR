@@ -119,9 +119,77 @@ public class PrivateChatsTab extends Fragment {
                                 postStuffForChatList.add(postStuffMakePrivateChat);
                                 stuffForChatAdapter = new PostStuffForPrivateChatAdapter(getActivity(), postStuffForChatList);
                                 RoomList.setAdapter(stuffForChatAdapter);
+
+                                progressBar.setVisibility(View.GONE);
+
+                                if (stuffForChatAdapter != null) {
+
+
+                                    stuffForChatAdapter.setOnItemClickListener(new PostStuffForChatAdapter.OnItemClickListener() {
+
+                                        @Override
+                                        public void onItemClick(int position) {
+                                            String UID = postStuffForChatList.get(position).getmUID();
+                                            Intent Test2 = new Intent(getActivity().getApplicationContext(), ChatPrivateWithUsers.class);
+                                            Test2.putExtra("UID", UID);
+                                            startActivity(Test2);
+
+
+                                        }
+
+                                        @Override
+                                        public void onUserNameClick(int position) {
+                                        }
+
+                                        @Override
+                                        public void onUpvoteClick(int position) {
+
+                                        }
+
+                                        @Override
+                                        public void onDownvoteClick(int position) {
+
+                                        }
+
+                                    });}
+
                             } else {
                                 FirebaseDatabase.getInstance().getReference("Private Chatrooms").child(MyUid).child(postStuffMakePrivateChat.getmUID()).removeValue();
                                 FirebaseDatabase.getInstance().getReference("Messages").child(MyUid).child(postStuffMakePrivateChat.getmUID()).removeValue();
+
+                                progressBar.setVisibility(View.GONE);
+
+                                if (stuffForChatAdapter != null) {
+
+
+                                    stuffForChatAdapter.setOnItemClickListener(new PostStuffForChatAdapter.OnItemClickListener() {
+
+                                        @Override
+                                        public void onItemClick(int position) {
+                                            String UID = postStuffForChatList.get(position).getmUID();
+                                            Intent Test2 = new Intent(getActivity().getApplicationContext(), ChatPrivateWithUsers.class);
+                                            Test2.putExtra("UID", UID);
+                                            startActivity(Test2);
+
+
+                                        }
+
+                                        @Override
+                                        public void onUserNameClick(int position) {
+                                        }
+
+                                        @Override
+                                        public void onUpvoteClick(int position) {
+
+                                        }
+
+                                        @Override
+                                        public void onDownvoteClick(int position) {
+
+                                        }
+
+                                    });}
+
                             }
                         }
 
@@ -133,40 +201,6 @@ public class PrivateChatsTab extends Fragment {
 
 
                 }
-
-
-                progressBar.setVisibility(View.GONE);
-
-                if (stuffForChatAdapter != null) {
-
-
-                stuffForChatAdapter.setOnItemClickListener(new PostStuffForChatAdapter.OnItemClickListener() {
-
-                    @Override
-                    public void onItemClick(int position) {
-                        String UID = postStuffForChatList.get(position).getmUID();
-                        Intent Test2 = new Intent(getActivity().getApplicationContext(), ChatPrivateWithUsers.class);
-                        Test2.putExtra("UID", UID);
-                        startActivity(Test2);
-
-
-                    }
-
-                    @Override
-                    public void onUserNameClick(int position) {
-                    }
-
-                    @Override
-                    public void onUpvoteClick(int position) {
-
-                    }
-
-                    @Override
-                    public void onDownvoteClick(int position) {
-
-                    }
-
-                });}
 
             }
 
