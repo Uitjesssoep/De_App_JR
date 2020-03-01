@@ -419,7 +419,7 @@
                     android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    android:text="Version: 1.0.0"
+                    android:text="Version: 1.1.0"
                     android:textColor="?attr/maintextcolor"
                     android:textSize="16sp" />
 
